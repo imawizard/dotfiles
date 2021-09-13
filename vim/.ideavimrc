@@ -1,0 +1,206 @@
+set clipboard=unnamedplus
+set history=2000
+set hlsearch
+set ignorecase
+set incsearch
+set iskeyword=@,48-57,_,192-255,#
+set nrformats-=octal
+set nonumber
+set norelativenumber
+set scrolloff=10
+set showcmd
+set showmode
+set sidescroll=1
+set sidescrolloff=6
+set smartcase
+set nostartofline
+set undolevels=2000
+set virtualedit=onemore " all is unsupported
+
+set ideajoin
+set ideamarks
+set idearefactormode=select
+set ideastatusicon=gray
+set ideavimsupport=
+set ideawrite=all
+"set ideastrictmode " Show IdeaVim errors
+
+sethandler n:vim i:vim x:vim v:vim
+
+set argtextobj
+set commentary
+set highlightedyank
+set NERDTree
+set sneak
+set surround
+set textobj-entire
+
+let g:highlightedyank_highlight_duration = "200"
+let g:highlightedyank_highlight_color = "rgba(252, 232, 244, 155)"
+
+" Custom keymappings .................................................... {{{1
+
+nmap              <Space><Space> <Action>(GotoFile)
+nmap              <Space>`   <Action>(JumpToLastChange)
+nmap              K          <Action>(QuickJavaDoc)
+nmap              gh         <Action>(QuickJavaDoc)
+nmap              gH         <Action>(ShowErrorDescription)
+nmap              <C-s>      <Action>(SearchEverywhere)
+nmap              [e         <Action>(GotoPreviousError)
+nmap              ]e         <Action>(GotoNextError)
+
+" Buffer
+nmap              <Space>bb  <Action>(ReformatCode):w<CR><Action>(Flutter.Toolbar.ReloadAction)
+nnoremap <silent> <Space>bn  :bnext<CR>
+nnoremap <silent> <Space>bp  :bprevious<CR>
+nmap              <Space>bs  :w<CR>
+"nmap             <Space>bs  <Action>(ReformatCode):w<CR><Action>(Flutter.Toolbar.ReloadAction)
+
+" Code
+nmap              <Space>ca  <Action>(ShowIntentionActions)
+nmap              <Space>cc  <Action>(Run)
+nmap              <Space>cD  <Action>(ShowUsages)
+nmap              <Space>cf  <Action>(ReformatCode)
+nmap              <Space>co  <Action>(OptimizeImports)
+nmap              <Space>cr  <Action>(Refactorings.QuickListPopupAction)
+nmap              <Space>cx  <Action>(Cargo.RunExternalLinter)
+
+nmap              <Space>cC  <Action>(ChooseRunConfiguration)
+nmap              <Space>cI  <Action>(InspectCode)
+nmap              <Space>cO  <Action>(CodeCleanup)
+
+" Debugger
+nmap              <Space>ds  <Action>(StepInto)
+nmap              <Space>dn  <Action>(StepOver)
+nmap              <Space>df  <Action>(StepOut)
+nmap              <Space>dr  <Action>(Resume)
+nmap              <Space>dk  <Action>(Stop)
+nmap              <Space>dp  <Action>(Pause)
+nmap              <Space>db  <Action>(ToggleLineBreakpoint)
+nmap              <Space>dB  <Action>(ViewBreakpoints)
+
+" Files
+nmap              <Space>fr  <Action>(RecentFiles)
+
+" Git
+nmap              <Space>L   <Action>(LocalHistory.ShowHistory)
+nmap              <Space>gB  <Action>(Annotate)
+
+" Open
+nmap              <Space>of  <Action>(NewElement)
+nmap              <Space>od  <Action>(Debug)
+nmap              <Space>op  :NERDTree<CR>
+nmap              <Space>oP  :NERDTreeFind<CR>
+
+nmap              <Space>or  <Action>(Rust.ConsoleREPL)
+
+" Project
+nmap              <Space>pa  <Action>(OpenFile)
+nmap              <Space>pp  <Action>(RecentProjectListGroup)
+nmap              <Space>pt  <Action>(ActivateTODOToolWindow)
+nmap              <Space>pT  <Action>(RerunTests)
+
+" Search
+nmap              <Space>sd  <Action>(FindInPath)
+nmap              <Space>sD  <Action>(ReplaceInPath)
+nmap              <Space>si  <Action>(GotoSymbol)
+nmap              <Space>sj  <Action>(RecentLocations)
+nmap              <Space>sk  <Action>(SmartSearchAction)
+
+" Toggle
+nmap              <Space>td  <Action>(CompareTwoFiles)
+nnoremap          <Space>tl  :set number!<CR>
+nnoremap          <Space>tL  :set relativenumber!<CR>
+nnoremap          <Space>tw  :set wrap!<CR>
+
+" LSP flutter
+nmap              <Space>lfr  <Action>(Flutter.Toolbar.ReloadAction)
+nmap              <Space>lfR  <Action>(Flutter.Toolbar.RestartAction)
+nmap              <Space>lfa  <Action>(Dart.Restart.Analysis.Server)
+nmap              <Space>lfc  <Action>(flutter.clean)
+nmap              <Space>lfod <Action>(io.flutter.OpenDevToolsAction)
+nmap              <Space>lfox <Action>(flutter.xcode.open)
+
+" Move current line up and down.
+nnoremap <silent> <C-\><C-d>  :move .+1<CR>==
+nnoremap <silent> <C-\><C-u>  :move .-2<CR>==
+inoremap <silent> <C-\><C-d>  <ESC>:move .+1<CR>==gi
+inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
+xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
+xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
+
+" Sanity remappings ..................................................... {{{1
+
+" Move through wrapped lines.
+nnoremap j gj
+nnoremap k gk
+xnoremap j gj
+xnoremap k gk
+
+" Paste and keep clipboard.
+xnoremap p pgvy
+xnoremap p "_dP
+
+" Start search with 'very magic'.
+nnoremap / /\v
+
+" Don't exit visual mode on shifting.
+xnoremap < <gv
+xnoremap > >gv
+
+" Yank till the end of the line.
+nnoremap Y y$
+
+" Clear matches.
+nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
+nnoremap <silent> <ESC> :nohlsearch<CR>
+
+" Same C-m (Enter) as in insert mode.
+nnoremap <C-m> o<ESC>
+
+" Same C-j as in Emacs.
+nnoremap <C-j> i<CR><ESC>
+
+" Start new change before Ctrl-U and Ctrl-W for undo.
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
+
+" Respect an already typed prefix when iterating through history.
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" Diffput or diffget and navigate to next diff.
+nnoremap dp dp]c
+nnoremap do do]c
+
+" Join lines without moving the cursor.
+nnoremap J mzJ`z
+
+" Compatibility remappings .............................................. {{{1
+
+" Emacs bindings in insert mode
+imap     <C-a>   <Action>(EditorLineStart)
+imap     <C-e>   <Action>(EditorLineEnd)
+inoremap <C-b>   <Left>
+inoremap <C-f>   <Right>
+inoremap <S-C-y> <C-e>
+
+" Emacs bindings in command mode
+cnoremap <C-b>   <Left>
+cnoremap <C-f>   <Right>
+cnoremap <C-d>   <DEL>
+
+" Fix keylayout's dead comma in insert mode
+inoremap ,, ,<Space>
+
+" Fix keylayout's unrecognized ctrl remaps
+map <C-.> <C-@>
+map <C-;> <C-^>
+map <C-,> <C-\>
+map <C-!> <C-_>
+
+" Add missing bindings
+nmap <C-^>   <Action>(JumpToLastChange)
+nmap <C-o>   <Action>(Back)
+nmap <C-i>   <Action>(Forward)
+nmap zr      <Action>(ExpandAllToLevel)
