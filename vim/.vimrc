@@ -241,6 +241,7 @@ if has_key(plugs, 'which-key.nvim')
                 d = { ":<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>",              "Diff buffer"    },
                 D = {
                     name = "diffing",
+                    a = { ":call CycleDiffAlgo()<CR>", "Cycle diff-algo"               },
                     o = { ":diffoff!<CR>",             "Turn off diff for all buffers" },
                 },
                 i = {
@@ -546,6 +547,22 @@ endfun
 
 fun! QuitCallback(timer)
     quit
+endfun
+
+" Cycle between myers, patience and histogram for diffing.
+fun! CycleDiffAlgo()
+    let algos = ['algorithm:myers', 'algorithm:patience', 'algorithm:histogram']
+    let current = &diffopt
+    for i in range(0, len(algos)-1)
+        let algo = algos[i]
+        if current =~ algo
+            let newalgo = algos[(i+1)%len(algos)]
+            exe 'set diffopt-=' .. algo
+            exe 'set diffopt+=' .. newalgo
+            echo 'Diff algo set to ' . newalgo
+            return
+        endif
+    endfor
 endfun
 
 " Encoding functions .....................................................{{{1
