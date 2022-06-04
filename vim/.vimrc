@@ -189,7 +189,7 @@ if has_key(plugs, 'which-key.nvim')
             },
             ["<leader>f"] = {
                 name = "file",
-                P = { ":Editvimrc<CR>",                                       "Browse private config"     },
+                P = { ":Editrc<CR>",                                          "Browse private config"     },
                 r = { ":History<CR>",                                         "Recent files"              },
                 t = { ":TestFile<CR>",                                        "Run file's tests"          },
                 T = { ":TestNearest<CR>",                                     "Run nearest test"          },
@@ -466,7 +466,7 @@ command! W w !sudo tee % >/dev/null
 
 " Reload and open vim config.
 command! Reload exe 'source ~/.vimrc'
-command! Editvimrc exe 'tabedit ~/.vimrc'
+command! Editrc exe 'tabedit ~/.vimrc'
 
 augroup use-real-tabs-filetypes
     autocmd!
