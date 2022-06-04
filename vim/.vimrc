@@ -41,9 +41,16 @@ endif
 " LSP and completion
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
-    Plug 'hrsh7th/nvim-compe'
-    Plug 'L3MON4D3/LuaSnip'
     Plug 'folke/trouble.nvim'
+
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+
+    Plug 'L3MON4D3/LuaSnip'
+    Plug 'saadparwaiz1/cmp_luasnip'
 endif
 
 " Calculation support
@@ -1087,6 +1094,10 @@ if has_key(plugs, 'nvim-lspconfig')
                     "additionalTextEdits",
                 },
             }
+
+            if cmplsp then
+                res = cmplsp.update_capabilities(res)
+            end
             return res
         end
 
@@ -1107,6 +1118,7 @@ if has_key(plugs, 'nvim-lspconfig')
         local function on_attach(client, bufnr)
             if client.resolved_capabilities.goto_definition then
                 vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+                vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
             end
             if client.resolved_capabilities.organize_imports then
                 vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>co",
@@ -1457,55 +1469,60 @@ if has_key(plugs, 'nvim-lspconfig')
 HERE
 endif
 
-" nvim-compe ............................................................ {{{1
-" See https://github.com/hrsh7th/nvim-compe/blob/master/doc/compe.txt
+" nvim-cmp ...............................................................{{{1
+" See https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
+" also https://github.com/hrsh7th/cmp-nvim-lsp
+"      https://github.com/hrsh7th/cmp-buffer
+"      https://github.com/hrsh7th/cmp-cmdline
+"      https://github.com/hrsh7th/cmp-path
+"      https://github.com/saadparwaiz1/cmp_luasnip
 
-if has_key(plugs, 'nvim-compe')
-    let g:compe = {
-        \     'enabled': v:true,
-        \     'autocomplete': v:false,
-        \     'preselect': 'always',
-        \     'source': {
-        \         'nvim_lsp': v:true,
-        \         'path': v:true,
-        \         'tags': v:true,
-        \         'buffer': v:true,
-        \         'nvim_lua': v:true,
-        \     },
-        \     'documentation': {
-        \         'border': ['╭', '─', '╮', '│', '╯', '─', '╰', '│'],
-        \     },
-        \ }
+if has_key(plugs, 'nvim-cmp')
+    lua <<HERE
+        local cmp = require"cmp"
+        local luasnip = require"luasnip"
 
-    if has_key(plugs, 'LuaSnip')
-        fun! s:Complete(key) abort
-            if luasnip#expand_or_jumpable()
-                return "\<Plug>luasnip-expand-or-jump"
-            elseif pumvisible()
-                return compe#confirm()
-            elseif <SID>CanComplete()
-                return compe#complete()
-            else
-                return a:key
-            endif
-        endfun
+        cmp.setup {
+            snippet = {
+                expand = function(args)
+                    luasnip.lsp_expand(args.body)
+                end,
+            },
 
-        imap <silent> <expr> <TAB>   <SID>Complete("\<TAB>")
-        imap <silent> <expr> <S-TAB> luasnip#jumpable(-1) ? "<Plug>luasnip-jump-prev"
-                                                        \ : "<S-TAB>"
-        smap <silent> <expr> <TAB>   luasnip#jumpable(+1) ? "<Plug>luasnip-jump-next"
-                                                        \ : "<TAB>"
-        smap <silent> <expr> <S-TAB> luasnip#jumpable(-1) ? "<Plug>luasnip-jump-prev"
-                                                        \ : "<S-TAB>"
-        "imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-        "smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-    endif
+            mapping = {
+                ["<CR>"]      = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                ["<C-b>"]     = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+                ["<C-f>"]     = cmp.mapping(cmp.mapping.scroll_docs(4),  { 'i', 'c' }),
+                ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(),      { 'i', 'c' }),
+                ["<C-y>"]     = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+                ["<C-e>"]     = cmp.mapping({
+                    i = cmp.mapping.abort(),
+                    c = cmp.mapping.close(),
+                }),
+            },
 
-    inoremap <silent> <expr> <C-b> pumvisible() ? compe#scroll({ 'delta': +4 })
-                                              \ : "<Left>"
-    inoremap <silent> <expr> <C-f> pumvisible() ? compe#scroll({ 'delta': -4 })
-                                              \ : "<Right>"
-    inoremap <silent> <expr> <C-g> compe#close('<C-g>')
+            sources = cmp.config.sources({
+                { name = "nvim_lsp" },
+                { name = "luasnip" },
+            }, {
+                { name = "buffer" },
+            })
+        }
+
+        cmp.setup.cmdline("/", {
+            sources = {
+                { name = "buffer" },
+            },
+        })
+
+        cmp.setup.cmdline(":", {
+            sources = cmp.config.sources({
+                { name = "path" }
+            }, {
+                { name = "cmdline" }
+            })
+        })
+HERE
 endif
 
 " Trouble settings .......................................................{{{1
