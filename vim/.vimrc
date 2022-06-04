@@ -340,6 +340,15 @@ if has_key(plugs, 'which-key.nvim')
 HERE
 endif
 
+" Use jk to cycle through panes (counter-)clockwise and JK to swap them.
+nnoremap <silent> <C-w>j <C-w>w
+nnoremap <silent> <C-w>k <C-w>W
+nnoremap <silent> <C-w>J mX<C-w>wmY'X<C-w>W'Y<C-w>w
+nnoremap <silent> <C-w>K mX<C-w>WmY'X<C-w>w'Y<C-w>W
+
+" Like tmux's break-pane binding.
+nnoremap <silent> <C-w>! <C-w>T
+
 " Move current line up and down.
 nnoremap <silent> <C-\><C-d>  :move .+1<CR>==
 nnoremap <silent> <C-\><C-u>  :move .-2<CR>==
@@ -425,14 +434,8 @@ tnoremap <expr> <C-d>  <SID>CanPressDelete() ? "\<Del>" : "\<C-d>"
 
 " Switch panes in terminal mode.
 tnoremap <silent> <C-w><C-w> <C-\><C-n><C-w><C-w>
-tnoremap <silent> <C-w><C-h> <C-\><C-n><C-w>h
-tnoremap <silent> <C-w><C-j> <C-\><C-n><C-w>j
-tnoremap <silent> <C-w><C-k> <C-\><C-n><C-w>k
-tnoremap <silent> <C-w><C-l> <C-\><C-n><C-w>l
-tnoremap <silent> <C-w>h     <C-\><C-n><C-w>h
-tnoremap <silent> <C-w>j     <C-\><C-n><C-w>j
-tnoremap <silent> <C-w>k     <C-\><C-n><C-w>k
-tnoremap <silent> <C-w>l     <C-\><C-n><C-w>l
+tnoremap <silent> <C-w>j     <C-\><C-n><C-w>w
+tnoremap <silent> <C-w>k     <C-\><C-n><C-w>W
 
 " Custom commands ........................................................{{{1
 
