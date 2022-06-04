@@ -100,6 +100,8 @@ nnoremap <silent> <C-z> :FocusNuake<CR>
 inoremap <silent> <C-z> <C-o>:FocusNuake<CR>
 tnoremap <silent> <C-z> <C-\><C-n>:Nuake<CR><C-w>p
 
+let g:find_todos = '(TODO|NOTE|HACK|OPTIMIZE|XXX)(\([^)]+\))?:'
+
 " See https://github.com/folke/which-key.nvim
 if has_key(plugs, 'which-key.nvim')
     lua <<HERE
@@ -212,6 +214,7 @@ if has_key(plugs, 'which-key.nvim')
                 a     = { ":NERDTree<CR>:EditBookmarks<CR>",                          "Add new project"      },
                 d     = { ":NERDTree<CR>:EditBookmarks<CR>",                          "Remove known project" },
                 p     = { ":NERDTreeFromBookmark <C-z>",                              "Switch project"       },
+                t     = { ":CtrlSF -R '<C-r>=g:find_todos<CR>' '<C-r>=getcwd()<CR>'", "List project todos"   },
                 T     = { ":TestSuite<CR>",                                           "Test project"         },
             },
             ["<leader>q"] = {
