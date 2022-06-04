@@ -290,12 +290,16 @@ if has_key(plugs, 'which-key.nvim')
                 },
                 e = {
                     name = "encode",
+                    b = { ":<C-u>call TransformSel('base64_encode')<CR>", "Base64"     },
+                    h = { ":<C-u>call TransformSel('hex_encode')<CR>",    "Hex string" },
                     s = { ":<C-u>call TransformSel('string_encode')<CR>", "C string"   },
                     u = { ":<C-u>call TransformSel('url_encode')<CR>",    "URL"        },
                     x = { ":<C-u>call TransformSel('xml_encode')<CR>",    "XML"        },
                 },
                 d = {
                     name = "decode",
+                    b = { ":<C-u>call TransformSel('base64_decode')<CR>", "Base64"     },
+                    h = { ":<C-u>call TransformSel('hex_decode')<CR>",    "Hex string" },
                     s = { ":<C-u>call TransformSel('string_decode')<CR>", "C string"   },
                     u = { ":<C-u>call TransformSel('url_decode')<CR>",    "URL"        },
                     x = { ":<C-u>call TransformSel('xml_decode')<CR>",    "XML"        },
@@ -562,6 +566,28 @@ fun! TransformSel(func) abort
     normal! gvp
     let @@ = old_reg
     let &selection = old_sel
+endfun
+
+fun! s:hex_encode(str) abort
+    return substitute(a:str,
+        \ '.',
+        \ '\=printf("%x", char2nr(submatch(0)))',
+        \ 'g')
+endfun
+
+fun! s:hex_decode(str) abort
+    return substitute(a:str,
+        \ '\x\x',
+        \ '\=nr2char(printf("%d", "0x" . submatch(0)))',
+        \ 'g')
+endfun
+
+fun! s:base64_encode(str) abort
+    return trim(system('base64', a:str))
+endfun
+
+fun! s:base64_decode(str) abort
+    return trim(system('base64 -d', a:str))
 endfun
 
 fun! s:string_encode(str) abort
