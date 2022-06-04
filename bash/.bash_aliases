@@ -100,9 +100,9 @@ rand() {
 
 # Recursively reset directory and file modes.
 resetmod() {
-	echo "Do you want to recursivly reset modes for '$(pwd)' (Y/n)?"
+	echo "Do you want to recursivly reset modes for '$(pwd)' (y/N)?"
 	read
-	[[ "$REPLY" != "Y" ]] && return
+	[[ "$REPLY" != "y" && "$REPLY" != "Y" ]] && return
 	find . -type d -exec chmod 0755 {} \;
 	find . -type f -exec chmod 0644 {} \;
 }
@@ -263,7 +263,7 @@ tmux_focus() {
 		return
 	fi
 	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: prog-name"
+		echo "usage: tmux_focus prog-name"
 		return 1
 	fi
 	local id="$(tmux list-panes -a -F '#{pane_current_command} #{window_id} #{pane_id}' | awk '/^'$1' / {print $2" "$3; exit}')"
@@ -328,17 +328,13 @@ upgrade() {
 
 # Update brew and software.
 upgrade_brew() {
-	if [[ $(sw_vers -productVersion) > "10.14" ]] || [[ $(sw_vers -productVersion) == "10.14" ]]; then
-		brew update
+	brew update
 
-		# Possibly filter progs not to update.
-		brew outdated --formula | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade
-		brew outdated --cask | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade
+	# Possibly filter progs not to update.
+    brew outdated --formula | perl -alE 'say $F[0] unless /^(sshfs|gocryptfs)/' | xargs brew upgrade
+	brew outdated --cask | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade --cask
 
-		brew cleanup -s
-	else
-		echo "Won't upgrade brew on High Sierra"
-	fi
+	brew cleanup -s
 }
 
 # Update oh my zsh.
@@ -426,8 +422,8 @@ cleansys() {
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m trash\033[0m"
 	cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m local tm snapshots\033[0m"
-	tmutil deletelocalsnapshots /
+	#echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m local tm snapshots\033[0m"
+	#tmutil deletelocalsnapshots /
 
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m docker\033[0m"
 	docker system prune -f
@@ -459,7 +455,7 @@ cleansys() {
 
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m brew\033[0m"
 	brew autoremove -v
-	rm -rf ~/Library/Caches/Homebrew
+	cleansys_rmdir ~/Library/Caches/Homebrew
 }
 
 cleansys_rmdir() {
