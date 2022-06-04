@@ -68,7 +68,7 @@ plugins=(
   #git
   colored-man-pages
   gitignore
-  osx                 # tab - open dir in new tab
+  macos               # tab - open dir in new tab
                       # split_tab
                       # vsplit_tab
                       # ofd - open finder dir
