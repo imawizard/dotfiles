@@ -406,14 +406,16 @@ upgrade_flutter() {
 		printf "$version" > ~/flutter/flutter.docset-version
 	fi
 
-	# remove icons to save some space
+	# remove icons and localizations to save some space
+	rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/cupertino/CupertinoIcons
 	rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/material/Icons
+	rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/flutter_localizations
 }
 
 upgrade_dart() {
-	[[ $(command -v dart) && $(command -v pub) ]] || return 1
+	[[ $(command -v dart) ]] || return 1
 
-	pub global list | cut -d' ' -f1 | xargs -n 1 pub global activate
+	dart pub global list | cut -d' ' -f1 | xargs -n 1 dart pub global activate
 	dart --disable-analytics
 }
 
