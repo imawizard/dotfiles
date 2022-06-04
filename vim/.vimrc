@@ -1,6 +1,9 @@
 call plug#begin('~/.vim/plugged') " ......................................{{{1
 
 " Movement changes
+if has('nvim')
+    Plug 'folke/which-key.nvim'
+endif
 Plug 'tpope/vim-repeat'               " Make plugin-cmds repeatable.
 Plug 'haya14busa/vim-asterisk'        " Enhance searching with *.
 Plug 'farmergreg/vim-lastplace'       " Restore last position in file.
@@ -89,121 +92,227 @@ let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
 
 let mapleader = "\<Space>"
 
-nnoremap <silent> <leader><leader> :Files<CR>
-nnoremap          <leader>.   :Files<Space><C-r>=fnamemodify(getcwd(), ':~:.')<CR>
-nnoremap          <leader>`   <C-^>
-nnoremap          <leader>:   :Commands<CR>
-nnoremap          <leader>@:  :History:<CR>
+nnoremap <silent> <C-k> :lua vim.lsp.buf.hover()<CR>
+inoremap <silent> <C-k> <C-o>:lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <C-@> :lua vim.diagnostic.open_float()<CR>
 
-nnoremap <silent> <C-k>       :lua vim.lsp.buf.hover()<CR>
-inoremap <silent> <C-k>       <C-o>:lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> [e          :lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> ]e          :lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <silent> <leader>e   :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-nnoremap <silent> <leader>q   :lua vim.lsp.diagnostic.set_loclist()<CR>
+nnoremap <silent> <C-z> :FocusNuake<CR>
+inoremap <silent> <C-z> <C-o>:FocusNuake<CR>
+tnoremap <silent> <C-z> <C-\><C-n>:Nuake<CR><C-w>p
 
-nnoremap          <C-h>rr     :Reload<CR>
-nnoremap          <C-h>bb     :Maps<CR>
+" See https://github.com/folke/which-key.nvim
+if has_key(plugs, 'which-key.nvim')
+    lua <<HERE
+        local whichkey = require"which-key"
 
-nnoremap <silent> <C-z>       :FocusNuake<CR>
-inoremap <silent> <C-z>       <C-o>:FocusNuake<CR>
-tnoremap <silent> <C-z>       <C-\><C-n>:Nuake<CR><C-w>p
+        whichkey.setup {
+            show_help = false,
+            key_labels = {
+                ["<space>"] = "SPC",
+                ["<cr>"]    = "RET",
+                ["<tab>"]   = "TAB",
+            },
+            icons = {
+                breadcrumb = "›",
+                separator  = "➜",
+                group      = "",
+            },
+            spelling = {
+                enabled = true,
+            },
+            layout = {
+                spacing = 6,
+            },
+        }
 
-" buffer
-nnoremap <silent> <leader>bb  :Buffers<CR>
-nnoremap <silent> <leader>bn  :bnext<CR>
-nnoremap <silent> <leader>bp  :bprevious<CR>
-nnoremap <silent> <leader>bs  :update<CR>
+        whichkey.register({
+            ["<leader>"] = {
+                name = "SPC",
+                ["<leader>"] = { ":Files<CR>",                                                   "Find file in project"      },
+                ["."]        = { ":Files <C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>/", "Find file", silent = false },
+                [":"]        = { ":Commands<CR>",                                                "Show commands"             },
+                ["@:"]       = { ":History:<CR>",                                                "Show command history"      },
+            },
+            ["<leader>b"] = {
+                name = "buffer",
+                b = { ":Buffers<CR>",   "Switch buffer"   },
+                f = { ":Filetypes<CR>", "Set filetype"    },
+                n = { ":bnext<CR>",     "Next buffer"     },
+                p = { ":bprevious<CR>", "Previous buffer" },
+                s = { ":update<CR>",    "Save buffer"     },
+            },
+            ["<leader>c"] = {
+                name = "code",
+                a = { ":lua vim.lsp.buf.code_action()<CR>",             "LSP Execute code action"    },
+                d = { ":lua vim.lsp.buf.definition()<CR>",              "Jump to definition"         },
+                D = { ":lua vim.lsp.buf.declaration()<CR>",             "Jump to declaration"        },
+                f = { ":update|lua vim.lsp.buf.formatting()<CR>",       "Format buffer"              },
+                i = { ":lua vim.lsp.buf.implementation()<CR>",          "Find implementations"       },
+                o = { ":lua print'vim.lsp.buf.organize_imports()'<CR>", "LSP Organize imports"       },
+                r = { ":lua vim.lsp.buf.rename()<CR>",                  "LSP Rename"                 },
+                t = { ":lua vim.lsp.buf.type_definition()<CR>",         "Find type definition"       },
+                u = { ":lua vim.lsp.buf.references()<CR>",              "Find usages"                },
+                w = { ":StripTrailingWS<CR>",                           "Delete trailing whitespace" },
+                x = { ":Trouble<CR>",                                   "List errors"                },
+                X = { ":lua :vim.diagnostic.setqflist()<CR>",           "List errors in quickfix"    },
+            },
+            ["<leader>e"] = {
+                name = "eval/encode",
+                ["="] = { "<Plug>(crunch-operator-line)", "Evaluate equation" },
+                n = {
+                    name = "number",
+                    b = { "<Plug>RadicalCoerceToBinary",  "Convert number to binary"  },
+                    d = { "<Plug>RadicalCoerceToDecimal", "Convert number to decimal" },
+                    o = { "<Plug>RadicalCoerceToOctal",   "Convert number to octal"   },
+                    p = { "<Plug>RadicalView",            "Print number"              },
+                    x = { "<Plug>RadicalCoerceToHex",     "Convert number to hex"     },
+                },
+            },
+            ["<leader>f"] = {
+                name = "file",
+                P = { ":Editvimrc<CR>",                                       "Browse private config"     },
+                r = { ":History<CR>",                                         "Recent files"              },
+                t = { ":TestFile<CR>",                                        "Run file's tests"          },
+                T = { ":TestNearest<CR>",                                     "Run nearest test"          },
+                y = { ":let @+='<C-r>=fnameescape(expand('%:~:p'))<CR>'<CR>", "Yank file's path"          },
+                Y = { ":let @+='<C-r>=fnameescape(expand('%:~'))<CR>'<CR>",   "Yank file's relative path" },
+            },
+            ["<leader>g"] = {
+                name = "git",
+                b = { ":Git branch<CR>", "Switch branch" },
+                B = { ":Git blame<CR>",  "Blame"         },
+                c = { name = "create",
+                    r = { ":Git init", "Initialize repo" },
+                },
+                f = {
+                    name = "find",
+                    c = { ":BCommits<CR>", "Find file commit" },
+                    C = { ":Commits<CR>",  "Find commit"      },
+                },
+                g = { ":Git<CR>",        "Show status" },
+                S = { ":Gdiffsplit<CR>", "Stage file"  },
+            },
+            ["<leader>i"] = {
+                name = "insert",
+                f = { "i<C-r>=expand('%:t')<CR><ESC>l",              "Insert file's name"    },
+                F = { "i<C-r>=fnameescape(expand('%:~'))<CR><ESC>l", "Insert file's path"    },
+                s = { ":Snippets<CR>",                               "Insert snippet"        },
+                y = { ":Yanklist<CR>",                               "Insert from yank list" },
+            },
+            ["<leader>o"] = {
+                name = "open",
+                o = { ":exe '!open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>",                                      "Reveal file in Finder"        },
+                O = { ":exe '!open <C-r>=fnameescape(getcwd())<CR>'<CR>",                                              "Reveal project in Finder"     },
+                p = { ":NERDTreeFocus<CR>",                                                                            "Project sidebar"              },
+                P = { ":NERDTreeFind<CR>",                                                                             "Find file in project sidebar" },
+                t = { ":terminal<CR>",                                                                                 "Toggle terminal popup"        },
+            },
+            ["<leader>p"] = {
+                name = "project",
+                a     = { ":NERDTree<CR>:EditBookmarks<CR>",                          "Add new project"      },
+                d     = { ":NERDTree<CR>:EditBookmarks<CR>",                          "Remove known project" },
+                p     = { ":NERDTreeFromBookmark <C-z>",                              "Switch project"       },
+                T     = { ":TestSuite<CR>",                                           "Test project"         },
+            },
+            ["<leader>q"] = {
+                name = "quit",
+                q = { ":qa<CR>",  "Quit"                },
+                Q = { ":qa!<CR>", "Quit without saving" },
+            },
+            ["<leader>s"] = {
+                name = "search",
+                b = { ":BLines<CR>",                                                           "Search buffer"                          },
+                B = { ":Lines<CR>",                                                            "Search all open buffers"                },
+                d = { ":Rg<CR>",                                                               "Search current directory"               },
+                D = { ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF ", "Search other directory", silent = false },
+                f = { ":Locate ",                                                              "Locate file"                            },
+                i = { ":lua vim.lsp.buf.workspace_symbol()<CR>",                               "Search workspace symbols"               },
+                j = { ":Jumplist<CR>",                                                         "Search jump list"                       },
+                k = { "<Plug>DashSearch",                                                      "Look up in local docsets"               },
+                r = { ":Marks<CR>",                                                            "Jump to mark"                           },
+                s = { ":lua vim.lsp.buf.document_symbol()<CR>",                                "Search buffer symbols"                  },
+                t = { ":Tags<CR>",                                                             "Search tags"                            },
+                T = { ":BTags<CR>",                                                            "Search buffer tags"                     },
+            },
+            ["<leader>t"] = {
+                name = "toggle",
+                c = { ":set <C-r>=&cc ? 'colorcolumn=' : 'colorcolumn=80'<CR><CR>", "Colored column" },
+                C = { ":set cursorcolumn!<CR>",                                     "Cursor column"  },
+                d = { ":<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>",              "Diff buffer"    },
+                D = {
+                    name = "diffing",
+                    o = { ":diffoff!<CR>",             "Turn off diff for all buffers" },
+                },
+                i = {
+                    name = "indentation",
+                    i = { ":set expandtab!<CR>",                                     "Toggle indent"                   },
+                    [">"] = { ":set ts=<C-r>=&ts+2<CR>|:set sw=<C-r>=&sw+2<CR><CR>", "Increase indent"                 },
+                    ["<"] = { ":set ts=<C-r>=&ts-2<CR>|:set sw=<C-r>=&sw-2<CR><CR>", "Decrease indent"                 },
+                    R = { ":<C-r>=&et ? 'Tb2Sp' : 'Sp2Tb'<CR><CR>",                  "Replace according to &expandtab" },
+                },
+                l = { ":set number!<CR>",                                                           "Line numbers"          },
+                L = { ":set relativenumber!<CR>",                                                   "Relative line numbers" },
+                v = { ":set <C-r>=&ve =~# 'all' ? 'virtualedit-=all' : 'virtualedit+=all'<CR><CR>", "Virtual editing"       },
+                w = { ":set wrap!<CR>",                                                             "Soft line wrapping"    },
+            },
+            ["<leader>w"] = {
+                name = "workspace",
+                a = { ":lua vim.lsp.buf.add_workspace_folder()<CR>",                       "Add"    },
+                d = { ":lua vim.lsp.buf.remove_workspace_folder()<CR>",                    "Remove" },
+                l = { ":lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List"   },
+            },
+            ["<C-h>"] = {
+                name = "help",
+                r = {
+                    name = "reload",
+                    r = { ":Reload<CR>", ".vimrc", silent = false },
+                },
+                b = {
+                    name = "bindings",
+                    b = { ":Maps<CR>", "Show all" },
+                },
+            },
+            ["[e"] = { ":lua vim.diagnostic.goto_prev()<CR>", "Previous error" },
+            ["]e"] = { ":lua vim.diagnostic.goto_next()<CR>", "Next error"     },
+        }, { mode = "n" })
 
-" code
-nnoremap <silent> <leader>ca  :lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> <leader>cd  :lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> <leader>cD  :lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <leader>ci  :lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <leader>cf  :update<Bar>lua vim.lsp.buf.formatting()<CR>
-xnoremap <silent> <leader>cf  :update<Bar>lua vim.lsp.buf.formatting()<CR>
-nnoremap          <leader>cL  :lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
-nnoremap          <leader>co  :lua print"vim.lsp.buf.organize_imports()"<CR>
-nnoremap <silent> <leader>cr  :lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>ct  :lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> <leader>cu  :lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <leader>cu  :TroubleToggle lsp_references<CR>
-nnoremap          <leader>cw  :StripTrailingWS<CR>
-nnoremap <silent> <leader>cx  :Trouble<CR>
-
-" file
-nnoremap <silent> <leader>fP  :Editvimrc<CR>
-nnoremap <silent> <leader>fr  :History<CR>
-nnoremap <silent> <leader>ft  :TestFile<CR>
-nnoremap <silent> <leader>fT  :TestNearest<CR>
-
-" git find
-nnoremap <silent> <leader>gfc :BCommits<CR>
-nnoremap <silent> <leader>gfC :Commits<CR>
-
-" insert
-nnoremap          <leader>if  i<C-r>=expand('%:t')<CR><ESC>l
-nnoremap          <leader>iF  i<C-r>=expand('%:~')<CR><ESC>l
-nnoremap <silent> <leader>is  :Snippets<CR>
-nnoremap <silent> <leader>iy  :Yanklist<CR>
-
-" open
-nnoremap <silent> <leader>oo  :exe '!open -R ' . expand('%')<CR>
-nnoremap <silent> <leader>oO  :exe '!open ' . getcwd()<CR>
-nnoremap <silent> <leader>op  :NERDTreeFocus<CR>
-nnoremap <silent> <leader>oP  :NERDTreeFind<CR>
-nnoremap <silent> <leader>ot  :terminal<CR>
-
-" project
-nnoremap <silent> <leader>pa  :NERDTree<CR>:EditBookmarks<CR>
-nnoremap <silent> <leader>pd  :NERDTree<CR>:EditBookmarks<CR>
-nnoremap          <leader>pp  :NERDTreeFromBookmark<Space><C-z>
-nnoremap <silent> <leader>pt  :CtrlSF<Space>-R<Space>(TODO<Bar>NOTE<Bar>HACK<Bar>OPTIMIZE<Bar>XXX)(\([^)]+\))?:<Space>"<C-r>=getcwd()<CR>"<CR>
-nnoremap <silent> <leader>pT  :TestSuite<CR>
-
-" quit
-nnoremap          <leader>qq  :qa<CR>
-nnoremap          <leader>qQ  :qa!<CR>
-
-" search
-nnoremap <silent> <leader>sb  :BLines<CR>
-nnoremap <silent> <leader>sB  :Lines<CR>
-nnoremap          <leader>sd  :Rg<CR>
-nnoremap          <leader>sD  :<Space>"<C-r>=fnamemodify(getcwd(), ':~:.')<CR>"<Home>CtrlSF<Space>
-nnoremap <silent> <leader>sf  :Locate<Space>
-nnoremap <silent> <leader>sF  :Filetypes<CR>
-nnoremap <silent> <leader>si  :BTags<CR>
-nnoremap <silent> <leader>sj  :Jumplist<CR>
-nmap              <leader>sk  <Plug>DashSearch
-nnoremap <silent> <leader>sr  :Marks<CR>
-nnoremap <silent> <leader>st  :Tags<CR>
-
-nnoremap <silent> <leader>ss  :lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> <leader>si  :lua vim.lsp.buf.workspace_symbol()<CR>
-
-" toggle
-nnoremap          <leader>tc  :set <C-r>=&cc ? "colorcolumn=" : "colorcolumn=80"<CR><CR>
-nnoremap          <leader>tC  :set cursorcolumn!<CR>
-nnoremap          <leader>td  :<C-r>=&diff ? "diffoff" : "diffthis"<CR><CR>
-nnoremap          <leader>tD  :diffoff!<CR>
-nnoremap          <leader>tI  :set <C-r>=&et ? "noexpandtab<Bar>Sp2Tb" : "expandtab<Bar>Tb2Sp"<CR><CR>
-nnoremap          <leader>tl  :set number!<CR>
-nnoremap          <leader>tL  :set relativenumber!<CR>
-nnoremap          <leader>tv  :set <C-r>=&ve =~# "all" ? "virtualedit-=all" : "virtualedit+=all"<CR><CR>
-nnoremap          <leader>tw  :set wrap!<CR>
-
-" workspace
-nnoremap <silent> <leader>wa  :lua vim.lsp.buf.add_workspace_folder()<CR>
-nnoremap <silent> <leader>wd  :lua vim.lsp.buf.remove_workspace_folder()<CR>
-nnoremap <silent> <leader>wl  :lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
-
-" Visually encode C strings, urls and xml.
-xnoremap <silent>         gs  :<C-u>call <SID>TransformSel('string_encode')<CR>
-xnoremap <silent>         gS  :<C-u>call <SID>TransformSel('string_decode')<CR>
-xnoremap <silent>         gu  :<C-u>call <SID>TransformSel('url_encode')<CR>
-xnoremap <silent>         gU  :<C-u>call <SID>TransformSel('url_decode')<CR>
-xnoremap <silent>         gx  :<C-u>call <SID>TransformSel('xml_encode')<CR>
-xnoremap <silent>         gX  :<C-u>call <SID>TransformSel('xml_decode')<CR>
+        whichkey.register({
+            ["<leader>c"] = {
+                name = "code",
+                f = { ":update|lua vim.lsp.buf.formatting()<CR>", "Format region" },
+            },
+            ["<leader>e"] = {
+                name = "eval/encode",
+                ["="] = { "<Plug>(visual-crunch-operator)", "Evaluate equation" },
+                n = {
+                    name = "number",
+                    p = { "<Plug>RadicalView", "Print number" },
+                },
+                e = {
+                    name = "encode",
+                    s = { ":<C-u>call TransformSel('string_encode')<CR>", "C string"   },
+                    u = { ":<C-u>call TransformSel('url_encode')<CR>",    "URL"        },
+                    x = { ":<C-u>call TransformSel('xml_encode')<CR>",    "XML"        },
+                },
+                d = {
+                    name = "decode",
+                    s = { ":<C-u>call TransformSel('string_decode')<CR>", "C string"   },
+                    u = { ":<C-u>call TransformSel('url_decode')<CR>",    "URL"        },
+                    x = { ":<C-u>call TransformSel('xml_decode')<CR>",    "XML"        },
+                },
+            },
+            ["<leader>t"] = {
+                name = "toggle",
+                i = {
+                    name = "indentation",
+                    r = { ":set <C-r>=&et ? 'Sp2Tb' : 'Tb2Sp'<CR><CR>", "Replace according to &expandtab" },
+                    s = { ":Tb2Sp<CR>",                                 "Replace with spaces"             },
+                    t = { ":Sp2Tb<CR>",                                 "Replace with tabs"               },
+                },
+            },
+        }, { mode = "x" })
+HERE
+endif
 
 " Move current line up and down.
 nnoremap <silent> <C-\><C-d>  :move .+1<CR>==
