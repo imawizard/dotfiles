@@ -3,7 +3,7 @@ set history=2000
 set hlsearch
 set ignorecase
 set incsearch
-set iskeyword=@,48-57,_,192-255,#
+set iskeyword=@,48-57,192-255,#,_,-
 set nrformats-=octal
 set nonumber
 set norelativenumber
@@ -15,7 +15,8 @@ set sidescrolloff=6
 set smartcase
 set nostartofline
 set undolevels=2000
-set virtualedit=onemore " all is unsupported
+set virtualedit=all " Nothing but onemore is currently supported (onemore makes
+                    " pasting behaviour annoying though).
 
 set ideajoin
 set ideamarks
