@@ -1731,7 +1731,7 @@ if has_key(plugs, 'lightline.vim')
         \         ],
         \         'right': [
         \             ['percent'],
-        \             ['zoomed', 'fileformat', 'fileencoding', 'filetype'],
+        \             ['fileformat', 'fileencoding', 'filetype'],
         \             ['lineinfo'],
         \             ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
         \         ],
@@ -1765,7 +1765,6 @@ if has_key(plugs, 'lightline.vim')
         \         'gitbranch':    'LightlineGitBranch',
         \         'gitdiffs':     'LightlineGitStatus',
         \         'gutentags':    'gutentags#statusline',
-        \         'zoomed':       'zoom#statusline',
         \     },
         \     'component_type': {
         \         'linter_checking': 'right',
@@ -1812,9 +1811,9 @@ if has_key(plugs, 'lightline.vim')
     endfun
 
     fun! LightlineRelativePath() abort
-        let fname = expand('%')
+        let fname = expand('%:~')
         return empty(s:CurrentMode())
-            \ ? !empty(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
+            \ ? !empty(fname) ? fname : '[No Name]'
             \ : ''
     endfun
 
@@ -1829,8 +1828,12 @@ if has_key(plugs, 'lightline.vim')
     fun! LightlineFileformat() abort
         let et = &et ? 'sp' : 'tb'
         return winwidth(0) > 70 && empty(s:CurrentMode())
-            \ ? printf('%s %d%s', &fileformat, &sw, et)
-            \ : ''
+            \ ? printf('%s %s%s%s',
+            \     &fileformat,
+            \     &sw,
+            \     et,
+            \     &sw != &ts ? printf("%d", &ts) : ''
+            \ ) : ''
     endfun
 
     fun! LightlineFileencoding()
@@ -1851,7 +1854,7 @@ if has_key(plugs, 'lightline.vim')
         endif
         let branch = FugitiveHead()
         return !empty(branch)
-            \ ? printf('%c %s', nr2char(0xe0a0), branch)
+            \ ? printf('%s %s', nr2char(0xe0a0), branch)
             \ : ''
     endfun
 
@@ -1886,7 +1889,9 @@ if has_key(plugs, 'lightline.vim')
         endif
 
         " Don't switch between file and wd thus return here.
-        return printf('%d %s', lightline#tab#tabnum(a:index), filename)
+        let wd = fnamemodify(getcwd(-1, a:index), ':~:t')
+        let suffix = !empty(wd) ? ' - ' . wd : ''
+        return printf('%d %s%s', lightline#tab#tabnum(a:index), filename, suffix)
 
         let wd = '❨' . fnamemodify(getcwd(-1, a:index), ':~:t') . '❩'
         if a:active
