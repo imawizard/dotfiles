@@ -42,6 +42,9 @@ set textobj-entire
 set textobj-indent
 set vim-paragraph-motion
 
+let g:NERDTreeMapActivateNode = 'l'
+let g:NERDTreeMapCloseDir     = 'h'
+
 let g:highlightedyank_highlight_duration = "200"
 let g:highlightedyank_highlight_color = "rgba(252, 232, 244, 155)"
 
@@ -68,10 +71,14 @@ nmap              <leader>bs  :w<CR>
 " Code
 nmap              <leader>ca  <Action>(ShowIntentionActions)
 nmap              <leader>cc  <Action>(Run)
+nmap              <leader>cd  <Action>(GotoDeclaration)
 nmap              <leader>cD  <Action>(GotoRelated)
 nmap              <leader>cf  <Action>(ReformatCode)
+nmap              <leader>ci  <Action>(GotoImplementation)
 nmap              <leader>co  <Action>(OptimizeImports)
 nmap              <leader>cr  <Action>(Refactorings.QuickListPopupAction)
+nmap              <leader>ct  <Action>(GotoTypeDeclaration)
+nmap              <leader>cu  <Action>(ShowUsages)
 nmap              <leader>cx  <Action>(Cargo.RunExternalLinter)
 
 nmap              <leader>cC  <Action>(ChooseRunConfiguration)
@@ -79,14 +86,15 @@ nmap              <leader>cI  <Action>(InspectCode)
 nmap              <leader>cO  <Action>(CodeCleanup)
 
 " Debugger
-nmap              <Space>ds  <Action>(StepInto)
-nmap              <Space>dn  <Action>(StepOver)
-nmap              <Space>df  <Action>(StepOut)
-nmap              <Space>dr  <Action>(Resume)
-nmap              <Space>dk  <Action>(Stop)
-nmap              <Space>dp  <Action>(Pause)
-nmap              <Space>db  <Action>(ToggleLineBreakpoint)
-nmap              <Space>dB  <Action>(ViewBreakpoints)
+nmap              <F2>       <Action>(ToggleLineBreakpoint)
+nmap              <D-F2>     <Action>(Stop)
+nmap              <S-F2>     <Action>(ViewBreakpoints)
+nmap              <F7>       <Action>(StepInto)
+nmap              <F8>       <Action>(StepOver)
+nmap              <D-F8>     <Action>(StepOut)
+nmap              <F9>       <Action>(Resume)
+nmap              <D-F9>     <Action>(Debug)
+nmap              <S-F9>     <Action>(Pause)
 
 " Files
 nmap              <leader>fr  <Action>(RecentFiles)
