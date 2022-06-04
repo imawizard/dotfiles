@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugged') " ..................................... {{{1
+call plug#begin('~/.vim/plugged') " ......................................{{{1
 
 " Movement changes
 Plug 'tpope/vim-repeat'               " Make plugin-cmds repeatable.
@@ -7,55 +7,43 @@ Plug 'farmergreg/vim-lastplace'       " Restore last position in file.
 Plug 'unblevable/quick-scope'         " f{char}
 Plug 'justinmk/vim-sneak'             " s{char}{char}
 Plug 'romainl/vim-cool'               " Automatically clear search results.
-if has('nvim')
-    Plug 'windwp/nvim-autopairs'      " Automatically insert parens and quotes.
-endif
 
 " Extra movements
-Plug 'machakann/vim-sandwich'         " Like vim-surround with Extras.
+Plug 'tpope/vim-surround'
 if has('nvim')
     Plug 'terrortylor/nvim-comment'   " Comment with gcc and v_gc.
 endif
 Plug 'junegunn/vim-easy-align'        " Align with e.g. :EasyAlign */[:;]\+/.
-Plug 'dhruvasagar/vim-zoom'           " Maximize like zooming in tmux.
-Plug 'airblade/vim-rooter'            " Cd to project root.
 
 " Extra text objects
 Plug 'vim-scripts/argtextobj.vim'     " Make function arguments operable with a.
 Plug 'bkad/CamelCaseMotion'           " Prefix w, e and b to work on camel/snake case.
 Plug 'kana/vim-textobj-user'
 Plug 'beloglazov/vim-textobj-quotes'  " Make surrounding quotes operable with q.
+Plug 'kana/vim-textobj-entire'        " Whole buffer with ae/ie.
 
 " Extra functionality
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'               " Add various search popups.
 Plug 'dyng/ctrlsf.vim'                " Search and replace with rg.
 Plug 'tpope/vim-fugitive'             " Add a git wrapper (:G).
-Plug 'junegunn/gv.vim'                " Add a commit browser (needs fugitive).
-if has('nvim')
-    Plug 'sindrets/diffview.nvim'     " Add :DiffviewOpen to explore git diffs.
-endif
 Plug 'ludovicchabant/vim-gutentags'   " Management of tag files.
 Plug 'rizzatti/dash.vim'              " Add Dash activation.
-Plug 'junegunn/goyo.vim'              " Distraction-free writing.
 
 " Language support
 Plug 'editorconfig/editorconfig-vim'  " Respect .editorconfig.
 Plug 'sheerun/vim-polyglot'
-Plug 'thosakwe/vim-flutter'
 Plug 'vim-test/vim-test'              " Add :Test commands.
 if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 endif
 
-" Linting and completion
+" LSP and completion
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/lsp_extensions.nvim'
     Plug 'hrsh7th/nvim-compe'
     Plug 'L3MON4D3/LuaSnip'
     Plug 'folke/trouble.nvim'
-    Plug 'weilbith/nvim-lsp-smag'
 endif
 
 " Calculation support
@@ -77,20 +65,20 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-" Progs and dirs ........................................................ {{{1
-
-let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
-let g:gutentags_ctags_executable_dart = '~/.pub-cache/bin/dart_ctags'
-let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
-
-let g:fzf_history_dir      = '~/.cache/fzf-history'
+" Progs and dirs .........................................................{{{1
 
 let g:node_host_prog    = '/usr/local/bin/node'
 let g:perl_host_prog    = '/usr/local/bin/perl'
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:ruby_host_prog    = '/usr/bin/ruby'
 
-" Custom keymappings .................................................... {{{1
+let g:fzf_history_dir   = '~/.cache/fzf-history'
+
+let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
+let g:gutentags_ctags_executable_dart = '~/.pub-cache/bin/dart_ctags'
+let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
+
+" Custom keymappings .....................................................{{{1
 
 let mapleader = "\<Space>"
 
@@ -218,7 +206,7 @@ inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
 xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
 xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
 
-" Sanity remappings ..................................................... {{{1
+" Sanity remappings ......................................................{{{1
 
 " Move through wrapped lines.
 nnoremap j gj
@@ -263,7 +251,7 @@ nnoremap do do]c
 " Join lines without moving the cursor.
 nnoremap J mzJ`z
 
-" Compatibility remappings .............................................. {{{1
+" Compatibility remappings ...............................................{{{1
 
 " Emacs bindings in insert mode.
 inoremap <expr> <C-a>  '<ESC>' . (col('.') > 1 ? '0' : '_') . 'i'
@@ -306,7 +294,7 @@ tnoremap <silent> <C-w>j     <C-\><C-n><C-w>j
 tnoremap <silent> <C-w>k     <C-\><C-n><C-w>k
 tnoremap <silent> <C-w>l     <C-\><C-n><C-w>l
 
-" Custom commands ....................................................... {{{1
+" Custom commands ........................................................{{{1
 
 " Change indentation.
 command! -range=% -nargs=0 Tb2Sp exe '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
@@ -373,7 +361,7 @@ augroup restore-C-m-if-readonly
     autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <C-m> <C-m> | endif
 augroup end
 
-" Helper functions ...................................................... {{{1
+" Helper functions .......................................................{{{1
 
 fun! s:ZLookup(args) abort
     let dir = system('. ' . s:z_sh_prog . ' && _z ' . a:args . ' && pwd')
@@ -440,10 +428,10 @@ fun! QuitCallback(timer)
     quit
 endfun
 
-" Encoding functions .................................................... {{{1
+" Encoding functions .....................................................{{{1
 " Taken from tpope's vim-unimpaired.
 
-fun! s:TransformSel(func) abort
+fun! TransformSel(func) abort
     let old_sel = &selection
     if visualmode() ==# 'v'
         set selection=inclusive
@@ -608,10 +596,10 @@ fun! s:xml_entity_decode(str) abort
     return substitute(str, '\c&amp;', '\&', 'g')
 endfun
 
-" vim-repeat settings ................................................... {{{1
+" vim-repeat settings ....................................................{{{1
 " See https://github.com/tpope/vim-repeat
 
-" vim-asterisk settings ................................................. {{{1
+" vim-asterisk settings ..................................................{{{1
 " See https://github.com/haya14busa/vim-asterisk/blob/master/doc/asterisk.txt
 
 if has_key(plugs, 'vim-asterisk')
@@ -629,10 +617,10 @@ if has_key(plugs, 'vim-asterisk')
     map gz# <Plug>(asterisk-gz#)
 endif
 
-" vim-lastplace settings ................................................ {{{1
+" vim-lastplace settings .................................................{{{1
 " See https://github.com/farmergreg/vim-lastplace/blob/master/doc/vim-lastplace.txt
 
-" Quick-scope settings .................................................. {{{1
+" Quick-scope settings ...................................................{{{1
 " See https://github.com/unblevable/quick-scope/blob/master/doc/quick-scope.txt
 " For fixing interaction with sneak,
 " see https://github.com/unblevable/quick-scope/issues/55#issuecomment-629721429
@@ -647,7 +635,7 @@ if has_key(plugs, 'quick-scope')
     augroup end
 endif
 
-" Sneak settings ........................................................ {{{1
+" Sneak settings .........................................................{{{1
 " See https://github.com/justinmk/vim-sneak/blob/master/doc/sneak.txt
 
 if has_key(plugs, 'vim-sneak')
@@ -660,46 +648,17 @@ if has_key(plugs, 'vim-sneak')
     augroup end
 endif
 
-" vim-cool settings ..................................................... {{{1
+" vim-cool settings ......................................................{{{1
 " See https://github.com/romainl/vim-cool
 
-" nvim-autopairs settings ............................................... {{{1
-" See https://github.com/windwp/nvim-autopairs
-
-if has_key(plugs, 'nvim-autopairs')
-    lua <<HERE
-        require"nvim-autopairs".setup {
-            ignored_next_char = string.gsub([[ [%s]* [%w%%%'%[%{%"%.] ]],"%s+", ""),
-        }
-
-        if vim.g.plugs["nvim-compe"] then
-            require"nvim-autopairs.completion.compe".setup {
-                map_cr = true,
-                map_complete = true,
-            }
-        end
-HERE
-endif
-
-" vim-sandwich settings ................................................. {{{1
-" See https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
-" See https://github.com/machakann/vim-sandwich/blob/master/doc/sandwich.txt
-" and https://github.com/machakann/vim-sandwich/blob/master/doc/operator-sandwich.txt
-" and https://github.com/machakann/vim-sandwich/blob/master/doc/textobj-sandwich.txt
-
-runtime macros/sandwich/keymap/surround.vim
-
-nmap csw ysiw
-nmap csW ysiW
-
-" nvim-comment settings ................................................. {{{1
+" nvim-comment settings ..................................................{{{1
 " See https://github.com/terrortylor/nvim-comment
 
 if has_key(plugs, 'nvim-comment')
     lua require"nvim_comment".setup { marker_padding = false }
 endif
 
-" EasyAlign settings .................................................... {{{1
+" EasyAlign settings .....................................................{{{1
 " See https://github.com/junegunn/vim-easy-align/blob/master/doc/easy_align.txt
 
 if has_key(plugs, 'vim-easy-align')
@@ -745,32 +704,17 @@ if has_key(plugs, 'vim-easy-align')
     xmap .  <Plug>(EasyAlignRepeat)
 endif
 
-" vim-zoom settings ..................................................... {{{1
-" See https://github.com/dhruvasagar/vim-zoom/blob/master/doc/zoom.txt
-
-if has_key(plugs, 'vim-zoom')
-    let g:zoom#statustext = 'ZOOMED'
-endif
-
-" vim-rooter settings ................................................... {{{1
-" See https://github.com/airblade/vim-rooter/blob/master/doc/rooter.txt
-
-if has_key(plugs, 'vim-rooter')
-    let g:rooter_manual_only = 1
-    let g:rooter_cd_cmd      = 'tcd'
-endif
-
-" argtextobj.vim settings ............................................... {{{1
+" argtextobj.vim settings ................................................{{{1
 " See https://github.com/vim-scripts/argtextobj.vim
 
-" CamelCaseMotion settings .............................................. {{{1
+" CamelCaseMotion settings ...............................................{{{1
 " See https://github.com/bkad/CamelCaseMotion/blob/master/doc/camelcasemotion.txt
 
 if has_key(plugs, 'CamelCaseMotion')
     let g:camelcasemotion_key = '\'
 endif
 
-" vim-textobj-quotes settings ........................................... {{{1
+" vim-textobj-quotes settings ............................................{{{1
 " See https://github.com/beloglazov/vim-textobj-quotes/blob/master/doc/textobj-quotes.txt
 
 if has_key(plugs, 'vim-textobj-quotes')
@@ -779,7 +723,7 @@ if has_key(plugs, 'vim-textobj-quotes')
     xmap q iq
 endif
 
-" fzf.vim settings  ..................................................... {{{1
+" fzf.vim settings  ......................................................{{{1
 " See https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt
 " and https://github.com/junegunn/fzf/blob/master/doc/fzf.txt
 " and https://github.com/junegunn/fzf/blob/master/man/man1/fzf.1
@@ -859,10 +803,10 @@ if has_key(plugs, 'fzf.vim')
 
     fun! s:FzfYankWrapper(query, fullscreen) abort
         let opts = {
-                    \ 'source': s:GetYanks(),
-                    \ 'sink': function('<SID>FzfYankHandler'),
-                    \ 'options': '--query="' . a:query . '" --prompt="Paste> "',
-                    \ }
+            \ 'source': s:GetYanks(),
+            \ 'sink': function('<SID>FzfYankHandler'),
+            \ 'options': '--query="' . a:query . '" --prompt="Paste> "',
+            \ }
         call fzf#run(fzf#wrap('yanks', opts))
     endfun
 
@@ -883,10 +827,10 @@ if has_key(plugs, 'fzf.vim')
 
     fun! s:FzfJumpWrapper(query, fullscreen) abort
         let opts = {
-                    \ 'source': s:GetJumps(),
-                    \ 'sink': function('<SID>FzfJumpHandler'),
-                    \ 'options': '--query="' . a:query . '" --prompt="Jumps> "',
-                    \ }
+            \ 'source': s:GetJumps(),
+            \ 'sink': function('<SID>FzfJumpHandler'),
+            \ 'options': '--query="' . a:query . '" --prompt="Jumps> "',
+            \ }
         call fzf#run(fzf#wrap('jumps', opts))
     endfun
 
@@ -908,7 +852,7 @@ if has_key(plugs, 'fzf.vim')
     command! -nargs=* -bang Jumplist call <SID>FzfJumpWrapper(<q-args>,  <bang>0)
 endif
 
-" CtrlSF settings ....................................................... {{{1
+" CtrlSF settings ........................................................{{{1
 " See https://github.com/dyng/ctrlsf.vim/blob/master/doc/ctrlsf.txt
 
 if has_key(plugs, 'ctrlsf.vim')
@@ -927,13 +871,10 @@ if has_key(plugs, 'ctrlsf.vim')
         \ }
 endif
 
-" Fugitive settings ..................................................... {{{1
+" Fugitive settings ......................................................{{{1
 " See https://github.com/tpope/vim-fugitive/blob/master/doc/fugitive.txt
 
-" gv.vim settings ....................................................... {{{1
-" See https://github.com/junegunn/gv.vim
-
-" Gutentags settings .................................................... {{{1
+" Gutentags settings .....................................................{{{1
 " See https://github.com/ludovicchabant/vim-gutentags/blob/master/doc/gutentags.txt
 
 if has_key(plugs, 'vim-gutentags')
@@ -967,7 +908,7 @@ if has_key(plugs, 'vim-gutentags')
     endfun
 endif
 
-" Dash settings ......................................................... {{{1
+" Dash settings ..........................................................{{{1
 " See https://github.com/rizzatti/dash.vim/blob/master/doc/dash.txt
 
 if has_key(plugs, 'dash.vim')
@@ -978,10 +919,7 @@ if has_key(plugs, 'dash.vim')
         \ }
 endif
 
-" Goyo settings ......................................................... {{{1
-" See https://github.com/junegunn/goyo.vim/blob/master/doc/goyo.txt
-
-" Dart settings ......................................................... {{{1
+" Dart settings ..........................................................{{{1
 " See https://github.com/dart-lang/dart-vim-plugin/blob/master/doc/dart.txt
 
 let g:dart_format_on_save = 1
@@ -989,24 +927,18 @@ let g:dart_style_guide    = 2
 let dart_html_in_string   = v:true
 "let g:lsc_auto_map       = v:true
 
-" Flutter settings ...................................................... {{{1
-" See https://github.com/thosakwe/vim-flutter/blob/master/doc/flutter.txt
-
-let g:flutter_use_last_run_option = 1
-"let g:flutter_hot_reload_on_save = 1
-
-" Go settings ........................................................... {{{1
+" Go settings ............................................................{{{1
 " See https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt
 
 let g:go_fmt_command         = 'gofumports'
 let g:go_def_mapping_enabled = 0
 
-" Rust settings ......................................................... {{{1
+" Rust settings ..........................................................{{{1
 " See https://github.com/rust-lang/rust.vim/blob/master/doc/rust.txt
 
 let g:rustfmt_autosave = 0
 
-" vim-test settings ..................................................... {{{1
+" vim-test settings ......................................................{{{1
 " See https://github.com/vim-test/vim-test/blob/master/doc/test.txt
 
 if has_key(plugs, 'vim-test')
@@ -1020,7 +952,7 @@ if has_key(plugs, 'vim-test')
     endif
 endif
 
-" Treesitter settings ................................................... {{{1
+" Treesitter settings ....................................................{{{1
 " See https://github.com/nvim-treesitter/nvim-treesitter/blob/master/doc/nvim-treesitter.txt
 
 if has_key(plugs, 'nvim-treesitter')
@@ -1075,15 +1007,17 @@ if has_key(plugs, 'nvim-treesitter')
 HERE
 endif
 
-" Radical.vim settings .................................................. {{{1
+" Radical.vim settings ...................................................{{{1
 " See https://github.com/glts/vim-radical/blob/master/doc/radical.txt
+let g:radical_no_mappings = 1
 
-" Crunch settings ....................................................... {{{1
+" Crunch settings ........................................................{{{1
 " See https://github.com/arecarn/vim-crunch/blob/master/doc/crunch.txt
 
-" LSP settings .......................................................... {{{1
+" LSP settings ...........................................................{{{1
 " See https://github.com/neovim/nvim-lspconfig/blob/master/doc/lspconfig.txt
-" and https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+" and https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+" and https://neovim.io/doc/user/lsp.html
 
 if has_key(plugs, 'nvim-lspconfig')
     lua <<HERE
@@ -1109,31 +1043,31 @@ if has_key(plugs, 'nvim-lspconfig')
         })
 
         vim.lsp.protocol.CompletionItemKind = {
-            ' text',        --  text
-            ' method',      -- method
-            ' function',    -- function
-            ' constructor', --  constructor
-            ' field',       -- ﰠ field
-            ' variable',    --  variable
-            ' class',       -- class
-            'ﰮ interface',   -- interface
-            ' module',      --  module
-            ' property',    -- property
-            ' unit',        -- unit
-            ' value',       -- value
-            ' enum',        -- 了enum
-            ' keyword',     -- keyword
-            '﬌ snippet',     --  snippet
-            ' color',       --  color
-            ' file',        --  file
-            ' reference',   --  reference
-            ' folder',      --  folder
-            ' enum member', -- enum member
-            ' const',       -- constant
-            ' struct',      -- struct
-            ' event',       -- ⌘ event
-            'ﬦ operator',    --  operator
-            ' type param',  --  type parameter
+            " text",        --  text
+            " method",      -- method
+            " function",    -- function
+            " constructor", --  constructor
+            " field",       -- ﰠ field
+            " variable",    --  variable
+            " class",       -- class
+            "ﰮ interface",   -- interface
+            " module",      --  module
+            " property",    -- property
+            " unit",        -- unit
+            " value",       -- value
+            " enum",        -- 了enum
+            " keyword",     -- keyword
+            "﬌ snippet",     --  snippet
+            " color",       --  color
+            " file",        --  file
+            " reference",   --  reference
+            " folder",      --  folder
+            " enum member", -- enum member
+            " const",       -- constant
+            " struct",      -- struct
+            " event",       -- ⌘ event
+            "ﬦ operator",    --  operator
+            " type param",  --  type parameter
         }
 
         vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
@@ -1154,12 +1088,12 @@ if has_key(plugs, 'nvim-lspconfig')
                 update_in_insert = false,
                 -- underline = false,
                 signs = {
-                    -- severity_limit = 'Warning',
+                    -- severity_limit = "Warning",
                 },
                 virtual_text = {
-                    -- severity_limit = 'Warning',
+                    -- severity_limit = "Warning",
                     -- spacing = 1,
-                    -- prefix = '~',
+                    -- prefix = "~",
                 },
             })
 
@@ -1171,9 +1105,9 @@ if has_key(plugs, 'nvim-lspconfig')
             res.textDocument.completion.completionItem.preselectSupport = true
             res.textDocument.completion.completionItem.resolveSupport = {
                 properties = {
-                    'documentation',
-                    'detail',
-                    'additionalTextEdits',
+                    "documentation",
+                    "detail",
+                    "additionalTextEdits",
                 },
             }
             return res
@@ -1206,13 +1140,17 @@ if has_key(plugs, 'nvim-lspconfig')
 
         local lspconfig = require"lspconfig"
 
+        --
         -- bashls settings
+        --
         lspconfig.bashls.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- clangd settings
+        --
         lspconfig.clangd.setup {
             cmd = {
                 "xcrun",
@@ -1228,13 +1166,17 @@ if has_key(plugs, 'nvim-lspconfig')
             flags = { debounce_text_changes = 150 },
         }
 
+        --
         -- cssls settings
+        --
         lspconfig.cssls.setup {
             on_attach = no_format(on_attach),
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- dartls settings
+        --
         lspconfig.dartls.setup {
             init_options = {
                 suggestFromUnimportedLibraries = true,
@@ -1244,7 +1186,9 @@ if has_key(plugs, 'nvim-lspconfig')
             flags = { debounce_text_changes = 150 },
         }
 
+        --
         -- denols settings (start manually with :LspStart denols)
+        --
         lspconfig.denols.setup {
             autostart = false,
             init_options = {
@@ -1257,13 +1201,17 @@ if has_key(plugs, 'nvim-lspconfig')
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- dotls settings
+        --
         lspconfig.dotls.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- efm settings
+        --
         local tools = {
             eslint = {
                 lintCommand = "npx eslint -f visualstudio --stdin --stdin-filename ${INPUT}",
@@ -1298,17 +1246,16 @@ if has_key(plugs, 'nvim-lspconfig')
                 formatStdin = true,
             },
             phpstan = {
-                lintCommand = 'composer exec phpstan analyze --error-format raw --no-progress',
+                lintCommand = "composer exec phpstan analyze --error-format raw --no-progress",
             },
             psalm = {
-                lintCommand = 'composer exec psalm --output-format=emacs --no-progress',
+                lintCommand = "composer exec psalm --output-format=emacs --no-progress",
                 lintFormats = {
                     "%f:%l:%c:%trror - %m",
                     "%f:%l:%c:%tarning - %m",
                 },
             },
         }
-
         local languages = {
             javascript         = { tools.prettier, tools.eslint },
             javascriptreact    = { tools.prettier, tools.eslint },
@@ -1329,7 +1276,6 @@ if has_key(plugs, 'nvim-lspconfig')
             sh                 = { tools.shellcheck, tools.shfmt },
             lua                = { tools.lua_format },
         }
-
         local filetypes = {}
         for lang, _ in pairs(languages) do
             table.insert(filetypes, lang)
@@ -1348,7 +1294,9 @@ if has_key(plugs, 'nvim-lspconfig')
             filetypes = filetypes,
         }
 
+        --
         -- gopls settings
+        --
         lspconfig.gopls.setup {
             cmd = {
                 "gopls",
@@ -1382,13 +1330,17 @@ if has_key(plugs, 'nvim-lspconfig')
             end
         end
 
+        --
         -- html settings
+        --
         lspconfig.html.setup {
             on_attach = no_format(on_attach),
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- jsonls settings
+        --
         lspconfig.jsonls.setup {
             commands = {
                 Format = {
@@ -1401,13 +1353,17 @@ if has_key(plugs, 'nvim-lspconfig')
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- perlpls settings
+        --
         lspconfig.perlpls.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- phpactor settings
+        --
         lspconfig.phpactor.setup {
             cmd = {
                 "composer",
@@ -1420,7 +1376,9 @@ if has_key(plugs, 'nvim-lspconfig')
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- prismals settings
+        --
         lspconfig.prismals.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
@@ -1433,7 +1391,9 @@ if has_key(plugs, 'nvim-lspconfig')
         augroup end
         ]]
 
+        --
         -- rust_analyzer settings
+        --
         lspconfig.rust_analyzer.setup {
             cmd = {
                 "rustup",
@@ -1459,13 +1419,17 @@ if has_key(plugs, 'nvim-lspconfig')
         augroup end
         ]]
 
+        --
         -- texlab settings
+        --
         lspconfig.texlab.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
         }
 
+        --
         -- tsserver settings
+        --
         lspconfig.tsserver.setup {
             on_attach = with_organize_imports(no_format(on_attach), "_G.tsserver_organize_imports"),
             capabilities = make_snippet_capabilities(),
@@ -1485,7 +1449,9 @@ if has_key(plugs, 'nvim-lspconfig')
             vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", params, 500)
         end
 
+        --
         -- vimls settings
+        --
         lspconfig.vimls.setup {
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
@@ -1545,7 +1511,7 @@ if has_key(plugs, 'nvim-compe')
     inoremap <silent> <expr> <C-g> compe#close('<C-g>')
 endif
 
-" Trouble settings ...................................................... {{{1
+" Trouble settings .......................................................{{{1
 " See https://github.com/folke/trouble.nvim
 
 if has_key(plugs, 'trouble.nvim')
@@ -1565,7 +1531,7 @@ HERE
     augroup end
 endif
 
-" Lightline settings .................................................... {{{1
+" Lightline settings .....................................................{{{1
 " See https://github.com/itchyny/lightline.vim/blob/master/doc/lightline.txt
 
 if has_key(plugs, 'lightline.vim')
@@ -1639,58 +1605,57 @@ if has_key(plugs, 'lightline.vim')
         " TODO: Use active buffer from tab with getbufvar(x, '&ft').
         let fname = expand('%:t')
         return &ft ==# 'fzf' ? 'FZF'
-                    \ : &ft ==# 'nerdtree' ? 'NERDTree'
-                    \ : &ft ==# 'nuake' ? 'Nuake'
-                    \ : &ft ==# 'ctrlsf' ? 'CtrlSF'
-                    \ : ''
+            \ : &ft ==# 'nerdtree' ? 'NERDTree'
+            \ : &ft ==# 'nuake' ? 'Nuake'
+            \ : &ft ==# 'ctrlsf' ? 'CtrlSF'
+            \ : ''
     endfun
 
     fun! LightlineMode() abort
-        let fname = expand('%:t')
         let cmode = s:CurrentMode()
         return empty(cmode)
-                    \ ? winwidth(0) > 60 ? lightline#mode() : ''
-                    \ : cmode
+            \ ? winwidth(0) > 60 ? lightline#mode() : ''
+            \ : cmode
     endfun
 
     fun! LightlineReadonly() abort
         return &ft !=# 'help' && &readonly && empty(s:CurrentMode())
-                    \ ? 'RO'
-                    \ : ''
+            \ ? 'RO'
+            \ : ''
     endfun
 
     fun! LightlineRelativePath() abort
         let fname = expand('%')
         return empty(s:CurrentMode())
-                    \ ? !empty(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
-                    \ : ''
+            \ ? !empty(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
+            \ : ''
     endfun
 
     fun! LightlineFilename() abort
         let cmode = s:CurrentMode()
         let fname = expand('%:t')
         return empty(cmode)
-                    \ ? !empty(fname) ? fname : '[No Name]'
-                    \ : cmode
+            \ ? !empty(fname) ? fname : '[No Name]'
+            \ : cmode
     endfun
 
     fun! LightlineFileformat() abort
         let et = &et ? 'sp' : 'tb'
         return winwidth(0) > 70 && empty(s:CurrentMode())
-                    \ ? printf('%s %d%s', &fileformat, &sw, et)
-                    \ : ''
+            \ ? printf('%s %d%s', &fileformat, &sw, et)
+            \ : ''
     endfun
 
     fun! LightlineFileencoding()
         return winwidth(0) > 70 && empty(s:CurrentMode())
-                    \ ? (&fenc !=# '' ? &fenc : &enc)
-                    \ : ''
+            \ ? (&fenc !=# '' ? &fenc : &enc)
+            \ : ''
     endfun
 
     fun! LightlineFiletype() abort
         return winwidth(0) > 70 && empty(s:CurrentMode())
-                    \ ? (&filetype !=# '' ? 'ft: ' . &filetype : 'no ft')
-                    \ : ''
+            \ ? (&filetype !=# '' ? 'ft: ' . &filetype : 'no ft')
+            \ : ''
     endfun
 
     fun! LightlineGitBranch() abort
@@ -1699,8 +1664,8 @@ if has_key(plugs, 'lightline.vim')
         endif
         let branch = FugitiveHead()
         return !empty(branch)
-                    \ ? printf('%c %s', nr2char(0xe0a0), branch)
-                    \ : ''
+            \ ? printf('%c %s', nr2char(0xe0a0), branch)
+            \ : ''
     endfun
 
     fun! LightlineGitStatus() abort
@@ -1754,14 +1719,14 @@ if has_key(plugs, 'lightline.vim')
         endif
 
         return printf('%s%d %s%s',
-                    \ repeat(' ', left),
-                    \ lightline#tab#tabnum(a:index),
-                    \ front,
-                    \ repeat(' ', right))
+            \ repeat(' ', left),
+            \ lightline#tab#tabnum(a:index),
+            \ front,
+            \ repeat(' ', right))
     endfun
 endif
 
-" NERDTree settings ..................................................... {{{1
+" NERDTree settings ......................................................{{{1
 " See https://github.com/preservim/nerdtree/blob/master/doc/NERDTree.txt
 
 if has_key(plugs, 'nerdtree')
@@ -1803,7 +1768,7 @@ if has_key(plugs, 'nerdtree')
     augroup end
 endif
 
-" nerdtree-git-plugin settings .......................................... {{{1
+" nerdtree-git-plugin settings ...........................................{{{1
 " See https://github.com/Xuyuanp/nerdtree-git-plugin
 
 if has_key(plugs, 'nerdtree-git-plugin')
@@ -1821,7 +1786,7 @@ if has_key(plugs, 'nerdtree-git-plugin')
         \ }
 endif
 
-" Nuake settings ........................................................ {{{1
+" Nuake settings .........................................................{{{1
 " See https://github.com/Lenovsky/nuake/blob/master/doc/nuake.txt
 
 if has_key(plugs, 'nuake')
@@ -1829,7 +1794,7 @@ if has_key(plugs, 'nuake')
     let g:nuake_size    = 0.35
 endif
 
-" Vim settings .......................................................... {{{1
+" Vim settings ...........................................................{{{1
 
 " Neovim's defaults.
 if !has('nvim')
@@ -1849,7 +1814,7 @@ if !has('nvim')
     set formatoptions+=j            " Delete comment character when joining commented lines.
     set history=2000                " Maximum history records kept.
     set hlsearch                    " Highlight search matches.
-    set incsearch                   " Match whilst typing.
+    set incsearch                   " Match whilst typing when searching.
     set laststatus=2                " Always show status line.
     set nofsync                     " Don't call fsync after writes.
     set nrformats-=octal            " Ignore octal numbers for Ctrl-A and Ctrl-X.
@@ -1902,21 +1867,24 @@ set undolevels=2000                 " Increase possible undos.
 set sessionoptions-=tabpages        " Only save the current tab in sessions.
 set fileformats=unix,dos,mac        " Use Unix as the standard file type.
 
-set completeopt=menuone,noselect,noinsert,preview
+set completeopt+=menuone            " Show even if only one match.
+set completeopt+=noselect           " No automatic selection.
+set completeopt+=noinsert           " Only insert on confirmation.
+set completeopt+=preview            " Show extra information in preview window.
 if has('vim')
-    set completeopt+=popup
+    set completeopt+=popup          " Show extra information in a popup window.
 elseif has('nvim')
-    set diffopt+=algorithm:histogram " Use different diff-algo.
-    set pumblend=5
-    set winblend=5
+    set diffopt+=algorithm:histogram " Use a different diff-algo.
+    set pumblend=5                  " Transparency for popup menus.
+    set winblend=5                  " Transparency for floating windows.
 endif
 
 set ignorecase                      " Ignore case when searching...
 set smartcase                       " ...unless we type a capital.
-set noinfercase
-set wildignorecase
+set noinfercase                     " Don't adjust case of auto-completed matches.
+set wildignorecase                  " Ignore case when completing filenames.
 if has('nvim')
-    set inccommand=nosplit          " Match whilst typing for substitution.
+    set inccommand=nosplit          " Match whilst typing when substituting.
     set jumpoptions=stack           " When jumping discard any later entries.
 endif
 
@@ -1924,7 +1892,7 @@ set redrawtime=1500
 set cmdheight=2                     " Give command-line more space.
 set colorcolumn=80                  " List of highlighted columns.
 set cursorline                      " Highlight current line.
-set nolazyredraw
+set nolazyredraw                    " Redraw whilst executing macros.
 set matchtime=2                     " Duration for showing matching pairs after typing.
 set pumheight=12                    " Maximum number of items in popup menu.
 set nonumber                        " Show no absolute line numbers.
@@ -1941,8 +1909,11 @@ set foldenable
 set foldlevelstart=1                " Automatically open only the first level of folds.
 set foldmethod=marker
 set list                            " Show tabs, spaces, etc.
-set listchars=tab:\|\ ,space:·,nbsp:␣,trail:\ ,extends:↷,precedes:↶
+set listchars+=tab:\|\ ,space:·     " Use these for hidden characters.
+set listchars+=trail:\ ,nbsp:␣
+set listchars+=extends:↷,precedes:↶
 set nowrap                          " Don't fit lines to the window's width.
+set showbreak=\ ↪                   " Start wrapped lines with this.
 set scrolloff=10                    " Begin scrolling up and down earlier.
 set sidescrolloff=6                 " Begin scrolling sideways earlier.
 set wrapmargin=0                    " Wrap in chars-to-the-right if textwidth is 0.
@@ -1950,9 +1921,9 @@ set wrapmargin=0                    " Wrap in chars-to-the-right if textwidth is
 set breakindent                     " Continue wrapped lines' indentation.
 set breakindentopt=sbr              " Use showbreak.
 set copyindent                      " Continue with same indentation.
-set fillchars=vert:│,fold:\ ,stl:\ ,stlnc:\ ,diff:⣿
+set fillchars+=fold:\ ,vert:│       " Use these characters for special areas.
+set fillchars+=stl:\ ,stlnc:\ ,diff:⣿
 set nopreserveindent                " Reconstruct indentation upon changing.
-set showbreak=\ ↪
 set smartindent                     " Indent C-like languages.
 
 set expandtab                       " Use spaces instead of tab.
@@ -1979,7 +1950,7 @@ set wildignore=*.exe
 set wildignore+=*.class
 set wildignore+=*.pyc
 
-" Color scheme .......................................................... {{{1
+" Color scheme ...........................................................{{{1
 
 set guifont=FiraCode\ Nerd\ Font\ Mono:h12
 set guicursor=a:block-blinkwait1000-blinkon500-blinkoff500,i-ci:hor15
