@@ -960,48 +960,20 @@ if has_key(plugs, 'nvim-treesitter')
         require"nvim-treesitter.configs".setup {
             ensure_installed = "maintained",
             highlight = {
-                enable = true,
-                use_languagetree = true,
-            },
-            indent = {
-                enable = true,
-            },
-            rainbow = {
-                enable = true,
-                extended_mode = true,
-            },
-            refactor = {
-                highlight_current_scope = {
-                    enable = true,
-                },
-                highlight_definitions = {
-                    enable = true,
-                },
-                smart_rename = {
-                    enable = true,
-                    keymaps = {
-                        smart_rename = 'grr',
-                    },
-                },
-                navigation = {
-                    enable = true,
-                    keymaps = {
-                        goto_definition = 'gnd',
-                        list_definitions = 'gnD',
-                        list_definitions_toc = 'gO',
-                        goto_next_usage = '<a-*>',
-                        goto_previous_usage = '<a-#>',
-                    },
-                },
+                enable = false,
+                additional_vim_regex_highlighting = false,
             },
             incremental_selection = {
-                enable = true,
+                enable = false ,
                 keymaps = {
                     init_selection = "gnn",
                     node_incremental = "grn",
                     scope_incremental = "grc",
                     node_decremental = "grm",
                 },
+            },
+            indent = {
+                enable = false,
             },
         }
 HERE
@@ -1021,6 +993,10 @@ let g:radical_no_mappings = 1
 
 if has_key(plugs, 'nvim-lspconfig')
     lua <<HERE
+        local lspconfig = require"lspconfig"
+        local util = require"lspconfig/util"
+        local cmplsp = require"cmp_nvim_lsp"
+
         vim.fn.sign_define("LspDiagnosticsSignError", {
             -- text   = " ",
             -- texthl = "LspDiagnosticsSignError",
@@ -1070,19 +1046,6 @@ if has_key(plugs, 'nvim-lspconfig')
             " type param",  --  type parameter
         }
 
-        vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
-            if err ~= nil or result == nil then
-                return
-            end
-            if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-                local view = vim.fn.winsaveview()
-                vim.lsp.util.apply_text_edits(result, bufnr)
-                vim.fn.winrestview(view)
-                if bufnr == vim.api.nvim_get_current_buf() then
-                    vim.api.nvim_command("noautocmd :update")
-                end
-            end
-        end
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
             vim.lsp.diagnostic.on_publish_diagnostics, {
                 update_in_insert = false,
@@ -1096,6 +1059,20 @@ if has_key(plugs, 'nvim-lspconfig')
                     -- prefix = "~",
                 },
             })
+
+        vim.lsp.handlers["textDocument/formatting"] = function(err, result, ctx, config)
+            if err ~= nil or result == nil then
+                return
+            end
+            if not vim.api.nvim_buf_get_option(ctx.bufnr, "modified") then
+                local view = vim.fn.winsaveview()
+                vim.lsp.util.apply_text_edits(result, ctx.bufnr)
+                vim.fn.winrestview(view)
+                if ctx.bufnr == vim.api.nvim_get_current_buf() then
+                    vim.api.nvim_command("noautocmd :update")
+                end
+            end
+        end
 
         -- See https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp/protocol.lua#L621
         local function make_snippet_capabilities()
@@ -1138,7 +1115,9 @@ if has_key(plugs, 'nvim-lspconfig')
             end
         end
 
-        local lspconfig = require"lspconfig"
+        local function root_pattern(...)
+            return util.root_pattern(..., ".git", vim.fn.getcwd())
+        end
 
         --
         -- bashls settings
@@ -1180,6 +1159,10 @@ if has_key(plugs, 'nvim-lspconfig')
         lspconfig.dartls.setup {
             init_options = {
                 suggestFromUnimportedLibraries = true,
+                -- onlyAnalyzeProjectsWithOpenFiles = false,
+                -- closingLabels = true,
+                -- flutterOutline = true,
+                -- outline = false,
             },
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
@@ -1196,7 +1179,7 @@ if has_key(plugs, 'nvim-lspconfig')
                 lint = true,
                 unstable = true,
             },
-            root_dir = require"lspconfig/util".root_pattern('.git', vim.fn.getcwd()),
+            root_dir = root_pattern(),
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
         }
@@ -1304,7 +1287,20 @@ if has_key(plugs, 'nvim-lspconfig')
             },
             init_options = {
                 completeUnimported = true,
+                -- usePlaceholders = true,
+                -- ExperimentalPostfixCompletions = true,
+                -- LinksInHover = true,
+                -- staticcheck = true,
+                -- gofumpt = true,
+                -- analyses = {
+                    -- unusedparams = true,
+                -- },
+                -- codelenses = {
+                    -- generate = true,
+                    -- test = true,
+                -- },
             },
+            root_dir = root_pattern("go.mod"),
             on_attach = with_organize_imports(on_attach, "_G.gopls_organize_imports"),
             capabilities = make_snippet_capabilities(),
         }
@@ -1401,6 +1397,7 @@ if has_key(plugs, 'nvim-lspconfig')
                 "nightly",
                 "rust-analyzer",
             },
+            root_dir = root_pattern("Cargo.toml", "rust-project.json"),
             on_attach = on_attach,
             capabilities = make_snippet_capabilities(),
             flags = { debounce_text_changes = 150 },
