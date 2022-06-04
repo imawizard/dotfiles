@@ -96,6 +96,9 @@ let g:perl_host_prog    = '/usr/local/bin/perl'
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:ruby_host_prog    = '/usr/bin/ruby'
 
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden\ -g\ "!.git/"
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+
 let g:fzf_history_dir   = '~/.cache/fzf-history'
 
 let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
@@ -356,8 +359,10 @@ xnoremap k gk
 " Paste and keep clipboard.
 xnoremap p pgvy
 
-" Start search with 'very magic'.
+" Start search with '(very) magic'.
 nnoremap / /\v
+nnoremap ? ?\v
+cnoremap %s/ %sm//g<Left><Left>
 
 " Don't exit visual mode on shifting.
 xnoremap < <gv
@@ -382,10 +387,6 @@ inoremap <C-w> <C-g>u<C-w>
 " Respect an already typed prefix when iterating through history.
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
-
-" Diffput or diffget and navigate to next diff.
-nnoremap dp dp]c
-nnoremap do do]c
 
 " Join lines without moving the cursor.
 nnoremap J mzJ`z
@@ -498,6 +499,7 @@ endif
 augroup restore-C-m-if-readonly
     autocmd!
     autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <C-m> <C-m> | endif
+    autocmd Filetype netrw nnoremap <buffer> <C-m> <C-m>
 augroup end
 
 " Helper functions .......................................................{{{1
@@ -971,7 +973,7 @@ if has_key(plugs, 'fzf.vim')
     endfun
 
     fun! s:FzfRgWrapper(query, fullscreen) abort
-        let cmd = 'rg --hidden --column --line-number --color=always --smart-case -- %s || true'
+        let cmd = 'rg --hidden -g "!.git/" --column --line-number --color=always --smart-case -- %s || true'
         let initial = printf(cmd, shellescape(a:query))
         let reload = printf(cmd, '{q}')
         let opts = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:' . reload]}
@@ -1915,6 +1917,7 @@ endif
 " See https://github.com/preservim/nerdtree/blob/master/doc/NERDTree.txt
 
 if has_key(plugs, 'nerdtree')
+    let g:NERDTreeHijackNetrw         = 0   " Don't replace Netrw.
     let g:NERDTreeStatusline          = -1  " Don't set the statusline.
     let g:NERDTreeChDirMode           = 1   " Set cwd only when passing an argument.
     let g:NERDTreeUseTCD              = 1   " Switch cwd local to tab.
@@ -1926,6 +1929,12 @@ if has_key(plugs, 'nerdtree')
     let g:NERDTreeWinSize             = 33
     let g:NERDTreeDirArrowExpandable  = '' " Or ▸ or ▷.
     let g:NERDTreeDirArrowCollapsible = '' " Or ▾ or ◢.
+
+    let g:NERDTreeMapActivateNode     = 'l'
+    let g:NERDTreeMapCloseDir         = 'h'
+    let g:NERDTreeMapUpdir            = '<BS>'
+    let g:NERDTreeMapChangeRoot       = '<CR>'
+    let g:NERDTreeMapCustomOpen       = ''
 
     let g:NERDTreeCustomOpenArgs = {
         \     'file': {
@@ -1946,10 +1955,14 @@ if has_key(plugs, 'nerdtree')
             \ endif
     augroup end
 
+    " Skip NERDTree when switching windows.
+    nnoremap <silent> <C-w><C-w> <C-w>w:<C-r>=(&ft ==# 'nerdtree') ? "wincmd w" : ""<CR><CR>
+
     augroup nerdtree-bindings
         autocmd!
         autocmd Filetype nerdtree nnoremap <buffer> <ESC> <C-w>p
         autocmd Filetype nerdtree nmap     <buffer> <leader><leader> q<leader><leader>
+        autocmd Filetype nerdtree nmap     <buffer> <C-h> <BS>
     augroup end
 endif
 
@@ -2078,6 +2091,7 @@ endif
 
 set mouse=a                         " Enable mouse-support.
 set virtualedit+=all                " Enable putting the cursor anywhere.
+set timeoutlen=750                  " Time out on mappings.
 set ttimeout                        " Time out on Escape after...
 set ttimeoutlen=100                 " ...waiting this many ms for a special key.
 set clipboard=unnamed               " Share clipboard with system.
@@ -2112,6 +2126,8 @@ elseif has('nvim')
     set pumblend=5                  " Transparency for popup menus.
     set winblend=5                  " Transparency for floating windows.
 endif
+set diffopt+=iwhite                 " Ignore amount of whitespace.
+set diffopt+=indent-heuristic
 
 set ignorecase                      " Ignore case when searching...
 set smartcase                       " ...unless we type a capital.
@@ -2176,17 +2192,18 @@ set wildignore+=.svn/*
 set wildignore+=.hg/*
 set wildignore+=CVS/*
 set wildignore+=*/tmp/*
+set wildignore+=node_modules/*
 set wildignore+=*~
 set wildignore+=*.so
-set wildignore=*.o
-set wildignore=*.obj
-set wildignore=*.exe
+set wildignore+=*.o
+set wildignore+=*.obj
+set wildignore+=*.exe
 set wildignore+=*.class
 set wildignore+=*.pyc
 
 " Color scheme ...........................................................{{{1
 
-set guifont=FiraCode\ Nerd\ Font\ Mono:h12
+set guifont=Fira\ Code\ Light\ Nerd\ Font\ Complete\ Mono:h12
 set guicursor=a:block-blinkwait1000-blinkon500-blinkoff500,i-ci:hor15
 
 set background=light
