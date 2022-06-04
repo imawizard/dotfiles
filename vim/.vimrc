@@ -73,6 +73,20 @@ if has('nvim')
 endif
 Plug 'ryanoasis/vim-devicons'
 
+" Split explorer
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+Plug 'LumaKernel/fern-mapping-fzf.vim'
+Plug 'yuki-yano/fern-preview.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-ssh'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+if has('nvim')
+    Plug 'antoinemadec/FixCursorHold.nvim'
+endif
+
 call plug#end()
 
 " Progs and dirs .........................................................{{{1
@@ -205,6 +219,7 @@ if has_key(plugs, 'which-key.nvim')
                 name = "open",
                 o = { ":exe '!open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>",                                      "Reveal file in Finder"        },
                 O = { ":exe '!open <C-r>=fnameescape(getcwd())<CR>'<CR>",                                              "Reveal project in Finder"     },
+                f = { ":Fern <C-r>=fnameescape(expand('%:p:h'))<CR> -reveal=<C-r>=fnameescape(expand('%:p'))<CR><CR>", "Open file"                    },
                 p = { ":NERDTreeFocus<CR>",                                                                            "Project sidebar"              },
                 P = { ":NERDTreeFind<CR>",                                                                             "Find file in project sidebar" },
                 t = { ":terminal<CR>",                                                                                 "Toggle terminal popup"        },
@@ -1775,6 +1790,7 @@ if has_key(plugs, 'lightline.vim')
         let fname = expand('%:t')
         return &ft ==# 'fzf' ? 'FZF'
             \ : &ft ==# 'nerdtree' ? 'NERDTree'
+            \ : &ft ==# 'fern' ? 'Fern'
             \ : &ft ==# 'nuake' ? 'Nuake'
             \ : &ft ==# 'ctrlsf' ? 'CtrlSF'
             \ : ''
@@ -1961,6 +1977,55 @@ endif
 if has_key(plugs, 'nuake')
     let g:nuake_per_tab = 1    " Give every tab its own terminal.
     let g:nuake_size    = 0.35
+endif
+
+" Fern settings ..........................................................{{{1
+" See https://github.com/lambdalisue/fern.vim/blob/master/doc/fern.txt
+
+if has_key(plugs, 'fern.vim')
+    let g:fern#default_hidden                               = 1
+    let g:fern#default_exclude                              = 'node_modules'
+    let g:fern#renderer                                     = 'nerdfont'
+    let g:fern#renderer#nerdfont#leading                    = '│  '
+    let g:fern#renderer#nerdfont#padding                    = ' '
+    let g:fern#hide_cursor                                  = 1
+    let g:fern#keepalt_on_edit                              = 1
+    let g:fern#scheme#file#show_absolute_path_on_root_label = 1
+
+    "let g:fern_git_status#disable_ignored     = 1
+    "let g:fern_git_status#disable_untracked   = 1
+    "let g:fern_git_status#disable_submodules  = 1
+    "let g:fern_git_status#disable_directories = 1
+
+    fun! s:apply_fern_bindings() abort
+        nmap <buffer> <C-h>
+            \ <Plug>(fern-action-leave)
+            \ <Plug>(fern-wait)
+            \ <Plug>(fern-action-tcd:root)
+
+        nmap <buffer> <CR>
+            \ <Plug>(fern-action-open-or-enter)
+            \ <Plug>(fern-wait)
+            \ <Plug>(fern-action-tcd:root)
+
+        nmap <silent> <buffer>        p     <Plug>(fern-action-preview:auto:toggle)
+        nmap <silent> <buffer> <expr> <C-d> fern_preview#smart_preview("\<Plug>(fern-action-preview:scroll:down:half)", "\<C-d>")
+        nmap <silent> <buffer> <expr> <C-u> fern_preview#smart_preview("\<Plug>(fern-action-preview:scroll:up:half)",   "\<C-u>")
+        nmap <silent> <buffer>        r     <Plug>(fern-action-reload)
+        nmap <silent> <buffer>        fg    <Plug>(fern-action-grep)
+    endfun
+
+    augroup fern-bindings
+        autocmd!
+        autocmd FileType fern call <SID>apply_fern_bindings()
+    augroup end
+endif
+
+if has_key(plugs, 'glyph-palette.vim')
+    augroup glyph-palette
+        autocmd!
+        autocmd FileType nerdtree,fern call glyph_palette#apply()
+    augroup end
 endif
 
 " Vim settings ...........................................................{{{1
