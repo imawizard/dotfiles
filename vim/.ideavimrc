@@ -23,51 +23,60 @@ set idearefactormode=select
 set ideastatusicon=gray
 set ideavimsupport=
 set ideawrite=all
-"set ideastrictmode " Show IdeaVim errors
+"set ideastrictmode " Show IdeaVim errors.
 
 sethandler n:vim i:vim x:vim v:vim
 
 set argtextobj
 set commentary
+"set easymotion
+"set exchange
 set highlightedyank
+set matchit
+set multiple-cursors
 set NERDTree
+set ReplaceWithRegister
 set sneak
 set surround
 set textobj-entire
+set textobj-indent
+set vim-paragraph-motion
 
 let g:highlightedyank_highlight_duration = "200"
 let g:highlightedyank_highlight_color = "rgba(252, 232, 244, 155)"
 
-" Custom keymappings .................................................... {{{1
+" Custom keymappings .....................................................{{{1
 
-nmap              <Space><Space> <Action>(GotoFile)
-nmap              <Space>`   <Action>(JumpToLastChange)
-nmap              K          <Action>(QuickJavaDoc)
-nmap              gh         <Action>(QuickJavaDoc)
-nmap              gH         <Action>(ShowErrorDescription)
-nmap              <C-s>      <Action>(SearchEverywhere)
-nmap              [e         <Action>(GotoPreviousError)
-nmap              ]e         <Action>(GotoNextError)
+let mapleader = "\<Space>"
 
-" Buffer
-nmap              <Space>bb  <Action>(ReformatCode):w<CR><Action>(Flutter.Toolbar.ReloadAction)
-nnoremap <silent> <Space>bn  :bnext<CR>
-nnoremap <silent> <Space>bp  :bprevious<CR>
-nmap              <Space>bs  :w<CR>
-"nmap             <Space>bs  <Action>(ReformatCode):w<CR><Action>(Flutter.Toolbar.ReloadAction)
+nmap              <C-s> <Action>(SearchEverywhere)
+nmap              <C-k> <Action>(QuickJavaDoc)
+imap              <C-k> <Action>(ParameterInfo)
+nmap              <C-@> <Action>(ShowErrorDescription)
+nmap              [e    <Action>(GotoPreviousError)
+nmap              ]e    <Action>(GotoNextError)
+
+" Leader
+nmap              <leader><leader> <Action>(GotoFile)
+
+" Buffers
+nmap              <leader>bb  <Action>(RecentFiles)<Action>(SwitcherRecentEditedChangedToggleCheckBox)
+nnoremap <silent> <leader>bn  :bnext<CR>
+nnoremap <silent> <leader>bp  :bprevious<CR>
+nmap              <leader>bs  :w<CR>
 
 " Code
-nmap              <Space>ca  <Action>(ShowIntentionActions)
-nmap              <Space>cc  <Action>(Run)
-nmap              <Space>cD  <Action>(ShowUsages)
-nmap              <Space>cf  <Action>(ReformatCode)
-nmap              <Space>co  <Action>(OptimizeImports)
-nmap              <Space>cr  <Action>(Refactorings.QuickListPopupAction)
-nmap              <Space>cx  <Action>(Cargo.RunExternalLinter)
+nmap              <leader>ca  <Action>(ShowIntentionActions)
+nmap              <leader>cc  <Action>(Run)
+nmap              <leader>cD  <Action>(GotoRelated)
+nmap              <leader>cf  <Action>(ReformatCode)
+nmap              <leader>co  <Action>(OptimizeImports)
+nmap              <leader>cr  <Action>(Refactorings.QuickListPopupAction)
+nmap              <leader>cx  <Action>(Cargo.RunExternalLinter)
 
-nmap              <Space>cC  <Action>(ChooseRunConfiguration)
-nmap              <Space>cI  <Action>(InspectCode)
-nmap              <Space>cO  <Action>(CodeCleanup)
+nmap              <leader>cC  <Action>(ChooseRunConfiguration)
+nmap              <leader>cI  <Action>(InspectCode)
+nmap              <leader>cO  <Action>(CodeCleanup)
 
 " Debugger
 nmap              <Space>ds  <Action>(StepInto)
@@ -80,46 +89,47 @@ nmap              <Space>db  <Action>(ToggleLineBreakpoint)
 nmap              <Space>dB  <Action>(ViewBreakpoints)
 
 " Files
-nmap              <Space>fr  <Action>(RecentFiles)
+nmap              <leader>fr  <Action>(RecentFiles)
 
 " Git
-nmap              <Space>L   <Action>(LocalHistory.ShowHistory)
-nmap              <Space>gB  <Action>(Annotate)
+nmap              <leader>gB  <Action>(Annotate)
+nmap              <leader>gL  <Action>(LocalHistory.ShowHistory)
 
 " Open
-nmap              <Space>of  <Action>(NewElement)
-nmap              <Space>od  <Action>(Debug)
-nmap              <Space>op  :NERDTree<CR>
-nmap              <Space>oP  :NERDTreeFind<CR>
-
-nmap              <Space>or  <Action>(Rust.ConsoleREPL)
+nmap              <leader>od  <Action>(Debug)
+nmap              <leader>of  <Action>(NewElement)
+nmap              <leader>op  :NERDTree<CR>
+nmap              <leader>oP  :NERDTreeFind<CR>
 
 " Project
-nmap              <Space>pa  <Action>(OpenFile)
-nmap              <Space>pp  <Action>(RecentProjectListGroup)
-nmap              <Space>pt  <Action>(ActivateTODOToolWindow)
-nmap              <Space>pT  <Action>(RerunTests)
+nmap              <leader>pa  <Action>(OpenFile)
+nmap              <leader>pp  <Action>(RecentProjectListGroup)
+nmap              <leader>pt  <Action>(ActivateTODOToolWindow)
+nmap              <leader>pT  <Action>(RerunTests)
 
 " Search
-nmap              <Space>sd  <Action>(FindInPath)
-nmap              <Space>sD  <Action>(ReplaceInPath)
-nmap              <Space>si  <Action>(GotoSymbol)
-nmap              <Space>sj  <Action>(RecentLocations)
-nmap              <Space>sk  <Action>(SmartSearchAction)
+nmap              <leader>sd  <Action>(FindInPath)
+nmap              <leader>sD  <Action>(ReplaceInPath)
+nmap              <leader>si  <Action>(GotoSymbol)
+nmap              <leader>sj  <Action>(RecentLocations)
+nmap              <leader>sk  <Action>(SmartSearchAction)
 
 " Toggle
-nmap              <Space>td  <Action>(CompareTwoFiles)
-nnoremap          <Space>tl  :set number!<CR>
-nnoremap          <Space>tL  :set relativenumber!<CR>
-nnoremap          <Space>tw  :set wrap!<CR>
+nmap              <leader>td  <Action>(CompareTwoFiles)
+nnoremap          <leader>tl  :set number!<CR>
+nnoremap          <leader>tL  :set relativenumber!<CR>
+nnoremap          <leader>tw  :set wrap!<CR>
 
-" LSP flutter
-nmap              <Space>lfr  <Action>(Flutter.Toolbar.ReloadAction)
-nmap              <Space>lfR  <Action>(Flutter.Toolbar.RestartAction)
-nmap              <Space>lfa  <Action>(Dart.Restart.Analysis.Server)
-nmap              <Space>lfc  <Action>(flutter.clean)
-nmap              <Space>lfod <Action>(io.flutter.OpenDevToolsAction)
-nmap              <Space>lfox <Action>(flutter.xcode.open)
+" Language Flutter
+nmap              <leader>lfr  <Action>(Flutter.Toolbar.ReloadAction)
+nmap              <leader>lfR  <Action>(Flutter.Toolbar.RestartAction)
+nmap              <leader>lfa  <Action>(Dart.Restart.Analysis.Server)
+nmap              <leader>lfc  <Action>(flutter.clean)
+nmap              <leader>lfod <Action>(io.flutter.OpenDevToolsAction)
+nmap              <leader>lfox <Action>(flutter.xcode.open)
+
+" Language Rust
+nmap              <leader>lrr  <Action>(Rust.ConsoleREPL)
 
 " Move current line up and down.
 nnoremap <silent> <C-\><C-d>  :move .+1<CR>==
@@ -129,7 +139,7 @@ inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
 xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
 xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
 
-" Sanity remappings ..................................................... {{{1
+" Sanity remappings ......................................................{{{1
 
 " Move through wrapped lines.
 nnoremap j gj
@@ -169,20 +179,17 @@ inoremap <C-w> <C-g>u<C-w>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" Diffput or diffget and navigate to next diff.
-nnoremap dp dp]c
-nnoremap do do]c
-
 " Join lines without moving the cursor.
 nnoremap J mzJ`z
 
-" Compatibility remappings .............................................. {{{1
+" Compatibility remappings ...............................................{{{1
 
 " Emacs bindings in insert mode
 imap     <C-a>   <Action>(EditorLineStart)
 imap     <C-e>   <Action>(EditorLineEnd)
 inoremap <C-b>   <Left>
 inoremap <C-f>   <Right>
+" Make original C-e accessible through S-C-y.
 inoremap <S-C-y> <C-e>
 
 " Emacs bindings in command mode
@@ -190,17 +197,11 @@ cnoremap <C-b>   <Left>
 cnoremap <C-f>   <Right>
 cnoremap <C-d>   <DEL>
 
-" Fix keylayout's dead comma in insert mode
-inoremap ,, ,<Space>
-
-" Fix keylayout's unrecognized ctrl remaps
-map <C-.> <C-@>
-map <C-;> <C-^>
-map <C-,> <C-\>
-map <C-!> <C-_>
-
 " Add missing bindings
-nmap <C-^>   <Action>(JumpToLastChange)
-nmap <C-o>   <Action>(Back)
-nmap <C-i>   <Action>(Forward)
-nmap zr      <Action>(ExpandAllToLevel)
+nmap <C-^>       <S-C-6>
+nmap <C-o>       <Action>(Back)
+nmap <C-i>       <Action>(Forward)
+nmap zr          <Action>(ExpandAllToLevel)
+
+" Remap preferred key to circumflex.
+map <C-,> <C-^>
