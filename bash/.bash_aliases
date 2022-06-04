@@ -31,8 +31,10 @@ das() {
 
 # Like base64 for hex.
 hex() {
-	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: hex filename"
+	if [[ "$1" == "--help" ]]; then
+		echo "usages:"
+		echo "  hex filename"
+		echo "  echo \"abc\" | hex"
 		return 1
 	fi
 	xxd -p $@ | tr -d "\n" && echo
@@ -40,8 +42,10 @@ hex() {
 
 # Like md5 for sha1.
 sha1() {
-	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: sha1 filename"
+	if [[ "$1" == "--help" ]]; then
+		echo "usages:"
+		echo "  sha1 filename"
+		echo "  echo \"abc\" | sha1"
 		return 1
 	fi
 	shasum -a 1 $@
@@ -49,8 +53,10 @@ sha1() {
 
 # Like md5 for sha256.
 sha256() {
-	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: sha256 filename"
+	if [[ "$1" == "--help" ]]; then
+		echo "usages:"
+		echo "  sha256 filename"
+		echo "  echo \"abc\" | sha256"
 		return 1
 	fi
 	shasum -a 256 $@
@@ -58,8 +64,10 @@ sha256() {
 
 # Like md5 for sha512.
 sha512() {
-	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: sha512 filename"
+	if [[ "$1" == "--help" ]]; then
+		echo "usages:"
+		echo "  sha512 filename"
+		echo "  echo \"abc\" | sha512"
 		return 1
 	fi
 	shasum -a 512 $@
