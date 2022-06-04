@@ -145,17 +145,17 @@ down() {
 }
 
 # Disable sleep when closing the lid.
-alias clamshell-sleep-off='sudo pmset -a disablesleep 1'
-alias clamshell-sleep-on='sudo pmset -a disablesleep 0'
+alias clamshell_sleep_off='sudo pmset -a disablesleep 1'
+alias clamshell_sleep_on='sudo pmset -a disablesleep 0'
 
 # Remove the red circle indicating there's an OS update.
-hide-os-update() {
+hide_os_update() {
 	defaults delete com.apple.preferences.softwareupdate LatestMajorOSSeenByUserBundleIdentifier
 	softwareupdate --list
 }
 
 # Start an unthrottled TimeMachine backup.
-do-timemachine-backup() {
+do_timemachine_backup() {
 	if [[ "$(sysctl debug.lowpri_throttle_enabled | grep ': 1')" ]]; then
 		sudo sysctl debug.lowpri_throttle_enabled=0
 	fi
@@ -163,12 +163,12 @@ do-timemachine-backup() {
 }
 
 # Look in current dir for iCloud files to download.
-icloud-download() {
+icloud_download() {
 	find . -name '*.icloud' -exec brctl download {} \; -print
 }
 
 # Try to remove all local iCloud copies in current dir.
-icloud-evict() {
+icloud_evict() {
 	find . -not -name '*.icloud' -exec brctl evict {} \; -print
 }
 
@@ -306,21 +306,21 @@ upgrade() {
 	local t=$(date +%s)
 
 	echo " \033[30;1m[\033[35;1m•\033[30;1m]\033[32m brew\033[0m"
-	upgrade-brew
+	upgrade_brew
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m oh-my-zsh\033[0m"
-	upgrade-oh-my-zsh
+	upgrade_oh_my_zsh
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m tmux plugins\033[0m"
-	upgrade-tmux
+	upgrade_tmux
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m vim plugins\033[0m"
-	upgrade-vim
+	upgrade_vim
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m doom emacs\033[0m"
-	upgrade-doom
+	upgrade_doom
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m rust\033[0m"
-	upgrade-rust
+	upgrade_rust
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m flutter\033[0m"
-	upgrade-flutter
+	upgrade_flutter
 	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m dart\033[0m"
-	upgrade-dart
+	upgrade_dart
 
 	local took=$(($(date +%s) - $t))
 	if [[ "$took" -gt 59 ]]; then
@@ -333,7 +333,7 @@ upgrade() {
 }
 
 # Update brew and software.
-upgrade-brew() {
+upgrade_brew() {
 	if [[ $(sw_vers -productVersion) > "10.14" ]] || [[ $(sw_vers -productVersion) == "10.14" ]]; then
 		brew update
 
@@ -348,28 +348,28 @@ upgrade-brew() {
 }
 
 # Update oh my zsh.
-upgrade-oh-my-zsh() {
+upgrade_oh_my_zsh() {
 	[[ $(command -v omz) ]] || return 1
 
 	omz update --unattended
 }
 
 # Update tmux plugins.
-upgrade-tmux() {
+upgrade_tmux() {
 	[[ $(command -v tmux) ]] || return 1
 
 	~/.tmux/plugins/tpm/bin/update_plugins all
 }
 
 # Update vim plugins.
-upgrade-vim() {
+upgrade_vim() {
 	[[ $(command -v vim) ]] || return 1
 
 	vim -c 'PlugUpgrade | PlugUpdate' +qa
 }
 
 # Update doom emacs.
-upgrade-doom() {
+upgrade_doom() {
 	[[ $(command -v doom) ]] || return 1
 
 	doom upgrade
@@ -377,14 +377,14 @@ upgrade-doom() {
 }
 
 # Update rust.
-upgrade-rust() {
+upgrade_rust() {
 	[[ $(command -v rustup) ]] || return 1
 
 	rustup update
 }
 
 # Update flutter and flutter docs.
-upgrade-flutter() {
+upgrade_flutter() {
 	[[ $(command -v flutter) ]] || return 1
 
 	# update flutter
@@ -420,7 +420,7 @@ upgrade-flutter() {
 	rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/material/Icons
 }
 
-upgrade-dart() {
+upgrade_dart() {
 	[[ $(command -v dart) && $(command -v pub) ]] || return 1
 
 	pub global list | cut -d' ' -f1 | xargs -n 1 pub global activate
