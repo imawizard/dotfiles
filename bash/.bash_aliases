@@ -98,20 +98,6 @@ rand() {
 	openssl rand $mode $1
 }
 
-# Shuffle input.
-shuf() {
-	if [[ "$1" == "--help" || "$#" -lt 1 ]]; then
-		echo "usage: shuf [-e] filename or input"
-		return 1
-	fi
-	if [ "$1" == "-e" ]; then
-		shift
-		echo $@ | tr ' ' '\n' | sort -R
-	else
-		sort -R $@
-	fi
-}
-
 # Recursively reset directory and file modes.
 resetmod() {
 	echo "Do you want to recursivly reset modes for '$(pwd)' (Y/n)?"
