@@ -1,15 +1,20 @@
-# Installation
+# Dotfiles
+Residing in the iCloud ⛅ and symlinked with stow 📦
 
-My dotfiles are stored in the iCloud and symlinked with stow.
+## Installation
+To clone and apply them non-destructively (only if the destination doesn't exist
+a symlink is created) run these commands:
 
 ```sh
-cd $HOME/Library/Mobile Documents/com~apple~CloudDocs
-git clone https://github.com/imawizard/dotfiles
-cd dotfiles
+cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+git clone https://github.com/imawizard/dotfiles iaw-dotfiles
+cd iaw-dotfiles
 find . -type d -depth 1 -not -name ".*" -and -not -name "*.nostow" -exec basename {} \; | xargs stow
 ```
 
-# Software used/referenced
+## Required tools
+To install the software used by within the configs or is otherwise necessary,
+you can run this shell script:
 
 ```sh
 FORMULAE=(
@@ -103,3 +108,32 @@ if [[ $(brew ls --versions emacs-mac) ]]; then
 fi
 ```
 
+## Resources
+### Dotfiles
+- [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
+- [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
+- [fasterthanlime / Amos Wenger](https://github.com/fasterthanlime/dotfiles)
+- [FooSoft / Alexei Yatskov](https://github.com/FooSoft/dotvim)
+- [jonhoo / Jon Gjengset](https://github.com/jonhoo/configs)
+- [kalkayan / Manish Sahani](https://github.com/kalkayan/dotfiles)
+- [koekeishiya / Åsmund Vikane](https://github.com/koekeishiya/dotfiles)
+- [L3MON4D3](https://github.com/L3MON4D3/Dotfiles)
+- [Lukas Reineke](https://github.com/lukas-reineke/dotfiles)
+- [simnalamburt / Hyeon Kim](https://github.com/simnalamburt/.dotfiles)
+- [thoughtbot, inc.](https://github.com/thoughtbot/dotfiles)
+- [Tim Untersberger](https://github.com/TimUntersberger/dotfiles)
+- [VonHeikemen / Heiker](https://github.com/VonHeikemen/dotfiles)
+- [Wil Thomason](https://github.com/wbthomason/dotfiles)
+### Neovim config
+- [fannheyward / Heyward Fann](https://github.com/fannheyward/init.vim)
+- [glepnir / Raphael](https://github.com/glepnir/nvim)
+- [Joel Palmer](https://gist.github.com/joelpalmer/9db3f1cdfd463daa6d7c614ae1618fa6)
+- [kyazdani42 / Kiyan](https://github.com/kyazdani42/nvim-config)
+- [lervag / Karl Yngve Lervåg](https://github.com/lervag/dotvim)
+- [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
+### Emacs config
+- [Will Crichton](https://github.com/willcrichton/dotfiles)
+### Using stow
+- [Managing Dotfiles with GNU Stow (2016) - Hacker News](https://news.ycombinator.com/item?id=27137172)
+- [Using GNU Stow to manage your dotfiles (2012) - Hacker News](https://news.ycombinator.com/item?id=25549462)
+- [Managing dotfiles with GNU Stow - Hacker News](https://news.ycombinator.com/item?id=11515222)
