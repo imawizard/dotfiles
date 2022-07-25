@@ -405,9 +405,6 @@ inoremap <C-w> <C-g>u<C-w>
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 
-" Join lines without moving the cursor.
-nnoremap J mzJ`z
-
 " Compatibility remappings ...............................................{{{1
 
 " Emacs bindings in insert mode.
@@ -473,8 +470,8 @@ command! FocusNuake call <SID>FocusNuake()
 command! W w !sudo tee % >/dev/null
 
 " Reload and open vim config.
-command! Reload exe 'source ~/.vimrc'
-command! Editrc exe 'tabedit ~/.vimrc'
+command! Reload exe 'source ' . $MYVIMRC
+command! Editrc exe 'tabedit ' . $MYVIMRC
 
 augroup use-real-tabs-filetypes
     autocmd!
@@ -2141,9 +2138,9 @@ set completeopt+=preview            " Show extra information in preview window.
 if has('vim')
     set completeopt+=popup          " Show extra information in a popup window.
 elseif has('nvim')
-    set diffopt+=algorithm:histogram " Use a different diff-algo.
     set pumblend=5                  " Transparency for popup menus.
     set winblend=5                  " Transparency for floating windows.
+    set diffopt+=algorithm:histogram " Use a different diff-algo.
 endif
 set diffopt+=iwhite                 " Ignore amount of whitespace.
 set diffopt+=indent-heuristic
@@ -2262,3 +2259,5 @@ endif
 
 " See https://github.com/chrisbra/matchit/blob/master/doc/matchit.txt
 packadd! matchit
+
+silent! colorscheme monochromatic
