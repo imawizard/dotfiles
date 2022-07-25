@@ -91,19 +91,27 @@ call plug#end()
 
 " Progs and dirs .........................................................{{{1
 
-let g:node_host_prog    = '/usr/local/bin/node'
-let g:perl_host_prog    = '/usr/local/bin/perl'
-let g:python3_host_prog = '/usr/local/bin/python3'
-let g:ruby_host_prog    = '/usr/bin/ruby'
+if has('mac')
+    let g:node_host_prog    = '/usr/local/bin/node'
+    let g:perl_host_prog    = '/usr/local/bin/perl'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+    let g:ruby_host_prog    = '/usr/bin/ruby'
 
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden\ -g\ "!.git/"
-set grepformat=%f:%l:%c:%m,%f:%l:%m
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden\ -g\ "!.git/"
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-let g:fzf_history_dir   = '~/.cache/fzf-history'
+    let g:fzf_history_dir   = '~/.cache/fzf-history'
 
-let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
-let g:gutentags_ctags_executable_dart = '~/.pub-cache/bin/dart_ctags'
-let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
+    let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
+    let g:gutentags_ctags_executable_dart = '~/.pub-cache/bin/dart_ctags'
+    let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
+elseif has('win32')
+    let g:gutentags_ctags_executable = '%HOME%\scoop\apps\ctags\current\ctags.exe'
+    let g:node_host_prog             = '%HOME%\scoop\apps\nodejs\current\node.exe'
+    let g:perl_host_prog             = '%HOME%\scoop\apps\perl\current\perl\bin\perl.exe'
+    let g:python3_host_prog          = '%HOME%\scoop\apps\python\current\python.exe'
+    let g:ruby_host_prog             = '%HOME%\scoop\apps\ruby\current\bin\ruby.exe'
+endif
 
 " Custom keymappings .....................................................{{{1
 
@@ -1336,6 +1344,7 @@ if has_key(plugs, 'nvim-lspconfig')
         -- cssls settings
         --
         lspconfig.cssls.setup {
+            cmd = vim.fn.has("win32") and { "vscode-css-language-server.cmd", "--stdio" },
             on_attach = no_format(on_attach),
             capabilities = make_snippet_capabilities(),
         }
@@ -1517,6 +1526,7 @@ if has_key(plugs, 'nvim-lspconfig')
         -- html settings
         --
         lspconfig.html.setup {
+            cmd = vim.fn.has("win32") and { "vscode-html-language-server.cmd", "--stdio" },
             on_attach = no_format(on_attach),
             capabilities = make_snippet_capabilities(),
         }
@@ -1525,6 +1535,7 @@ if has_key(plugs, 'nvim-lspconfig')
         -- jsonls settings
         --
         lspconfig.jsonls.setup {
+            cmd = vim.fn.has("win32") and { "vscode-json-language-server.cmd", "--stdio" },
             commands = {
                 Format = {
                     function()
@@ -2211,7 +2222,9 @@ set wildignore+=*.pyc
 
 " Color scheme ...........................................................{{{1
 
-set guifont=Fira\ Code\ Light\ Nerd\ Font\ Complete\ Mono:h12
+if has('mac')
+    set guifont=Fira\ Code\ Light\ Nerd\ Font\ Complete\ Mono:h12
+endif
 set guicursor=a:block-blinkwait1000-blinkon500-blinkoff500,i-ci:hor15
 
 set background=light
