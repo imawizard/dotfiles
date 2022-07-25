@@ -74,7 +74,7 @@ endif
 Plug 'ryanoasis/vim-devicons'
 
 " Split explorer
-Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern.vim', { 'branch': 'main' }
 Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 Plug 'LumaKernel/fern-mapping-fzf.vim'
@@ -392,7 +392,7 @@ nnoremap Y y$
 nnoremap <silent> <C-l> :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 
 " Same C-m (Return) as in insert mode.
-nnoremap <C-m> o<ESC>
+nnoremap <CR> o<ESC>
 
 " Same C-j as in Emacs.
 nnoremap <C-j> i<CR><ESC>
@@ -509,8 +509,8 @@ endif
 
 augroup restore-C-m-if-readonly
     autocmd!
-    autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <C-m> <C-m> | endif
-    autocmd Filetype netrw nnoremap <buffer> <C-m> <C-m>
+    autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <CR> <CR> | endif
+    autocmd Filetype netrw nnoremap <buffer> <CR> <CR>
 augroup end
 
 " Helper functions .......................................................{{{1
@@ -1148,7 +1148,7 @@ endif
 if has_key(plugs, 'nvim-treesitter')
     lua <<HERE
         require"nvim-treesitter.configs".setup {
-            ensure_installed = "maintained",
+            ensure_installed = "all",
             highlight = {
                 enable = false,
                 additional_vim_regex_highlighting = false,
@@ -2173,6 +2173,9 @@ set showtabline=2                   " Always show tabs.
 set signcolumn=auto                 " Auto-hide sign-column.
 set splitbelow                      " HSplit to the bottom.
 set splitright                      " VSplit to the right.
+if has('nvim-0.7')
+    set laststatus=3                " Only show one statusline.
+endif
 
 set foldenable
 set foldlevelstart=1                " Automatically open only the first level of folds.
