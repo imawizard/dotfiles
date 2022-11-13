@@ -15,6 +15,8 @@ Plug 'romainl/vim-cool'               " Automatically clear search results.
 Plug 'tpope/vim-surround'             " Modify surrounding braces, quotes etc.
 if has('nvim')
     Plug 'terrortylor/nvim-comment'   " Comment with gcc and v_gc.
+else
+    Plug 'tpope/vim-commentary'
 endif
 Plug 'junegunn/vim-easy-align'        " Align with e.g. :EasyAlign */[:;]\+/.
 
@@ -77,7 +79,7 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-ssh'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
-if has('nvim')
+if has('nvim') && !has('nvim-0.9')
     Plug 'antoinemadec/FixCursorHold.nvim'
 endif
 
@@ -107,6 +109,11 @@ elseif has('win32')
     let g:perl_host_prog             = '~/scoop/apps/perl/current/perl/bin/perl.exe'
     let g:python3_host_prog          = '~/scoop/apps/python/current/python.exe'
     let g:ruby_host_prog             = '~/scoop/apps/ruby/current/bin/ruby.exe'
+
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden\ -g\ "!.git/"
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+
+    let g:fzf_history_dir = '~/.cache/fzf-history'
 endif
 
 " .........................................................................}}}
@@ -117,7 +124,7 @@ let mapleader = "\<Space>"
 
 nnoremap <silent> <C-k> :lua vim.lsp.buf.hover()<CR>
 inoremap <silent> <C-k> <C-o>:lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <C-@> :lua vim.diagnostic.open_float()<CR>
+nnoremap <silent> K     :lua vim.diagnostic.open_float()<CR>
 
 nnoremap <silent> <C-z> :FocusNuake<CR>
 inoremap <silent> <C-z> <C-o>:FocusNuake<CR>
@@ -273,15 +280,15 @@ if has_key(plugs, 'which-key.nvim')
                 f = { ":call CycleFolding()<CR>", "Cycle folding" },
                 i = {
                     name = "indentation",
-                    i = { ":set expandtab!<CR>",                                     "Toggle indent"                   },
-                    [">"] = { ":set ts=<C-r>=&ts+2<CR>|:set sw=<C-r>=&sw+2<CR><CR>", "Increase indent"                 },
-                    ["<"] = { ":set ts=<C-r>=&ts-2<CR>|:set sw=<C-r>=&sw-2<CR><CR>", "Decrease indent"                 },
-                    R = { ":<C-r>=&et ? 'Tb2Sp' : 'Sp2Tb'<CR><CR>",                  "Replace according to &expandtab" },
+                    i = { ":set expandtab!<CR>",                                    "Toggle indent", silent = false   },
+                    [">"] = { ":set ts=<C-r>=&ts+2<CR>|set sw=<C-r>=&sw+2<CR><CR>", "Increase indent"                 },
+                    ["<"] = { ":set ts=<C-r>=&ts-2<CR>|set sw=<C-r>=&sw-2<CR><CR>", "Decrease indent"                 },
+                    R = { ":<C-r>=&et ? 'Tb2Sp' : 'Sp2Tb'<CR><CR>",                 "Replace according to &expandtab" },
                 },
-                l = { ":set number!<CR>",                                                           "Line numbers"          },
-                L = { ":set relativenumber!<CR>",                                                   "Relative line numbers" },
-                v = { ":set <C-r>=&ve =~# 'all' ? 'virtualedit-=all' : 'virtualedit+=all'<CR><CR>", "Virtual editing"       },
-                w = { ":set wrap!<CR>",                                                             "Soft line wrapping"    },
+                l = { ":set number!<CR>",                                                           "Line numbers",          silent = false },
+                L = { ":set relativenumber!<CR>",                                                   "Relative line numbers", silent = false },
+                v = { ":set <C-r>=&ve =~# 'all' ? 'virtualedit-=all' : 'virtualedit+=all'<CR><CR>", "Virtual editing",       silent = false },
+                w = { ":set wrap!<CR>",                                                             "Soft line wrapping",    silent = false },
             },
             ["<leader>w"] = {
                 name = "workspace",
@@ -338,6 +345,27 @@ if has_key(plugs, 'which-key.nvim')
                 },
             },
         }, { mode = "x" })
+
+        whichkey.register({
+            ["<C-x>"] = {
+                ["<C-e>"] = { "<C-x><C-e>", "Scroll window one line up"    },
+                ["<C-y>"] = { "<C-x><C-y>", "Scroll window one line down"  },
+                ["<C-d>"] = { "<C-x><C-d>", "Complete definition"          },
+                ["<C-f>"] = { "<C-x><C-f>", "Complete filename"            },
+                ["<C-]>"] = { "<C-x><C-]>", "Complete tag"                 },
+                ["<C-i>"] = { "<C-x><C-i>", "Complete keyword"             },
+                ["<C-t>"] = { "<C-x><C-t>", "Complete with thesaurus"      },
+                ["<C-k>"] = { "<C-x><C-k>", "Complete with dictionary"     },
+                ["<C-n>"] = { "<C-x><C-n>", "Complete keyword (forwards)"  },
+                ["<C-p>"] = { "<C-x><C-p>", "Complete keyword (backwards)" },
+                ["<C-l>"] = { "<C-x><C-l>", "Complete line"                },
+                ["<C-s>"] = { "<C-x><C-s>", "Complete with spell checking" },
+                ["s"]     = { "<C-x>s",     "Complete with spell checking" },
+                ["<C-o>"] = { "<C-x><C-o>", "Omni completion"              },
+                ["<C-u>"] = { "<C-x><C-u>", "User defined completion"      },
+                ["<C-v>"] = { "<C-x><C-v>", "Complete vim command"         },
+            },
+        }, { mode = "i" })
 HERE
 endif
 
@@ -529,8 +557,9 @@ fun! s:AppendModeline() abort
     " Other examples:  vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
     "                  vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
     "                  vim:tw=78:sw=4:noet:ts=8:ft=help:norl:
-    let opts = printf(" vim: set tw=%d ts=%d sw=%d %set: ",
+    let opts = printf(" vim: set tw=%d%s ts=%d sw=%d %set: ",
         \ &textwidth,
+        \ &wrap ? ' wrap' : '',
         \ &tabstop,
         \ &shiftwidth,
         \ &expandtab ? '' : 'no'
@@ -559,7 +588,7 @@ fun! s:FocusNuake() abort
 endfun
 
 " Does preceding text exist?
-fun! s:CanComplete() abort
+fun! CanComplete() abort
     let col = col('.') - 1
     return col != 0 && getline('.')[col - 1] !~ '\s'
 endfun
@@ -584,9 +613,9 @@ fun! CycleDiffAlgo()
     for i in range(0, len(algos)-1)
         let algo = algos[i]
         if current =~ algo
-            let newalgo = algos[(i+1)%len(algos)]
-            exe 'set diffopt-=' .. algo
-            exe 'set diffopt+=' .. newalgo
+            let newalgo = algos[(i+1) % len(algos)]
+            exe 'setlocal diffopt-=' .. algo
+            exe 'setlocal diffopt+=' .. newalgo
             echo 'Diff algo set to ' . newalgo
             return
         endif
@@ -1710,7 +1739,6 @@ if has_key(plugs, 'trouble.nvim')
     lua <<HERE
         require"trouble".setup {
             height = 13,
-            indent_lines = true,
             action_keys = {
                 -- Unmap q
                 close = {},
@@ -1793,8 +1821,6 @@ if has_key(plugs, 'lightline.vim')
     set noshowmode " Current mode is already shown in lightline.
 
     fun! s:CurrentMode() abort
-        " TODO: Use active buffer from tab with getbufvar(x, '&ft').
-        let fname = expand('%:t')
         return &ft ==# 'fzf' ? 'FZF'
             \ : &ft ==# 'nerdtree' ? 'NERDTree'
             \ : &ft ==# 'fern' ? 'Fern'
@@ -1894,33 +1920,12 @@ if has_key(plugs, 'lightline.vim')
             let filename = cmode
         endif
 
-        " Don't switch between file and wd thus return here.
         let wd = fnamemodify(getcwd(-1, a:index), ':~:t')
         let suffix = !empty(wd) ? ' - ' . wd : ''
-        return printf('%d %s%s', lightline#tab#tabnum(a:index), filename, suffix)
-
-        let wd = '❨' . fnamemodify(getcwd(-1, a:index), ':~:t') . '❩'
-        if a:active
-            let front = filename
-            let back = wd
-        else
-            let front = wd
-            let back = filename
-        endif
-
-        let diff = max([strchars(back) - strchars(front), 0])
-        let left = float2nr(ceil(diff / 2))
-        let right = left + and(diff, 1)
-        if extra > 0 && right > 0
-            let left += extra
-            let right -= extra
-        endif
-
-        return printf('%s%d %s%s',
-            \ repeat(' ', left),
+        return printf('%d %s%s',
             \ lightline#tab#tabnum(a:index),
-            \ front,
-            \ repeat(' ', right))
+            \ filename,
+            \ suffix)
     endfun
 endif
 
@@ -2137,7 +2142,7 @@ set undolevels=2000                 " Increase possible undos.
 set sessionoptions-=tabpages        " Only save the current tab in sessions.
 set fileformats=unix,dos,mac        " Use Unix as the standard file type.
 
-set completeopt+=menuone            " Show even if only one match.
+set completeopt-=menuone            " Don't show if only one match.
 set completeopt+=noselect           " No automatic selection.
 set completeopt+=noinsert           " Only insert on confirmation.
 set completeopt+=preview            " Show extra information in preview window.
@@ -2147,9 +2152,12 @@ elseif has('nvim')
     set pumblend=5                  " Transparency for popup menus.
     set winblend=5                  " Transparency for floating windows.
     set diffopt+=algorithm:histogram " Use a different diff-algo.
+    set diffopt+=iwhite             " Ignore amount of whitespace.
+    set diffopt+=hiddenoff          " Turn off diffing when hidden.
 endif
-set diffopt+=iwhite                 " Ignore amount of whitespace.
-set diffopt+=indent-heuristic
+if has('nvim-0.3.2') || has('patch-8.1.0360') && !has('mac') " See https://github.com/agude/dotfiles/issues/2#issuecomment-843639956
+    set diffopt+=indent-heuristic
+endif
 
 set ignorecase                      " Ignore case when searching...
 set smartcase                       " ...unless we type a capital.
@@ -2173,7 +2181,7 @@ set shortmess+=c                    " Don't show completion messages.
 set shortmess-=l                    " Use "lines, bytes" instead of "L, B".
 set showmatch                       " Highlight matching [{()}].
 set showtabline=2                   " Always show tabs.
-set signcolumn=auto                 " Auto-hide sign-column.
+set signcolumn=yes                  " Show sign-column.
 set splitbelow                      " HSplit to the bottom.
 set splitright                      " VSplit to the right.
 if has('nvim-0.7')
@@ -2188,13 +2196,14 @@ set listchars+=tab:\|\ ,space:·     " Use these for hidden characters.
 set listchars+=trail:\ ,nbsp:␣
 set listchars+=extends:↷,precedes:↶
 set nowrap                          " Don't fit lines to the window's width.
-set showbreak=\ ↪                   " Start wrapped lines with this.
+set linebreak                       " If wrapping, break at specific chars.
+set showbreak=↪\                    " Start wrapped lines with this.
 set scrolloff=10                    " Begin scrolling up and down earlier.
 set sidescrolloff=6                 " Begin scrolling sideways earlier.
 set wrapmargin=0                    " Wrap in chars-to-the-right if textwidth is 0.
 
 set breakindent                     " Continue wrapped lines' indentation.
-set breakindentopt=sbr              " Use showbreak.
+set breakindentopt+=sbr             " Enable using showbreak's value.
 set copyindent                      " Continue with same indentation.
 set fillchars+=fold:\ ,vert:│       " Use these characters for special areas.
 set fillchars+=stl:\ ,stlnc:\ ,diff:⣿
@@ -2252,7 +2261,7 @@ endif
 " See :help matchit.txt
 packadd! matchit
 
-silent! colorscheme monochromatic
+colorscheme monochromatic
 
 " .........................................................................}}}
 
