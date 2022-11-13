@@ -89,6 +89,8 @@ endif
 
 call plug#end()
 
+" .........................................................................}}}
+
 " Progs and dirs .........................................................{{{1
 
 if has('mac')
@@ -100,18 +102,20 @@ if has('mac')
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden\ -g\ "!.git/"
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-    let g:fzf_history_dir   = '~/.cache/fzf-history'
+    let g:fzf_history_dir = '~/.cache/fzf-history'
 
     let g:gutentags_ctags_executable      = '/usr/local/bin/ctags'
     let g:gutentags_ctags_executable_dart = '~/.pub-cache/bin/dart_ctags'
     let s:z_sh_prog                       = '/usr/local/etc/profile.d/z.sh'
 elseif has('win32')
-    let g:gutentags_ctags_executable = '%HOME%\scoop\apps\ctags\current\ctags.exe'
-    let g:node_host_prog             = '%HOME%\scoop\apps\nodejs\current\node.exe'
-    let g:perl_host_prog             = '%HOME%\scoop\apps\perl\current\perl\bin\perl.exe'
-    let g:python3_host_prog          = '%HOME%\scoop\apps\python\current\python.exe'
-    let g:ruby_host_prog             = '%HOME%\scoop\apps\ruby\current\bin\ruby.exe'
+    let g:gutentags_ctags_executable = '~/scoop/apps/universal-ctags/current/ctags.exe'
+    let g:node_host_prog             = '~/scoop/apps/nodejs/current/node.exe'
+    let g:perl_host_prog             = '~/scoop/apps/perl/current/perl/bin/perl.exe'
+    let g:python3_host_prog          = '~/scoop/apps/python/current/python.exe'
+    let g:ruby_host_prog             = '~/scoop/apps/ruby/current/bin/ruby.exe'
 endif
+
+" .........................................................................}}}
 
 " Custom keymappings .....................................................{{{1
 
@@ -293,13 +297,13 @@ if has_key(plugs, 'which-key.nvim')
             },
             ["<C-h>"] = {
                 name = "help",
-                r = {
-                    name = "reload",
-                    r = { ":Reload<CR>", ".vimrc", silent = false },
-                },
                 b = {
                     name = "bindings",
                     b = { ":Maps<CR>", "Show all" },
+                },
+                r = {
+                    name = "reload",
+                    r = { ":Reload<CR>", ".vimrc", silent = false },
                 },
             },
             ["[e"] = { ":lua vim.diagnostic.goto_prev()<CR>", "Previous error" },
@@ -365,6 +369,8 @@ inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
 xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
 xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
 
+" .........................................................................}}}
+
 " Sanity remappings ......................................................{{{1
 
 " Move through wrapped lines.
@@ -405,6 +411,8 @@ inoremap <C-w> <C-g>u<C-w>
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 
+" .........................................................................}}}
+
 " Compatibility remappings ...............................................{{{1
 
 " Emacs bindings in insert mode.
@@ -441,6 +449,8 @@ tnoremap <expr> <C-d>  <SID>CanPressDelete() ? "\<Del>" : "\<C-d>"
 tnoremap <silent> <C-w><C-w> <C-\><C-n><C-w><C-w>
 tnoremap <silent> <C-w>j     <C-\><C-n><C-w>w
 tnoremap <silent> <C-w>k     <C-\><C-n><C-w>W
+
+" .........................................................................}}}
 
 " Custom commands ........................................................{{{1
 
@@ -484,7 +494,7 @@ augroup end
 
 augroup close-preview-after-completion
     autocmd!
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
+    autocmd InsertLeave,CompleteDone * if !pumvisible() | silent! pclose | endif
 augroup end
 
 augroup autosave-like-intellij
@@ -509,6 +519,8 @@ augroup restore-C-m-if-readonly
     autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <CR> <CR> | endif
     autocmd Filetype netrw nnoremap <buffer> <CR> <CR>
 augroup end
+
+" .........................................................................}}}
 
 " Helper functions .......................................................{{{1
 
@@ -593,8 +605,7 @@ fun! CycleDiffAlgo()
     endfor
 endfun
 
-" Encoding functions .....................................................{{{1
-" Taken from tpope's vim-unimpaired.
+" Encoding functions (taken from tpope's vim-unimpaired)
 
 fun! TransformSel(func) abort
     let old_sel = &selection
@@ -783,12 +794,15 @@ fun! s:xml_entity_decode(str) abort
     return substitute(str, '\c&amp;', '\&', 'g')
 endfun
 
-" vim-repeat settings ....................................................{{{1
+" .........................................................................}}}
+
+" Plugin settings ........................................................{{{1
+
 " See https://github.com/tpope/vim-repeat
+if has_key(plugs, 'vim-repeat')
+endif
 
-" vim-asterisk settings ..................................................{{{1
 " See https://github.com/haya14busa/vim-asterisk/blob/master/doc/asterisk.txt
-
 if has_key(plugs, 'vim-asterisk')
     let g:asterisk#keeppos = 1 " Stay in the same column.
 
@@ -804,14 +818,13 @@ if has_key(plugs, 'vim-asterisk')
     map gz# <Plug>(asterisk-gz#)
 endif
 
-" vim-lastplace settings .................................................{{{1
 " See https://github.com/farmergreg/vim-lastplace/blob/master/doc/vim-lastplace.txt
+if has_key(plugs, 'vim-lastplace')
+endif
 
-" Quick-scope settings ...................................................{{{1
 " See https://github.com/unblevable/quick-scope/blob/master/doc/quick-scope.txt
 " For fixing interaction with sneak,
 " see https://github.com/unblevable/quick-scope/issues/55#issuecomment-629721429
-
 if has_key(plugs, 'quick-scope')
     let g:qs_highlight_on_keys = ['f', 'F', 't', 'T'] " Highlight after pressing those keys.
 
@@ -822,9 +835,7 @@ if has_key(plugs, 'quick-scope')
     augroup end
 endif
 
-" Sneak settings .........................................................{{{1
 " See https://github.com/justinmk/vim-sneak/blob/master/doc/sneak.txt
-
 if has_key(plugs, 'vim-sneak')
     let g:sneak#label = 1 " Show labels like EasyMotion.
 
@@ -835,55 +846,56 @@ if has_key(plugs, 'vim-sneak')
     augroup end
 endif
 
-" vim-cool settings ......................................................{{{1
 " See https://github.com/romainl/vim-cool
+if has_key(plugs, 'vim-cool')
+endif
 
-" nvim-comment settings ..................................................{{{1
+" See https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
+if has_key(plugs, 'vim-surround')
+endif
+
 " See https://github.com/terrortylor/nvim-comment
-
 if has_key(plugs, 'nvim-comment')
     lua require"nvim_comment".setup { marker_padding = false }
 endif
 
-" EasyAlign settings .....................................................{{{1
 " See https://github.com/junegunn/vim-easy-align/blob/master/doc/easy_align.txt
-
 if has_key(plugs, 'vim-easy-align')
     let g:easy_align_delimiters = {
-        \     't': {
-        \         'pattern': "\t",
-        \         'left_margin': 0,
-        \         'right_margin': 0,
-        \         'stick_to_left': 1,
-        \     },
-        \     '\': {
-        \         'pattern': '\',
-        \         'left_margin': 0,
-        \         'right_margin': 0,
-        \         'stick_to_left': 1,
-        \     },
-        \     '-': {
-        \         'pattern': '\-\+',
-        \         'delimiter_align': "l",
-        \         'ignore_groups': ["!Comment"],
-        \     },
-        \     'd': {
-        \         'pattern': '\d\+',
-        \         'delimiter_align': 'r',
-        \         'left_margin': 1,
-        \         'right_margin': 1,
-        \         'stick_to_left': 0,
-        \         'ignore_groups': [],
-        \     },
-        \     'j': {
-        \         'pattern': ':\|,',
-        \         'align': 'r',
-        \         'delimiter_align': 'c',
-        \         'left_margin': 1,
-        \         'right_margin': 1,
-        \         'stick_to_left': 0,
-        \         'ignore_groups': [],
-        \     },
+        \   't': {
+        \     'pattern': "\t",
+        \     'left_margin': 0,
+        \     'right_margin': 0,
+        \     'stick_to_left': 1,
+        \   },
+        \   '\': {
+        \     'pattern': '\',
+        \     'left_margin': 0,
+        \     'right_margin': 0,
+        \     'stick_to_left': 1,
+        \   },
+        \   '-': {
+        \     'pattern': '\-\+',
+        \     'delimiter_align': 'l',
+        \     'ignore_groups': ['!Comment'],
+        \   },
+        \   'd': {
+        \     'pattern': '\d\+',
+        \     'delimiter_align': 'r',
+        \     'left_margin': 1,
+        \     'right_margin': 1,
+        \     'stick_to_left': 0,
+        \     'ignore_groups': [],
+        \   },
+        \   'j': {
+        \     'pattern': ':\|,',
+        \     'align': 'r',
+        \     'delimiter_align': 'c',
+        \     'left_margin': 1,
+        \     'right_margin': 1,
+        \     'stick_to_left': 0,
+        \     'ignore_groups': [],
+        \   },
         \ }
 
     nmap gl <Plug>(EasyAlign)
@@ -891,30 +903,25 @@ if has_key(plugs, 'vim-easy-align')
     xmap .  <Plug>(EasyAlignRepeat)
 endif
 
-" argtextobj.vim settings ................................................{{{1
 " See https://github.com/vim-scripts/argtextobj.vim
+if has_key(plugs, 'argtextobj.vim')
+endif
 
-" CamelCaseMotion settings ...............................................{{{1
 " See https://github.com/bkad/CamelCaseMotion/blob/master/doc/camelcasemotion.txt
-
 if has_key(plugs, 'CamelCaseMotion')
     let g:camelcasemotion_key = '\'
 endif
 
-" vim-textobj-quotes settings ............................................{{{1
 " See https://github.com/beloglazov/vim-textobj-quotes/blob/master/doc/textobj-quotes.txt
-
 if has_key(plugs, 'vim-textobj-quotes')
     " Shortcut for the inner quote text object.
     omap q iq
     xmap q iq
 endif
 
-" fzf.vim settings  ......................................................{{{1
 " See https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt
 " and https://github.com/junegunn/fzf/blob/master/doc/fzf.txt
 " and https://github.com/junegunn/fzf/blob/master/man/man1/fzf.1
-
 if has_key(plugs, 'fzf.vim')
     let $FZF_DEFAULT_COMMAND = 'fd -t f -H -E ".git" -E ".DS_Store"'
     let $FZF_DEFAULT_OPTS    = '--layout=reverse'
@@ -943,12 +950,12 @@ if has_key(plugs, 'fzf.vim')
         \ }
 
     let g:fzf_layout = {
-        \     'window': {
-        \         'width': 0.5,
-        \         'height': 0.7,
-        \         'xoffset': 0.6,
-        \         'yoffset': 0.5,
-        \     },
+        \   'window': {
+        \     'width': 0.5,
+        \     'height': 0.7,
+        \     'xoffset': 0.6,
+        \     'yoffset': 0.5,
+        \   },
         \ }
 
     let g:fzf_colors = {
@@ -1039,9 +1046,7 @@ if has_key(plugs, 'fzf.vim')
     command! -nargs=* -bang Jumplist call <SID>FzfJumpWrapper(<q-args>,  <bang>0)
 endif
 
-" CtrlSF settings ........................................................{{{1
 " See https://github.com/dyng/ctrlsf.vim/blob/master/doc/ctrlsf.txt
-
 if has_key(plugs, 'ctrlsf.vim')
     let g:ctrlsf_winsize          = '40%'
     let g:ctrlsf_position         = 'bottom' " Open below.
@@ -1058,12 +1063,11 @@ if has_key(plugs, 'ctrlsf.vim')
         \ }
 endif
 
-" Fugitive settings ......................................................{{{1
 " See https://github.com/tpope/vim-fugitive/blob/master/doc/fugitive.txt
+if has_key(plugs, 'vim-fugitive')
+endif
 
-" Gutentags settings .....................................................{{{1
 " See https://github.com/ludovicchabant/vim-gutentags/blob/master/doc/gutentags.txt
-
 if has_key(plugs, 'vim-gutentags')
     let g:gutentags_project_root        = ['tags'] " Use the nearest tags-file.
     let g:gutentags_init_user_func      = 'GutentagsInitUserFunc' " Only activate if there already is a tags-file.
@@ -1095,9 +1099,7 @@ if has_key(plugs, 'vim-gutentags')
     endfun
 endif
 
-" Dash settings ..........................................................{{{1
 " See https://github.com/rizzatti/dash.vim/blob/master/doc/dash.txt
-
 if has_key(plugs, 'dash.vim')
     let g:dash_activate = 1 " Whether Dash.app gets focussed.
 
@@ -1106,28 +1108,20 @@ if has_key(plugs, 'dash.vim')
         \ }
 endif
 
-" Dart settings ..........................................................{{{1
 " See https://github.com/dart-lang/dart-vim-plugin/blob/master/doc/dart.txt
-
 let g:dart_format_on_save = 1
 let g:dart_style_guide    = 2
 let dart_html_in_string   = v:true
 "let g:lsc_auto_map       = v:true
 
-" Go settings ............................................................{{{1
 " See https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt
-
 let g:go_fmt_command         = 'gofumports'
 let g:go_def_mapping_enabled = 0
 
-" Rust settings ..........................................................{{{1
 " See https://github.com/rust-lang/rust.vim/blob/master/doc/rust.txt
-
 let g:rustfmt_autosave = 0
 
-" vim-test settings ......................................................{{{1
 " See https://github.com/vim-test/vim-test/blob/master/doc/test.txt
-
 if has_key(plugs, 'vim-test')
     let g:test#preserve_screen        = 0
     if has('nvim')
@@ -1139,9 +1133,7 @@ if has_key(plugs, 'vim-test')
     endif
 endif
 
-" Treesitter settings ....................................................{{{1
 " See https://github.com/nvim-treesitter/nvim-treesitter/blob/master/doc/nvim-treesitter.txt
-
 if has_key(plugs, 'nvim-treesitter')
     lua <<HERE
         require"nvim-treesitter.configs".setup {
@@ -1166,18 +1158,18 @@ if has_key(plugs, 'nvim-treesitter')
 HERE
 endif
 
-" Radical.vim settings ...................................................{{{1
 " See https://github.com/glts/vim-radical/blob/master/doc/radical.txt
+if has_key(plugs, 'vim-radical')
 let g:radical_no_mappings = 1
+endif
 
-" Crunch settings ........................................................{{{1
 " See https://github.com/arecarn/vim-crunch/blob/master/doc/crunch.txt
+if has_key(plugs, 'vim-crunch')
+endif
 
-" LSP settings ...........................................................{{{1
 " See https://github.com/neovim/nvim-lspconfig/blob/master/doc/lspconfig.txt
 " and https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 " and https://neovim.io/doc/user/lsp.html
-
 if has_key(plugs, 'nvim-lspconfig')
     lua <<HERE
         local lspconfig = require"lspconfig"
@@ -1652,14 +1644,12 @@ if has_key(plugs, 'nvim-lspconfig')
 HERE
 endif
 
-" nvim-cmp ...............................................................{{{1
 " See https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
 " also https://github.com/hrsh7th/cmp-nvim-lsp
 "      https://github.com/hrsh7th/cmp-buffer
 "      https://github.com/hrsh7th/cmp-cmdline
 "      https://github.com/hrsh7th/cmp-path
 "      https://github.com/saadparwaiz1/cmp_luasnip
-
 if has_key(plugs, 'nvim-cmp')
     lua <<HERE
         local cmp = require"cmp"
@@ -1708,9 +1698,7 @@ if has_key(plugs, 'nvim-cmp')
 HERE
 endif
 
-" Trouble settings .......................................................{{{1
 " See https://github.com/folke/trouble.nvim
-
 if has_key(plugs, 'trouble.nvim')
     lua <<HERE
         require"trouble".setup {
@@ -1728,66 +1716,64 @@ HERE
     augroup end
 endif
 
-" Lightline settings .....................................................{{{1
 " See https://github.com/itchyny/lightline.vim/blob/master/doc/lightline.txt
-
 if has_key(plugs, 'lightline.vim')
     let g:lightline = {
-        \     'colorscheme': 'one',
-        \     'active': {
-        \         'left': [
-        \             ['mode', 'paste'],
-        \             ['readonly', 'relativepath', 'gutentags'],
-        \             ['gitbranch'],
-        \         ],
-        \         'right': [
-        \             ['percent'],
-        \             ['fileformat', 'fileencoding', 'filetype'],
-        \             ['lineinfo'],
-        \             ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
-        \         ],
-        \     },
-        \     'inactive': {
-        \         'left': [
-        \             [],
-        \             ['filename'],
-        \         ],
-        \         'right': [
-        \             [],
-        \             ['percent'],
-        \             ['lineinfo'],
-        \         ],
-        \     },
-        \     'tab': {
-        \         'active':   ['tabtitle_active'],
-        \         'inactive': ['tabtitle_inactive'],
-        \     },
-        \     'tabline': {
-        \         'right': [[]],
-        \     },
-        \     'component_function': {
-        \         'mode':         'LightlineMode',
-        \         'readonly':     'LightlineReadonly',
-        \         'filename':     'LightlineFilename',
-        \         'relativepath': 'LightlineRelativePath',
-        \         'fileformat':   'LightlineFileformat',
-        \         'fileencoding': 'LightlineFileencoding',
-        \         'filetype':     'LightlineFiletype',
-        \         'gitbranch':    'LightlineGitBranch',
-        \         'gitdiffs':     'LightlineGitStatus',
-        \         'gutentags':    'gutentags#statusline',
-        \     },
-        \     'component_type': {
-        \         'linter_checking': 'right',
-        \         'linter_infos':    'right',
-        \         'linter_warnings': 'warning',
-        \         'linter_errors':   'error',
-        \         'linter_ok':       'right',
-        \     },
-        \     'tab_component_function': {
-        \         'tabtitle_active':   'LightlineActiveTab',
-        \         'tabtitle_inactive': 'LightlineInactiveTab',
-        \     },
+        \   'colorscheme': 'one',
+        \   'active': {
+        \     'left': [
+        \       ['mode', 'paste'],
+        \       ['readonly', 'relativepath', 'gutentags'],
+        \       ['gitbranch'],
+        \     ],
+        \     'right': [
+        \       ['percent'],
+        \       ['fileformat', 'fileencoding', 'filetype'],
+        \       ['lineinfo'],
+        \       ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
+        \     ],
+        \   },
+        \   'inactive': {
+        \     'left': [
+        \       [],
+        \       ['filename'],
+        \     ],
+        \     'right': [
+        \       [],
+        \       ['percent'],
+        \       ['lineinfo'],
+        \     ],
+        \   },
+        \   'tab': {
+        \     'active':   ['tabtitle_active'],
+        \     'inactive': ['tabtitle_inactive'],
+        \   },
+        \   'tabline': {
+        \     'right': [[]],
+        \   },
+        \   'component_function': {
+        \     'mode':         'LightlineMode',
+        \     'readonly':     'LightlineReadonly',
+        \     'filename':     'LightlineFilename',
+        \     'relativepath': 'LightlineRelativePath',
+        \     'fileformat':   'LightlineFileformat',
+        \     'fileencoding': 'LightlineFileencoding',
+        \     'filetype':     'LightlineFiletype',
+        \     'gitbranch':    'LightlineGitBranch',
+        \     'gitdiffs':     'LightlineGitStatus',
+        \     'gutentags':    'gutentags#statusline',
+        \   },
+        \   'component_type': {
+        \     'linter_checking': 'right',
+        \     'linter_infos':    'right',
+        \     'linter_warnings': 'warning',
+        \     'linter_errors':   'error',
+        \     'linter_ok':       'right',
+        \   },
+        \   'tab_component_function': {
+        \     'tabtitle_active':   'LightlineActiveTab',
+        \     'tabtitle_inactive': 'LightlineInactiveTab',
+        \   },
         \ }
 
     augroup refresh-lightline
@@ -1929,9 +1915,7 @@ if has_key(plugs, 'lightline.vim')
     endfun
 endif
 
-" NERDTree settings ......................................................{{{1
 " See https://github.com/preservim/nerdtree/blob/master/doc/NERDTree.txt
-
 if has_key(plugs, 'nerdtree')
     let g:NERDTreeHijackNetrw         = 0   " Don't replace Netrw.
     let g:NERDTreeStatusline          = -1  " Don't set the statusline.
@@ -1953,12 +1937,12 @@ if has_key(plugs, 'nerdtree')
     let g:NERDTreeMapCustomOpen       = ''
 
     let g:NERDTreeCustomOpenArgs = {
-        \     'file': {
-        \         'reuse': 'currenttab',
-        \         'where': 'p',
-        \         'keepopen': '0',
-        \         'stay': '0',
-        \     },
+        \   'file': {
+        \     'reuse': 'currenttab',
+        \     'where': 'p',
+        \     'keepopen': '0',
+        \     'stay': '0',
+        \   },
         \ }
 
     augroup autoclose-if-last-standing
@@ -1982,9 +1966,7 @@ if has_key(plugs, 'nerdtree')
     augroup end
 endif
 
-" nerdtree-git-plugin settings ...........................................{{{1
 " See https://github.com/Xuyuanp/nerdtree-git-plugin
-
 if has_key(plugs, 'nerdtree-git-plugin')
     let g:NERDTreeGitStatusIndicatorMapCustom = {
         \ 'Modified'  : 'm',
@@ -2000,17 +1982,13 @@ if has_key(plugs, 'nerdtree-git-plugin')
         \ }
 endif
 
-" Nuake settings .........................................................{{{1
 " See https://github.com/Lenovsky/nuake/blob/master/doc/nuake.txt
-
 if has_key(plugs, 'nuake')
     let g:nuake_per_tab = 1    " Give every tab its own terminal.
     let g:nuake_size    = 0.35
 endif
 
-" Fern settings ..........................................................{{{1
 " See https://github.com/lambdalisue/fern.vim/blob/master/doc/fern.txt
-
 if has_key(plugs, 'fern.vim')
     let g:fern#default_hidden                               = 1
     let g:fern#default_exclude                              = 'node_modules'
@@ -2050,12 +2028,31 @@ if has_key(plugs, 'fern.vim')
     augroup end
 endif
 
+" See https://github.com/norcalli/nvim-colorizer.lua
+if has_key(plugs, 'nvim-colorizer.lua')
+    lua <<HERE
+    require"colorizer".setup {
+        ["*"] = {
+            RGB      = true,
+            RRGGBB   = true,
+            names    = true,
+            RRGGBBAA = true,
+        },
+        html = { css = true },
+        css  = { css = true },
+    }
+HERE
+endif
+
+" See https://github.com/lambdalisue/glyph-palette.vim/blob/master/doc/glyph-palette.txt
 if has_key(plugs, 'glyph-palette.vim')
     augroup glyph-palette
         autocmd!
         autocmd FileType nerdtree,fern call glyph_palette#apply()
     augroup end
 endif
+
+" .........................................................................}}}
 
 " Vim settings ...........................................................{{{1
 
@@ -2220,6 +2217,8 @@ set wildignore+=*.exe
 set wildignore+=*.class
 set wildignore+=*.pyc
 
+" .........................................................................}}}
+
 " Color scheme ...........................................................{{{1
 
 if has('mac')
@@ -2237,22 +2236,6 @@ if &term =~ '256color'
     set t_ut=                       " Disable Background Color Erase.
 endif
 
-" See https://github.com/norcalli/nvim-colorizer.lua
-if has_key(plugs, 'nvim-colorizer.lua')
-    lua <<HERE
-        require"colorizer".setup {
-            ['*'] = {
-                RGB      = true,
-                RRGGBB   = true,
-                names    = true,
-                RRGGBBAA = true,
-            },
-            html = { css = true },
-            css  = { css = true },
-        }
-HERE
-endif
-
 if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
@@ -2261,3 +2244,6 @@ endif
 packadd! matchit
 
 silent! colorscheme monochromatic
+
+" .........................................................................}}}
+
