@@ -12,7 +12,7 @@ Plug 'justinmk/vim-sneak'             " s{char}{char}
 Plug 'romainl/vim-cool'               " Automatically clear search results.
 
 " Extra movements
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'             " Modify surrounding braces, quotes etc.
 if has('nvim')
     Plug 'terrortylor/nvim-comment'   " Comment with gcc and v_gc.
 endif
@@ -131,7 +131,7 @@ tnoremap <silent> <C-z> <C-\><C-n>:Nuake<CR><C-w>p
 
 let g:find_todos = '(TODO|NOTE|HACK|OPTIMIZE|XXX)(\([^)]+\))?:'
 
-" See https://github.com/folke/which-key.nvim
+" See :help which-key.txt
 if has_key(plugs, 'which-key.nvim')
     lua <<HERE
         local whichkey = require"which-key"
@@ -537,16 +537,15 @@ fun! s:EditAfterZ(...) abort
 endfun
 
 fun! s:AppendModeline() abort
-    " Other format:  vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
-    "                vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
+    " Other examples:  vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
+    "                  vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
+    "                  vim:tw=78:sw=4:noet:ts=8:ft=help:norl:
     let opts = printf(" vim: set tw=%d ts=%d sw=%d %set: ",
         \ &textwidth,
         \ &tabstop,
         \ &shiftwidth,
         \ &expandtab ? '' : 'no'
         \ )
-    " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-    " files.
     let modeline = substitute(&commentstring, '%s', opts, 'g')
     call append(line("$"), modeline)
 endfun
@@ -802,7 +801,7 @@ endfun
 if has_key(plugs, 'vim-repeat')
 endif
 
-" See https://github.com/haya14busa/vim-asterisk/blob/master/doc/asterisk.txt
+" See :help asterisk.txt
 if has_key(plugs, 'vim-asterisk')
     let g:asterisk#keeppos = 1 " Stay in the same column.
 
@@ -818,13 +817,12 @@ if has_key(plugs, 'vim-asterisk')
     map gz# <Plug>(asterisk-gz#)
 endif
 
-" See https://github.com/farmergreg/vim-lastplace/blob/master/doc/vim-lastplace.txt
+" See :help vim-lastplace
 if has_key(plugs, 'vim-lastplace')
 endif
 
-" See https://github.com/unblevable/quick-scope/blob/master/doc/quick-scope.txt
-" For fixing interaction with sneak,
-" see https://github.com/unblevable/quick-scope/issues/55#issuecomment-629721429
+" See :help quick-scope.txt
+" For fixing interaction with sneak, see https://github.com/unblevable/quick-scope/issues/55#issuecomment-629721429
 if has_key(plugs, 'quick-scope')
     let g:qs_highlight_on_keys = ['f', 'F', 't', 'T'] " Highlight after pressing those keys.
 
@@ -835,7 +833,7 @@ if has_key(plugs, 'quick-scope')
     augroup end
 endif
 
-" See https://github.com/justinmk/vim-sneak/blob/master/doc/sneak.txt
+" See :help sneak.txt
 if has_key(plugs, 'vim-sneak')
     let g:sneak#label = 1 " Show labels like EasyMotion.
 
@@ -850,7 +848,7 @@ endif
 if has_key(plugs, 'vim-cool')
 endif
 
-" See https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
+" See :help surround.txt
 if has_key(plugs, 'vim-surround')
 endif
 
@@ -859,7 +857,7 @@ if has_key(plugs, 'nvim-comment')
     lua require"nvim_comment".setup { marker_padding = false }
 endif
 
-" See https://github.com/junegunn/vim-easy-align/blob/master/doc/easy_align.txt
+" See :help easy-align.txt
 if has_key(plugs, 'vim-easy-align')
     let g:easy_align_delimiters = {
         \   't': {
@@ -907,21 +905,19 @@ endif
 if has_key(plugs, 'argtextobj.vim')
 endif
 
-" See https://github.com/bkad/CamelCaseMotion/blob/master/doc/camelcasemotion.txt
+" See :help camelcasemotion.txt
 if has_key(plugs, 'CamelCaseMotion')
     let g:camelcasemotion_key = '\'
 endif
 
-" See https://github.com/beloglazov/vim-textobj-quotes/blob/master/doc/textobj-quotes.txt
+" See :help textobj-quotes.txt
 if has_key(plugs, 'vim-textobj-quotes')
     " Shortcut for the inner quote text object.
     omap q iq
     xmap q iq
 endif
 
-" See https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt
-" and https://github.com/junegunn/fzf/blob/master/doc/fzf.txt
-" and https://github.com/junegunn/fzf/blob/master/man/man1/fzf.1
+" See :help fzf-vim, :help fzf and :!man fzf
 if has_key(plugs, 'fzf.vim')
     let $FZF_DEFAULT_COMMAND = 'fd -t f -H -E ".git" -E ".DS_Store"'
     let $FZF_DEFAULT_OPTS    = '--layout=reverse'
@@ -1046,7 +1042,7 @@ if has_key(plugs, 'fzf.vim')
     command! -nargs=* -bang Jumplist call <SID>FzfJumpWrapper(<q-args>,  <bang>0)
 endif
 
-" See https://github.com/dyng/ctrlsf.vim/blob/master/doc/ctrlsf.txt
+" See :help ctrlsf.txt
 if has_key(plugs, 'ctrlsf.vim')
     let g:ctrlsf_winsize          = '40%'
     let g:ctrlsf_position         = 'bottom' " Open below.
@@ -1063,11 +1059,11 @@ if has_key(plugs, 'ctrlsf.vim')
         \ }
 endif
 
-" See https://github.com/tpope/vim-fugitive/blob/master/doc/fugitive.txt
+" See :help fugitive.txt
 if has_key(plugs, 'vim-fugitive')
 endif
 
-" See https://github.com/ludovicchabant/vim-gutentags/blob/master/doc/gutentags.txt
+" See :help gutentags.txt
 if has_key(plugs, 'vim-gutentags')
     let g:gutentags_project_root        = ['tags'] " Use the nearest tags-file.
     let g:gutentags_init_user_func      = 'GutentagsInitUserFunc' " Only activate if there already is a tags-file.
@@ -1075,11 +1071,14 @@ if has_key(plugs, 'vim-gutentags')
     let g:gutentags_generate_on_new     = 0 " Same with this one.
     let g:gutentags_file_list_command   = 'fd -t f -H -E ".git" -E ".DS_Store" .'
 
+    " For using ctags_executable_*.
     let g:gutentags_project_info = [
         \ { 'type': 'dart', 'file': 'pubspec.yaml' },
         \ ]
 
     " Activate gutentags only if there is a tags-file in cwd or project root.
+    " So the first tags-file has to be created manually (`touch tags`), after
+    " that it gets updated by gutentags on every save.
     fun! GutentagsInitUserFunc(file) abort
         try
             let tagfile = expand('%:p:h') . '/tags'
@@ -1099,7 +1098,7 @@ if has_key(plugs, 'vim-gutentags')
     endfun
 endif
 
-" See https://github.com/rizzatti/dash.vim/blob/master/doc/dash.txt
+" See :help dash.txt
 if has_key(plugs, 'dash.vim')
     let g:dash_activate = 1 " Whether Dash.app gets focussed.
 
@@ -1108,20 +1107,20 @@ if has_key(plugs, 'dash.vim')
         \ }
 endif
 
-" See https://github.com/dart-lang/dart-vim-plugin/blob/master/doc/dart.txt
+" See :help dart-vim-plugin
 let g:dart_format_on_save = 1
 let g:dart_style_guide    = 2
 let dart_html_in_string   = v:true
 "let g:lsc_auto_map       = v:true
 
-" See https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt
+" See :help vim-go.txt
 let g:go_fmt_command         = 'gofumports'
 let g:go_def_mapping_enabled = 0
 
-" See https://github.com/rust-lang/rust.vim/blob/master/doc/rust.txt
+" See :help ft_rust.txt
 let g:rustfmt_autosave = 0
 
-" See https://github.com/vim-test/vim-test/blob/master/doc/test.txt
+" See :help test.txt
 if has_key(plugs, 'vim-test')
     let g:test#preserve_screen        = 0
     if has('nvim')
@@ -1133,7 +1132,7 @@ if has_key(plugs, 'vim-test')
     endif
 endif
 
-" See https://github.com/nvim-treesitter/nvim-treesitter/blob/master/doc/nvim-treesitter.txt
+" See :help nvim-treesitter
 if has_key(plugs, 'nvim-treesitter')
     lua <<HERE
         require"nvim-treesitter.configs".setup {
@@ -1644,12 +1643,7 @@ if has_key(plugs, 'nvim-lspconfig')
 HERE
 endif
 
-" See https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
-" also https://github.com/hrsh7th/cmp-nvim-lsp
-"      https://github.com/hrsh7th/cmp-buffer
-"      https://github.com/hrsh7th/cmp-cmdline
-"      https://github.com/hrsh7th/cmp-path
-"      https://github.com/saadparwaiz1/cmp_luasnip
+" See :help nvim-cmp
 if has_key(plugs, 'nvim-cmp')
     lua <<HERE
         local cmp = require"cmp"
@@ -1698,13 +1692,14 @@ if has_key(plugs, 'nvim-cmp')
 HERE
 endif
 
-" See https://github.com/folke/trouble.nvim
+" See :help trouble.txt
 if has_key(plugs, 'trouble.nvim')
     lua <<HERE
         require"trouble".setup {
             height = 13,
             indent_lines = true,
             action_keys = {
+                -- Unmap q
                 close = {},
             },
         }
@@ -1712,11 +1707,12 @@ HERE
 
     augroup trouble-bindings
         autocmd!
-        autocmd Filetype Trouble nnoremap <buffer> q :wincmd p<Bar>TroubleClose<CR>
+        " Focus last active split instead of first when closing
+        autocmd Filetype Trouble nnoremap <silent> <buffer> q :wincmd p<Bar>TroubleClose<CR>
     augroup end
 endif
 
-" See https://github.com/itchyny/lightline.vim/blob/master/doc/lightline.txt
+" See :help lightline.txt
 if has_key(plugs, 'lightline.vim')
     let g:lightline = {
         \   'colorscheme': 'one',
@@ -1915,7 +1911,7 @@ if has_key(plugs, 'lightline.vim')
     endfun
 endif
 
-" See https://github.com/preservim/nerdtree/blob/master/doc/NERDTree.txt
+" See :help NERDTree.txt
 if has_key(plugs, 'nerdtree')
     let g:NERDTreeHijackNetrw         = 0   " Don't replace Netrw.
     let g:NERDTreeStatusline          = -1  " Don't set the statusline.
@@ -1982,13 +1978,13 @@ if has_key(plugs, 'nerdtree-git-plugin')
         \ }
 endif
 
-" See https://github.com/Lenovsky/nuake/blob/master/doc/nuake.txt
+" See :help nuake.txt
 if has_key(plugs, 'nuake')
     let g:nuake_per_tab = 1    " Give every tab its own terminal.
     let g:nuake_size    = 0.35
 endif
 
-" See https://github.com/lambdalisue/fern.vim/blob/master/doc/fern.txt
+" See :help fern.txt
 if has_key(plugs, 'fern.vim')
     let g:fern#default_hidden                               = 1
     let g:fern#default_exclude                              = 'node_modules'
@@ -2028,7 +2024,7 @@ if has_key(plugs, 'fern.vim')
     augroup end
 endif
 
-" See https://github.com/norcalli/nvim-colorizer.lua
+" See :help colorizer
 if has_key(plugs, 'nvim-colorizer.lua')
     lua <<HERE
     require"colorizer".setup {
@@ -2151,7 +2147,7 @@ if has('nvim')
     set jumpoptions=stack           " When jumping discard any later entries.
 endif
 
-set redrawtime=1500
+set redrawtime=1500                 " Max time highlighting search results can take.
 set cmdheight=2                     " Give command-line more space.
 set colorcolumn=80                  " List of highlighted columns.
 set cursorline                      " Highlight current line.
@@ -2240,7 +2236,7 @@ if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
 
-" See https://github.com/chrisbra/matchit/blob/master/doc/matchit.txt
+" See :help matchit.txt
 packadd! matchit
 
 silent! colorscheme monochromatic
