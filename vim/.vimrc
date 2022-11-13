@@ -56,12 +56,6 @@ if has('nvim')
     Plug 'saadparwaiz1/cmp_luasnip'
 endif
 
-" Calculation support
-Plug 'glts/vim-magnum'                " Dependency of vim-radical.
-Plug 'glts/vim-radical'               " Convert between numeral bases with cr.
-Plug 'arecarn/vim-selection'          " Dependency of vim-crunch.
-Plug 'arecarn/vim-crunch'             " Calculator via g=.
-
 " UI enhancements
 Plug 'itchyny/lightline.vim'          " Add a status bar.
 Plug 'preservim/nerdtree'             " Add a file explorer.
@@ -189,14 +183,13 @@ if has_key(plugs, 'which-key.nvim')
             },
             ["<leader>e"] = {
                 name = "eval/encode",
-                ["="] = { "<Plug>(crunch-operator-line)", "Evaluate equation" },
                 n = {
                     name = "number",
-                    b = { "<Plug>RadicalCoerceToBinary",  "Convert number to binary"  },
-                    d = { "<Plug>RadicalCoerceToDecimal", "Convert number to decimal" },
-                    o = { "<Plug>RadicalCoerceToOctal",   "Convert number to octal"   },
-                    p = { "<Plug>RadicalView",            "Print number"              },
-                    x = { "<Plug>RadicalCoerceToHex",     "Convert number to hex"     },
+                    b = { "ciw<C-r>=printf('0b%b', <C-r>\")<CR><ESC>", "Convert number to binary"  },
+                    d = { "ciw<C-r>=printf('%d', <C-r>\")<CR><ESC>",   "Convert number to decimal" },
+                    o = { "ciw<C-r>=printf('0o%o', <C-r>\")<CR><ESC>", "Convert number to octal"   },
+                    p = { ":echo printf('<%s> %d 0x%x 0o%o 0b%b', '<C-r><C-w>', <C-r><C-w>, <C-r><C-w>, <C-r><C-w>, <C-r><C-w>)<CR>", "Print number" },
+                    x = { "ciw<C-r>=printf('0x%x', <C-r>\")<CR><ESC>", "Convert number to hex"     },
                 },
             },
             ["<leader>f"] = {
@@ -317,11 +310,6 @@ if has_key(plugs, 'which-key.nvim')
             },
             ["<leader>e"] = {
                 name = "eval/encode",
-                ["="] = { "<Plug>(visual-crunch-operator)", "Evaluate equation" },
-                n = {
-                    name = "number",
-                    p = { "<Plug>RadicalView", "Print number" },
-                },
                 e = {
                     name = "encode",
                     b = { ":<C-u>call TransformSel('base64_encode')<CR>", "Base64"     },
@@ -1155,15 +1143,6 @@ if has_key(plugs, 'nvim-treesitter')
             },
         }
 HERE
-endif
-
-" See https://github.com/glts/vim-radical/blob/master/doc/radical.txt
-if has_key(plugs, 'vim-radical')
-let g:radical_no_mappings = 1
-endif
-
-" See https://github.com/arecarn/vim-crunch/blob/master/doc/crunch.txt
-if has_key(plugs, 'vim-crunch')
 endif
 
 " See https://github.com/neovim/nvim-lspconfig/blob/master/doc/lspconfig.txt
