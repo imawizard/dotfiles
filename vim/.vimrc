@@ -270,6 +270,7 @@ if has_key(plugs, 'which-key.nvim')
                     a = { ":call CycleDiffAlgo()<CR>", "Cycle diff-algo"               },
                     o = { ":diffoff!<CR>",             "Turn off diff for all buffers" },
                 },
+                f = { ":call CycleFolding()<CR>", "Cycle folding" },
                 i = {
                     name = "indentation",
                     i = { ":set expandtab!<CR>",                                     "Toggle indent"                   },
@@ -590,6 +591,39 @@ fun! CycleDiffAlgo()
             return
         endif
     endfor
+endfun
+
+" Cycle the current folding method.
+fun! CycleFolding()
+    let methods = {
+        \   'marker': [
+        \     'setlocal foldmethod=marker',
+        \     'setlocal foldmarker={{{,}}}',
+        \   ],
+        \   'treesitter': [
+        \     'setlocal foldmethod=expr',
+        \     'setlocal foldexpr=nvim_treesitter#foldexpr()',
+        \   ],
+        \   'syntax': [
+        \     'setlocal foldmethod=syntax',
+        \   ],
+        \   'indent': [
+        \     'setlocal foldmethod=indent',
+        \   ],
+        \   'diff': [
+        \     'setlocal foldmethod=diff',
+        \   ],
+        \ }
+    let keys = keys(methods)
+    let idx = exists('b:foldmethod')
+        \ ? index(keys, b:foldmethod)
+        \ : 0
+    let next = keys[(idx+1) % len(keys)]
+    for l in methods[next]
+        exe l
+    endfor
+    let b:foldmethod = next
+    echo 'Fold method set to ' . next
 endfun
 
 " Encoding functions (taken from tpope's vim-unimpaired)
