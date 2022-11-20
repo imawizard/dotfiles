@@ -113,7 +113,7 @@ fi
 - [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
 - [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
 - [fasterthanlime / Amos Wenger](https://github.com/fasterthanlime/dotfiles)
-- [FooSoft / Alexei Yatskov](https://github.com/FooSoft/dotvim)
+- [FelixKratz](https://github.com/FelixKratz/dotfiles)
 - [jonhoo / Jon Gjengset](https://github.com/jonhoo/configs)
 - [kalkayan / Manish Sahani](https://github.com/kalkayan/dotfiles)
 - [koekeishiya / Åsmund Vikane](https://github.com/koekeishiya/dotfiles)
@@ -126,13 +126,25 @@ fi
 - [Wil Thomason](https://github.com/wbthomason/dotfiles)
 ### Neovim config
 - [fannheyward / Heyward Fann](https://github.com/fannheyward/init.vim)
+- [FooSoft / Alexei Yatskov](https://github.com/FooSoft/dotvim)
 - [glepnir / Raphael](https://github.com/glepnir/nvim)
 - [Joel Palmer](https://gist.github.com/joelpalmer/9db3f1cdfd463daa6d7c614ae1618fa6)
 - [kyazdani42 / Kiyan](https://github.com/kyazdani42/nvim-config)
 - [lervag / Karl Yngve Lervåg](https://github.com/lervag/dotvim)
+- [numToStr](https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim)
 - [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
+### Neovim lua/fennel
+- [aniseed](https://github.com/Olical/aniseed)
+- [hibiscus.nvim](https://github.com/udayvir-singh/hibiscus.nvim)
+- [hotpot.nvim](https://github.com/rktjmp/hotpot.nvim)
+- [tangerine.nvim](https://github.com/udayvir-singh/tangerine.nvim)
 ### Emacs config
 - [Will Crichton](https://github.com/willcrichton/dotfiles)
+### Editor packs
+- [Doom Emacs](https://github.com/doomemacs/doomemacs)
+- [LunarVim](https://github.com/LunarVim/LunarVim)
+- [neodev.nvim](https://github.com/folke/neodev.nvim)
+- [NvChad](https://github.com/NvChad/NvChad)
 ### Using stow
 - [Managing Dotfiles with GNU Stow (2016) - Hacker News](https://news.ycombinator.com/item?id=27137172)
 - [Using GNU Stow to manage your dotfiles (2012) - Hacker News](https://news.ycombinator.com/item?id=25549462)
