@@ -1,3 +1,31 @@
+" Plugins for GoLand:
+" - Apache config
+" - AsciiDoc
+" - AWS Toolkit
+" - Clojure-Kit
+" - Dash
+" - Deno
+" - IdeaVim
+" - Kubernetes
+" - Live Edit
+" - Native Debugging Support
+" - Node.js
+" - Prettier
+" - Rust
+" - Svelte
+" - Terraform and HCL
+" - TinyGo
+" - Toml
+" - Vue.js
+" - WebAssembly
+"
+" Plugins for Android Studio:
+" - Dart
+" - Dash
+" - Flutter
+" - IdeaVim
+" - Kotlin
+
 set clipboard=unnamedplus
 set history=2000
 set hlsearch
@@ -15,8 +43,10 @@ set sidescrolloff=6
 set smartcase
 set nostartofline
 set undolevels=2000
-set virtualedit=all " Nothing but onemore is currently supported (onemore makes
-                    " pasting behaviour annoying though).
+
+" Nothing but onemore is currently supported (makes pasting annoying though),
+" see https://youtrack.jetbrains.com/issue/VIM-956 for feature request.
+set virtualedit=all
 
 set ideajoin
 set ideamarks
@@ -56,7 +86,7 @@ let mapleader = "\<Space>"
 nmap              <C-s> <Action>(SearchEverywhere)
 nmap              <C-k> <Action>(QuickJavaDoc)
 imap              <C-k> <Action>(ParameterInfo)
-nmap              <C-@> <Action>(ShowErrorDescription)
+nmap              K     <Action>(ShowErrorDescription)
 nmap              [e    <Action>(GotoPreviousError)
 nmap              ]e    <Action>(GotoNextError)
 
@@ -140,13 +170,19 @@ nmap              <leader>lfox <Action>(flutter.xcode.open)
 " Language Rust
 nmap              <leader>lrr  <Action>(Rust.ConsoleREPL)
 
+" Use jk to cycle through panes (counter-)clockwise and JK to swap them.
+nnoremap <silent> <C-w>j <C-w>w
+nnoremap <silent> <C-w>k <C-w>W
+nnoremap <silent> <C-w>J mX<C-w>wmY'X<C-w>W'Y<C-w>w
+nnoremap <silent> <C-w>K mX<C-w>WmY'X<C-w>w'Y<C-w>W
+
 " Move current line up and down.
-nnoremap <silent> <C-\><C-d>  :move .+1<CR>==
-nnoremap <silent> <C-\><C-u>  :move .-2<CR>==
-inoremap <silent> <C-\><C-d>  <ESC>:move .+1<CR>==gi
-inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
-xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
-xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
+nnoremap <silent> <C-9>  :move .+1<CR>==
+nnoremap <silent> <C-0>  :move .-2<CR>==
+inoremap <silent> <C-9>  <ESC>:move .+1<CR>==gi
+inoremap <silent> <C-0>  <ESC>:move .-2<CR>==gi
+xnoremap <silent> <C-9>  :move '>+1<CR>gv=gv
+xnoremap <silent> <C-0>  :move '<-2<CR>gv=gv
 
 " Sanity remappings ......................................................{{{1
 
@@ -162,6 +198,8 @@ xnoremap p "_dP
 
 " Start search with 'very magic'.
 nnoremap / /\v
+nnoremap ? ?\v
+"cnoremap %s/ %sm//g<Left><Left>
 
 " Don't exit visual mode on shifting.
 xnoremap < <gv
@@ -187,9 +225,6 @@ inoremap <C-w> <C-g>u<C-w>
 " Respect an already typed prefix when iterating through history.
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-
-" Join lines without moving the cursor.
-nnoremap J mzJ`z
 
 " Compatibility remappings ...............................................{{{1
 
