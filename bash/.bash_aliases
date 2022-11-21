@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -470,3 +472,4 @@ cleansys_rmdir() {
 	echo "...freed $size"
 }
 
+test -f "$HOME/iCloud Drive/.config/.bash_aliases" &&  . "$_"

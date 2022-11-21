@@ -18,7 +18,17 @@ export PATH=$PATH:$GOPATH/bin
 export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
 
 # Load up z.
-. /usr/local/etc/profile.d/z.sh
+test -f /usr/local/etc/profile.d/z.sh && . "$_"
+
+# Load up broot.
+test -f ~/.config/broot/launcher/bash/br && . "$_"
+
+# Homebrew settings
+export HOMEBREW_AUTOREMOVE=1
+export HOMEBREW_CLEANUP_MAX_AGE_DAYS=90
+export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=14
+export HOMEBREW_DISPLAY_INSTALL_TIMES=1
+export HOMEBREW_NO_ANALYTICS=1
 
 # Motivation reminder
 printf "There are \u001b[1m%d\u001b[0m weeks left this year. %s\n"       \
