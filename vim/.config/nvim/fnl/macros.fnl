@@ -175,6 +175,10 @@
   "Shorthand for vim.fn.has returning boolean"
   `(= (vim.fn.has ,value) 1))
 
+(fn M.executable? [value]
+  "Shorthand for vim.fn.executable returning boolean"
+  `(= (vim.fn.executable ,value) 1))
+
 (fn M.mode? [v]
   "Shorthand for checking current mode"
   `(= (. (vim.api.nvim_get_mode) :mode) ,v))
