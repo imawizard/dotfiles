@@ -1,26 +1,23 @@
-(import-macros {: gset! : oset! : has!} :macros)
+(import-macros {: gset! : oset! : has?} :macros)
 
 (gset!
- (:when (has! "mac")
-   perl_host_prog                  "/usr/local/bin/perl"
-   python3_host_prog               "/usr/local/bin/python3"
-   node_host_prog                  "/usr/local/bin/node"
-   ruby_host_prog                  "/usr/bin/ruby"
-   gutentags_ctags_executable      "/usr/local/bin/ctags"
-   gutentags_ctags_executable_dart "~/.pub-cache/bin/dart_ctags"
-   z_sh_prog                       "/usr/local/etc/profile.d/z.sh")
+ (:when (has? "mac")
+   perl_host_prog    "/usr/local/bin/perl"
+   python3_host_prog "/usr/local/bin/python3"
+   node_host_prog    "/usr/local/bin/node"
+   ruby_host_prog    "/usr/bin/ruby"
+   ctags_host_prog   "/usr/local/bin/ctags")
 
- (:when (has! "win32")
-   perl_host_prog             "~/scoop/apps/perl/current/perl/bin/perl.exe"
-   python3_host_prog          "~/scoop/apps/python/current/python.exe"
-   node_host_prog             "~/scoop/apps/nodejs/current/node.exe"
-   ruby_host_prog             "~/scoop/apps/ruby/current/bin/ruby.exe"
-   gutentags_ctags_executable "~/scoop/apps/universal-ctags/current/ctags.exe")
+ (:when (has? "win32")
+   perl_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/perl/current/perl/bin/perl.exe")
+   python3_host_prog (.. (vim.fn.getenv "HOME") "/scoop/apps/python/current/python.exe")
+   node_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/nodejs/current/node.exe")
+   ruby_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/ruby/current/bin/ruby.exe")
+   ctags_host_prog   (.. (vim.fn.getenv "HOME") "/scoop/apps/universal-ctags/current/ctags.exe"))
 
- fzf_history_dir "~/.cache/fzf-history")
 
 (oset!
- grepprg    "rg --vimgrep --no-heading --smart-case --hidden -g \"!.git/\""
+ grepprg    "rg --vimgrep --smart-case --hidden -g \"!.git/\""
  grepformat "%f:%l:%c:%m,%f:%l:%m"
  lispwords  (:remove "if" "do")
 
@@ -28,9 +25,9 @@
  guicursor  ["a:block-blinkwait1000-blinkon500-blinkoff500"
              "i-ci:hor15"]
 
- (:when (has! "mac")
+ (:when (has? "mac")
    guifont "Fira Code Light Nerd Font Complete Mono:h12")
- (:when (has! "termguicolors")
+ (:when (has? "termguicolors")
    termguicolors true)                       ; Use guifg and guibg.
  (:when (string.match vim.o.term "256color")
    t_Co 256                                  ; Indicate number of colors.
@@ -41,10 +38,9 @@
  timeoutlen   750                            ; Time out on mappings.
  ttimeout     true                           ; Time out on Escape after...
  ttimeoutlen  150                            ; ...waiting this many ms for a special key.
- clipboard    "unnamed"                      ; Share clipboard with system.
- (:when (has! "unnamedplus")
-   clipboard (:prepend "unnamedplus"))
-
+ clipboard    (if (has? "unnamedplus")       ; Share yanks etc. with system's clipboard.
+                  "unnamedplus"
+                  "unnamed")
  autowriteall true                           ; Autosave when navigating between buffers.
  hidden       true                           ; Enable unwritten buffers in background.
  confirm      true                           ; Show dialog when closing with unwritten buffers.
@@ -71,7 +67,7 @@
                        "iwhite"              ; Ignore amount of whitespace.
                        "hiddenoff")          ; Turn off diffing when hidden.
 
- (:when (has! "nvim-0.3.2")                  ; See https://github.com/agude/dotfiles/issues/2#issuecomment-843639956
+ (:when (has? "nvim-0.3.2")                  ; See https://github.com/agude/dotfiles/issues/2#issuecomment-843639956
    diffopt (:append "indent-heuristic"))
  ignorecase     true                         ; Ignore case when searching...
  smartcase      true                         ; ...unless we type a capital.
@@ -96,7 +92,7 @@
  signcolumn     "yes"                        ; Show sign-column.
  splitbelow     true                         ; HSplit to the bottom.
  splitright     true                         ; VSplit to the right.
- (:when (has! "nvim-0.7")
+ (:when (has? "nvim-0.7")
    laststatus 3)                             ; Only show one statusline.
 
  foldenable     true

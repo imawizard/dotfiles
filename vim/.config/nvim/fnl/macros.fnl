@@ -5,23 +5,23 @@
 
   Example:
   (use!
-  {:run ...} :nvim-treesitter/nvim-treesitter
-  :nvim-treesitter/nvim-treesitter-textobjects)
+   {:run ...} :nvim-treesitter/nvim-treesitter
+   :nvim-treesitter/nvim-treesitter-textobjects)
 
   Results in:
   (let [packer (require ...) use (. packer :use)]
-  (use {1 :nvim-treesitter/nvim-treesitter :run ...})
-  (use :nvim-treesitter/nvim-treesitter-textobjects))
+    (use {1 :nvim-treesitter/nvim-treesitter :run ...})
+    (use :nvim-treesitter/nvim-treesitter-textobjects))
   "
   (let [rest [...]
         packer (gensym :packer)
         use (gensym :use)
         out []]
     (while (> (# rest) 0)
-      (let [pkg (table.remove rest 1)]
-        (if (not (table? pkg))
-            (table.insert out `(,use ,pkg))
-            (let [opts pkg
+      (let [arg (table.remove rest 1)]
+        (if (not (table? arg))
+            (table.insert out `(,use ,arg))
+            (let [opts arg
                   pkg (table.remove rest 1)]
               (table.insert
                out
@@ -38,8 +38,8 @@
 
   Example:
   (gset!
-  fennel_maxlines 300
-  fennel_fuzzy_indent true)
+   fennel_maxlines 300
+   fennel_fuzzy_indent true)
 
   Results in:
   (tset vim.g :fennel_maxlines 300)
@@ -52,19 +52,21 @@
 
   Example:
   (oset!
-  lisp true
-  (:when (has! :nvim-0.7)
-  laststatus 3))
+   lisp true
+   (:when (has? :nvim-0.7)
+     laststatus 3))
 
   Results in:
   (tset vim.opt :lisp true)
-  (when (has! :nvim-0.7)
-  (tset vim.opt :laststatus 3))
+  (when (has? :nvim-0.7)
+    (tset vim.opt :laststatus 3))
   "
+  (M.xoset! `vim.opt ...))
+
+(fn M.xoset! [what ...]
   (M.xset!
    (fn [key value]
      (if (and (list? value)
-              (> (# value) 1)
               (= (type (. value 1)) :string))
          (let [op (. value 1)
                vsa [(select 2 (unpack value))]
@@ -72,10 +74,11 @@
                        (. vsa 1)
                        vsa)]
            (match op
-             :append  `(: (. vim.opt ,(tostring key)) :append ,vsu)
-             :prepend `(: (. vim.opt ,(tostring key)) :prepend ,vsu)
-             :remove  `(: (. vim.opt ,(tostring key)) :remove ,vsu)))
-         `(tset vim.opt ,(tostring key) ,value)))
+             :append  `(: (. ,what ,(tostring key)) :append ,vsu)
+             :prepend `(: (. ,what ,(tostring key)) :prepend ,vsu)
+             :remove  `(: (. ,what ,(tostring key)) :remove ,vsu)
+             other (assert-compile false (.. "Unexpected " other))))
+         `(tset ,what ,(tostring key) ,value)))
    ...))
 
 (fn M.xset! [cb ...]
@@ -83,19 +86,19 @@
         out []]
     (var opts [])
     (while (> (# rest) 0)
-      (let [key (table.remove rest 1)]
+      (let [arg (table.remove rest 1)]
         (if
-         (sym? key) (let [value (table.remove rest 1)]
-                      (table.insert out (cb key value opts))
+         (sym? arg) (let [value (table.remove rest 1)]
+                      (table.insert out (cb arg value opts))
                       (set opts []))
-         (list? key) (table.insert
+         (list? arg) (table.insert
                       out
-                      (match (. key 1)
-                        :when (let [cond (. key 2)
-                                    body [(select 3 (unpack key))]]
+                      (match (. arg 1)
+                        :when (let [cond (. arg 2)
+                                    body [(select 3 (unpack arg))]]
                                 `(when ,cond ,(M.xset! cb (unpack body))))
-                        _ `nil))
-         (table.insert opts key))))
+                        other (assert-compile false (.. "Unexpected " other))))
+         (table.insert opts arg))))
     `(do ,(unpack out))))
 
 (fn M.bind! [...]
@@ -105,22 +108,23 @@
           out []]
       (var desc nil)
       (while (> (# rest) 0)
-        (let [from (table.remove rest 1)]
-          (if (list? from)
+        (let [arg (table.remove rest 1)]
+          (if (list? arg)
               (table.insert
                out
-               (match (. from 1)
-                 :prefix (let [key (. from 2)
-                               name (. from 3)
-                               body [(select 4 (unpack from))]]
-                           (bind key (unpack body)))))
-              (match from
+               (match (. arg 1)
+                 :prefix (let [key (.. prefix (. arg 2))
+                               name (. arg 3)
+                               body [(select 4 (unpack arg))]]
+                           (bind key (unpack body)))
+                 other (assert-compile false (.. "Unexpected " other))))
+              (match arg
                 :desc (set desc (table.remove rest 1))
                 _ (let [opts (tostring (table.remove rest 1))
                         to (table.remove rest 1)]
                     (table.insert
                      out
-                     (let [key (.. prefix from)
+                     (let [key (.. prefix arg)
                            modes (icollect [s (string.gmatch opts "[nivxcto]")] s)
                            flags {:buffer (if (string.match opts "b") true false)
                                   :desc desc
@@ -135,21 +139,23 @@
   (bind "" ...))
 
 (fn M.binds! [...]
-  "Like bind! but returns the mapping as a table"
+  "Like bind! but returns the mapping as a table
+  (Caveat: having the same key on the same level twice is not possible)"
   (let [rest [...]
         out {}]
     (var desc nil)
     (while (> (# rest) 0)
-      (let [from (table.remove rest 1)]
-        (if (list? from)
-            (match (. from 1)
-              :prefix (let [key (. from 2)
-                            name (. from 3)
-                            body [(select 4 (unpack from))]
+      (let [arg (table.remove rest 1)]
+        (if (list? arg)
+            (match (. arg 1)
+              :prefix (let [key (. arg 2)
+                            name (. arg 3)
+                            body [(select 4 (unpack arg))]
                             tbl (M.binds! (unpack body))]
                         (tset tbl :name name)
-                        (tset out key tbl)))
-            (match from
+                        (tset out key tbl))
+              other (assert-compile false (.. "Unexpected " other)))
+            (match arg
               :desc (set desc (table.remove rest 1))
               _ (let [opts (tostring (table.remove rest 1))
                       to (table.remove rest 1)]
@@ -164,12 +170,12 @@
                                :silent (if (string.match opts "!") false true)}]
                     (tset
                      out
-                     from
+                     arg
                      (collect [i v (ipairs key) &into flags] i v)))
                   (set desc nil))))))
     out))
 
-(fn M.has! [value]
+(fn M.has? [value]
   "Shorthand for vim.fn.has returning boolean"
   `(= (vim.fn.has ,value) 1))
 
@@ -228,7 +234,7 @@
         (table.insert
          out
          (if (list? arg)
-             (match (?. arg 1)
+             (match (. arg 1)
                :group (parse-group (select 2 (unpack arg)))
                other (assert-compile false (.. "Unexpected " other)))
              (parse-cmd "" rest)))))

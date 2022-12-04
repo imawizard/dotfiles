@@ -28,7 +28,6 @@
              (dapui.close)))))}
  :rcarriga/nvim-dap-ui
 
- ;; See https://github.com/theHamsta/nvim-dap-virtual-text.
  {:config
   (fn []
     (let [dapvt (require :nvim-dap-virtual-text)]

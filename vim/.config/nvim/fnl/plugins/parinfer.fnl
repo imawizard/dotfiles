@@ -2,4 +2,5 @@
 
 (use!
  ;; See :help parinfer.txt.
- {:run "cargo build --release"} :eraserhd/parinfer-rust)
+ {:run "cargo build --release"}
+ :eraserhd/parinfer-rust)

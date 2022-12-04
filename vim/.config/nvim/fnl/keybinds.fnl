@@ -99,20 +99,19 @@
     (if (not= f nil) (f))))
 
 (use!
- ;; See :help which-key.txt
+ ;; See :help which-key.txt.
  {:config
   (fn []
     (let [{: setup : register} (require :which-key)]
-      (setup
-       {:show_help false
-        :key_labels {:<space> "SPC"
-                     :<cr> "RET"
-                     :<tab> "TAB"}
-        :icons {:breadcrumb "›"
-                :separator "➜"
-                :group ""}
-        :spelling {:enabled true}
-        :layout {:spacing 6}})
+      (setup {:show_help false
+              :key_labels {:<space> "SPC"
+                           :<cr> "RET"
+                           :<tab> "TAB"}
+              :icons {:breadcrumb "›"
+                      :separator "➜"
+                      :group ""}
+              :spelling {:enabled true}
+              :layout {:spacing 6}})
 
       (register
        (binds!

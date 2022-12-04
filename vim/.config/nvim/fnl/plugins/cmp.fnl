@@ -1,8 +1,8 @@
 (import-macros {: use!} :macros)
 
 (use!
- :hrsh7th/cmp-nvim-lsp
  :hrsh7th/cmp-buffer
+ :hrsh7th/cmp-nvim-lsp
  :hrsh7th/cmp-path
  :hrsh7th/cmp-cmdline
  :hrsh7th/cmp-calc
@@ -10,7 +10,7 @@
  :saadparwaiz1/cmp_luasnip
  :rcarriga/cmp-dap
 
- ;; See :help nvim-cmp.
+ ;; Full-blown completion, see :help nvim-cmp.
  {:config
   (fn []
     (fn has_words_before []
@@ -20,23 +20,25 @@
                       :sub col col)
                    :match "%s")
                 nil))))
+
     (fn feedkeys [key mode]
       (vim.api.nvim_feedkeys
        (vim.api.nvim_replace_termcodes key true true true)
        mode
        false))
+
     (let [cmp (require :cmp)
           cmp_types (require :cmp.types)
-          cmpdap (require :cmp_dap)
-          luasnip (require :luasnip)]
+          luasnip (require :luasnip)
+          cmp_dap (require :cmp_dap)]
       (cmp.setup
        {:enabled (fn []
                    (or (not= (vim.api.nvim_buf_get_option 0 "buftype") "prompt")
-                       (cmpdap.is_dap_buffer)))
+                       (cmp_dap.is_dap_buffer)))
         :snippet {:expand (fn [args]
                             (luasnip.lsp_expand args.body))}
         :preselect cmp.PreselectMode.None
-        :completion {:autocomplete true}
+        :completion {:autocomplete false}
         :experimental {:ghost_text true}
         :formatting {:format
                      (fn [entry vim_item]
@@ -144,7 +146,8 @@
                                           {:name "cmdline"}])})
       (cmp.setup.filetype
        ["dap-repl" "dapui_watches" "dapui_hover"]
-       {:sources (cmp.config.sources [{:name "dap"}])})))} :hrsh7th/nvim-cmp)
+       {:sources (cmp.config.sources [{:name "dap"}])})))}
+ :hrsh7th/nvim-cmp)
 
 (set vim.lsp.protocol.CompletionItemKind [" text"         ;  text
                                           " method"       ; method
