@@ -1,4 +1,5 @@
-(import-macros {: gset! : bind! : binds! : use! : feedkeys! : mode?} :macros)
+(import-macros {: gset! : bind! : binds! : use! : feedkeys! : mode?
+                : has? : selected-text!} :macros)
 
 (gset!
  mapleader " "
@@ -104,10 +105,15 @@
 
  (:prefix
   "<leader>" "SPC"
-  :desc "Find file in project" "<leader>" n  #((. (require :telescope.builtin) :find_files))
-  :desc "Find file"            "."        n! ":Files <C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>/"
+  :desc "Find file in project" "<leader>" n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})
+  :desc "Find relative file"   "."        n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak) :cwd (vim.fn.expand "%:p:h")})
+  :desc "Grep project"         "/"        n  #((. (require :telescope.builtin) :live_grep))
+  :desc "Grep project"         "/"        x  #((. (require :telescope.builtin) :grep_string) {:search (selected-text!)})
+  :desc "Grep relative files"  "\\"       n  #((. (require :telescope.builtin) :live_grep) {:cwd (vim.fn.expand "%:p:h")})
+  :desc "Resume last search"   "\""       n  #((. (require :telescope.builtin) :resume))
   :desc "Show commands"        ":"        n  #((. (require :telescope.builtin) :commands))
   :desc "Show command history" "@:"       n  #((. (require :telescope.builtin) :command_history))
+  :desc "Show search history"  "@/"       n  #((. (require :telescope.builtin) :search_history))
 
   (:prefix
    "b" "buffer"
@@ -160,33 +166,30 @@
 
   (:prefix
    "f" "file"
-   :desc "Browse private config"     "P" n ":Editrc<CR>"
    :desc "Recent files"              "r" n #((. (require :telescope.builtin) :oldfiles))
    :desc "Run file's tests"          "t" n ":TestFile<CR>"
    :desc "Run nearest test"          "T" n ":TestNearest<CR>"
-   :desc "Yank file's path"          "y" n ":let @+='<C-r>=fnameescape(expand('%:~:p'))<CR>'<CR>"
+   :desc "Yank file's path"          "y" n ":let @+='<C-r>=fnameescape(expand('%:p:~'))<CR>'<CR>"
    :desc "Yank file's relative path" "Y" n ":let @+='<C-r>=fnameescape(expand('%:~'))<CR>'<CR>")
 
   (:prefix
    "g" "git"
-   :desc "Switch branch" "b" n ":Git branch<CR>"
-   :desc "Blame"         "B" n ":Git blame<CR>"
-   :desc "Show status"   "g" n ":Git<CR>"
-   :desc "Stage file"    "S" n ":Gdiffsplit<CR>"
-   (:prefix
-    "c" "create"
-    :desc "Initialize repo" "r" n ":Git init")
-   (:prefix
-    "f" "find"
-    :desc "Find file commit" "c" n ":BCommits<CR>"
-    :desc "Find commit"      "C" n ":Commits<CR>"))
+   :desc "Branches"             "b" n #((. (require :telescope.builtin) :git_branches))
+   :desc "File-related commits" "c" n #((. (require :telescope.builtin) :git_bcommits))
+   :desc "Commits"              "C" n #((. (require :telescope.builtin) :git_commits))
+   :desc "Files"                "f" n #((. (require :telescope.builtin) :git_files))
+   :desc "Status"               "g" n #((. (require :telescope.builtin) :git_status))
+   :desc "Stash"                "s" n #((. (require :telescope.builtin) :git_stash)))
 
   (:prefix
    "i" "insert"
-   :desc "Insert file's name"    "f" n "i<C-r>=expand('%:t')<CR><ESC>l"
-   :desc "Insert file's path"    "F" n "i<C-r>=fnameescape(expand('%:~'))<CR><ESC>l"
-   :desc "Insert snippet"        "s" n #((. (require :telescope.builtin) :snippets))
-   :desc "Insert from yank list" "y" n #((. (require :telescope.builtin) :yanks)))
+   :desc "Emoji"        "e" n #((. (require :telescope.builtin) :symbols) {:sources ["emoji"]})
+   :desc "Filename"     "f" n "i<C-r>=expand('%:t')<CR><ESC>l"
+   :desc "Gitmoji"      "g" n #((. (require :telescope.builtin) :symbols) {:sources ["gitmoji"]})
+   :desc "Symbol"       "i" n #((. (require :telescope.builtin) :symbols) {:sources ["julia"]})
+   :desc "LaTeX symbol" "l" n #((. (require :telescope.builtin) :symbols) {:sources ["latex"]})
+   :desc "Filepath"     "p" n "i<C-r>=fnameescape(expand('%:p:~'))<CR><ESC>l"
+   :desc "Snippet"      "s" n #((. (require :telescope) :extensions :luasnip :luasnip)))
 
   (:prefix
    "n" "number"
@@ -198,20 +201,20 @@
 
   (:prefix
    "o" "open"
-   :desc "Reveal file in Finder"        "o" n ":exe '!open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>"
-   :desc "Reveal project in Finder"     "O" n ":exe '!open <C-r>=fnameescape(getcwd())<CR>'<CR>"
    :desc "Open file"                    "f" n ":Fern <C-r>=fnameescape(expand('%:p:h'))<CR> -reveal=<C-r>=fnameescape(expand('%:p'))<CR><CR>"
    :desc "Project sidebar"              "p" n ":NERDTreeFocus<CR>"
    :desc "Find file in project sidebar" "P" n ":NERDTreeFind<CR>"
    :desc "Toggle terminal popup"        "t" n ":terminal<CR>")
+   :desc "Reveal file in Finder"        "o" ne #(if (has? "mac") ":exe 'silent !open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>"
+                                                    (has? "win32") ":exe 'silent !explorer /select,\"<C-r>=fnameescape(expand('%:p'))<CR>\"'<CR>")
+   :desc "Reveal project in Finder"     "O" ne #(if (has? "mac") ":exe 'silent !open <C-r>=fnameescape(getcwd())<CR>'<CR>"
+                                                    (has? "win32") ":exe 'silent !explorer <C-r>=fnameescape(getcwd())<CR>'<CR>")
 
   (:prefix
    "p" "project"
-   :desc "Add new project"      "a" n ":NERDTree<CR>:EditBookmarks<CR>"
-   :desc "Remove known project" "d" n ":NERDTree<CR>:EditBookmarks<CR>"
-   :desc "Switch project"       "p" n ":NERDTreeFromBookmark <C-z>"
-   :desc "List project todos"   "t" n ":CtrlSF -R '(TODO|NOTE|HACK|OPTIMIZE|XXX)(\\([^)]+\\))?:' '<C-r>=getcwd()<CR>'"
-   :desc "Test project"         "T" n ":TestSuite<CR>")
+   :desc "Add new project"      "a" n! ":!zoxide add <C-r>=fnameescape(getcwd())<CR>"
+   :desc "Remove known project" "d" n! ":!zoxide remove <C-r>=fnameescape(getcwd())<CR>"
+   :desc "Switch project"       "p" n  #((. (require :telescope) :extensions :project :project)))
 
   (:prefix
    "q" "quit"
@@ -220,22 +223,21 @@
 
   (:prefix
    "s" "search"
-   :desc "Search buffer"            "b" n  #((. (require :telescope.builtin) :lines))
-   :desc "Search all open buffers"  "B" n  #((. (require :telescope.builtin) :all_lines))
-   :desc "Search current directory" "d" n  #((. (require :telescope.builtin) :live_grep))
-   :desc "Search other directory"   "D" n! ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF "
-   :desc "Locate file"              "f" n  ":Locate "
-   :desc "Search jump list"         "j" n  ":Jumplist<CR>"
    :desc "Look up in local docsets" "k" n  "<Plug>DashSearch"
-   :desc "Jump to mark"             "r" n  #((. (require :telescope.builtin) :marks))
-   :desc "Search tags"              "t" n  #((. (require :telescope.builtin) :tags))
-   :desc "Search buffer tags"       "T" n  #((. (require :telescope.builtin) :buffer_tags)))
+   :desc "Search and replace" "/" n! ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF "
+   :desc "Buffer"             "b" n  #((. (require :telescope.builtin) :current_buffer_fuzzy_find))
+   :desc "All open buffers"   "B" n  #((. (require :telescope.builtin) :live_grep {:grep_open_files true}))
    :desc "Workspace symbols"  "i" n  #(if (_G.lsp? :workspaceSymbolProvider)
                                           (vim.lsp.buf.workspace_symbol)
                                           (print "No support within current buffer"))
+   :desc "Jump list"          "j" n  #((. (require :telescope.builtin) :jumplist))
+   :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
    :desc "Buffer symbols"     "s" n  #(if (_G.lsp? :documentSymbolProvider)
                                           (vim.lsp.buf.document_symbol)
                                           (print "No support within current buffer"))
+   :desc "Tags"               "t" n  #((. (require :telescope.builtin) :tags))
+   :desc "Buffer tags"        "T" n  #((. (require :telescope.builtin) :current_buffer_tags))
+   :desc "Zoxide"             "z" n  #((. (require :telescope) :extensions :zoxide :list)))
 
   (:prefix
    "t" "toggle"
@@ -269,11 +271,13 @@
 
  (:prefix
   "<C-h>" "help"
-  :desc "Show syntax highlight group"                  "s" n ":call ShowSyntaxGroups()<CR>"
-  :desc "Show syntax highlight groups with treesitter" "t" n ":TSHighlightCapturesUnderCursor<CR>"
   (:prefix
    "b" "bindings"
-   :desc "Show all" "b" n ":Maps<CR>")
+   :desc "List all" "b" n #((. (require :telescope.builtin) :keymaps)))
+  (:prefix
+   "h" "highlights"
+   :desc "What's under cursor" "c" n ":TSHighlightCapturesUnderCursor<CR>"
+   :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
   (:prefix
    "p" "packer"
    :desc "Clean"       "c" n! ":PackerClean<CR>"
@@ -338,6 +342,7 @@
                  :<leader>w  {:name "workspace"}
                  :<C-h>      {:name "help"}
                  :<C-h>b     {:name "bindings"}
+                 :<C-h>h     {:name "highlights"}
                  :<C-h>p     {:name "packer"}
                  :<C-h>r     {:name "reload"}
                  :<C-x>      {:name "completion"}})))}
