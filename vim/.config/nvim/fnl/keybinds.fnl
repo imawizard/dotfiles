@@ -179,6 +179,7 @@
    :desc "Commits"              "C" n #((. (require :telescope.builtin) :git_commits))
    :desc "Files"                "f" n #((. (require :telescope.builtin) :git_files))
    :desc "Status"               "g" n #((. (require :telescope.builtin) :git_status))
+   :desc "Blame"                "m" n ":GitMessenger<CR>"
    :desc "Stash"                "s" n #((. (require :telescope.builtin) :git_stash)))
 
   (:prefix

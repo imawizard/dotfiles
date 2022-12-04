@@ -12,6 +12,26 @@
         :incremental_selection {:enable true}
         :indent {:enable true}
 
+        :textobjects {:select
+                      {:enable true
+                       :lookahead false
+                       :include_surrounding_whitespace true
+                       :keymaps
+                       {"af" {:query "@function.outer"  :desc "Select outer part of a function"}
+                        "if" {:query "@function.inner"  :desc "Select inner part of a function"}
+                        "ac" {:query "@call.outer"      :desc "Select outer part of a call"}
+                        "ic" {:query "@call.inner"      :desc "Select inner part of a call"}
+                        "aC" {:query "@class.outer"     :desc "Select outer part of a class region"}
+                        "iC" {:query "@class.inner"     :desc "Select inner part of a class region"}
+                        "aa" {:query "@parameter.outer" :desc "Select outer part of a parameter"}
+                        "ia" {:query "@parameter.inner" :desc "Select inner part of a parameter"}}
+                       :selection_modes {"@function.outer" "V"}}
+                      :lsp_interop {:enable true
+                                    :border "none"
+                                    :peek_definition_code
+                                    {"<leader>df" "@function.outer"
+                                     "<leader>dF" "@class.outer"}}}
+
         :refactor {:highlight_definitions {:enable false
                                            :clear_on_cursor_move true}
                    :highlight_current_scope {:enable false}
