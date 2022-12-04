@@ -131,9 +131,7 @@
                                   :expr (if (string.match opts "e") true false)
                                   :remap (if (string.match opts "r") true false)
                                   :silent (if (string.match opts "!") false true)}]
-                       (if (= (?. to 1 1) :quote)
-                           `(vim.keymap.set ,modes ,key (fn [] ,(. to 2)) ,flags)
-                           `(vim.keymap.set ,modes ,key ,to ,flags))))
+                       `(vim.keymap.set ,modes ,key ,to ,flags)))
                     (set desc nil))))))
       `(do ,(unpack out))))
   (bind "" ...))
@@ -159,9 +157,7 @@
               :desc (set desc (table.remove rest 1))
               _ (let [opts (tostring (table.remove rest 1))
                       to (table.remove rest 1)]
-                  (let [key (if (= (?. to 1 1) :quote)
-                                [`(fn [] ,(. to 2)) desc]
-                                [to desc])
+                  (let [key [to desc]
                         modes (icollect [s (string.gmatch opts "[nivxcto]")] s)
                         flags {:buffer (if (string.match opts "b") `(vim.fn.bufnr "%"))
                                :expr (if (string.match opts "e") true false)
@@ -210,9 +206,7 @@
                          ,events
                          {:group ,group
                           :pattern ,pattern
-                          :callback ,(if (= (?. cmd 1 1) :quote)
-                                         `(fn [] ,(. cmd 2))
-                                         (not= (type cmd) "string")
+                          :callback ,(if (not= (type cmd) "string")
                                          cmd)
                           :command ,(if (= (type cmd) "string")
                                         cmd)}))))))
