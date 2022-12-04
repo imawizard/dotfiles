@@ -6,9 +6,11 @@
 ;; Startup packer.nvim, see :help packer.txt.
 (let [packer (require :packer)
       {: startup } packer]
-  (startup (fn [use]
-             (use :wbthomason/packer.nvim)
-             (use :rktjmp/hotpot.nvim))))
+  (startup {1 (fn [use]
+                (use :wbthomason/packer.nvim)
+                (use :rktjmp/hotpot.nvim))
+            :config {:log {:level "info"}
+                     :autoremove true}}))
 
 ;; Load modules from root-folder.
 (each [_ v (ipairs [:settings :keybinds :autocmds :commands])]

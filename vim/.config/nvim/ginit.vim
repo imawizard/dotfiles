@@ -1,36 +1,6 @@
-" See https://github.com/equalsraf/neovim-qt/wiki/Configuration-Options
+" See https://github.com/equalsraf/neovim-qt/wiki/Configuration-Options.
 
-" Disable fzf colors
-if has('win32')
-    let g:fzf_colors = {}
-endif
-
-" Set Editor Font
-if exists(':GuiFont') && has('win32')
-    GuiFont! FiraCode\ Nerd\ Font\ Mono:h11
-endif
-
-" Disable GUI Tabline
-if exists(':GuiTabline')
-    GuiTabline 0
-endif
-
-" Enable GUI Popupmenu
-if exists(':GuiPopupmenu')
-    GuiPopupmenu 1
-endif
-
-" Disable GUI ScrollBar
-if exists(':GuiScrollBar')
-    GuiScrollBar 0
-endif
-
-" Right Click Context Menu (Copy-Cut-Paste)
-if exists(':GuiShowContextMenu')
-    nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-    inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
-    vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
-endif
+call GuiWindowFrameless(1)
 
 " Enable Drag & Drop
 fun! GuiDropCustomHandler(...)
@@ -38,7 +8,7 @@ fun! GuiDropCustomHandler(...)
     let args = map(fnames, 'fnameescape(v:val)')
 
     for file in args
-        echom "You just opened: " . file
+        echom "Opened file: " . file
         exec 'drop '. substitute(file, ' ', '\ ', 'g')
     endfor
 endfun
