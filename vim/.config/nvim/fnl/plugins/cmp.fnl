@@ -59,7 +59,7 @@
         {:<TAB> (cmp.mapping
                  {:i (fn [fallback]
                        (if (cmp.visible) (cmp.confirm {:select true})
-                           (luasnip.expand_or_jumpable) (luasnip.expand_or_jump)
+                           (luasnip.expandable) (luasnip.expand)
                            (has_words_before) (do
                                                (cmp.complete)
                                                (vim.schedule
@@ -84,15 +84,6 @@
                                      (and (= (# entries) 1)
                                           (not (. (. entries 1) :fuzzy)))
                                      (cmp.confirm {:select true}))))))))})
-         :<S-TAB> (cmp.mapping
-                   {:i (fn [fallback]
-                         (if (luasnip.jumpable -1)
-                             (luasnip.jump -1)
-                             (fallback)))}
-                   {:s (fn [fallback]
-                         (if (luasnip.jumpable -1)
-                             (luasnip.jump -1)
-                             (fallback)))})
          :<CR> (cmp.mapping
                 {:i (fn [fallback]
                       (if (cmp.visible)
@@ -116,7 +107,9 @@
                  {:i (fn [fallback]
                        (if (cmp.visible)
                            (cmp.select_prev_item {:behavior cmp.SelectBehavior.Select})
-                           (cmp.complete {:config {:preselect cmp.PreselectMode.Item}})))
+                           (luasnip.jump -1)))
+                  :s (fn [fallback]
+                       (luasnip.jump -1))
                   :c (fn [fallback]
                        (if (= (vim.fn.wildmenumode) 1) (feedkeys "<C-p>" "n")
                            (cmp.visible) (cmp.select_prev_item {:behavior cmp.SelectBehavior.Select})
@@ -125,7 +118,9 @@
                  {:i (fn [fallback]
                        (if (cmp.visible)
                            (cmp.select_next_item {:behavior cmp.SelectBehavior.Select})
-                           (cmp.complete {:config {:preselect cmp.PreselectMode.Item}})))
+                           (luasnip.jump 1)))
+                  :s (fn [fallback]
+                       (luasnip.jump 1))
                   :c (fn [fallback]
                        (if (= (vim.fn.wildmenumode) 1) (feedkeys "<C-n>" "n")
                            (cmp.visible) (cmp.select_next_item {:behavior cmp.SelectBehavior.Select})

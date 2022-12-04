@@ -34,4 +34,9 @@
          ;; Compile ftplugins to external ftplugin-folder.
          (join-path "(.+)" :ftplugins "(.+)")
          (fn [root path]
-           (join-path root ".." :ftplugin path))))
+           (join-path root ".." :ftplugin path))
+
+         ;; Compile snippets to external luasnippets-folder.
+         (join-path "(.+)" :snippets "(.+)")
+         (fn [root path]
+           (join-path root ".." :luasnippets path))))
