@@ -201,12 +201,13 @@
 
   (:prefix
    "o" "open"
-   :desc "Project sidebar"              "p" n ":NERDTreeFocus<CR>"
-   :desc "Find file in project sidebar" "P" n ":NERDTreeFind<CR>"
    :desc "Reveal file in Finder"        "o" ne #(if (has? "mac") ":exe 'silent !open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>"
                                                     (has? "win32") ":exe 'silent !explorer /select,\"<C-r>=fnameescape(expand('%:p'))<CR>\"'<CR>")
    :desc "Reveal project in Finder"     "O" ne #(if (has? "mac") ":exe 'silent !open <C-r>=fnameescape(getcwd())<CR>'<CR>"
                                                     (has? "win32") ":exe 'silent !explorer <C-r>=fnameescape(getcwd())<CR>'<CR>")
+   :desc "Project sidebar"              "p" n  ":NvimTreeFocus<CR>"
+   :desc "Find file in project sidebar" "P" n  ":NvimTreeFindFile<CR>"
+   :desc "Vinegar"                      "v" n  #((. (require "nvim-tree") :open_replacing_current_buffer)))
 
   (:prefix
    "p" "project"

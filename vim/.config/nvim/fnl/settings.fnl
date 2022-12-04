@@ -15,6 +15,8 @@
    ruby_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/ruby/current/bin/ruby.exe")
    ctags_host_prog   (.. (vim.fn.getenv "HOME") "/scoop/apps/universal-ctags/current/ctags.exe"))
 
+ loaded_netrw       true
+ loaded_netrwPlugin true)
 
 (oset!
  grepprg    "rg --vimgrep --smart-case --hidden -g \"!.git/\""
