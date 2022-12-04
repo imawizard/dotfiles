@@ -193,18 +193,16 @@
 
   (:prefix
    "n" "number"
-   :desc "Convert number to binary"  "b" n "ciw<C-r>=printf('0b%b', <C-r>\")<CR><ESC>"
-   :desc "Convert number to decimal" "d" n "ciw<C-r>=printf('%d', <C-r>\")<CR><ESC>"
-   :desc "Convert number to octal"   "o" n "ciw<C-r>=printf('0o%o', <C-r>\")<CR><ESC>"
-   :desc "Print number"              "p" n ":echo printf('<%s> %d 0x%x 0o%o 0b%b', '<C-r><C-w>', <C-r><C-w>, <C-r><C-w>, <C-r><C-w>, <C-r><C-w>)<CR>"
-   :desc "Convert number to hex"     "x" n "ciw<C-r>=printf('0x%x', <C-r>\")<CR><ESC>")
+   :desc "Convert to binary"  "b" n "ciw<C-r>=printf('0b%b', <C-r>\")<CR><ESC>b"
+   :desc "Convert to decimal" "d" n "ciw<C-r>=printf('%d', <C-r>\")<CR><ESC>b"
+   :desc "Convert to hex"     "h" n "ciw<C-r>=printf('0x%x', <C-r>\")<CR><ESC>b"
+   :desc "Convert to octal"   "o" n "ciw<C-r>=printf('0o%o', <C-r>\")<CR><ESC>b"
+   :desc "Print radix"        "p" n ":echo printf('<%s> %d 0x%x 0o%o 0b%b', '<C-r><C-w>', <C-r><C-w>, <C-r><C-w>, <C-r><C-w>, <C-r><C-w>)<CR>")
 
   (:prefix
    "o" "open"
-   :desc "Open file"                    "f" n ":Fern <C-r>=fnameescape(expand('%:p:h'))<CR> -reveal=<C-r>=fnameescape(expand('%:p'))<CR><CR>"
    :desc "Project sidebar"              "p" n ":NERDTreeFocus<CR>"
    :desc "Find file in project sidebar" "P" n ":NERDTreeFind<CR>"
-   :desc "Toggle terminal popup"        "t" n ":terminal<CR>")
    :desc "Reveal file in Finder"        "o" ne #(if (has? "mac") ":exe 'silent !open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>"
                                                     (has? "win32") ":exe 'silent !explorer /select,\"<C-r>=fnameescape(expand('%:p'))<CR>\"'<CR>")
    :desc "Reveal project in Finder"     "O" ne #(if (has? "mac") ":exe 'silent !open <C-r>=fnameescape(getcwd())<CR>'<CR>"
@@ -241,27 +239,23 @@
 
   (:prefix
    "t" "toggle"
-   :desc "Colored column"        "c" n  ":set <C-r>=&cc ? 'colorcolumn=' : 'colorcolumn=80'<CR><CR>"
-   :desc "Cursor column"         "C" n  ":set cursorcolumn!<CR>"
+   :desc "Cursor column"         "c" n! ":set <C-r>=&cuc ? 'nocursorcolumn' : 'cursorcolumn'<CR><CR>"
+   :desc "Colored column"        "C" n! ":set <C-r>=&cc ? 'colorcolumn=' : 'colorcolumn=80'<CR><CR>"
    :desc "Diff buffer"           "d" n  ":<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>"
+   :desc "Cycle diff-algo"       "D" n  ":call CycleDiffAlgo()<CR>"
    :desc "Cycle folding"         "f" n  ":call CycleFolding()<CR>"
-   :desc "Line numbers"          "l" n! ":set number!<CR>"
-   :desc "Relative line numbers" "L" n! ":set relativenumber!<CR>"
+   :desc "Line numbers"          "l" n! ":set <C-r>=&nu ? 'nonumber' : 'number'<CR><CR>"
+   :desc "Relative line numbers" "L" n! ":set <C-r>=&rnu ? 'norelativenumber' : 'relativenumber'<CR><CR>"
    :desc "Virtual editing"       "v" n! ":set <C-r>=&ve =~# 'all' ? 'virtualedit-=all' : 'virtualedit+=all'<CR><CR>"
-   :desc "Soft line wrapping"    "w" n! ":set wrap!<CR>"
-   (:prefix
-    "D" "diffing"
-    :desc "Cycle diff-algo"               "a" n ":call CycleDiffAlgo()<CR>"
-    :desc "Turn off diff for all buffers" "o" n ":diffoff!<CR>")
+   :desc "Soft line wrapping"    "w" n! ":set <C-r>=&wrap ? 'nowrap' : 'wrap'<CR><CR>"
    (:prefix
     "i" "indentation"
-    :desc "Toggle indent"                   "i" n! ":set expandtab!<CR>"
-    :desc "Increase indent"                 ">" n  ":set ts=<C-r>=&ts+2<CR>|set sw=<C-r>=&sw+2<CR><CR>"
-    :desc "Decrease indent"                 "<" n  ":set ts=<C-r>=&ts-2<CR>|set sw=<C-r>=&sw-2<CR><CR>"
-    :desc "Replace according to &expandtab" "R" n  ":<C-r>=&et ? 'Tb2Sp' : 'Sp2Tb'<CR><CR>"
-    :desc "Replace according to &expandtab" "r" x  ":set <C-r>=&et ? 'Sp2Tb' : 'Tb2Sp'<CR><CR>"
-    :desc "Replace with spaces"             "s" x  ":Tb2Sp<CR>"
-    :desc "Replace with tabs"               "t" x  ":Sp2Tb<CR>"))
+    :desc "Toggle expandtab"                "i" n! ":set <C-r>=&et ? 'noexpandtab' : 'expandtab'<CR><CR>"
+    :desc "Increase indent"                 ">" n! ":set ts=<C-r>=&ts+2<CR>|set sw=<C-r>=&sw+2<CR><CR>"
+    :desc "Decrease indent"                 "<" n! ":set ts=<C-r>=&ts-2<CR>|set sw=<C-r>=&sw-2<CR><CR>"
+    :desc "Replace according to &expandtab" "r" nx ":<C-r>=&et ? 'Sp2Tb' : 'Tb2Sp'<CR><CR>"
+    :desc "Replace with spaces"             "s" nx ":Tb2Sp<CR>"
+    :desc "Replace with tabs"               "t" nx ":Sp2Tb<CR>"))
 
   (:prefix
    "w" "workspace"
@@ -280,13 +274,18 @@
    :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
   (:prefix
    "p" "packer"
-   :desc "Clean"       "c" n! ":PackerClean<CR>"
-   :desc "Install"     "i" n! ":PackerInstall<CR>"
-   :desc "Status"      "s" n! ":PackerStatus<CR>"
-   :desc "Update/Sync" "u" n! ":PackerSync<CR>")
+   :desc "Compile"         "c" n! ":PackerCompile<CR>"
+   :desc "Clean"           "C" n! ":PackerClean<CR>"
+   :desc "Install"         "i" n! ":PackerInstall<CR>"
+   :desc "List packages"   "l" n! ":PackerStatus<CR>"
+   :desc "Browse packages" "p" n #((. (require :telescope) :extensions :packer :packer))
+   :desc "Sync"            "s" n! ":PackerSync<CR>")
   (:prefix
    "r" "reload"
-   :desc ".vimrc" "r" n! ":Reload<CR>"))
+   :desc "Edit config"   "e" n  ":Editrc<CR>"
+   :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
+   :desc "Config"        "r" n! ":Reload<CR>"
+   :desc "Edit Snippets" "s" n  #(_G.luasnip_edit_snippets)))
 
  (:prefix
   "<C-x>" "completion"
@@ -337,7 +336,6 @@
                  :<leader>q  {:name "quit"}
                  :<leader>s  {:name "search"}
                  :<leader>t  {:name "toggle"}
-                 :<leader>tD {:name "diffing"}
                  :<leader>ti {:name "indentation"}
                  :<leader>w  {:name "workspace"}
                  :<C-h>      {:name "help"}

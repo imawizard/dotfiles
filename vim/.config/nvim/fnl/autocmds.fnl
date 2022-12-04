@@ -1,4 +1,4 @@
-(import-macros {: aucmd!} :macros)
+(import-macros {: aucmd! : feedkeys! : bind!} :macros)
 
 (aucmd!
  (:group
@@ -12,36 +12,34 @@
   "highlight-on-yank"
   ;; Highlight yanks.
   TextYankPost
-  (fn [] (vim.highlight.on_yank
-          {:higroup "HighlightedyankRegion"
-           :timeout 400})))
+  #(do
+    (pcall #(vim.highlight.on_yank {:higroup "HighlightedyankRegion"
+                                    :timeout 400}))
+    false))
 
  (:group
   "close-preview-after-completion"
   ;; Close any popup windows if no popup menu is open.
   [InsertLeave CompleteDone]
-  "if !pumvisible() | silent! pclose | endif")
+  #(when (= (vim.fn.pumvisible) 0) (vim.cmd "silent! pclose")))
 
  (:group
   "autosave-like-intellij"
   ;; Save automatically.
   [WinLeave FocusLost]
-  "wall")
+  "silent! wall")
 
  (:group
   "revert-to-normal-mode"
   ;; Always normal mode when coming back to a pane.
   FocusLost
-  "call feedkeys(\"\\<C-\\>\\<C-n>\")")
+  #(feedkeys! "<C-\\><C-n>l"))
 
  (:group
   :restore-C-m-if-readonly
   ;; CR is remapped to insert a line, restore it conditionally.
   BufReadPost
-  "if !&modifiable | nnoremap <buffer> <CR> <CR> | endif"
-  Filetype
-  :pattern "netrw"
-  "nnoremap <buffer> <CR> <CR>")
+  #(when (not vim.bo.modifiable) (bind! "<CR>" nb "<CR>")))
 
  (:group
   :terminal-cmds

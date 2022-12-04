@@ -27,6 +27,8 @@
 
  (:when (has? "mac")
    guifont "Fira Code Light Nerd Font Complete Mono:h12")
+ (:when (has? "win32")
+   guifont "FiraCode Nerd Font Mono:h10")
  (:when (has? "termguicolors")
    termguicolors true)                       ; Use guifg and guibg.
  (:when (string.match vim.o.term "256color")
@@ -55,6 +57,8 @@
                   "/.vim/undo")
  undolevels   2000                           ; Increase possible undos.
  sessionoptions (:remove "tabpages")         ; Only save the current tab in sessions.
+ shada          (:append "rterm://"          ; Don't save marks for terminal buffers.
+                         "'150")             ; Increase limit of v:oldfiles.
  fileformats  ["unix" "dos" "mac"]           ; Use Unix as the standard file type.
 
  completeopt  (:remove "menuone")            ; Don't show if only one match.
