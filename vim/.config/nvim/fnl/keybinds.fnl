@@ -208,6 +208,8 @@
                                                     (has? "win32") ":exe 'silent !explorer <C-r>=fnameescape(getcwd())<CR>'<CR>")
    :desc "Project sidebar"              "p" n  ":NvimTreeFocus<CR>"
    :desc "Find file in project sidebar" "P" n  ":NvimTreeFindFile<CR>"
+   :desc "Tagbar"                       "t" n  ":TagbarOpen 'fj'<CR>"
+   :desc "Undotree"                     "u" n  ":UndotreeShow<CR>"
    :desc "Vinegar"                      "v" n  #((. (require "nvim-tree") :open_replacing_current_buffer)))
 
   (:prefix
@@ -223,7 +225,6 @@
 
   (:prefix
    "s" "search"
-   :desc "Look up in local docsets" "k" n  "<Plug>DashSearch"
    :desc "Search and replace" "/" n! ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF "
    :desc "Buffer"             "b" n  #((. (require :telescope.builtin) :current_buffer_fuzzy_find))
    :desc "All open buffers"   "B" n  #((. (require :telescope.builtin) :live_grep {:grep_open_files true}))
@@ -231,6 +232,10 @@
                                           (vim.lsp.buf.workspace_symbol)
                                           (print "No support within current buffer"))
    :desc "Jump list"          "j" n  #((. (require :telescope.builtin) :jumplist))
+   :desc "Docset"             "k" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>")})
+   :desc "All docsets"        "K" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>") :docsets "all"})
+   :desc "Docset"             "k" x  #(_G.DashSearch {:query (selected-text!)})
+   :desc "All docsets"        "K" x  #(_G.DashSearch {:query (selected-text!) :docsets "all"})
    :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
    :desc "Buffer symbols"     "s" n  #(if (_G.lsp? :documentSymbolProvider)
                                           (vim.lsp.buf.document_symbol)
