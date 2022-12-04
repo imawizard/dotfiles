@@ -184,4 +184,54 @@
     ,(if (not= mode nil) mode "n")
     false))
 
+(fn M.aucmd! [...]
+  (fn parse-cmd [group rest]
+    (var out nil)
+    (var events nil)
+    (var pattern "")
+    (while (and (= out nil)
+                (> (# rest) 0))
+      (let [arg (table.remove rest 1)]
+        (if (= events nil)
+            (if (sym? arg)
+                (set events (tostring arg))
+                (sequence? arg)
+                (set events (icollect [_ ev (ipairs arg)] (tostring ev))))
+            (match arg
+              :pattern (set pattern (table.remove rest 1))
+              cmd (set out
+                       `(vim.api.nvim_create_autocmd
+                         ,events
+                         {:group ,group
+                          :pattern ,pattern
+                          :callback ,(if (= (?. cmd 1 1) :quote)
+                                         `(fn [] ,(. cmd 2))
+                                         (not= (type cmd) "string")
+                                         cmd)
+                          :command ,(if (= (type cmd) "string")
+                                        cmd)}))))))
+    out)
+
+  (fn parse-group [name ...]
+    (let [rest [...]
+          grp (gensym :grp)
+          cmds []]
+      (while (> (# rest) 0)
+        (table.insert cmds (parse-cmd grp rest)))
+      `(let [,grp (vim.api.nvim_create_augroup ,name {:clear true})]
+         ,(unpack cmds))))
+
+  (let [rest [...]
+        out []]
+    (while (> (# rest) 0)
+      (let [arg (table.remove rest 1)]
+        (table.insert
+         out
+         (if (list? arg)
+             (match (?. arg 1)
+               :group (parse-group (select 2 (unpack arg)))
+               other (assert-compile false (.. "Unexpected " other)))
+             (parse-cmd "" rest)))))
+    `(do ,(unpack out))))
+
 M

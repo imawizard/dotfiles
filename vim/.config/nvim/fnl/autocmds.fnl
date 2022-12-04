@@ -1,33 +1,53 @@
-(vim.cmd
- "
- augroup packer_user_config
-   autocmd!
-   autocmd BufWritePost */nvim/fnl/{plugins/*,langs/*,keybinds}.fnl source $MYVIMRC | edit | PackerCompile
- augroup end
+(import-macros {: aucmd!} :macros)
 
- augroup close-preview-after-completion
-   autocmd!
-   autocmd InsertLeave,CompleteDone * if !pumvisible() | silent! pclose | endif
- augroup end
+(aucmd!
+ (:group
+  "reload-packer-config"
+  ;; Reload plugins and keybindings on changes.
+  BufWritePost
+  :pattern "*/nvim/fnl/{plugins/*,langs/*,keybinds}.fnl"
+  "source $MYVIMRC | edit | PackerCompile")
 
- augroup autosave-like-intellij
-   autocmd!
-   autocmd WinLeave,FocusLost * silent! wall
- augroup end
+ (:group
+  "highlight-on-yank"
+  ;; Highlight yanks.
+  TextYankPost
+  (fn [] (vim.highlight.on_yank
+          {:higroup "HighlightedyankRegion"
+           :timeout 400})))
 
- \"augroup revert-to-normal-mode
- \"  autocmd!
- \"  autocmd FocusLost * call feedkeys(\"\\<C-\\>\\<C-n>\")
- \"augroup end
+ (:group
+  "close-preview-after-completion"
+  ;; Close any popup windows if no popup menu is open.
+  [InsertLeave CompleteDone]
+  "if !pumvisible() | silent! pclose | endif")
 
- augroup highlight-on-yank
-   autocmd!
-   autocmd TextYankPost * silent! lua vim.highlight.on_yank({higroup=\"HighlightedyankRegion\", timeout=400})
- augroup end
+ (:group
+  "autosave-like-intellij"
+  ;; Save automatically.
+  [WinLeave FocusLost]
+  "wall")
 
- augroup restore-C-m-if-readonly
-   autocmd!
-   \"autocmd BufReadPost * if !&modifiable | nnoremap <buffer> <CR> <CR> | endif
-   \"autocmd Filetype netrw nnoremap <buffer> <CR> <CR>
- augroup end
- ")
+ (:group
+  "revert-to-normal-mode"
+  ;; Always normal mode when coming back to a pane.
+  FocusLost
+  "call feedkeys(\"\\<C-\\>\\<C-n>\")")
+
+ (:group
+  :restore-C-m-if-readonly
+  ;; CR is remapped to insert a line, restore it conditionally.
+  BufReadPost
+  "if !&modifiable | nnoremap <buffer> <CR> <CR> | endif"
+  Filetype
+  :pattern "netrw"
+  "nnoremap <buffer> <CR> <CR>")
+
+ (:group
+  :terminal-cmds
+  ;; Start terminals in insert mode.
+  TermOpen
+  "startinsert"
+  ;; Hide any gutter in terminal panes.
+  TermOpen
+  ":set nonumber norelativenumber signcolumn=no"))

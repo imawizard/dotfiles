@@ -11,7 +11,7 @@
              (use :rktjmp/hotpot.nvim))))
 
 ;; Load modules from root-folder.
-(each [_ v (ipairs [:settings :keybinds :autocmds])]
+(each [_ v (ipairs [:settings :keybinds :autocmds :commands])]
   (require-forcefully v))
 
 ;; Compile config with hotpot, see :help hotpot-api.
