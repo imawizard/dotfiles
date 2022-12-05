@@ -10,13 +10,12 @@
       (dap_go.setup)))}
  :leoluz/nvim-dap-go)
 
-(let [cfg (require :lspconfig)
-      util (require :lspconfig/util)
+(let [cfgs (require :lspconfig)
       cmp_lsp (require :cmp_nvim_lsp)]
 
   (if (executable? "gopls")
       ;; See https://github.com/golang/tools/blob/master/gopls/internal/lsp/source/options.go.
-      (cfg.gopls.setup
+      (cfgs.gopls.setup
        {:cmd ["gopls" "serve"]
         :capabilities (cmp_lsp.default_capabilities)
         :settings
@@ -30,5 +29,5 @@
                               :test true}}}}))
 
   (if (executable? "golangci-lint-langserver")
-      (cfg.golangci_lint_ls.setup
+      (cfgs.golangci_lint_ls.setup
        {:capabilities (cmp_lsp.default_capabilities)})))
