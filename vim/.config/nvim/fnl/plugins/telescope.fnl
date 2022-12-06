@@ -33,25 +33,24 @@
                               :results_title false
                               :path_display (if (has? "win32")
                                                 (fn [opts path]
-                                                  (vim.fs.normalize path)))})})
+                                                  (vim.fs.normalize path)))})
 
-      :pickers
-      {:oldfiles {}
-       :find_files {:hidden true
-                    :find_command ["rg"
-                                   "--files"
-                                   "--color=never"
-                                   "-g" "!.git/"]}}
+        :pickers
+        {:find_files {:hidden true
+                      :find_command ["rg"
+                                     "--files"
+                                     "--color=never"
+                                     "-g" "!.git/"]}}
 
-      :extensions
-      {:project {:hidden_files true
-                 :theme "dropdown"
-                 :sync_with_nvim_tree true}
+        :extensions
+        {:project {:hidden_files true
+                   :theme "dropdown"
+                   :sync_with_nvim_tree true}
 
-       :zoxide {:mappings {:default
-                           {:action (fn [selection]
-                                      (vim.cmd
-                                       (.. "tcd " selection.path)))}}}}))}
+         :zoxide {:mappings {:default
+                             {:action (fn [selection]
+                                        (vim.cmd
+                                         (.. "tcd " selection.path)))}}}}})))}
  :nvim-telescope/telescope.nvim
  :nvim-telescope/telescope-symbols.nvim
 

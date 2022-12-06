@@ -10,8 +10,7 @@
  ctrlsf_preview_position "inside" ; Open preview as split.
  ctrlsf_context          "-B 2"   ; Print that many lines for context.
 
- ctrlsf_extra_backend_args {:rg ["--hidden"
-                                 "-g" "!.git/"]}
+ ctrlsf_extra_backend_args {:rg "--hidden -g !.git/"}
 
  ctrlsf_auto_focus {:at "done"
                     :duration_less_than 1000})

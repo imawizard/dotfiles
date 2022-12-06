@@ -35,10 +35,10 @@
 
             :dap
             {:adapter (rust_tools_dap.get_codelldb_adapter
-                       (.. codelldb_path (if (has? "win32")
-                                             ".exe"
-                                             ""))
-                       (.. liblldb_path (if (has? "win32")
-                                            ".dll"
-                                            ".a")))}})))))}
+                       (unpack
+                        (if (has? "win32")
+                            [(string.gsub (.. codelldb_path ".exe") "/" "\\")
+                             (string.gsub (.. liblldb_path ".dll") "/" "\\")]
+                            [codelldb_path
+                             (.. liblldb_path ".a")])))}})))))}
  :simrat39/rust-tools.nvim)
