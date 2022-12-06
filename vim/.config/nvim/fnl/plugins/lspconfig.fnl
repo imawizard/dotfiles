@@ -13,18 +13,21 @@
       (when (_G.lsp? :documentHighlightProvider args.buf)
         (aucmd!
          (:group
-          hilite-augrp
+          (.. hilite-augrp "-" args.buf)
           ;; Highlight identifier under cursor.
           [CursorHold CursorHoldI]
+          :buffer args.buf
           #(vim.lsp.buf.document_highlight)
           CursorMoved
+          :buffer args.buf
           #(vim.lsp.buf.clear_references))))))
    (:group
     "lsp-on-detach"
     LspDetach
     (fn [args]
       (when (not (_G.lsp? :documentHighlightProvider args.buf))
-        (vim.api.nvim_del_augroup_by_name hilite-augrp))))))
+        (pcall #(vim.api.nvim_del_augroup_by_name
+                 (.. hilite-augrp "-" args.buf))))))))
 
 (fn _G.lsp? [capability bufnr]
   (_G.lsp-any #(not= (. $1 capability) nil) bufnr))

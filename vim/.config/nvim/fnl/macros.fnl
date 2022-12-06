@@ -206,7 +206,8 @@
   (fn parse-cmd [group rest]
     (var out nil)
     (var events nil)
-    (var pattern "")
+    (var pattern nil)
+    (var buffer nil)
     (while (and (= out nil)
                 (> (# rest) 0))
       (let [arg (table.remove rest 1)]
@@ -217,11 +218,13 @@
                 (set events (icollect [_ ev (ipairs arg)] (tostring ev))))
             (match arg
               :pattern (set pattern (table.remove rest 1))
+              :buffer (set buffer (table.remove rest 1))
               cmd (set out
                        `(vim.api.nvim_create_autocmd
                          ,events
                          {:group ,group
                           :pattern ,pattern
+                          :buffer ,buffer
                           :callback ,(if (not= (type cmd) "string")
                                          cmd)
                           :command ,(if (= (type cmd) "string")
