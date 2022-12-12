@@ -1,7 +1,5 @@
 " See https://github.com/equalsraf/neovim-qt/wiki/Configuration-Options.
 
-call GuiWindowFrameless(1)
-
 " Enable Drag & Drop
 fun! GuiDropCustomHandler(...)
     let fnames = deepcopy(a:000)

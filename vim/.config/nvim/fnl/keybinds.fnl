@@ -15,11 +15,6 @@
  ;; Like tmux's break-pane binding.
  "<C-w>!" n "<C-w>T"
 
- ;; Switch panes in terminal mode.
- "<C-w><C-w>" t "<C-\\><C-n><C-w><C-w>"
- "<C-w>j"     t "<C-\\><C-n><C-w>w"
- "<C-w>k"     t "<C-\\><C-n><C-w>W"
-
  ;; Move current line up and down.
  "<C-9>" n ":move .+1<CR>=="
  "<C-0>" n ":move .-2<CR>=="

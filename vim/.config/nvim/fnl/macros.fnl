@@ -136,41 +136,6 @@
       `(do ,(unpack out))))
   (bind "" ...))
 
-(fn M.binds! [...]
-  "Like bind! but returns the mapping as a table
-  (Caveat: having the same key on the same level twice is not possible)"
-  (let [rest [...]
-        out {}]
-    (var desc nil)
-    (while (> (# rest) 0)
-      (let [arg (table.remove rest 1)]
-        (if (list? arg)
-            (match (. arg 1)
-              :prefix (let [key (. arg 2)
-                            name (. arg 3)
-                            body [(select 4 (unpack arg))]
-                            tbl (M.binds! (unpack body))]
-                        (tset tbl :name name)
-                        (tset out key tbl))
-              other (assert-compile false (.. "Unexpected " other)))
-            (match arg
-              :desc (set desc (table.remove rest 1))
-              _ (let [opts (tostring (table.remove rest 1))
-                      to (table.remove rest 1)]
-                  (let [key [to desc]
-                        modes (icollect [s (string.gmatch opts "[nivxcto]")] s)
-                        flags {:buffer (if (string.match opts "b") `(vim.fn.bufnr "%"))
-                               :expr (if (string.match opts "e") true false)
-                               :mode modes
-                               :noremap (if (string.match opts "r") false true)
-                               :silent (if (string.match opts "!") false true)}]
-                    (tset
-                     out
-                     arg
-                     (collect [i v (ipairs key) &into flags] i v)))
-                  (set desc nil))))))
-    out))
-
 (fn M.has? [value]
   "Shorthand for vim.fn.has returning boolean"
   `(= (vim.fn.has ,value) 1))
