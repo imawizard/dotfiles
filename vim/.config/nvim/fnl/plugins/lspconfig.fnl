@@ -26,8 +26,8 @@
     LspDetach
     (fn [args]
       (when (not (_G.lsp? :documentHighlightProvider args.buf))
-        (pcall #(vim.api.nvim_del_augroup_by_name
-                 (.. hilite-augrp "-" args.buf))))))))
+        (pcall vim.api.nvim_del_augroup_by_name
+               (.. hilite-augrp "-" args.buf)))))))
 
 (fn _G.lsp? [capability bufnr]
   (_G.lsp-any #(not= (. $1 capability) nil) bufnr))

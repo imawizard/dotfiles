@@ -66,9 +66,9 @@
                                                 (fn []
                                                   (let [entries (cmp.get_entries)]
                                                     (if (= (# entries) 0)
-                                                        (print "No entries")
+                                                        (vim.notify "No entries")
                                                         (and (= (# entries) 1)
-                                                             (not (. (. entries 1) :fuzzy)))
+                                                             (not (. entries 1 :fuzzy)))
                                                         (cmp.confirm {:select true}))))))
                            (fallback)))
                   :c (fn [fallback]
@@ -80,9 +80,9 @@
                              (fn []
                                (let [entries (cmp.get_entries)]
                                  (if (= (# entries) 0)
-                                     (print "No entries")
+                                     (vim.notify "No entries")
                                      (and (= (# entries) 1)
-                                          (not (. (. entries 1) :fuzzy)))
+                                          (not (. entries 1 :fuzzy)))
                                      (cmp.confirm {:select true}))))))))})
          :<CR> (cmp.mapping
                 {:i (fn [fallback]

@@ -8,7 +8,7 @@
  {:config
   (fn []
     (let [rust_tools (require :rust-tools)
-          rust_tools_dap (require :rust-tools/dap)
+          rust_tools_dap (require :rust-tools.dap)
           cmplsp (require :cmp_nvim_lsp)]
 
       (when (executable? "rustup")

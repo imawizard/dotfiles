@@ -12,10 +12,8 @@
   "highlight-on-yank"
   ;; Highlight yanks.
   TextYankPost
-  #(do
-    (pcall #(vim.highlight.on_yank {:higroup "HighlightedyankRegion"
-                                    :timeout 400}))
-    false))
+  #(pcall vim.highlight.on_yank {:higroup "HighlightedyankRegion"
+                                 :timeout 400}))
 
  (:group
   "close-preview-after-completion"
@@ -48,4 +46,4 @@
   "startinsert"
   ;; Hide any gutter in terminal panes.
   TermOpen
-  ":set nonumber norelativenumber signcolumn=no"))
+  "set nonumber norelativenumber signcolumn=no"))

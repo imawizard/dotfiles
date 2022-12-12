@@ -1,4 +1,4 @@
-(import-macros {: gset! : bind! : binds! : use! : feedkeys! : mode?
+(import-macros {: gset! : bind! : use! : feedkeys! : mode?
                 : has? : selected-text!} :macros)
 
 (gset!
@@ -85,7 +85,7 @@
                                                 (feedkeys! "K" "m"))
  :desc "Show signature help" "<C-k>"    i  #(if (_G.lsp? :signatureHelpProvider)
                                                 (vim.lsp.buf.signature_help)
-                                                (print "No support within current buffer"))
+                                                (vim.notify "No support within current buffer"))
  :desc "Open terminal"       "<C-z>"    n  ":FocusNuake<CR>"
  :desc "Open terminal"       "<C-z>"    i  "<C-o>:FocusNuake<CR>"
  :desc "Close terminal"      "<C-z>"    t  "<C-\\><C-n>:Nuake<CR><C-w>p"
@@ -127,7 +127,7 @@
    "c" "code"
    :desc "Execute code action"        "a" n! #(if (_G.lsp? :codeActionProvider)
                                                   (vim.lsp.buf.code_action)
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Jump to definition"         "d" n! #(if (_G.lsp? :definitionProvider) (vim.cmd ":TroubleToggle lsp_definitions")
                                                   (feedkeys! "gd" "m"))
    :desc "Jump to declaration"        "D" n! #(if (_G.lsp? :declarationProvider)
@@ -135,24 +135,24 @@
                                                   (feedkeys! "gD" "m"))
    :desc "Format buffer"              "f" n! #(if (_G.lsp? :documentFormattingProvider)
                                                   (vim.lsp.buf.format)
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Format region"              "f" x! #(if (_G.lsp? :documentRangeFormattingProvider)
                                                   (vim.lsp.buf.format)
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Find implementations"       "i" n! #(if (_G.lsp? :implementationProvider)
                                                   (vim.cmd ":TroubleToggle lsp_implementations")
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Organize imports"           "o" n! #(if (_G.lsp-organize-imports?)
                                                   (_G.lsp-organize-imports!)
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Rename"                     "r" n! #(if (_G.lsp? :renameProvider) (vim.lsp.buf.rename)
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Find type definition"       "t" n! #(if (_G.lsp? :typeDefinitionProvider)
                                                   (vim.cmd ":TroubleToggle lsp_type_definitions")
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Find usages"                "u" n! #(if (_G.lsp? :referencesProvider)
                                                   (vim.cmd ":TroubleToggle lsp_references")
-                                                  (print "No support within current buffer"))
+                                                  (vim.notify "No support within current buffer"))
    :desc "Delete trailing whitespace" "w" n  ":StripTrailingWS<CR>"
    :desc "List errors"                "x" n  ":Trouble<CR>"
    :desc "List project todos"         "X" n! ":CtrlSF -R '(TODO|NOTE|HACK|OPTIMIZE|XXX)(\\([^)]+\\))?:' '<C-r>=getcwd()<CR>'"
@@ -161,8 +161,8 @@
 
    (:prefix
     "l" "lsp"
-    :desc "LSP Show capabilities" "c" n! ":lua =vim.lsp.get_active_clients()[1].server_capabilities<CR>"
-    :desc "LSP Reload"            "r" n! #(do (vim.lsp.stop_client (vim.lsp.get_active_clients)) (vim.cmd "edit"))))
+    :desc "Show capabilities" "c" n! ":lua =vim.lsp.get_active_clients()[1].server_capabilities<CR>"
+    :desc "Reload server"     "r" n! #(do (vim.lsp.stop_client (vim.lsp.get_active_clients)) (vim.cmd "edit"))))
 
   (:prefix
    "f" "file"
@@ -210,7 +210,7 @@
    :desc "Find file in project sidebar" "P" n  ":NvimTreeFindFile<CR>"
    :desc "Tagbar"                       "t" n  ":TagbarOpen 'fj'<CR>"
    :desc "Undotree"                     "u" n  ":UndotreeShow<CR>"
-   :desc "Vinegar"                      "v" n  #((. (require "nvim-tree") :open_replacing_current_buffer)))
+   :desc "Vinegar"                      "v" n  #((. (require :nvim-tree) :open_replacing_current_buffer)))
 
   (:prefix
    "p" "project"
@@ -230,7 +230,7 @@
    :desc "All open buffers"   "B" n  #((. (require :telescope.builtin) :live_grep {:grep_open_files true}))
    :desc "Workspace symbols"  "i" n  #(if (_G.lsp? :workspaceSymbolProvider)
                                           (vim.lsp.buf.workspace_symbol)
-                                          (print "No support within current buffer"))
+                                          (vim.notify "No support within current buffer"))
    :desc "Jump list"          "j" n  #((. (require :telescope.builtin) :jumplist))
    :desc "Docset"             "k" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>")})
    :desc "All docsets"        "K" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>") :docsets "all"})
@@ -239,7 +239,7 @@
    :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
    :desc "Buffer symbols"     "s" n  #(if (_G.lsp? :documentSymbolProvider)
                                           (vim.lsp.buf.document_symbol)
-                                          (print "No support within current buffer"))
+                                          (vim.notify "No support within current buffer"))
    :desc "Tags"               "t" n  #((. (require :telescope.builtin) :tags))
    :desc "Buffer tags"        "T" n  #((. (require :telescope.builtin) :current_buffer_tags))
    :desc "Zoxide"             "z" n  #((. (require :telescope) :extensions :zoxide :list)))
@@ -268,7 +268,7 @@
    "w" "workspace"
    :desc "Add folder"    "a" n #(vim.lsp.buf.add_workspace_folder)
    :desc "Remove folder" "d" n #(vim.lsp.buf.remove_workspace_folder)
-   :desc "List folders"  "l" n ":lua =vim.inspect(vim.lsp.buf.list_workspace_folders())\n"))
+   :desc "List folders"  "l" n ":lua =vim.lsp.buf.list_workspace_folders()<CR>"))
 
  (:prefix
   "<C-h>" "help"
