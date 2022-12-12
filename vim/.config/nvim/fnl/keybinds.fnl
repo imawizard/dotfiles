@@ -81,9 +81,6 @@
  :desc "Show signature help" "<C-k>"    i  #(if (_G.lsp? :signatureHelpProvider)
                                                 (vim.lsp.buf.signature_help)
                                                 (vim.notify "No support within current buffer"))
- :desc "Open terminal"       "<C-z>"    n  ":FocusNuake<CR>"
- :desc "Open terminal"       "<C-z>"    i  "<C-o>:FocusNuake<CR>"
- :desc "Close terminal"      "<C-z>"    t  "<C-\\><C-n>:Nuake<CR><C-w>p"
 
  :desc "Show error"          "K"        n  (. vim.diagnostic :open_float)
  :desc "Previous error"      "[e"       n  (. vim.diagnostic :goto_prev)
