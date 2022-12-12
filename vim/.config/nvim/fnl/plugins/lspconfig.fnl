@@ -16,10 +16,10 @@
           (.. hilite-augrp "-" args.buf)
           ;; Highlight identifier under cursor.
           [CursorHold CursorHoldI]
-          :buffer args.buf
+          :bufnr args.buf
           #(vim.lsp.buf.document_highlight)
           CursorMoved
-          :buffer args.buf
+          :bufnr args.buf
           #(vim.lsp.buf.clear_references))))))
    (:group
     "lsp-on-detach"

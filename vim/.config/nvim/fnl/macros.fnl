@@ -107,6 +107,7 @@
     (let [rest [...]
           out []]
       (var desc nil)
+      (var bufnr nil)
       (while (> (# rest) 0)
         (let [arg (table.remove rest 1)]
           (if (list? arg)
@@ -120,13 +121,15 @@
                  other (assert-compile false (.. "Unexpected " other))))
               (match arg
                 :desc (set desc (table.remove rest 1))
+                :bufnr (set bufnr (table.remove rest 1))
                 _ (let [opts (tostring (table.remove rest 1))
                         to (table.remove rest 1)]
                     (table.insert
                      out
                      (let [key (.. prefix arg)
                            modes (icollect [s (string.gmatch opts "[nivxcto]")] s)
-                           flags {:buffer (if (string.match opts "b") true false)
+                           buffer (or bufnr (if (string.match opts "b") 0))
+                           flags {:buffer buffer
                                   :desc desc
                                   :expr (if (string.match opts "e") true false)
                                   :remap (if (string.match opts "r") true false)
@@ -172,7 +175,8 @@
     (var out nil)
     (var events nil)
     (var pattern nil)
-    (var buffer nil)
+    (var bufnr nil)
+    (var once nil)
     (while (and (= out nil)
                 (> (# rest) 0))
       (let [arg (table.remove rest 1)]
@@ -183,17 +187,23 @@
                 (set events (icollect [_ ev (ipairs arg)] (tostring ev))))
             (match arg
               :pattern (set pattern (table.remove rest 1))
-              :buffer (set buffer (table.remove rest 1))
-              cmd (set out
-                       `(vim.api.nvim_create_autocmd
-                         ,events
-                         {:group ,group
-                          :pattern ,pattern
-                          :buffer ,buffer
-                          :callback ,(if (not= (type cmd) "string")
-                                         cmd)
-                          :command ,(if (= (type cmd) "string")
-                                        cmd)}))))))
+              :bufnr (set bufnr (table.remove rest 1))
+              :once (set once (table.remove rest 1))
+              cmd (let [cmd-sym (gensym :cmd)
+                        once-sym (gensym :once)
+                        iscb-sym (gensym :iscb)]
+                    (set out
+                         `(let [,cmd-sym ,cmd
+                                ,once-sym ,once
+                                ,iscb-sym (= (type ,cmd-sym) "function")]
+                            (vim.api.nvim_create_autocmd
+                             ,events
+                             {:group ,group
+                              :pattern ,pattern
+                              :buffer ,bufnr
+                              :once (if (not ,iscb-sym) ,once-sym)
+                              :callback (if ,iscb-sym #(do (,cmd-sym $1) ,once-sym))
+                              :command (if (not ,iscb-sym) ,cmd-sym)}))))))))
     out)
 
   (fn parse-group [name ...]
@@ -215,7 +225,9 @@
              (match (. arg 1)
                :group (parse-group (select 2 (unpack arg)))
                other (assert-compile false (.. "Unexpected " other)))
-             (parse-cmd "" rest)))))
+             (do
+               (table.insert rest 1 arg)
+               (parse-cmd nil rest))))))
     `(do ,(unpack out))))
 
 M
