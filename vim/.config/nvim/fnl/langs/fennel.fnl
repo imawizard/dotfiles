@@ -1,4 +1,4 @@
-(import-macros {: use! : gset!} :macros)
+(import-macros {: use! : gset! : aucmd! : bind! : feedkeys!} :macros)
 
 (use!
  :bakpakin/fennel.vim)
@@ -15,3 +15,67 @@
  fennel_special_indent_words    ""
  fennel_align_multiline_strings false ; buggy
  fennel_align_subforms          true)
+
+(aucmd!
+ (:group
+  "fennel-bindings"
+  Filetype
+  :pattern "fennel"
+  (fn [args]
+    (if (not (vim.startswith (vim.fn.bufname args.buf)
+                             "hotpot-reflect-session"))
+        (do
+         ;; REPL via hotpot.nvim
+         ;; see https://github.com/rktjmp/hotpot.nvim/blob/master/COOKBOOK.md#using-hotpot-reflect
+         (let [reflect (require :hotpot.api.reflect)
+               prop :hotpot-reflect-vars
+               initial-mode :eval]
+
+           (fn open-hotpot-reflect [bufnr]
+             (let [{: id} (or (. vim.b bufnr prop) {})]
+               (if id (do
+                       (reflect.attach-input id bufnr)
+                       (feedkeys! "<ESC>"))
+                   (let [new-buf (vim.api.nvim_create_buf true true)
+                         new-id (reflect.attach-output new-buf)]
+                     (tset (. vim.b bufnr) prop {:id new-id
+                                                 :mode initial-mode})
+                     (tset (. vim.b new-buf) prop {:mode initial-mode})
+                     (reflect.set-mode new-id initial-mode)
+                     (reflect.attach-input new-id bufnr)
+                     (vim.schedule
+                      #(do
+                        (vim.api.nvim_command "botright vnew")
+                        (vim.api.nvim_win_set_buf
+                         (vim.api.nvim_get_current_win)
+                         new-buf)
+                        (vim.cmd "wincmd p")
+                        (bind!
+                         :bufnr new-buf
+                         "<CR>" n #(let [new-mode (if (= (. vim.b new-buf prop :mode)
+                                                         :eval) :compile :eval)]
+                                     (reflect.set-mode new-id new-mode)
+                                     (tset (. vim.b new-buf) prop {:mode new-mode}))
+                         "q" n ":wincmd c<CR>")
+                        (aucmd!
+                         BufWipeout
+                         :bufnr bufnr
+                         :once true
+                         (.. ":" new-buf "bdelete")
+                         BufWipeout
+                         :bufnr new-buf
+                         :once true
+                         #(tset (. vim.b bufnr) prop nil))))))))
+
+           (fn update-hotpot-reflect [bufnr]
+             (let [{: id : mode} (or (. vim.b bufnr prop) {})]
+               (when id
+                 (reflect.set-mode id mode))))
+
+           (when reflect
+             (bind!
+              :desc "Eval with hotpot.nvim" :bufnr args.buf
+              "<leader>eh" v #(open-hotpot-reflect args.buf)
+
+              :desc "Re-eval with hotpot.nvim" :bufnr args.buf
+              "<leader>eh" n #(update-hotpot-reflect args.buf)))))))))

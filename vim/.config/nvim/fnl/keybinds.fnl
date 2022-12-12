@@ -324,6 +324,7 @@
                  :<leader>b  {:name "buffer"}
                  :<leader>c  {:name "code"}
                  :<leader>cl {:name "lsp"}
+                 :<leader>e  {:name "eval"}
                  :<leader>f  {:name "file"}
                  :<leader>g  {:name "git"}
                  :<leader>gc {:name "create"}
