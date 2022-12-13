@@ -2,6 +2,7 @@
 
 (use!
  ;; See :help tagbar.txt.
+ {:cmd :TagbarOpen}
  :preservim/tagbar)
 
 (gset!

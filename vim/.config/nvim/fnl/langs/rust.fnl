@@ -40,7 +40,8 @@
                             [(string.gsub (.. codelldb_path ".exe") "/" "\\")
                              (string.gsub (.. liblldb_path ".dll") "/" "\\")]
                             [codelldb_path
-                             (.. liblldb_path ".a")])))}})))))}
+                             (.. liblldb_path ".a")])))}})))))
+  :ft "rust"}
  :simrat39/rust-tools.nvim)
 
 (aucmd!

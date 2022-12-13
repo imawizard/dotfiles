@@ -8,7 +8,8 @@
       (trouble.setup {:height 13
                       :action_keys {:close [] ; Unmap q
                                     :jump_close ["<CR>"]
-                                    :jump ["o"]}})))}
+                                    :jump ["o"]}})))
+  :cmd [:Trouble :TroubleToggle]}
  :folke/trouble.nvim)
 
 (aucmd!

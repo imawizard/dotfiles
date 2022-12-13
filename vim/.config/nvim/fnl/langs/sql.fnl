@@ -1,12 +1,19 @@
-(import-macros {: use! : executable?} :macros)
+(import-macros {: aucmd! : executable?} :macros)
 
-(let [cfgs (require :lspconfig)
-      cmp_lsp (require :cmp_nvim_lsp)]
+(aucmd!
+ Filetype
+ :pattern "sql"
+ :once true
 
-  (if (executable? "sqls")
-      (cfgs.sqls.setup
-       {:capabilities (cmp_lsp.default_capabilities)}))
+ #(let [cfgs (require :lspconfig)
+        cmp_lsp (require :cmp_nvim_lsp)]
 
-  (if (executable? "sql-language-server")
-      (cfgs.sqlls.setup
-       {:capabilities (cmp_lsp.default_capabilities)})))
+    (if (executable? "sqls")
+        (cfgs.sqls.setup
+         {:capabilities (cmp_lsp.default_capabilities)}))
+
+    (if (executable? "sql-language-server")
+        (cfgs.sqlls.setup
+         {:capabilities (cmp_lsp.default_capabilities)}))
+
+    (vim.cmd "LspStart")))

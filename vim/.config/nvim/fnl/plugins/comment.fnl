@@ -8,5 +8,6 @@
           ts (require :ts_context_commentstring.integrations.comment_nvim)]
       (cmnt.setup
        {:padding false
-        :pre_hook (if (not= ts nil) (ts.create_pre_hook))})))}
+        :pre_hook (if (not= ts nil) (ts.create_pre_hook))})))
+  :keys [[:n "gcc"] [:v "gc"]]}
  :numToStr/Comment.nvim)

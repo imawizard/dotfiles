@@ -6,7 +6,8 @@
   (fn []
     (bind!
      "gl" nx "<Plug>(EasyAlign)"
-     "."   x "<Plug>(EasyAlignRepeat)"))}
+     "."   x "<Plug>(EasyAlignRepeat)"))
+  :cmd [:EasyAlign :EasyAlignRepeat]}
  :junegunn/vim-easy-align)
 
 (gset!

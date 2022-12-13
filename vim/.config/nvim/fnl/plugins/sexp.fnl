@@ -1,12 +1,24 @@
 (import-macros {: use! : gset!} :macros)
 
+(local fts [:clojure
+            :scheme
+            :lisp
+            :racket
+            :carp
+            :fennel
+            :janet
+            :hy])
+
 (use!
  ;; Motions for s-expression, see :help vim-sexp.txt.
+ {:ft fts}
  :guns/vim-sexp
+
+ {:after :vim-sexp}
  :tpope/vim-sexp-mappings-for-regular-people)
 
 (gset!
- sexp_filetypes "clojure,scheme,lisp,racket,carp,fennel,janet,hy"
+ sexp_filetypes (table.concat fts ",")
 
  sexp_mappings {:sexp_round_head_wrap_list    "<i"
                 :sexp_round_tail_wrap_list    ">i"

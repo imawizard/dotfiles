@@ -342,7 +342,8 @@
                  :<C-h>h     {:name "highlights"}
                  :<C-h>p     {:name "packer"}
                  :<C-h>r     {:name "reload"}
-                 :<C-x>      {:name "completion"}})))}
+                 :<C-x>      {:name "completion"}})))
+  :keys "<leader>"}
  :folke/which-key.nvim)
 
 (fn _G.selected-text []

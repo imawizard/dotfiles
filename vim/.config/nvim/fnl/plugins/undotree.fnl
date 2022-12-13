@@ -2,6 +2,7 @@
 
 (use!
  ;; See :help undotree.txt.
+ {:cmd :UndotreeShow}
  :mbbill/undotree)
 
 (gset!

@@ -2,5 +2,6 @@
 
 (use!
  ;; See :help parinfer.txt.
- {:run "cargo build --release"}
+ {:run "cargo build --release"
+  :after :vim-sexp}
  :eraserhd/parinfer-rust)

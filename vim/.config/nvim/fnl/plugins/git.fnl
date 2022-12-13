@@ -6,7 +6,8 @@
   :config
   (fn []
     (let [gitsigns (require :gitsigns)]
-      (gitsigns.setup)))}
+      (gitsigns.setup)))
+  :event :VimEnter}
  :lewis6991/gitsigns.nvim
 
  :rhysd/git-messenger.vim)

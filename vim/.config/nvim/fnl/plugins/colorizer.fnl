@@ -10,5 +10,6 @@
                              :names    true
                              :RRGGBBAA true
                              :html {:css true}
-                             :css  {:css true}}})))}
+                             :css  {:css true}}})))
+  :event :VimEnter}
  :NvChad/nvim-colorizer.lua)

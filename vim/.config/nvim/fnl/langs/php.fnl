@@ -1,38 +1,45 @@
-(import-macros {: use! : executable?} :macros)
+(import-macros {: aucmd! : executable?} :macros)
 
-(let [cfgs (require :lspconfig)
-      util (require :lspconfig.util)
-      cmp_lsp (require :cmp_nvim_lsp)]
+(aucmd!
+ Filetype
+ :pattern "php"
+ :once true
 
-  (if (executable? "composer")
-      (cfgs.phan.setup
-       {:capabilities (cmp_lsp.default_capabilities)}
-       {:root_dir (util.root_pattern ".phan/config.php")
-        :cmd ["composer"
-              "exec"
-              "phan"
-              "--"
-              "-m"
-              "json"
-              "--no-color"
-              "--no-progress-bar"
-              "-x"
-              "-u"
-              "-S"
-              "--language-server-on-stdin"
-              "--allow-polyfill-parser"]}))
+ #(let [cfgs (require :lspconfig)
+        util (require :lspconfig.util)
+        cmp_lsp (require :cmp_nvim_lsp)]
 
-  (cfgs.psalm.setup
-   {:capabilities (cmp_lsp.default_capabilities)}
-   {:root_dir (util.root_pattern "psalm.xml" "psalm.xml.dist")
-    :cmd ["composer"
-          "exec"
-          "psalm-language-server"]})
+    (if (executable? "composer")
+        (cfgs.phan.setup
+         {:capabilities (cmp_lsp.default_capabilities)}
+         {:root_dir (util.root_pattern ".phan/config.php")
+          :cmd ["composer"
+                "exec"
+                "phan"
+                "--"
+                "-m"
+                "json"
+                "--no-color"
+                "--no-progress-bar"
+                "-x"
+                "-u"
+                "-S"
+                "--language-server-on-stdin"
+                "--allow-polyfill-parser"]}))
 
-  (if (executable? "phpactor")
-      (cfgs.phpactor.setup
-       {:capabilities (cmp_lsp.default_capabilities)}
-       {:root_dir (util.root_pattern "phpactor.yml")
-        :cmd ["composer"
-              "exec"
-              "psalm-language-server"]})))
+    (cfgs.psalm.setup
+     {:capabilities (cmp_lsp.default_capabilities)}
+     {:root_dir (util.root_pattern "psalm.xml" "psalm.xml.dist")
+      :cmd ["composer"
+            "exec"
+            "psalm-language-server"]})
+
+    (if (executable? "phpactor")
+        (cfgs.phpactor.setup
+         {:capabilities (cmp_lsp.default_capabilities)}
+         {:root_dir (util.root_pattern "phpactor.yml")
+          :cmd ["composer"
+                "exec"
+                "psalm-language-server"]}))
+
+    (vim.cmd "LspStart")))

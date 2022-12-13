@@ -2,6 +2,7 @@
 
 (use!
  ;; Search and replace with rg, see :help ctrlsf.txt.
+ {:cmd :CtrlSF}
  :dyng/ctrlsf.vim)
 
 (gset!
