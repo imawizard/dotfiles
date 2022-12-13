@@ -1,4 +1,4 @@
-(import-macros {: use! : gset! : aucmd! : bind! : feedkeys!} :macros)
+(import-macros {: use! : gset! : aucmd! : bind! : feedkeys! : trim-lines!} :macros)
 
 (use!
  :bakpakin/fennel.vim)
@@ -25,6 +25,46 @@
     (if (not (vim.startswith (vim.fn.bufname args.buf)
                              "hotpot-reflect-session"))
         (do
+
+         ;; REPL via fennel.bat
+         (let [[ok repl] [(pcall _G.inject-repl args.buf "fennel.bat")]
+               ts vim.treesitter
+               utils (require :nvim-treesitter.ts_utils)]
+
+           (fn get-form [node]
+             (let [node (or node (utils.get_node_at_cursor 0))
+                   parent (node:parent)]
+               (if parent
+                   (let [child (node:child 0)]
+                     (if (or (not child)
+                             (not= (child:type) "("))
+                         (get-form parent)
+                         node))
+                   node)))
+
+           (fn get-root [node]
+             (let [parent (node:parent)]
+               (if (and parent
+                        (parent:parent))
+                   (get-root parent)
+                   node)))
+
+           (when ok
+             (bind!
+              :desc "Current form" :bufnr args.buf
+              "<leader>ee" n #(repl:exec
+                               (trim-lines!
+                                (ts.query.get_node_text
+                                 (get-form (utils.get_node_at_cursor 0))
+                                 0 {:concat false})))
+
+              :desc "Root form" :bufnr args.buf
+              "<leader>er" n #(repl:exec
+                               (trim-lines!
+                                (ts.query.get_node_text
+                                 (get-root (utils.get_node_at_cursor 0))
+                                 0 {:concat false}))))))
+
          ;; REPL via hotpot.nvim
          ;; see https://github.com/rktjmp/hotpot.nvim/blob/master/COOKBOOK.md#using-hotpot-reflect
          (let [reflect (require :hotpot.api.reflect)
@@ -56,7 +96,7 @@
                                                          :eval) :compile :eval)]
                                      (reflect.set-mode new-id new-mode)
                                      (tset (. vim.b new-buf) prop {:mode new-mode}))
-                         "q" n ":wincmd c<CR>")
+                         "q" n ":wincmd c|wincmd p<CR>")
                         (aucmd!
                          BufWipeout
                          :bufnr bufnr

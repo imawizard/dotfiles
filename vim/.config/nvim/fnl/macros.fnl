@@ -158,17 +158,10 @@
     ,(if (not= mode nil) mode "n")
     false))
 
-(fn M.selected-text! []
-  `(let [u# (vim.fn.getreg "@@")
-         s# (vim.fn.getreg "*")
-         p# (vim.fn.getreg "+")]
-     (vim.cmd "normal y")
-     (let [text# (vim.fn.getreg "@@")]
-       (vim.fn.setreg "@@" u#)
-       (if ,(M.has? "unnamedplus")
-           (vim.fn.setreg "+" p#)
-           (vim.fn.setreg "*" s#))
-       text#)))
+(fn M.trim-lines! [lines]
+  `(icollect [_# line# (ipairs ,lines)]
+       (let [s# (vim.trim line#)]
+         (if (not= s# "") s#))))
 
 (fn M.aucmd! [...]
   (fn parse-cmd [group rest]

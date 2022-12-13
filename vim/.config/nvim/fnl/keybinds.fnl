@@ -1,5 +1,4 @@
-(import-macros {: gset! : bind! : use! : feedkeys! : mode?
-                : has? : selected-text!} :macros)
+(import-macros {: gset! : bind! : use! : feedkeys! : mode? : has?} :macros)
 
 (gset!
  mapleader " "
@@ -100,7 +99,7 @@
   :desc "Find file in project" "<leader>" n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})
   :desc "Find relative file"   "."        n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak) :cwd (vim.fn.expand "%:p:h")})
   :desc "Grep project"         "/"        n  #((. (require :telescope.builtin) :live_grep))
-  :desc "Grep project"         "/"        x  #((. (require :telescope.builtin) :grep_string) {:search (selected-text!)})
+  :desc "Grep project"         "/"        x  #((. (require :telescope.builtin) :grep_string) {:search (table.concat (_G.selected-text) " ")})
   :desc "Grep relative files"  "\\"       n  #((. (require :telescope.builtin) :live_grep) {:cwd (vim.fn.expand "%:p:h")})
   :desc "Resume last search"   "\""       n  #((. (require :telescope.builtin) :resume))
   :desc "Show commands"        ":"        n  #((. (require :telescope.builtin) :commands))
@@ -226,8 +225,8 @@
    :desc "Jump list"          "j" n  #((. (require :telescope.builtin) :jumplist))
    :desc "Docset"             "k" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>")})
    :desc "All docsets"        "K" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>") :docsets "all"})
-   :desc "Docset"             "k" x  #(_G.DashSearch {:query (selected-text!)})
-   :desc "All docsets"        "K" x  #(_G.DashSearch {:query (selected-text!) :docsets "all"})
+   :desc "Docset"             "k" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ")})
+   :desc "All docsets"        "K" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ") :docsets "all"})
    :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
    :desc "Buffer symbols"     "s" n  #(if (_G.lsp? :documentSymbolProvider)
                                           (vim.lsp.buf.document_symbol)
@@ -345,3 +344,37 @@
                  :<C-h>r     {:name "reload"}
                  :<C-x>      {:name "completion"}})))}
  :folke/which-key.nvim)
+
+(fn _G.selected-text []
+  (let [mode (vim.fn.mode)
+        vmode (if (= mode "n")
+                  (vim.fn.visualmode)
+                  mode)
+        rega (vim.fn.getpos
+              (if (= vmode mode) "." "'<"))
+        regb (vim.fn.getpos
+              (if (= vmode mode) "v" "'>"))]
+    (if (= vmode "V")
+        (let [a (. rega 2)
+              b (. regb 2)
+              [start end] (if (< a b) [a b] [b a])]
+          (vim.api.nvim_buf_get_lines 0 (- start 1) end true))
+        (or (= vmode "v")
+            (= vmode "\x16"))
+        (let [a [(unpack rega 2 3)]
+              b [(unpack regb 2 3)]
+              [start end] (if (< (. a 1) (. b 1)) [a b]
+                              (> (. a 1) (. b 1)) [b a]
+                              (< (. a 2) (. b 2)) [a b] [b a])
+              lines (vim.api.nvim_buf_get_lines
+                     0 (- (. start 1) 1) (. end 1) true)
+              from (. start 2)
+              to (. end 2)]
+          ;; Don't use vim.region, it's slow and alters its params.
+          (if (= vmode "v")
+              (let [last (# lines)]
+                (tset lines last (string.sub (. lines last) 1 to))
+                (tset lines 1 (string.sub (. lines  1) from))
+                lines)
+              (icollect [_ line (ipairs lines)]
+                (string.sub line from to)))))))
