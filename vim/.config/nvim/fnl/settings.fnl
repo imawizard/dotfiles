@@ -83,7 +83,6 @@
  jumpoptions    (:append "stack")            ; When jumping discard any later entries.
 
  redrawtime     1500                         ; Max time highlighting search results can take.
- cmdheight      2                            ; Give command-line more space.
  colorcolumn    (:append "80")               ; List of highlighted columns.
  cursorline     true                         ; Highlight current line.
  lazyredraw     false                        ; Redraw whilst executing macros.
