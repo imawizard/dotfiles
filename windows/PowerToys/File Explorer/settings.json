@@ -1,0 +1,21 @@
+{
+  "name": "File Explorer",
+  "properties": {
+    "svg-previewer-toggle-setting": {
+      "value": false
+    },
+    "svg-thumbnail-toggle-setting": {
+      "value": false
+    },
+    "md-previewer-toggle-setting": {
+      "value": false
+    },
+    "pdf-previewer-toggle-setting": {
+      "value": false
+    },
+    "pdf-thumbnail-toggle-setting": {
+      "value": false
+    }
+  },
+  "version": "1.0"
+}

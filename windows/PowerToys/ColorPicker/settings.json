@@ -1,0 +1,103 @@
+{
+  "name": "ColorPicker",
+  "properties": {
+    "ActivationShortcut": {
+      "win": false,
+      "ctrl": false,
+      "alt": true,
+      "shift": false,
+      "code": 123,
+      "key": ""
+    },
+    "changecursor": {
+      "value": false
+    },
+    "copiedcolorrepresentation": "HEX",
+    "activationaction": 1,
+    "colorhistory": [
+      "255|255|255|255",
+      "255|221|221|221",
+      "255|208|208|208",
+      "255|43|64|70",
+      "255|251|251|251",
+      "255|255|114|0",
+      "255|0|43|54",
+      "255|147|121|97",
+      "255|92|104|128",
+      "255|237|237|237",
+      "255|0|0|0",
+      "255|158|126|98",
+      "255|241|243|244",
+      "255|162|208|117",
+      "255|246|195|66",
+      "255|240|66|62",
+      "255|255|128|128",
+      "255|148|149|150",
+      "255|249|251|253",
+      "255|226|238|242"
+    ],
+    "colorhistorylimit": 20,
+    "visiblecolorformats": {
+      "HEX": {
+        "Key": true,
+        "Value": "%Rex%Grx%Blx"
+      },
+      "RGB": {
+        "Key": true,
+        "Value": "rgb(%Re, %Gr, %Bl)"
+      },
+      "HSL": {
+        "Key": true,
+        "Value": "hsl(%Hu, %Sl%, %Ll%)"
+      },
+      "HSV": {
+        "Key": false,
+        "Value": "hsv(%Hu, %Sb%, %Va%)"
+      },
+      "CMYK": {
+        "Key": false,
+        "Value": "cmyk(%Cy%, %Ma%, %Ye%, %Bk%)"
+      },
+      "HSB": {
+        "Key": false,
+        "Value": "hsb(%Hu, %Sb%, %Br%)"
+      },
+      "HSI": {
+        "Key": false,
+        "Value": "hsi(%Hu, %Si%, %In%)"
+      },
+      "HWB": {
+        "Key": false,
+        "Value": "hwb(%Hu, %Wh%, %Bn%)"
+      },
+      "NCol": {
+        "Key": false,
+        "Value": "%Hn, %Wh%, %Bn%"
+      },
+      "CIELAB": {
+        "Key": false,
+        "Value": "CIELab(%Lc, %Ca, %Cb)"
+      },
+      "CIEXYZ": {
+        "Key": false,
+        "Value": "XYZ(%Xv, %Yv, %Zv)"
+      },
+      "VEC4": {
+        "Key": false,
+        "Value": "(%Reff, %Grff, %Blff, 1f)"
+      },
+      "Decimal": {
+        "Key": false,
+        "Value": "%Dv"
+      },
+      "HEX Int": {
+        "Key": false,
+        "Value": "0xFF%ReX%GrX%BlX"
+      }
+    },
+    "showcolorname": {
+      "value": true
+    }
+  },
+  "version": "1.0"
+}

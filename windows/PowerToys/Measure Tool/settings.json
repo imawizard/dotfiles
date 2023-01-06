@@ -1,0 +1,32 @@
+{
+  "name": "Measure Tool",
+  "properties": {
+    "ActivationShortcut": {
+      "win": false,
+      "ctrl": false,
+      "alt": true,
+      "shift": false,
+      "code": 121,
+      "key": ""
+    },
+    "ContinuousCapture": {
+      "value": true
+    },
+    "DrawFeetOnCross": {
+      "value": true
+    },
+    "PerColorChannelEdgeDetection": {
+      "value": false
+    },
+    "UnitsOfMeasure": {
+      "value": 0
+    },
+    "PixelTolerance": {
+      "value": 30
+    },
+    "MeasureCrossColor": {
+      "value": "#FF4500"
+    }
+  },
+  "version": "1.0"
+}

@@ -3,6 +3,8 @@ Link(A_ScriptDir "\..\vim\.vim\colors",      EnvGet("LOCALAPPDATA") "\nvim\color
 Link(A_ScriptDir "\..\vim\.config\nvim\*",   EnvGet("LOCALAPPDATA") "\nvim")
 Link(A_ScriptDir "\..\vim\.config\nvim\fnl", EnvGet("LOCALAPPDATA") "\nvim\fnl")
 Link(A_ScriptDir "\..\windows\PowerShell\*", A_MyDocuments "\PowerShell")
+Link(A_ScriptDir "\..\windows\PowerToys\**", EnvGet("LOCALAPPDATA") "\Microsoft\PowerToys")
+Link(A_ScriptDir "\..\windows\WindowsTerminal\*", EnvGet("LOCALAPPDATA") "\Microsoft\Windows Terminal")
 
 Link(from, to) {
     if SubStr(from, -1) != "*" {
@@ -16,7 +18,7 @@ Link(from, to) {
         }
     } else {
         SplitPath(from, , &dirname)
-        loop files from {
+        loop files from, SubStr(from, -2) == "**" ? "R" : "" {
             relPath := StrSplit(A_LoopFileDir, dirname)[2]
             DirCreate(to relPath)
             Link(A_LoopFileFullPath, to relPath "\" A_LoopFileName)

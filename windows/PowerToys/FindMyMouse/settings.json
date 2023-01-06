@@ -1,0 +1,36 @@
+{
+  "name": "FindMyMouse",
+  "properties": {
+    "activation_method": {
+      "value": 1
+    },
+    "do_not_activate_on_game_mode": {
+      "value": true
+    },
+    "background_color": {
+      "value": "#000000"
+    },
+    "spotlight_color": {
+      "value": "#FFFFFF"
+    },
+    "overlay_opacity": {
+      "value": 15
+    },
+    "spotlight_radius": {
+      "value": 85
+    },
+    "animation_duration_ms": {
+      "value": 300
+    },
+    "spotlight_initial_zoom": {
+      "value": 20
+    },
+    "excluded_apps": {
+      "value": ""
+    },
+    "shaking_minimum_distance": {
+      "value": 100
+    }
+  },
+  "version": "1.0"
+}
