@@ -16,4 +16,5 @@ if has('win32')
     nnoremap <S-C-v> P
     inoremap <S-C-v> <C-r>*
     cnoremap <S-C-v> <C-r>*
+    tnoremap <S-C-v> <C-\><C-n>Pi
 endif

@@ -8,8 +8,8 @@
         :TestNearest
         :TestLast
         :TestVisit]}
- :vim-test/vim-test
+ :vim-test/vim-test)
 
 (gset!
  test#preserve_screen 0
- test#strategy        "neovim")
+ test#strategy        "toggleterm")

@@ -11,6 +11,7 @@
           builtin (require :telescope.builtin)
           actions (require :telescope.actions)
           themes (require :telescope.themes)]
+
       (telescope.setup
        {:defaults
         ((. themes :get_ivy) {:mappings {:i {"<ESC>" actions.close
@@ -55,6 +56,7 @@
  :nvim-telescope/telescope-symbols.nvim
 
  {:run "make"
+  :after [:telescope.nvim]
   :config
   (fn []
     (let [telescope (require :telescope)
@@ -62,37 +64,43 @@
       (telescope.load_extension "fzf")))}
  :nvim-telescope/telescope-fzf-native.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "ui-select")))}
  :nvim-telescope/telescope-ui-select.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "packer")))}
  :nvim-telescope/telescope-packer.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "dap")))}
  :nvim-telescope/telescope-dap.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "project")))}
  :nvim-telescope/telescope-project.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "luasnip")))}
  :benfowler/telescope-luasnip.nvim
 
- {:config
+ {:after [:telescope.nvim]
+  :config
   (fn []
     (let [telescope (require :telescope)]
       (telescope.load_extension "zoxide")))}

@@ -22,7 +22,8 @@
              :capabilities (cmplsp.default_capabilities)
              :settings
              {"rust-analyzer"
-              {:completion
+              {:checkOnSave "clippy"
+               :completion
                {:snippets
                 {:custom
                  {"thread spawn" {:prefix ["spawn" "tspawn"]
@@ -31,7 +32,11 @@
                                          "});"]
                                   :description "Insert a thread::spawn call"
                                   :requires "std::thread"
-                                  :scope "expr"}}}}}}}
+                                  :scope "expr"}}}}}}
+             :on_attach (fn []
+                          (when (= (vim.fn.filereadable ".vscode/launch.json") 1)
+                            (let [dap (require :dap.ext.vscode)]
+                              (dap.load_launchjs nil {:rt_lldb ["rust"]}))))}
 
             :dap
             {:adapter (rust_tools_dap.get_codelldb_adapter
@@ -50,6 +55,13 @@
   Filetype
   :pattern "rust"
   (fn [args]
+    (bind!
+     :desc "Run Cargo build" "<leader>cc" nb ":w|Cbuild<CR>"
+     :desc "Run Cargo run"   "<leader>rr" nb ":w|Crun<CR>"
+     :desc "Format buffer"   "<leader>cf" n! #(if (_G.lsp? :documentFormattingProvider)
+                                                  (do (vim.lsp.buf.format) (vim.cmd "write"))
+                                                  (vim.notify "No support within current buffer")))
+
     (let [[ok repl] [(pcall _G.inject-repl args.buf "evcxr")]
           ts vim.treesitter
           utils (require :nvim-treesitter.ts_utils)]

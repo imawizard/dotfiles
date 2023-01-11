@@ -46,4 +46,10 @@
   "startinsert"
   ;; Hide any gutter in terminal panes.
   TermOpen
-  "set nonumber norelativenumber signcolumn=no"))
+  "set nonumber norelativenumber signcolumn=no")
+
+ (:group
+  :add-cwd-to-zoxide
+  ;; Analogous to cd-hook in terminal.
+  DirChanged
+  #(vim.fn.system ["zoxide" "add" (vim.fn.expand "<afile>")])))

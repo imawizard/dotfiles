@@ -2,12 +2,10 @@
 
 (use!
  ;; Align with e.g. :EasyAlign */[:;]\+/, see :help easy-align.txt.
- {:config
-  (fn []
-    (bind!
-     "gl" nx "<Plug>(EasyAlign)"
-     "."   x "<Plug>(EasyAlignRepeat)"))
-  :cmd [:EasyAlign :EasyAlignRepeat]}
+ {:cmd [:EasyAlign
+        :EasyAlignRepeat]
+  :keys ["<Plug>(EasyAlign)"
+         "<Plug>(EasyAlignRepeat)"]}
  :junegunn/vim-easy-align)
 
 (gset!
@@ -15,3 +13,7 @@
                         ";" {"pattern" ";"
                              "stick_to_left" 0
                              "ignore_groups" []}})
+
+(bind!
+ "gl" nx "<Plug>(EasyAlign)"
+ "."   x "<Plug>(EasyAlignRepeat)")

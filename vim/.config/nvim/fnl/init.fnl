@@ -1,7 +1,7 @@
 (local require-forcefully
   (fn [path]
     (tset package.loaded path nil)
-    (require path)))
+    (pcall require path)))
 
 ;; Startup packer.nvim, see :help packer.txt.
 (let [packer (require :packer)
@@ -24,7 +24,7 @@
                                     (.. dir "/" (string.sub path 1 -5))
                                     "\\" "/"))
                nil)]
-  (build (join-path (vim.fn.fnamemodify (os.getenv :MYVIMRC) ":h") :fnl)
+  (build (join-path (vim.fn.fnamemodify vim.env.MYVIMRC ":h") :fnl)
          {:verbosity 0}
 
          ;; Load everything in plugins and langs.

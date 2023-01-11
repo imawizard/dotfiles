@@ -12,7 +12,8 @@
  :ggandor/leap.nvim
 
  ;; Enhanced f/t.
- {:config
+ {:requires [:ggandor/leap.nvim]
+  :config
   (fn []
     (let [flit (require :flit)]
       (flit.setup

@@ -89,7 +89,13 @@
                       (if (cmp.visible)
                           (do (cmp.confirm {:select true})
                               (vim.schedule fallback))
+                          (luasnip.jumpable 1)
+                          (while (luasnip.jumpable 1)
+                            (luasnip.jump 1))
                           (fallback)))
+                 :s (fn [fallback]
+                      (while (luasnip.jumpable 1)
+                        (luasnip.jump 1)))
                  :c (fn [fallback]
                       (if (cmp.visible)
                           (do (cmp.confirm {:select true})

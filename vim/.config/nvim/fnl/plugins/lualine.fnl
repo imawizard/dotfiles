@@ -30,7 +30,7 @@
         (let [home-pat (.. "^" (vim.fs.normalize vim.env.HOME))]
           #(string.gsub (vim.fs.normalize (vim.fn.getcwd))
                         home-pat
-                        "~/")))
+                        "~")))
 
       (fn gutentags []
         (when vim.fn.gutentags#statusline

@@ -9,14 +9,11 @@
    ctags_host_prog   "/usr/local/bin/ctags")
 
  (:when (has? "win32")
-   perl_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/perl/current/perl/bin/perl.exe")
-   python3_host_prog (.. (vim.fn.getenv "HOME") "/scoop/apps/python/current/python.exe")
-   node_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/nodejs/current/node.exe")
-   ruby_host_prog    (.. (vim.fn.getenv "HOME") "/scoop/apps/ruby/current/bin/ruby.exe")
-   ctags_host_prog   (.. (vim.fn.getenv "HOME") "/scoop/apps/universal-ctags/current/ctags.exe"))
-
- loaded_netrw       true
- loaded_netrwPlugin true)
+   perl_host_prog    (.. vim.env.HOME "/scoop/apps/perl/current/perl/bin/perl.exe")
+   python3_host_prog (.. vim.env.HOME "/scoop/apps/python/current/python.exe")
+   node_host_prog    (.. vim.env.HOME "/scoop/apps/nodejs/current/bin/neovim-node-host.cmd")
+   ruby_host_prog    (.. vim.env.HOME "/scoop/apps/ruby/current/gems/bin/nvim-ruby-host.bat")
+   ctags_host_prog   (.. vim.env.HOME "/scoop/apps/universal-ctags/current/ctags.exe")))
 
 (oset!
  grepprg    "rg --vimgrep --smart-case --hidden -g \"!.git/\""
@@ -30,7 +27,15 @@
  (:when (has? "mac")
    guifont "Fira Code Light Nerd Font Complete Mono:h12")
  (:when (has? "win32")
-   guifont "FiraCode Nerd Font Mono:h10")
+   guifont      "FiraCode NFM:h10"
+   ;; For pwsh as shell, see github.com/akinsho/toggleterm.nvim/wiki/Tips-and-Tricks.
+   shell        "pwsh"
+   shellcmdflag "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+   shellredir   "-RedirectStandardOutput %s -NoNewWindow -Wait"
+   shellpipe    "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+   shellquote   ""
+   shellxquote  "")
+
  (:when (has? "termguicolors")
    termguicolors true)                       ; Use guifg and guibg.
  (:when (string.match vim.o.term "256color")
@@ -51,11 +56,11 @@
  switchbuf    (:append "uselast"             ; Use same window when opening quickfix results.
                        "useopen")            ; Or windows having the file already opened.
  swapfile     true                           ; Don't directly write to files.
- directory    (.. (vim.fn.getenv "HOME")     ; Save swap files in a folder.
+ directory    (.. vim.env.HOME               ; Save swap files in a folder.
                   "/.vim/swap//")
  updatetime   250                            ; Write swap file after this time (effects signcolumn).
  undofile     true                           ; Enable persistent undos.
- undodir      (.. (vim.fn.getenv "HOME")     ; Save undos in a folder.
+ undodir      (.. vim.env.HOME               ; Save undos in a folder.
                   "/.vim/undo")
  undolevels   2000                           ; Increase possible undos.
  sessionoptions (:remove "tabpages")         ; Only save the current tab in sessions.
@@ -152,9 +157,9 @@
 
 (vim.cmd "colorscheme monochromatic")
 
-(vim.fn.sign_define "DiagnosticSignError"       {:numhl "DiagnosticSignError"})
-(vim.fn.sign_define "DiagnosticSignWarning"     {:numhl "DiagnosticSignWarning"})
-(vim.fn.sign_define "DiagnosticSignInformation" {:numhl "DiagnosticSignInformation"})
-(vim.fn.sign_define "DiagnosticSignHint"        {:numhl "DiagnosticSignHint"})
-
 (vim.diagnostic.config {:severity_sort true})
+
+(vim.fn.sign_define "DiagnosticSignError" {:text "E" :texthl "DiagnosticSignError" :numhl "DiagnosticSignError"})
+(vim.fn.sign_define "DiagnosticSignWarn"  {:text "W" :texthl "DiagnosticSignWarn"  :numhl "DiagnosticSignWarn"})
+(vim.fn.sign_define "DiagnosticSignInfo"  {:text "I" :texthl "DiagnosticSignInfo"  :numhl "DiagnosticSignInfo"})
+(vim.fn.sign_define "DiagnosticSignHint"  {:text "H" :texthl "DiagnosticSignHint"  :numhl "DiagnosticSignHint"})

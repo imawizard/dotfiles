@@ -73,6 +73,9 @@
  ;; Make original C-e accessible through S-C-y.
  "<S-C-y>" i "<C-e>"
 
+ ;; Remap to backspace for autoclose-bindings.
+ "<C-h>" icr! "<BS>"
+
  ;; <Leader> bindings and more.
  :desc "Lookup keyword"      "<C-k>"    nx #(if (_G.lsp? :hoverProvider)
                                                 (vim.lsp.buf.hover)
@@ -119,6 +122,7 @@
    :desc "Execute code action"        "a" n! #(if (_G.lsp? :codeActionProvider)
                                                   (vim.lsp.buf.code_action)
                                                   (vim.notify "No support within current buffer"))
+   :desc "Compile"                    "c" n! ":make<CR>"
    :desc "Jump to definition"         "d" n! #(if (_G.lsp? :definitionProvider) (vim.cmd ":TroubleToggle lsp_definitions")
                                                   (feedkeys! "gd" "m"))
    :desc "Jump to declaration"        "D" n! #(if (_G.lsp? :declarationProvider)
@@ -153,7 +157,12 @@
    (:prefix
     "l" "lsp"
     :desc "Show capabilities" "c" n! ":lua =vim.lsp.get_active_clients()[1].server_capabilities<CR>"
+    :desc "Show DAP configs"  "d" n! ":lua =require('dap').configurations<CR>"
     :desc "Reload server"     "r" n! #(do (vim.lsp.stop_client (vim.lsp.get_active_clients)) (vim.cmd "edit"))))
+
+  (:prefix
+   "e" "eval"
+   :desc "Evaluate selection" "ee" n #(vim.notify "No support within current buffer"))
 
   (:prefix
    "f" "file"
@@ -200,6 +209,7 @@
    :desc "Project sidebar"              "p" n  ":NvimTreeFocus<CR>"
    :desc "Find file in project sidebar" "P" n  ":NvimTreeFindFile<CR>"
    :desc "Tagbar"                       "t" n  ":TagbarOpen 'fj'<CR>"
+   :desc "Symbols outline"              "s" n  #((. (require :symbols-outline) :toggle_outline))
    :desc "Undotree"                     "u" n  ":UndotreeShow<CR>"
    :desc "Vinegar"                      "v" n  #((. (require :nvim-tree) :open_replacing_current_buffer)))
 
@@ -213,6 +223,14 @@
    "q" "quit"
    :desc "Quit"                "q" n ":qa<CR>"
    :desc "Quit without saving" "Q" n ":qa!<CR>")
+
+  (:prefix
+   "r" "run"
+   :desc "File's tests" "f" n  ":TestFile<CR>"
+   :desc "Nearest test" "n" n  ":TestNearest<CR>"
+   :desc "Last test"    "t" n  ":TestLast<CR>"
+   :desc "Program"      "r" n! #(vim.notify "No support within current buffer")
+   :desc "Test project" "p" n  ":TestSuite<CR>")
 
   (:prefix
    "s" "search"
@@ -282,7 +300,7 @@
    "r" "reload"
    :desc "Edit config"   "e" n  ":Editrc<CR>"
    :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
-   :desc "Config"        "r" n! ":Reload<CR>"
+   :desc "Config"        "r" n! ":Reload<CR>:lua vim.notify('Reloaded!')<CR>"
    :desc "Edit Snippets" "s" n  #(_G.luasnip_edit_snippets)))
 
  (:prefix
@@ -333,6 +351,7 @@
                  :<leader>o  {:name "open"}
                  :<leader>p  {:name "project"}
                  :<leader>q  {:name "quit"}
+                 :<leader>r  {:name "run"}
                  :<leader>s  {:name "search"}
                  :<leader>t  {:name "toggle"}
                  :<leader>ti {:name "indentation"}
@@ -343,7 +362,9 @@
                  :<C-h>p     {:name "packer"}
                  :<C-h>r     {:name "reload"}
                  :<C-x>      {:name "completion"}})))
-  :keys "<leader>"}
+  :keys ["<leader>"
+         "<C-h>"
+         "<C-x>"]}
  :folke/which-key.nvim)
 
 (fn _G.selected-text []
