@@ -8,7 +8,7 @@ To clone and apply them—stow won't touch already existing files—execute the 
 cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 git clone https://github.com/imawizard/dotfiles iaw-dotfiles
 cd iaw-dotfiles
-find . -type d -depth 1 -not -name ".*" -and -not -name "*.nostow" -exec basename {} \; | xargs stow
+find . -type d -depth 1 -not \( -name ".*" -or -name "*.nostow" -or -name "windows" \) -print0 | xargs -0 basename | xargs stow
 ```
 
 For a list of software to use with the configs, see [bootstrap.sh](https://github.com/imawizard/bootstrap.sh).

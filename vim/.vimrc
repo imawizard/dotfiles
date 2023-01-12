@@ -2261,7 +2261,7 @@ endif
 " See :help matchit.txt
 packadd! matchit
 
-colorscheme monochromatic
+colorscheme greymatters
 
 " .........................................................................}}}
 
