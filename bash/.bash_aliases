@@ -301,21 +301,21 @@ brewdeps() {
 upgrade() {
 	local t=$(date +%s)
 
-	echo " \033[30;1m[\033[35;1m•\033[30;1m]\033[32m brew\033[0m"
+	echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
 	upgrade_brew
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m oh-my-zsh\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m oh-my-zsh\e[0m"
 	upgrade_oh_my_zsh
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m tmux plugins\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m tmux plugins\e[0m"
 	upgrade_tmux
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m vim plugins\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim plugins\e[0m"
 	upgrade_vim
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m doom emacs\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m doom emacs\e[0m"
 	upgrade_doom
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m rust\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rust\e[0m"
 	upgrade_rust
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m flutter\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m flutter\e[0m"
 	upgrade_flutter
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m dart\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m dart\e[0m"
 	upgrade_dart
 
 	local took=$(($(date +%s) - $t))
@@ -333,7 +333,7 @@ upgrade_brew() {
 	brew update
 
 	# Possibly filter progs not to update.
-    brew outdated --formula | perl -alE 'say $F[0] unless /^(sshfs|gocryptfs)/' | xargs brew upgrade
+	brew outdated --formula | perl -alE 'say $F[0] unless /^(sshfs|gocryptfs)/' | xargs brew upgrade
 	brew outdated --cask | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade --cask
 
 	brew cleanup -s
@@ -423,13 +423,13 @@ upgrade_dart() {
 
 # Clean various temporary files.
 cleansys() {
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m trash\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m trash\e[0m"
 	cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/
 
-	#echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m local tm snapshots\033[0m"
+	#echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m local tm snapshots\e[0m"
 	#tmutil deletelocalsnapshots /
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m docker\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m docker\e[0m"
 	docker system prune -f
 
 	#~/Library/Developer/Xcode/Archives
@@ -439,7 +439,7 @@ cleansys() {
 	#~/Library/Application Support/MobileSync/Backup
 	#~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m xcode\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m xcode\e[0m"
 	cleansys_rmdir ~/Library/Developer/Xcode/DerivedData
 
 	if [[ $((10 * 1024 * 1024)) -lt $(stat -f '%z' ~/Library/Caches/com.apple.dt.Xcode/fsCachedData 2>/dev/null) ]]; then
@@ -450,14 +450,14 @@ cleansys() {
 	fi
 	xcrun simctl erase all && echo "Simulators erased"
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m gradle\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m gradle\e[0m"
 	cleansys_rmdir ~/.gradle/caches
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m vim\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
 	find ~/.vim/swap -type f -mtime +7 -print -delete
 	find ~/.vim/undo -type f -mtime +7 -print -delete
 
-	echo "\n \033[30;1m[\033[35;1m•\033[30;1m]\033[32m brew\033[0m"
+	echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
 	brew autoremove -v
 	cleansys_rmdir ~/Library/Caches/Homebrew
 }
@@ -472,4 +472,4 @@ cleansys_rmdir() {
 	echo "...freed $size"
 }
 
-test -f "$HOME/iCloud Drive/.config/.bash_aliases" &&  . "$_"
+test -f "$HOME/iCloud Drive/.config/.bash_aliases" && . "$_"

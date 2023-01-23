@@ -104,7 +104,7 @@
                      (if (has? "win32")
                          {:sections {:lualine_a [(cwd)]}
                           :filetypes ["NvimTree"]}
-                         "nvimtree")
+                         "nvim-tree")
                      "quickfix"
                      "symbols-outline"
                      "toggleterm"]})

@@ -1,4 +1,4 @@
-(import-macros {: use! : gset! : aucmd! : bind! : feedkeys! : trim-lines!} :macros)
+(import-macros {: use! : gset! : aucmd! : has? : bind! : feedkeys! : trim-lines!} :macros)
 
 (use!
  :bakpakin/fennel.vim)
@@ -27,7 +27,9 @@
         (do
 
          ;; REPL via fennel.bat
-         (let [[ok repl] [(pcall _G.inject-repl args.buf "fennel.bat")]
+         (let [[ok repl] [(pcall _G.inject-repl args.buf (if (has? "win32")
+                                                             "fennel.bat"
+                                                             "fennel"))]
                ts vim.treesitter
                utils (require :nvim-treesitter.ts_utils)]
 

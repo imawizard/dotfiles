@@ -2,17 +2,17 @@
 export PATH=/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="risto" # dieter
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="lambda"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -29,6 +29,9 @@ DISABLE_AUTO_UPDATE="true"
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
 
@@ -39,6 +42,9 @@ DISABLE_AUTO_UPDATE="true"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -58,16 +64,16 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  #colorize
-  #command-not-found
-  #git
+  aliases             # acs --help
   colored-man-pages
-  gitignore
+  cp                  # cpv
+  git
+  gitignore           # gi
   macos               # tab - open dir in new tab
                       # split_tab
                       # vsplit_tab
@@ -84,14 +90,11 @@ plugins=(
                       # music
                       # spotify
                       # rmdsstore
-  urltools
+  urltools            # urlencode
   #vi-mode
   web-search          # google
                       # github
                       # wiki...
-  # completions
-  #httpie
-  #docker
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -121,12 +124,10 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
+test -f ~/.bash_aliases && . "$_"
+
+# Load up zoxide.
+[[ $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
 
 # Load bash profile.
-[[ -f ~/.bash_profile ]] && . ~/.bash_profile
-
-# Map <M-Left> and <M-Right> to skipping words.
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
-
+test -f ~/.bash_profile && . "$_"
