@@ -15,6 +15,7 @@ For a list of software to use with the configs, see [bootstrap.sh](https://githu
 
 ## Resources
 ### Dotfiles
+- [archseer / Blaž Hrastnik](https://github.com/archseer/dotfiles)
 - [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
 - [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
 - [fasterthanlime / Amos Wenger](https://github.com/fasterthanlime/dotfiles)
@@ -24,6 +25,7 @@ For a list of software to use with the configs, see [bootstrap.sh](https://githu
 - [koekeishiya / Åsmund Vikane](https://github.com/koekeishiya/dotfiles)
 - [L3MON4D3](https://github.com/L3MON4D3/Dotfiles)
 - [Lukas Reineke](https://github.com/lukas-reineke/dotfiles)
+- [Prabir Shrestha](https://github.com/prabirshrestha/dotfiles)
 - [simnalamburt / Hyeon Kim](https://github.com/simnalamburt/.dotfiles)
 - [thoughtbot, inc.](https://github.com/thoughtbot/dotfiles)
 - [Tim Untersberger](https://github.com/TimUntersberger/dotfiles)
@@ -38,7 +40,7 @@ For a list of software to use with the configs, see [bootstrap.sh](https://githu
 - [lervag / Karl Yngve Lervåg](https://github.com/lervag/dotvim)
 - [numToStr](https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim)
 - [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
-### Neovim lua/fennel
+### Neovim fennel
 - [aniseed](https://github.com/Olical/aniseed)
 - [hibiscus.nvim](https://github.com/udayvir-singh/hibiscus.nvim)
 - [hotpot.nvim](https://github.com/rktjmp/hotpot.nvim)
@@ -50,6 +52,13 @@ For a list of software to use with the configs, see [bootstrap.sh](https://githu
 - [LunarVim](https://github.com/LunarVim/LunarVim)
 - [neodev.nvim](https://github.com/folke/neodev.nvim)
 - [NvChad](https://github.com/NvChad/NvChad)
+### Tools
+- [chezmoi](https://github.com/twpayne/chezmoi)
+- [dotter](https://github.com/SuperCuber/dotter)
+- [homeshick](https://github.com/andsens/homeshick)
+### Using git
+- [Best Way to Store in a Bare Git Repository](https://www.atlassian.com/git/tutorials/dotfiles)
+- [Tracking dotfiles directly with Git](https://wiki.archlinux.org/title/Dotfiles)
 ### Using stow
 - [Managing Dotfiles with GNU Stow (2016) - Hacker News](https://news.ycombinator.com/item?id=27137172)
 - [Using GNU Stow to manage your dotfiles (2012) - Hacker News](https://news.ycombinator.com/item?id=25549462)
