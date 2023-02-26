@@ -1,17 +1,24 @@
 # Dotfiles
-Residing in the iCloud ⛅ and symlinked with stow 📦
 
-## Installation
-To clone and apply them—stow won't touch already existing files—execute the following commands:
+## [macOS](https://github.com/imawizard/dotfiles/tree/macos)
 
 ```sh
-cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
-git clone https://github.com/imawizard/dotfiles iaw-dotfiles
-cd iaw-dotfiles
-find . -type d -depth 1 -not \( -name ".*" -or -name "*.nostow" -or -name "windows" \) -print0 | xargs -0 basename | xargs stow
+mkdir ~/.dotfiles.git && cd $_
+git clone --bare --branch macos https://github.com/imawizard/dotfiles .
+git --work-tree .. reset --mixed
+git --work-tree .. restore -- *
+git --work-tree .. config status.showUntrackedFiles no
 ```
 
-For a list of software to use with the configs, see [bootstrap.sh](https://github.com/imawizard/bootstrap.sh).
+## [Windows](https://github.com/imawizard/dotfiles/tree/windows)
+
+```sh
+mkdir ~/.dotfiles.git | cd
+git clone --bare --branch windows https://github.com/imawizard/dotfiles .
+git --work-tree .. reset --mixed
+git --work-tree .. restore -- *
+git --work-tree .. config status.showUntrackedFiles no
+```
 
 ## Resources
 ### Dotfiles
