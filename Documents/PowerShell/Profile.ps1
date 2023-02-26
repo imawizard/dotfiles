@@ -54,3 +54,22 @@ $PSStyle.FileInfo.Extension[".ps1"]    = "`e[36m"
 $PSStyle.FileInfo.Extension[".ps1xml"] = "`e[36m"
 $PSStyle.FileInfo.Extension[".psd1"]   = "`e[36m"
 $PSStyle.FileInfo.Extension[".psm1"]   = "`e[36m"
+
+function Prompt {
+    $cwd = $executionContext.SessionState.Path.CurrentLocation
+    $osc7 = ""
+    if ($cwd.Provider.Name -eq "FileSystem") {
+        $esc = [char]27
+        $path = $cwd.ProviderPath -Replace "\\", "/"
+        $osc7 = "$esc]7;file://${env:COMPUTERNAME}/$path$esc\"
+    }
+    "${osc7}λ $cwd$('>' * $NestedPromptLevel) ";
+}
+
+function dotfiles {
+    param(
+        [string]$cmd = "git",
+        [parameter(ValueFromRemainingArguments = $true)][string[]]$args = "status"
+    )
+    & $cmd --git-dir $HOME/.dotfiles.git --work-tree $HOME @args
+}
