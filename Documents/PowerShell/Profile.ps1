@@ -65,11 +65,3 @@ function Prompt {
     }
     "${osc7}λ $cwd$('>' * $NestedPromptLevel) ";
 }
-
-function dotfiles {
-    param(
-        [string]$cmd = "git",
-        [parameter(ValueFromRemainingArguments = $true)][string[]]$args = "status"
-    )
-    & $cmd --git-dir $HOME/.dotfiles.git --work-tree $HOME @args
-}
