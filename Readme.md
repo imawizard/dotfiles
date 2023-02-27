@@ -4,20 +4,20 @@
 
 ```sh
 mkdir ~/.dotfiles.git && cd $_
-git clone --bare --branch macos https://github.com/imawizard/dotfiles .
-git --work-tree .. reset --mixed
-git --work-tree .. restore -- *
-git --work-tree .. config status.showUntrackedFiles no
+git clone --no-checkout --branch macos https://github.com/imawizard/dotfiles .
+mv .git/* ./ && rm -f .git
+git config core.worktree .. && git config status.showUntrackedFiles no
+git reset --mixed && git checkout ..
 ```
 
 ## [Windows](https://github.com/imawizard/dotfiles/tree/windows)
 
 ```sh
 mkdir ~/.dotfiles.git | cd
-git clone --bare --branch windows https://github.com/imawizard/dotfiles .
-git --work-tree .. reset --mixed
-git --work-tree .. restore -- *
-git --work-tree .. config status.showUntrackedFiles no
+git clone --no-checkout --branch windows https://github.com/imawizard/dotfiles .
+Move-Item .git/* ./ && Remove-Item -Force .git
+git config core.worktree .. && git config status.showUntrackedFiles no
+git reset --mixed && git checkout ..
 ```
 
 ## Resources
