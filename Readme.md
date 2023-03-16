@@ -5,7 +5,7 @@
 ```sh
 mkdir ~/.dotfiles.git && cd $_
 git clone --no-checkout --branch macos https://github.com/imawizard/dotfiles .
-mv .git/* ./ && rm -f .git
+mv .git/* ./ && rm -rf .git
 git config core.worktree .. && git config status.showUntrackedFiles no
 git reset --mixed && git checkout ..
 ```
