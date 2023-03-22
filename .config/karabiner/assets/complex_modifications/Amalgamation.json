@@ -146,6 +146,12 @@
 				{ "type": "basic", "from": { "key_code": "u",      "modifiers": { "mandatory": ["control"           ] } }, "to": [{ "key_code": "f5",         "modifiers": ["left_control", "left_shift", "left_command"]                   }], "conditions": [{ "type": "frontmost_application_if", "bundle_identifiers": ["^com\\.apple\\.finder$"] }] },
 				{ "type": "basic", "from": { "key_code": "o",      "modifiers": { "mandatory": ["control", "command"] } }, "to": [{ "shell_command": "osascript -e 'tell application \"Finder\" to tell front window to update every item'" }], "conditions": [{ "type": "frontmost_application_if", "bundle_identifiers": ["^com\\.apple\\.finder$"] }] }
 			]
+		},
+		{
+			"description": "[Amalgamation] Lock workstation",
+			"manipulators": [
+				{ "type": "basic", "from": { "key_code": "l", "modifiers": { "mandatory": ["option"] } }, "to": [{ "shell_command": "osascript -e 'tell application \"System Events\" to key code 12 using {control down, command down}'" }] }
+			]
 		}
 	]
 }
