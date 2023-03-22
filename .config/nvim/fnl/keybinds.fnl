@@ -5,98 +5,100 @@
  maplocalleader " ")
 
 (bind!
- ;; Use jk to cycle through panes (counter-)clockwise and JK to swap them.
- "<C-w>j" n "<C-w>w"
- "<C-w>k" n "<C-w>W"
- "<C-w>J" n "mX<C-w>wmY'X<C-w>W'Y<C-w>w"
- "<C-w>K" n "mX<C-w>WmY'X<C-w>w'Y<C-w>W"
+ ;; Opt-in remaps
+ (:when (not= (os.getenv "VIM_CUSTOM_KEYBINDS") nil)
+   ;; Use jk to cycle through panes (counter-)clockwise and JK to swap them.
+   "<C-w>j" n "<C-w>w"
+   "<C-w>k" n "<C-w>W"
+   "<C-w>J" n "mX<C-w>wmY'X<C-w>W'Y<C-w>w"
+   "<C-w>K" n "mX<C-w>WmY'X<C-w>w'Y<C-w>W"
 
- ;; Like tmux's break-pane binding.
- "<C-w>!" n "<C-w>T"
+   ;; Like tmux's break-pane binding.
+   "<C-w>!" n "<C-w>T"
 
- ;; Move current line up and down.
- "<C-9>" n ":move .+1<CR>=="
- "<C-0>" n ":move .-2<CR>=="
- "<C-9>" i "<ESC>:move .+1<CR>==gi"
- "<C-0>" i "<ESC>:move .-2<CR>==gi"
- "<C-9>" x ":move '>+1<CR>gv=gv"
- "<C-0>" x ":move '<-2<CR>gv=gv"
+   ;; Move current line up and down.
+   "<C-9>" n ":move .+1<CR>=="
+   "<C-0>" n ":move .-2<CR>=="
+   "<C-9>" i "<ESC>:move .+1<CR>==gi"
+   "<C-0>" i "<ESC>:move .-2<CR>==gi"
+   "<C-9>" x ":move '>+1<CR>gv=gv"
+   "<C-0>" x ":move '<-2<CR>gv=gv"
 
- ;; Move through wrapped lines.
- "j" n "gj"
- "k" n "gk"
- "j" x "gj"
- "k" x "gk"
+   ;; Move through wrapped lines.
+   "j" n "gj"
+   "k" n "gk"
+   "j" x "gj"
+   "k" x "gk"
 
- ;; Paste and keep clipboard.
- "p" x "pgvy"
+   ;; Paste and keep clipboard.
+   "p" x "pgvy"
 
- ;; Start search with '(very) magic'.
- "/"   n! "/\\v"
- "?"   n! "?\\v"
- "%s/" c! "%sm//g<Left><Left>"
+   ;; Start search with '(very) magic'.
+   "/"   n! "/\\v"
+   "?"   n! "?\\v"
+   "%s/" c! "%sm//g<Left><Left>"
 
- ;; Don't exit visual mode on shifting.
- "<" x "<gv"
- ">" x ">gv"
+   ;; Don't exit visual mode on shifting.
+   "<" x "<gv"
+   ">" x ">gv"
 
- ;; Yank till the end of the line.
- "Y" n "y$"
+   ;; Yank till the end of the line.
+   "Y" n "y$"
 
- ;; Clear matches and redraw diff and syntax highlighting.
- "<C-l>" n ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>"
+   ;; Clear matches and redraw diff and syntax highlighting.
+   "<C-l>" n ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>"
 
- ;; Same C-m (Return) as in insert mode.
- "<CR>" n "o<ESC>"
+   ;; Same C-m (Return) as in insert mode.
+   "<CR>" n "o<ESC>"
 
- ;; Same C-j as in Emacs.
- "<C-j>" n "i<CR><ESC>"
+   ;; Same C-j as in Emacs.
+   "<C-j>" n "i<CR><ESC>"
 
- ;; Start new change before Ctrl-U and Ctrl-W for undo.
- "<C-u>" i "<C-g>u<C-u>"
- "<C-w>" i "<C-g>u<C-w>"
+   ;; Start new change before Ctrl-U and Ctrl-W for undo.
+   "<C-u>" i "<C-g>u<C-u>"
+   "<C-w>" i "<C-g>u<C-w>"
 
- ;; Respect an already typed prefix when iterating through history.
- "<C-p>" ce! #(if (> (vim.fn.wildmenumode) 0) "<C-p>" "<Up>")
- "<C-n>" ce! #(if (> (vim.fn.wildmenumode) 0) "<C-n>" "<Down>")
+   ;; Respect an already typed prefix when iterating through history.
+   "<C-p>" ce! #(if (> (vim.fn.wildmenumode) 0) "<C-p>" "<Up>")
+   "<C-n>" ce! #(if (> (vim.fn.wildmenumode) 0) "<C-n>" "<Down>")
 
- ;; Basic emacs bindings.
- "<C-b>"  ic!  "<Left>"
- "<C-f>"  ic!  "<Right>"
- "<C-d>"  c!   "<Del>"
- "<C-a>"  ie   #(.. "<ESC>" (if (> (vim.fn.col ".") 1) "0" "_") "i")
- "<C-a>"  c!   "<Home>"
- "<C-e>"  ie   #(if (> (vim.fn.pumvisible) 0) "<C-e>" "<End>")
- "<C-e>"  c!   "<End>"
- "<C-BS>" ict! "<C-w>"
+   ;; Basic emacs bindings.
+   "<C-b>"  ic!  "<Left>"
+   "<C-f>"  ic!  "<Right>"
+   "<C-d>"  c!   "<Del>"
+   "<C-a>"  ie   #(.. "<ESC>" (if (> (vim.fn.col ".") 1) "0" "_") "i")
+   "<C-a>"  c!   "<Home>"
+   "<C-e>"  ie   #(if (> (vim.fn.pumvisible) 0) "<C-e>" "<End>")
+   "<C-e>"  c!   "<End>"
+   "<C-BS>" ict! "<C-w>"
 
- ;; Make original C-e accessible through S-C-y.
- "<S-C-y>" i "<C-e>"
+   ;; Make original C-e accessible through S-C-y.
+   "<S-C-y>" i "<C-e>"
 
- ;; Remap to backspace for autoclose-bindings.
- "<C-h>" icr! "<BS>"
+   ;; Remap to backspace for autoclose-bindings.
+   "<C-h>" icr! "<BS>"
 
- ;; <Leader> bindings and more.
- :desc "Lookup keyword"      "<C-k>"    nx #(if (_G.lsp? :hoverProvider)
-                                                (vim.lsp.buf.hover)
-                                                (feedkeys! "K" "m"))
- :desc "Show signature help" "<C-k>"    i  #(if (_G.lsp? :signatureHelpProvider)
-                                                (vim.lsp.buf.signature_help)
-                                                (vim.notify "No support within current buffer"))
+   :desc "Lookup keyword"      "<C-k>"    nx #(if (_G.lsp? :hoverProvider)
+                                                  (vim.lsp.buf.hover)
+                                                  (feedkeys! "K" "m"))
+   :desc "Show signature help" "<C-k>"    i  #(if (_G.lsp? :signatureHelpProvider)
+                                                  (vim.lsp.buf.signature_help)
+                                                  (vim.notify "No support within current buffer"))
 
- :desc "Show error"          "K"        n  (. vim.diagnostic :open_float)
- :desc "Previous error"      "[e"       n  (. vim.diagnostic :goto_prev)
- :desc "Next error"          "]e"       n  (. vim.diagnostic :goto_next)
- :desc "Previous change"     "[c"       ne "&diff ? '[c' : ':Gitsigns prev_hunk<CR>'"
- :desc "Next change"         "]c"       ne "&diff ? ']c' : ':Gitsigns next_hunk<CR>'"
+   :desc "Show error"          "K"        n  (. vim.diagnostic :open_float)
+   :desc "Previous error"      "[e"       n  (. vim.diagnostic :goto_prev)
+   :desc "Next error"          "]e"       n  (. vim.diagnostic :goto_next)
+   :desc "Previous change"     "[c"       ne "&diff ? '[c' : ':Gitsigns prev_hunk<CR>'"
+   :desc "Next change"         "]c"       ne "&diff ? ']c' : ':Gitsigns next_hunk<CR>'"
 
- :desc "Set breakpoint"      "<F2>"     n  #((. (require :dap) :toggle_breakpoint))
- :desc "Terminate"           "<C-S-F2>" n  #((. (require :dap) :terminate))
- :desc "Step out"            "<S-F9>"   n  #((. (require :dap) :step_out))
- :desc "Step into"           "<F7>"     n  #((. (require :dap) :step_into))
- :desc "Step over"           "<F8>"     n  #((. (require :dap) :step_over))
- :desc "Run"                 "<F9>"     n  #((. (require :dap) :continue))
+   :desc "Set breakpoint"      "<F2>"     n  #((. (require :dap) :toggle_breakpoint))
+   :desc "Terminate"           "<C-S-F2>" n  #((. (require :dap) :terminate))
+   :desc "Step out"            "<S-F9>"   n  #((. (require :dap) :step_out))
+   :desc "Step into"           "<F7>"     n  #((. (require :dap) :step_into))
+   :desc "Step over"           "<F8>"     n  #((. (require :dap) :step_over))
+   :desc "Run"                 "<F9>"     n  #((. (require :dap) :continue)))
 
+ ;; <Leader> bindings.
  (:prefix
   "<leader>" "SPC"
   :desc "Find file in project" "<leader>" n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})

@@ -118,6 +118,9 @@
                                name (. arg 3)
                                body [(select 4 (unpack arg))]]
                            (bind key (unpack body)))
+                 :when (let [cond (. arg 2)
+                             body [(select 3 (unpack arg))]]
+                         `(when ,cond ,(bind prefix (unpack body))))
                  other (assert-compile false (.. "Unexpected " other))))
               (match arg
                 :desc (set desc (table.remove rest 1))

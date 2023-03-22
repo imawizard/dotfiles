@@ -122,10 +122,6 @@ endif
 
 let mapleader = "\<Space>"
 
-nnoremap <silent> <C-k> :lua vim.lsp.buf.hover()<CR>
-inoremap <silent> <C-k> <C-o>:lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> K     :lua vim.diagnostic.open_float()<CR>
-
 nnoremap <silent> <C-z> :FocusNuake<CR>
 inoremap <silent> <C-z> <C-o>:FocusNuake<CR>
 tnoremap <silent> <C-z> <C-\><C-n>:Nuake<CR><C-w>p
@@ -369,11 +365,22 @@ if has_key(plugs, 'which-key.nvim')
 HERE
 endif
 
+if has_key(environ(), 'VIM_CUSTOM_KEYBINDS')
+
+nnoremap <silent> <C-k> :lua vim.lsp.buf.hover()<CR>
+inoremap <silent> <C-k> <C-o>:lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> K     :lua vim.diagnostic.open_float()<CR>
+
 " Use jk to cycle through panes (counter-)clockwise and JK to swap them.
 nnoremap <silent> <C-w>j <C-w>w
 nnoremap <silent> <C-w>k <C-w>W
 nnoremap <silent> <C-w>J mX<C-w>wmY'X<C-w>W'Y<C-w>w
 nnoremap <silent> <C-w>K mX<C-w>WmY'X<C-w>w'Y<C-w>W
+
+" Switch panes in terminal mode.
+tnoremap <silent> <C-w><C-w> <C-\><C-n><C-w><C-w>
+tnoremap <silent> <C-w>j     <C-\><C-n><C-w>w
+tnoremap <silent> <C-w>k     <C-\><C-n><C-w>W
 
 " Like tmux's break-pane binding.
 nnoremap <silent> <C-w>! <C-w>T
@@ -386,9 +393,13 @@ inoremap <silent> <C-\><C-u>  <ESC>:move .-2<CR>==gi
 xnoremap <silent> <C-\><C-d>  :move '>+1<CR>gv=gv
 xnoremap <silent> <C-\><C-u>  :move '<-2<CR>gv=gv
 
+endif
+
 " .........................................................................}}}
 
 " Sanity remappings ......................................................{{{1
+
+if has_key(environ(), 'VIM_CUSTOM_KEYBINDS')
 
 " Move through wrapped lines.
 nnoremap j gj
@@ -428,9 +439,13 @@ inoremap <C-w> <C-g>u<C-w>
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 
+endif
+
 " .........................................................................}}}
 
 " Compatibility remappings ...............................................{{{1
+
+if has_key(environ(), 'VIM_CUSTOM_KEYBINDS')
 
 " Emacs bindings in insert mode.
 inoremap <expr> <C-a>  '<ESC>' . (col('.') > 1 ? '0' : '_') . 'i'
@@ -462,10 +477,7 @@ tnoremap        <C-h>  <BS>
 tnoremap        <M-BS> <C-w>
 tnoremap <expr> <C-d>  <SID>CanPressDelete() ? "\<Del>" : "\<C-d>"
 
-" Switch panes in terminal mode.
-tnoremap <silent> <C-w><C-w> <C-\><C-n><C-w><C-w>
-tnoremap <silent> <C-w>j     <C-\><C-n><C-w>w
-tnoremap <silent> <C-w>k     <C-\><C-n><C-w>W
+endif
 
 " .........................................................................}}}
 
