@@ -1,0 +1,89 @@
+# Not in use
+
+# open terminal
+rcmd - return : open -a iTerm
+
+# change layout of desktop
+rcmd - 0x12 : skhd -k "meh - 0x12"
+rcmd - 0x13 : skhd -k "meh - 0x13"
+rcmd - 0x14 : skhd -k "meh - 0x14"
+rcmd - 0x15 : skhd -k "meh - 0x15"
+rcmd + shift - 0x12 : skhd -k "hyper - 0x12"
+rcmd + shift - 0x13 : skhd -k "hyper - 0x13"
+rcmd + shift - 0x14 : skhd -k "hyper - 0x14"
+rcmd + shift - 0x15 : skhd -k "hyper - 0x15"
+
+# focus window
+#rcmd - j : yabai -m window --focus next || yabai -m window --focus first
+#rcmd - k : yabai -m window --focus prev || yabai -m window --focus last
+rcmd - j : skhd -k "meh - j"
+rcmd - k : skhd -k "meh - k"
+
+# swap managed window
+#rcmd + shift - j : yabai -m window --swap next || yabai -m window --swap first
+#rcmd + shift - k : yabai -m window --swap prev || yabai -m window --swap last
+rcmd + shift - j : skhd -k "hyper - j"
+rcmd + shift - k : skhd -k "hyper - k"
+
+# focus desktop (set in keyboard system settings)
+#rcmd - a : yabai -m space --focus 1 || skhd -k "hyper - a"
+#rcmd - o : yabai -m space --focus 2 || skhd -k "hyper - o"
+#rcmd - e : yabai -m space --focus 3 || skhd -k "hyper - e"
+#rcmd - i : yabai -m space --focus 4 || skhd -k "hyper - i"
+#rcmd - u : yabai -m space --focus 5 || skhd -k "hyper - u"
+rcmd - a : skhd -k "meh - a"
+rcmd - o : skhd -k "meh - o"
+rcmd - e : skhd -k "meh - e"
+rcmd - i : skhd -k "meh - i"
+rcmd - u : skhd -k "meh - u"
+
+# send window to desktop
+#rcmd + shift - a : yabai -m window --space 1
+#rcmd + shift - o : yabai -m window --space 2
+#rcmd + shift - e : yabai -m window --space 3
+#rcmd + shift - i : yabai -m window --space 4
+#rcmd + shift - u : yabai -m window --space 5
+rcmd + shift - a : skhd -k "hyper - a"
+rcmd + shift - o : skhd -k "hyper - o"
+rcmd + shift - e : skhd -k "hyper - e"
+rcmd + shift - i : skhd -k "hyper - i"
+rcmd + shift - u : skhd -k "hyper - u"
+
+# focus monitor
+#rcmd - 0x0E : yabai -m display --focus 1
+#rcmd - 0x0D : yabai -m display --focus 2
+#rcmd - p    : yabai -m display --focus 3
+rcmd - 0x0E : skhd -k "meh - 0x0E"
+rcmd - 0x0D : skhd -k "meh - 0x0D"
+rcmd - p    : skhd -k "meh - p"
+
+# send window to monitor
+#rcmd + shift - 0x0E : yabai -m window --display 1
+#rcmd + shift - 0x0D : yabai -m window --display 2
+#rcmd + shift - p    : yabai -m window --display 3
+rcmd + shift - 0x0E : skhd -k "hyper - 0x0E"
+rcmd + shift - 0x0D : skhd -k "hyper - 0x0D"
+rcmd + shift - p    : skhd -k "hyper - p"
+
+# float/unfloat window and center on screen
+#rcmd - t : yabai -m window --toggle float; \
+#           yabai -m window --grid 4:4:1:1:2:2
+rcmd - t : skhd -k "meh - t"
+
+# resize window
+#rcmd - h : yabai -m window --resize left:20:0; \
+#           yabai -m window --resize right:-20:0
+#rcmd - l : yabai -m window --resize left:-20:0; \
+#           yabai -m window --resize right:20:0
+rcmd - h : skhd -k "meh - h"
+rcmd - l : skhd -k "meh - l"
+
+# hide floating
+#rcmd - g : yabai -m query --windows --space | \
+#           jq '.[] | select(."is-minimized" == false and .level < 10 and .title and ."is-floating").id' | \
+#           xargs -L1 -I{} yabai -m window --minimize {}
+
+# show floating
+#rcmd + shift - g : yabai -m query --windows --space | \
+#                   jq '.[] | select(."is-minimized" and ."is-floating").id' | \
+#                   xargs -L1 -I{} yabai -m window --deminimize {}
