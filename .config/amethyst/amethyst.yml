@@ -60,39 +60,39 @@ swap-main:
 
 focus-screen-1:
   mod: mod1
-  key: ","
+  key: "," # qwerty's w
 focus-screen-2:
   mod: mod1
-  key: "."
+  key: "." # qwerty's e
 focus-screen-3:
   mod: mod1
-  key: k
+  key: p # qwerty's r
 
 throw-screen-1:
   mod: mod2
-  key: ","
+  key: "," # qwerty's w
 throw-screen-2:
   mod: mod2
-  key: "."
+  key: "." # qwerty's e
 throw-screen-3:
   mod: mod2
-  key: p
+  key: p # qwerty's r
 
 throw-space-1:
   mod: mod2
   key: a
 throw-space-2:
   mod: mod2
-  key: o
+  key: o # qwerty's s
 throw-space-3:
   mod: mod2
-  key: e
+  key: e # qwerty's d
 throw-space-4:
   mod: mod2
-  key: i
+  key: i # qwerty's f
 throw-space-5:
   mod: mod2
-  key: u
+  key: u # qwerty's g
 
 expand-main:
   mod: mod1
@@ -103,33 +103,58 @@ shrink-main:
 
 increase-main:
   mod: mod1
-  key: "["
+  key: "w" # qwerty's comma
 decrease-main:
   mod: mod1
-  key: "]"
-cycle-layout:
-  mod: mod2
-  key: "]"
-cycle-layout-backward:
-  mod: mod2
-  key: "["
+  key: "v" # qwerty's period
 
 select-floating-layout:
   mod: mod1
-  key: 1
+  key: "1"
 select-wide-layout:
   mod: mod1
-  key: 2
+  key: "2"
 select-tall-layout:
   mod: mod1
-  key: 3
+  key: "3"
 select-fullscreen-layout:
   mod: mod1
-  key: 4
+  key: "4"
+
+cycle-layout:
+  mod: ""
+cycle-layout-backward:
+  mod: ""
+select-column-layout:
+  mod: ""
+toggle-tiling:
+  mod: ""
+focus-screen-4:
+  mod: ""
+throw-screen-4:
+  mod: ""
+focus-screen-cw:
+  mod: ""
+focus-screen-ccw:
+  mod: ""
+swap-screen-cw:
+  mod: ""
+swap-screen-ccw:
+  mod: ""
+throw-space-left:
+  mod: ""
+throw-space-right:
+  mod: ""
+display-current-layout:
+  mod: ""
+toggle-focus-follows-mouse:
+  mod: ""
+reevaluate-windows:
+  mod: ""
 
 relaunch-amethyst:
   mod: mod1
-  key: ";"
+  key: ";" # qwerty's q
 
 # Mouse
 mouse-follows-focus: false
