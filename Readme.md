@@ -28,7 +28,9 @@ Remove-Item install.ps1; if ($(scoop config root_path)) { cmd /c mklink /j $(sco
 ```
 
 ## Resources
+
 ### Dotfiles
+
 - [archseer / Blaž Hrastnik](https://github.com/archseer/dotfiles)
 - [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
 - [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
@@ -45,7 +47,9 @@ Remove-Item install.ps1; if ($(scoop config root_path)) { cmd /c mklink /j $(sco
 - [Tim Untersberger](https://github.com/TimUntersberger/dotfiles)
 - [VonHeikemen / Heiker](https://github.com/VonHeikemen/dotfiles)
 - [Wil Thomason](https://github.com/wbthomason/dotfiles)
+
 ### Neovim config
+
 - [fannheyward / Heyward Fann](https://github.com/fannheyward/init.vim)
 - [FooSoft / Alexei Yatskov](https://github.com/FooSoft/dotvim)
 - [glepnir / Raphael](https://github.com/glepnir/nvim)
@@ -54,26 +58,58 @@ Remove-Item install.ps1; if ($(scoop config root_path)) { cmd /c mklink /j $(sco
 - [lervag / Karl Yngve Lervåg](https://github.com/lervag/dotvim)
 - [numToStr](https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim)
 - [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
+
 ### Neovim fennel
+
 - [aniseed](https://github.com/Olical/aniseed)
 - [hibiscus.nvim](https://github.com/udayvir-singh/hibiscus.nvim)
 - [hotpot.nvim](https://github.com/rktjmp/hotpot.nvim)
 - [tangerine.nvim](https://github.com/udayvir-singh/tangerine.nvim)
+
 ### Emacs config
+
 - [Will Crichton](https://github.com/willcrichton/dotfiles)
+
+### macOS Text Keybindings
+
+- [ttscoff's Keybindings](https://github.com/ttscoff/KeyBindings)
+- [Text System Defaults and Key Bindings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/TextDefaultsBindings/TextDefaultsBindings.html)
+- [Keybindings Commands](https://developer.apple.com/documentation/appkit/nsstandardkeybindingresponding)
+- [Function-Key Unicode Values](https://developer.apple.com/documentation/appkit/1535851-function-key_unicode_values)
+
+### macOS Preferences
+
+- [Brooke Kuhlmann](https://github.com/bkuhlmann/mac_os-config)
+- [HBiede](https://github.com/hbiede/Scripts/blob/main/defaults.sh)
+- [Mathias Bynens](https://github.com/mathiasbynens/dotfiles/blob/master/.macos)
+- [Steve Ward](https://github.com/tech-otaku/macos-config-catalina/blob/main/macos-config.sh)
+- [tiiiecherle](https://github.com/tiiiecherle/osx_install_config/blob/master/11_system_and_app_preferences/11c_macos_preferences_10_15.sh)
+
+### Hammerspoon config
+
+- [Oatmeal / Keenan Villani-Holland](https://github.com/oatmeaI/dotfiles)
+- [rtauziac / Rémy Tauziac](https://github.com/rtauziac/Hammerspoon-Yabai)
+
 ### Editor packs
+
 - [Doom Emacs](https://github.com/doomemacs/doomemacs)
 - [LunarVim](https://github.com/LunarVim/LunarVim)
 - [neodev.nvim](https://github.com/folke/neodev.nvim)
 - [NvChad](https://github.com/NvChad/NvChad)
+
 ### Tools
+
 - [chezmoi](https://github.com/twpayne/chezmoi)
 - [dotter](https://github.com/SuperCuber/dotter)
 - [homeshick](https://github.com/andsens/homeshick)
+
 ### Using git
+
 - [Best Way to Store in a Bare Git Repository](https://www.atlassian.com/git/tutorials/dotfiles)
 - [Tracking dotfiles directly with Git](https://wiki.archlinux.org/title/Dotfiles)
+
 ### Using stow
+
 - [Managing Dotfiles with GNU Stow (2016) - Hacker News](https://news.ycombinator.com/item?id=27137172)
 - [Using GNU Stow to manage your dotfiles (2012) - Hacker News](https://news.ycombinator.com/item?id=25549462)
 - [Managing dotfiles with GNU Stow - Hacker News](https://news.ycombinator.com/item?id=11515222)
