@@ -1,4 +1,5 @@
 Set-PSReadLineOption -EditMode Emacs
+Set-PSReadlineOption -BellStyle None
 
 Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+LeftArrow"  -Function BackwardWord
