@@ -9,4 +9,4 @@ if (!(Get-Command "winget" -ErrorAction SilentlyContinue)) {
     Read-Host "Press Return to continue"
 }
 
-autohotkey bootstrap.ahk
+autohotkey $PSScriptRoot\bootstrap.ahk

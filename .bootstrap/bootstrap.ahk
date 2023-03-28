@@ -9,8 +9,13 @@ if !EnvGet("HOME") {
 if !FileExist(EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout") {
     RunWait("git clone https://github.com/imawizard/Amalgamation.keylayout `"" EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout`"")
     RunWait("git clone https://github.com/imawizard/MiguruWM               `"" EnvGet("USERPROFILE") "\.bootstrap\MiguruWM`"")
-    RunWait("cmd /c mklink `"" EnvGet("APPDATA") "\Microsoft\Windows\Start Menu\Programs\Startup\amalgamation.ahk`" `"" EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows\amalgamation.ahk`"")
-    RunWait("cmd /c mklink `"" EnvGet("APPDATA") "\Microsoft\Windows\Start Menu\Programs\Startup\mwm.ahk`"          `"" EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows\mwm.ahk`"")
+    for script in ["amalgamation.ahk", "mwm.ahk"] {
+        FileCreateShortcut(
+            EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows\" script,
+            EnvGet("APPDATA") "\Microsoft\Windows\Start Menu\Programs\Startup\" script ".lnk",
+            EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows",
+        )
+    }
 }
 
 ; Flip all mouses' wheels.
