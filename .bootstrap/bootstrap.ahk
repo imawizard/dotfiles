@@ -76,8 +76,8 @@ for bucket in [
     "versions",
     "nerd-fonts",
     "java",
-    "games",
-    "nonportable",
+    ;"games",
+    ;"nonportable",
     ;"scoop-clojure https://github.com/littleli/scoop-clojure",
     ;"emulators https://github.com/hermanjustnu/scoop-emulators.git",
     ;"emulators https://github.com/borger/scoop-emulators.git",
@@ -89,19 +89,20 @@ for bucket in [
 for pkg in [
     ; Essentials
     ;"git-with-openssh",
-    ;"neovim",
     ;"openssh",
     "autohotkey",
     "curl",
     "fzf",
-    "gcc",
-    "make",
+    "helix",
+    "less",
     "neovim-nightly",
+    "opera",
     "powertoys",
     "pwsh",
     "ripgrep",
     "sed",
     "uutils-coreutils",
+    "which",
     "windows-terminal",
     "zoxide",
 
@@ -114,31 +115,26 @@ for pkg in [
     ;"sqlite",
     ;"telnet",
     ;"wget",
+    ;"sudo",
     "broot",
     "cloc",
-    "curl",
-    "fzf",
-    "helix",
     "jq",
     "lazygit",
-    "less",
-    "sudo",
-    "which",
 
     ; GUI tools
     ;"cpu-z",
     ;"etcher",
+    ;"gitextensions",
     ;"gpu-z",
     ;"heidisql",
+    ;"hxd",
+    ;"keepass",
     ;"rufus",
     ;"sqlitebrowser",
     ;"ssd-z",
     ;"sysinternals",
     ;"teamviewer",
     ;"wincdemu",
-    "gitextensions",
-    "hxd",
-    "keepass",
     "quicklook",
     "systeminformer-nightly",
     "winmerge",
@@ -149,32 +145,34 @@ for pkg in [
     ;"composer",
     ;"dart",
     ;"deno",
+    ;"flat-assembler",
     ;"flutter",
+    ;"gcc",
+    ;"go",
+    ;"graalvm-jdk17",
     ;"janet",
     ;"leiningen",
     ;"llvm",
+    ;"lua",
     ;"luarocks",
+    ;"make",
+    ;"maven",
+    ;"nodejs",
+    ;"python",
+    ;"qemu",
+    ;"ruby",
+    ;"rustup",
     ;"temurin8-jdk",
-    "flat-assembler",
-    "go",
-    "graalvm-jdk17",
-    "lua",
-    "maven",
-    "nodejs",
+    ;"universal-ctags",
     "perl",
-    "python",
-    "qemu",
-    "ruby",
-    "rustup",
-    "universal-ctags",
 
     ; DevOps
+    ;"aws",
+    ;"kind",
+    ;"lazydocker",
     ;"minikube",
-    "aws",
-    "kind",
-    "lazydocker",
-    "rancher-desktop",
-    "terraform",
+    ;"rancher-desktop",
+    ;"terraform",
 
     ; Reversing
     ;"dnspy",
@@ -186,18 +184,18 @@ for pkg in [
     ;"x64dbg",
 
     ; Multimedia
+    ;"anki",
     ;"audacity",
+    ;"draw.io",
     ;"freac",
+    ;"miktex",
+    ;"paint.net",
     ;"spytify",
+    ;"vlc",
     ;"yed",
     ;"youtube-dl-gui",
-    "anki",
-    "draw.io",
     "FiraCode-NF",
     "FiraCode-NF-Mono",
-    "miktex",
-    "paint.net",
-    "vlc",
 
     ; Gaming
     ;"cemu",
@@ -240,7 +238,7 @@ for name, pkg in Map(
     ;"Microsoft.WindowsTerminal",                "-s winget Microsoft.WindowsTerminal",
     ;"Microsoft.WindowsTerminal",                "-s msstore 9N0DX20HK701",
     ;"Neovim",                                   "-s winget Neovim.Neovim.Nightly",
-    "Opera",                                     "-s winget Opera.Opera",
+    ;"Opera",                                    "-s winget Opera.Opera",
     ;"Oracle Linux 9",                           "-s msstore 9MXQ65HLMC27",
     ;"QuickLook",                                "-s winget QL-Win.QuickLook",
     ;"QuickLook",                                "-s msstore 9NV4BS3L1H4S",
@@ -251,7 +249,7 @@ for name, pkg in Map(
     ;"Windows-Subsystem for Linux",              "-s msstore 9P9TQF7MRM4R",
     ;"WinMerge",                                 "-s winget WinMerge.WinMerge",
     "Woop!",                                     "-s msstore 9PM8GJ333468",
-    ;"Xbox Game ar",                             "-s msstore 9NZKPSTSNW4P",
+    ;"Xbox Gamebar",                             "-s msstore 9NZKPSTSNW4P",
     ;"Zeal",                                     "-s winget OlegShparber.Zeal",
 ) {
     RunWait("winget install "
@@ -261,22 +259,12 @@ for name, pkg in Map(
 }
 
 ; Setup rust toolchain.
-RunWait("rustup toolchain install nightly")
-RunWait("rustup default nightly")
+;RunWait("rustup toolchain install nightly")
+;RunWait("rustup default nightly")
 
 ; Install neovim plugins.
-RunWait("git clone https://github.com/wbthomason/packer.nvim `"" EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\packer.nvim`"")
-RunWait("git clone https://github.com/rktjmp/hotpot.nvim  `""    EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\hotpot.nvim`"")
-RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
+;RunWait("git clone https://github.com/wbthomason/packer.nvim `"" EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\packer.nvim`"")
+;RunWait("git clone https://github.com/rktjmp/hotpot.nvim  `""    EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\hotpot.nvim`"")
+;RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
 
 RunWait("cmd /c pause")
-
-RunIfExists(with := "", script := "", params := "") {
-    if FileExist(script) {
-        if with {
-            RunWait(with " " script " " params)
-        } else {
-            RunWait(script " " params)
-        }
-    }
-}
