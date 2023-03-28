@@ -13,11 +13,18 @@ git reset --mixed && git checkout ..
 ## [Windows](https://github.com/imawizard/dotfiles/tree/windows)
 
 ```sh
-mkdir ~/.dotfiles.git | cd
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh -OutFile install.ps1;  .\install.ps1 -ScoopDir C:\Develop\scoop
+scoop install git; git config --global http.sslBackend schannel; git config --global http.proxy http://cproxy.intern:8080
+
+#mkdir ~/.dotfiles.git | cd
+mkdir C:\Develop\.dotfiles.git | cd
 git clone --no-checkout --branch windows https://github.com/imawizard/dotfiles .
-Move-Item .git/* ./ && Remove-Item -Force .git
-git config core.worktree .. && git config status.showUntrackedFiles no
-git reset --mixed && git checkout ..
+Move-Item .git/* ./; Remove-Item -Force .git
+git config core.worktree ..; git config status.showUntrackedFiles no
+git reset --mixed; git checkout ..
+
+Remove-Item install.ps1; if ($(scoop config root_path)) { cmd /c mklink /j $(scoop config root_path)\persist $env:USERPROFILE\scoop\persist }
 ```
 
 ## Resources
