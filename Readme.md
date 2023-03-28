@@ -14,17 +14,23 @@ git reset --mixed && git checkout ..
 
 ```sh
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh -OutFile install.ps1;  .\install.ps1 -ScoopDir C:\Develop\scoop
-scoop install git; git config --global http.sslBackend schannel; git config --global http.proxy http://cproxy.intern:8080
+irm get.scoop.sh -OutFile install.ps1
+.\install.ps1 -ScoopDir C:\Develop\scoop
+Remove-Item install.ps1
+if ($(scoop config root_path)) {
+    New-Item -Force -Type Directory "$env:USERPROFILE\scoop"
+    Move-Item -Force "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop"
+    cmd /c mklink /j "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop\persist"
+}
+scoop install git
+git config --global http.sslBackend schannel
+git config --global http.proxy http://cproxy.intern:8080
 
-#mkdir ~/.dotfiles.git | cd
-mkdir C:\Develop\.dotfiles.git | cd
+mkdir ~/.dotfiles.git | cd
 git clone --no-checkout --branch windows https://github.com/imawizard/dotfiles .
 Move-Item .git/* ./; Remove-Item -Force .git
 git config core.worktree ..; git config status.showUntrackedFiles no
 git reset --mixed; git checkout ..
-
-Remove-Item install.ps1; if ($(scoop config root_path)) { cmd /c mklink /j $(scoop config root_path)\persist $env:USERPROFILE\scoop\persist }
 ```
 
 ## Resources
