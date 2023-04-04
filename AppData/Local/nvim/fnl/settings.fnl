@@ -135,7 +135,7 @@
  softtabstop    4                            ; Let backspace delete indent.
  tabstop        4                            ; A tab counts for so many spaces.
 
- wildcharm      <C-z>                        ; Used to trigger auto completion in macros.
+ wildcharm      "<C-z>"                      ; Used to trigger auto completion in macros.
  wildignore     (:append                     ; Ignore these for auto completion.
                          "*.DS_Store"
                          "*.swp"
