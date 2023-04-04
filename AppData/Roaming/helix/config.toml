@@ -1,4 +1,4 @@
-theme = "emacs"
+theme = "bold-intellij-light"
 
 [editor]
 cursorline = false
