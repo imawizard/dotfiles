@@ -1,4 +1,5 @@
 if (!(Get-Command "autohotkey" -ErrorAction SilentlyContinue)) {
+    scoop bucket add extras
     scoop install autohotkey
 }
 

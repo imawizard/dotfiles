@@ -72,7 +72,6 @@ loop reg "HKLM\SYSTEM\CurrentControlSet\Enum\HID", "KVR" {
 
 ; Install software via Scoop.
 for bucket in [
-    "extras",
     "versions",
     "nerd-fonts",
     "java",
@@ -90,7 +89,6 @@ for pkg in [
     ; Essentials
     ;"git-with-openssh",
     ;"openssh",
-    "autohotkey",
     "curl",
     "fzf",
     "helix",
