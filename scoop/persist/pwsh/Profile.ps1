@@ -6,7 +6,9 @@ Set-PSReadLineKeyHandler -Chord "Ctrl+LeftArrow"  -Function BackwardWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+Backspace"  -Function BackwardDeleteWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+Delete"     -Function DeleteWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+-"          -Function Undo
+
 New-Alias -Name ll -Value Get-ChildItem
+$env:EDITOR = "hx"
 
 Invoke-Expression (& {
     $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { "prompt" } else { "pwd" }
