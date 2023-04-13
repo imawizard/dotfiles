@@ -5,17 +5,22 @@ if !EnvGet("HOME") {
     RegWrite(EnvGet("USERPROFILE"), "REG_SZ", "HKCU\Environment", "HOME")
 }
 
-; Install keyboard layout.
-if !FileExist(EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout") {
-    RunWait("git clone https://github.com/imawizard/Amalgamation.keylayout `"" EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout`"")
-    RunWait("git clone https://github.com/imawizard/MiguruWM               `"" EnvGet("USERPROFILE") "\.bootstrap\MiguruWM`"")
-    for script in ["amalgamation.ahk", "mwm.ahk"] {
-        FileCreateShortcut(
-            EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows\" script,
-            EnvGet("APPDATA") "\Microsoft\Windows\Start Menu\Programs\Startup\" script ".lnk",
-            EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows",
-        )
-    }
+; Create shortcut if no ~\Desktop.
+if !FileExist(EnvGet("USERPROFILE") "\Desktop") {
+    ; FIXME: /j doesn't work for network drives, /d needs admin privileges
+    ;RunWait("cmd /c mklink /d `"" EnvGet("USERPROFILE") "\Desktop`" `"" A_Desktop "`"")
+}
+
+; Install keyboard layout, window manager and more.
+CloneBootstrapRepo("imawizard/Amalgamation.keylayout")
+CloneBootstrapRepo("imawizard/MiguruWM")
+CloneBootstrapRepo("imawizard/chrome-extensions")
+
+; Put keyboard layout and window manager on desktop and in autostart.
+for script in ["amalgamation.ahk", "mwm.ahk"] {
+    dir := EnvGet("USERPROFILE") "\.bootstrap\Amalgamation.keylayout\windows"
+    FileCreateShortcut(dir "\" script, A_Startup "\" script ".lnk", dir)
+    FileCreateShortcut(dir "\" script, A_Desktop "\" script ".lnk", dir)
 }
 
 ; Flip all mouses' wheels.
@@ -257,12 +262,44 @@ for name, pkg in Map(
 }
 
 ; Setup rust toolchain.
-;RunWait("rustup toolchain install nightly")
-;RunWait("rustup default nightly")
+if IsExecutable("rustup") {
+    RunWait("rustup toolchain install nightly")
+    RunWait("rustup default nightly")
+}
 
 ; Install neovim plugins.
-;RunWait("git clone https://github.com/wbthomason/packer.nvim `"" EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\packer.nvim`"")
-;RunWait("git clone https://github.com/rktjmp/hotpot.nvim  `""    EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start\hotpot.nvim`"")
-;RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
+if IsExecutable("nvim") {
+    CloneNeovimRepo("wbthomason/packer.nvim")
+    CloneNeovimRepo("rktjmp/hotpot.nvim")
+    RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
+}
 
 RunWait("cmd /c pause")
+
+CloneBootstrapRepo(id) {
+    CloneRepo(id, EnvGet("USERPROFILE") "\.bootstrap")
+}
+
+CloneNeovimRepo(id) {
+    CloneRepo(id, EnvGet("LOCALAPPDATA") "\nvim-data\site\pack\packer\start")
+}
+
+CloneRepo(id, dir) {
+    name := StrSplit(id, "/")[2]
+    dest := dir "\" name
+    
+    if !FileExist(dest) {
+        RunWait("git clone https://github.com/" id " `"" dir "`"")
+    } else {
+        RunWait("git pull", dest)
+    }
+}
+
+IsExecutable(cmd) {
+    try {
+        RunWait(cmd)
+        return true
+    } catch {
+        return false
+    }
+}
