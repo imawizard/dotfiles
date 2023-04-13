@@ -5,72 +5,74 @@
         "gregoire.dance",
         "ms-vscode.hexeditor",
 
+        // WSL, SSH & Github/Azure repos
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "ms-vscode.remote-explorer",
+        "ms-vscode.remote-repositories",
+        "GitHub.codespaces",
+
         // Docker
         "ms-azuretools.vscode-docker",
 
-        // WSL & SSH
-        "ms-vscode-remote.vscode-remote-extensionpack",
-        "ms-vscode.remote-explorer",
-
         // AutoHotkey
-        "thqby.vscode-autohotkey2-lsp",
-        "zero-plusplus.vscode-autohotkey-debug",
+        //"thqby.vscode-autohotkey2-lsp",
+        //"zero-plusplus.vscode-autohotkey-debug",
 
         // C/C++
-        "ms-vscode.cpptools",
+        //"ms-vscode.cpptools",
 
         // Dart/Flutter
-        "Dart-Code.dart-code",
-        "Dart-Code.flutter",
+        //"Dart-Code.dart-code",
+        //"Dart-Code.flutter",
 
         // Go
-        "golang.Go",
+        //"golang.Go",
 
         // Java
-        "vscjava.vscode-java-pack",
+        //"vscjava.vscode-java-pack",
 
         // JavaScript
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
+        //"dbaeumer.vscode-eslint",
+        //"esbenp.prettier-vscode",
 
         // Makefile
-        "ms-vscode.makefile-tools",
+        //"ms-vscode.makefile-tools",
 
         // Rust
-        "rust-lang.rust-analyzer",
+        //"rust-lang.rust-analyzer",
 
         // PowerShell
-        "ms-vscode.PowerShell",
+        //"ms-vscode.PowerShell",
 
         // SQL
-        "ms-mssql.sql-database-projects-vscode",
-        "ms-mssql.data-workspace-vscode",
-        "ms-mssql.sql-bindings-vscode",
-        "ms-azuretools.vscode-cosmosdb",
+        //"ms-mssql.sql-database-projects-vscode",
+        //"ms-mssql.data-workspace-vscode",
+        //"ms-mssql.sql-bindings-vscode",
+        //"ms-azuretools.vscode-cosmosdb",
 
         // YAML
-        "redhat.vscode-yaml",
-
-        // Github
-        "cschleiden.vscode-github-actions",
-
-        // GitLab
-        "GitLab.gitlab-workflow",
+        //"redhat.vscode-yaml",
 
         // Kubernetes
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "ms-kubernetes-tools.kind-vscode",
-        "mindaro.mindaro",
+        //"ms-kubernetes-tools.vscode-kubernetes-tools",
+        //"ms-kubernetes-tools.kind-vscode",
+        //"mindaro.mindaro",
 
         // Terraform
-        "azapi-vscode.azapi",
+        //"azapi-vscode.azapi",
 
         // Azure
-        "ms-kubernetes-tools.vscode-aks-tools",
-        "ms-azuretools.vscode-apimanagement",
-        "ms-azure-devops.azure-pipelines",
-        "ms-azuretools.vscode-bicep",
-        "msazurermtools.azurerm-vscode-tools",
-        "ms-azuretools.vscode-cosmosdb",
+        //"ms-kubernetes-tools.vscode-aks-tools",
+        //"ms-azuretools.vscode-apimanagement",
+        //"ms-azure-devops.azure-pipelines",
+        //"ms-azuretools.vscode-bicep",
+        //"msazurermtools.azurerm-vscode-tools",
+        //"ms-azuretools.vscode-cosmosdb",
+
+        // Github
+        //"GitHub.vscode-github-actions",
+
+        // GitLab
+        //"GitLab.gitlab-workflow",
     ]
 }
