@@ -1,0 +1,30 @@
+[core]
+  autocrlf = input
+[merge]
+  ff = only
+[push]
+  autoSetupRemote = true
+[fetch]
+  prune = true
+[rebase]
+  autoSquash = true
+[diff]
+  colorMoved = zebra
+[http]
+  sslBackend = schannel
+
+[alias]
+  aa = add --all
+  ap = add --patch
+  br = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:bold reset)%(refname:short)\" refs/remotes
+  ci = commit -v
+  co = checkout
+  fp = push --force-with-lease
+  st = status
+
+[include]
+  path = ~/.gitconfig.local
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+  path = ~/.gitconfig-gh
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+  path = ~/.gitconfig-gh.local
