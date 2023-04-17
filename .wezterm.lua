@@ -6,6 +6,20 @@ github.ansi[4] = "#ff9300"
 github.brights[3] = "#8ccba5"
 github.brights[6] = "#ffa29f"
 
+wezterm.on(
+  "format-tab-title",
+  function(tab, tabs, panes, config, hover, max_width)
+    local title = tab.tab_index .. ": "
+    local custom = tab.tab_title
+
+    if custom and #custom > 0 then
+      title = title .. "\x1b[4m" .. custom .. "\x1b[0m" .. "|"
+    end
+
+    return " " .. title .. tab.active_pane.title .. " "
+  end
+)
+
 -- See https://wezfurlong.org/wezterm/config/lua/config/index.html
 return {
   default_prog = wezterm.target_triple:find("win") and { "pwsh.exe" },
@@ -18,7 +32,6 @@ return {
   tab_max_width = 30,
   tab_and_split_indices_are_zero_based = true,
   switch_to_last_active_tab_when_closing_tab = true,
-  -- See https://github.com/wez/wezterm/issues/1598 for renaming tabs
 
   color_scheme = "Github",
   font = wezterm.font("FiraCode NFM"),
@@ -33,9 +46,9 @@ return {
   audible_bell = "Disabled",
   visual_bell = {
     fade_in_function = "EaseIn",
-    fade_in_duration_ms = 150,
+    fade_in_duration_ms = 50,
     fade_out_function = "EaseOut",
-    fade_out_duration_ms = 150,
+    fade_out_duration_ms = 50,
   },
   colors = {
     visual_bell = "#202020",
@@ -48,36 +61,36 @@ return {
   disable_default_key_bindings = true,
   -- See https://wezfurlong.org/wezterm/config/lua/keyassignment/index.html
   keys = {
-    { key = "b", mods = "LEADER|CTRL",
-      action = act.SendString("\x02") },
-    { key = ":", mods = "LEADER|SHIFT",
-      action = act.ShowLauncherArgs({ flags = "FUZZY|COMMANDS|LAUNCH_MENU_ITEMS" }) },
-    { key = "Space", mods = "LEADER",
-      action = act.QuickSelect },
+    { key = "b", mods = "LEADER|CTRL", action = act.SendString("\x02") },
+    { key = ":", mods = "LEADER|SHIFT", action = act.ShowLauncherArgs({ flags = "FUZZY|COMMANDS|LAUNCH_MENU_ITEMS" }) },
+    -- TODO: Should keep e.g. vim's cursor position (rn always bottom instead).
+    { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+    { key = "]", mods = "LEADER", action = act.PasteFrom("Clipboard") },
+    { key = "Space", mods = "LEADER", action = act.QuickSelect },
 
     -- panes
-    { key = "%", mods = "LEADER|SHIFT",
-      action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    { key = '"', mods = "LEADER|SHIFT",
-      action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-    { key = "o", mods = "LEADER",
-      action = act.ActivatePaneDirection("Next") },
-    { key = "q", mods = "LEADER",
-      action = act.PaneSelect({ mode = "Activate", alphabet = "0123456789" }) },
-    { key = "x", mods = "LEADER",
-      action = act.CloseCurrentPane({ confirm = true }) },
-    { key = "z", mods = "LEADER",
-      action = act.TogglePaneZoomState },
+    { key = "%", mods = "LEADER|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    { key = '"', mods = "LEADER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    { key = "o", mods = "LEADER", action = act.ActivatePaneDirection("Next") },
+    { key = "q", mods = "LEADER", action = act.PaneSelect({ mode = "Activate", alphabet = "0123456789" }) },
+    { key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
+    { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
 
     -- windows
-    { key = "c", mods = "LEADER",
-      action = act.SpawnTab("CurrentPaneDomain") },
-    { key = "p", mods = "LEADER",
-      action = act.ActivateTabRelative(-1) },
-    { key = "n", mods = "LEADER",
-      action = act.ActivateTabRelative(1) },
-    { key = "&", mods = "LEADER|SHIFT",
-      action = act.CloseCurrentTab({ confirm = true }) },
+    { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+    { key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
+    { key = "&", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
+    { key = ",", mods = "LEADER",
+      action = act.PromptInputLine({
+        description = "Rename tab:",
+        action = wezterm.action_callback(function(window, pane, line)
+          if line then
+            window:active_tab():set_title(line)
+          end
+        end),
+      }),
+    },
     { key = "0", mods = "LEADER", action = act.ActivateTab(0) },
     { key = "1", mods = "LEADER", action = act.ActivateTab(1) },
     { key = "2", mods = "LEADER", action = act.ActivateTab(2) },
@@ -88,66 +101,107 @@ return {
     { key = "7", mods = "LEADER", action = act.ActivateTab(7) },
     { key = "8", mods = "LEADER", action = act.ActivateTab(8) },
     { key = "9", mods = "LEADER", action = act.ActivateTab(9) },
+  },
 
-    -- copy mode
-    { key = "[", mods = "LEADER",
-      action = act.ActivateCopyMode },
-    { key = "]", mods = "LEADER",
-      action = act.PasteFrom("Clipboard") },
+  key_tables = {
+    copy_mode = {
+      { key = "q", mods = "NONE", action = act.CopyMode("Close") },
+      { key = "c", mods = "CTRL", action = act.CopyMode("Close") },
+      { key = "Escape", mods = "NONE", action = act.CopyMode("ClearSelectionMode") },
 
-    -- copy_mode = {
-    --   append-selection-and-cancel      A
-    --   back-to-indentation              ^
-    --   begin-selection                  Space
-    --   bottom-line                      L
-    --   cancel                           q
-    --   clear-selection                  Escape
-    --   copy-pipe-end-of-line-and-cancel D
-    --   copy-selection-and-cancel        Enter
-    --   cursor-down                      j
-    --   cursor-left                      h
-    --   cursor-right                     l
-    --   cursor-up                        k
-    --   end-of-line                      $
-    --   goto-line                        :
-    --   halfpage-down                    C-d
-    --   halfpage-up                      C-u
-    --   history-bottom                   G
-    --   history-top                      g
-    --   jump-again                       ;
-    --   jump-backward                    F
-    --   jump-forward                     f
-    --   jump-reverse                     ,
-    --   jump-to-backward                 T
-    --   jump-to-forward                  t
-    --   jump-to-mark                     M-x
-    --   middle-line                      M
-    --   next-matching-bracket            %
-    --   next-paragraph                   }
-    --   next-space                       W
-    --   next-space-end                   E
-    --   next-word                        w
-    --   next-word-end                    e
-    --   other-end                        o
-    --   page-down                        C-f
-    --   page-up                          C-b
-    --   previous-paragraph               {
-    --   previous-space                   B
-    --   previous-word                    b
-    --   rectangle-toggle                 v
-    --   refresh-from-pane                r
-    --   scroll-down                      C-e
-    --   scroll-up                        C-y
-    --   search-again                     n
-    --   search-backward                  ?
-    --   search-forward                   /
-    --   scroll-middle                    z
-    --   search-reverse                   N
-    --   select-line                      V
-    --   set-mark                         X
-    --   start-of-line                    0
-    --   toggle-position                  P
-    --   top-line                         H
-    -- }
+      { key = "Enter", mods = "NONE", action = act.Multiple({
+          { CopyTo = "ClipboardAndPrimarySelection" },
+          { CopyMode = "Close" },
+        }),
+      },
+      { key = "Space", mods = "NONE", action = act.Multiple({
+          { CopyMode = "ClearSelectionMode" },
+          { CopyMode = { SetSelectionMode = "Cell" } },
+        }),
+      },
+      { key = "v", mods = "SHIFT", action = act.Multiple({
+          { CopyMode = "ClearSelectionMode" },
+          { CopyMode = { SetSelectionMode = "Line" } },
+        }),
+      },
+      -- TODO: Should be a toggle on top of Cell/Line.
+      { key = "v", mods = "NONE", action = act.Multiple({
+          { CopyMode = "ClearSelectionMode" },
+          { CopyMode = { SetSelectionMode = "Block" } },
+        }),
+      },
+      { key = "v", mods = "CTRL", action = act.Multiple({
+          { CopyMode = "ClearSelectionMode" },
+          { CopyMode = { SetSelectionMode = "Block" } },
+        }),
+      },
+
+      { key = "o", mods = "NONE",  action = act.CopyMode("MoveToSelectionOtherEnd") },
+
+      { key = "j", mods = "NONE",  action = act.CopyMode("MoveDown") },
+      { key = "h", mods = "NONE",  action = act.CopyMode("MoveLeft") },
+      { key = "l", mods = "NONE",  action = act.CopyMode("MoveRight") },
+      { key = "k", mods = "NONE",  action = act.CopyMode("MoveUp") },
+
+      { key = "d", mods = "CTRL",  action = act.CopyMode({ MoveByPage = 0.5 }) },
+      { key = "u", mods = "CTRL",  action = act.CopyMode({ MoveByPage = -0.5 }) },
+      { key = "f", mods = "CTRL",  action = act.CopyMode("PageDown") },
+      { key = "b", mods = "CTRL",  action = act.CopyMode("PageUp") },
+      { key = "e", mods = "CTRL",  action = act.Multiple({ { ScrollByLine = 1 }, { CopyMode = "MoveDown" } }) },
+      { key = "y", mods = "CTRL",  action = act.Multiple({ { ScrollByLine = -1 }, { CopyMode = "MoveUp" } }) },
+
+      { key = "g", mods = "NONE",  action = act.CopyMode("MoveToScrollbackTop") },
+      { key = "g", mods = "SHIFT", action = act.CopyMode("MoveToScrollbackBottom") },
+
+      { key = "$", mods = "SHIFT", action = act.CopyMode("MoveToEndOfLineContent") },
+      { key = "0", mods = "NONE",  action = act.CopyMode("MoveToStartOfLine") },
+      { key = "^", mods = "NONE",  action = act.CopyMode("MoveToStartOfLineContent") },
+
+      { key = "m", mods = "SHIFT", action = act.CopyMode("MoveToViewportMiddle") },
+      { key = "h", mods = "SHIFT", action = act.CopyMode("MoveToViewportTop") },
+      { key = "l", mods = "SHIFT", action = act.CopyMode("MoveToViewportBottom") },
+
+      { key = "b", mods = "NONE",  action = act.CopyMode("MoveBackwardWord") },
+      { key = "w", mods = "NONE",  action = act.CopyMode("MoveForwardWord") },
+      { key = "e", mods = "NONE",  action = act.CopyMode("MoveForwardWordEnd") },
+
+      { key = "f", mods = "NONE",  action = act.CopyMode({ JumpForward = { prev_char = false } }) },
+      { key = "t", mods = "NONE",  action = act.CopyMode({ JumpForward = { prev_char = true  } }) },
+      { key = "f", mods = "SHIFT", action = act.CopyMode({ JumpBackward = { prev_char = false } }) },
+      { key = "t", mods = "SHIFT", action = act.CopyMode({ JumpBackward = { prev_char = true  } }) },
+      { key = ";", mods = "NONE",  action = act.CopyMode("JumpAgain") },
+      { key = ",", mods = "NONE",  action = act.CopyMode("JumpReverse") },
+
+      { key = "/", mods="SHIFT", action = act.Multiple({
+          { Search = { CaseSensitiveString = "" } },
+          { CopyMode = "ClearPattern" },
+        }),
+      },
+      { key = "n", mods = "NONE", action = act.Multiple({
+          { CopyMode = "NextMatch" },
+          { CopyMode = "MoveToSelectionOtherEnd" },
+          { CopyMode = "ClearSelectionMode" },
+        }),
+      },
+      { key = "n", mods = "SHIFT", action = act.Multiple({
+          { CopyMode = "PriorMatch" },
+          { CopyMode = "MoveToSelectionOtherEnd" },
+          { CopyMode = "ClearSelectionMode" },
+        }),
+      },
+    },
+    search_mode = {
+      { key = "Escape", mods = "NONE", action = act.Multiple({
+          "ActivateCopyMode",
+          { CopyMode = "ClearPattern" },
+        }),
+      },
+      { key = "Enter", mods = "NONE", action = act.Multiple({
+          "ActivateCopyMode",
+          { CopyMode = "MoveToSelectionOtherEnd" },
+          { CopyMode = "ClearSelectionMode" },
+        }),
+      },
+    },
   },
 }

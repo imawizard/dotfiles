@@ -105,6 +105,7 @@ for pkg in [
     "ripgrep",
     "sed",
     "uutils-coreutils",
+    "wezterm",
     "which",
     "windows-terminal",
     "zoxide",
