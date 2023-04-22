@@ -39,6 +39,7 @@
     "override_win_s_key": false,
     "ignore_hotkeys_in_fullscreen": false,
     "clear_input_on_launch": false,
+    "tab_selects_context_buttons": true,
     "theme": 0,
     "startupPosition": 2,
     "use_centralized_keyboard_hook": true,
@@ -47,7 +48,8 @@
     "search_input_delay_fast": 0,
     "search_clicked_item_weight": 5,
     "search_query_tuning_enabled": true,
-    "search_wait_for_slow_results": false
+    "search_wait_for_slow_results": false,
+    "generate_thumbnails_from_files": true
   },
   "plugins": [
     {
@@ -206,8 +208,20 @@
           "Value": true
         },
         {
+          "Key": "ShowSuccessOnEmptyRB",
+          "DisplayLabel": "Nach dem Leeren des Papierkorb eine Erfolgsmeldung anzeigen",
+          "DisplayDescription": null,
+          "Value": false
+        },
+        {
           "Key": "LocalizeSystemCommands",
           "DisplayLabel": "Lokalisierte Systembefehle anstelle von englischen Befehlen verwenden",
+          "DisplayDescription": null,
+          "Value": false
+        },
+        {
+          "Key": "SeparateResultEmptyRB",
+          "DisplayLabel": "Separates Ergebnis für den Befehl \"Papierkorb leeren\" anzeigen",
           "DisplayDescription": null,
           "Value": false
         },
@@ -258,38 +272,6 @@
       ]
     },
     {
-      "Id": "BADD1B06EF0A4B61AD95395F24241D69",
-      "Name": "Zeitzone",
-      "Description": "Ruft die aktuelle Zeit einer Zeitzone ab",
-      "Author": "TobiasSekan",
-      "Disabled": false,
-      "IsGlobal": false,
-      "ActionKeyword": "tz ",
-      "WeightBoost": 0,
-      "IconPathDark": "TimeZone\\Images\\timeZone.dark.png",
-      "IconPathLight": "TimeZone\\Images\\timeZone.light.png",
-      "AdditionalOptions": [
-        {
-          "Key": "ShowTimeZoneNames",
-          "DisplayLabel": "Zeitzonennamen anzeigen",
-          "DisplayDescription": null,
-          "Value": true
-        },
-        {
-          "Key": "ShowTimeNames",
-          "DisplayLabel": "Zeitnamen anzeigen",
-          "DisplayDescription": null,
-          "Value": true
-        },
-        {
-          "Key": "ShowMilitaryTimeZoneNames",
-          "DisplayLabel": "Militärzeitzonennamen anzeigen",
-          "DisplayDescription": null,
-          "Value": false
-        }
-      ]
-    },
-    {
       "Id": "aa0ee9daff654fb7be452c2d77c471b9",
       "Name": "Einheitenkonverter",
       "Description": "Stellt die Einheitenkonvertierung bereit (z. B. 10 Fuß in m).",
@@ -311,8 +293,8 @@
       "IsGlobal": false,
       "ActionKeyword": "//",
       "WeightBoost": 0,
-      "IconPathDark": "Uri\\Images\\uri.dark.png",
-      "IconPathLight": "Uri\\Images\\uri.light.png",
+      "IconPathDark": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\Uri\\Images\\uri.dark.png",
+      "IconPathLight": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\Uri\\Images\\uri.light.png",
       "AdditionalOptions": []
     },
     {

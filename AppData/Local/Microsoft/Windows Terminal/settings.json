@@ -12,6 +12,7 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "intenseTextStyle": "all",
+    "language": "en-US",
     "launchMode": "maximizedFocus",
     "theme": "light",
     "windowingBehavior": "useExisting",
@@ -22,8 +23,10 @@
         "defaults":
         {
             "colorScheme": "One Half Light",
-            "fontFace": "FiraCode NFM",
-            "fontSize": 10,
+            "font": {
+                "face": "FiraCode NFM",
+                "size": 10
+            },
             "bellStyle": "taskbar",
             "cursorShape": "vintage"
         },
