@@ -1,20 +1,28 @@
+# PSReadLine
+# See https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle None
 
-Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
-Set-PSReadLineKeyHandler -Chord "Ctrl+LeftArrow"  -Function BackwardWord
-Set-PSReadLineKeyHandler -Chord "Ctrl+Backspace"  -Function BackwardDeleteWord
-Set-PSReadLineKeyHandler -Chord "Ctrl+Delete"     -Function DeleteWord
-Set-PSReadLineKeyHandler -Chord "Ctrl+-"          -Function Undo
+Set-PSReadLineKeyHandler -Key "Ctrl+RightArrow" -Function ForwardWord
+Set-PSReadLineKeyHandler -Key "Ctrl+LeftArrow"  -Function BackwardWord
+Set-PSReadLineKeyHandler -Key "Ctrl+Backspace"  -Function BackwardDeleteWord
+Set-PSReadLineKeyHandler -Key "Ctrl+Delete"     -Function DeleteWord
+Set-PSReadLineKeyHandler -Key "Ctrl+_"          -Function Undo
+Set-PSReadLineKeyHandler -Key "Ctrl+e"          -ScriptBlock {
+    Param($key, $arg)
 
-New-Alias -Name ll -Value Get-ChildItem
-$env:EDITOR = "hx"
+    $line = $null
+    $cursor = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
 
-Invoke-Expression (& {
-    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { "prompt" } else { "pwd" }
-    (zoxide init --hook $hook powershell | Out-String)
-})
+    if ($cursor -lt $line.Length) {
+        [Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine($key, $arg)
+    } else {
+        [Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion($key, $arg)
+    }
+}
 
+# Theme
 # See https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/using-light-theme?view=powershell-7.3
 $ISETheme = @{
     Default                = $PSStyle.Foreground.FromRGB(0x0000ff)
@@ -68,3 +76,15 @@ function Prompt {
     }
     "${osc7}λ $cwd$('>' * $NestedPromptLevel) ";
 }
+
+# zoxide integration
+Invoke-Expression (& {
+    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { "prompt" } else { "pwd" }
+    (zoxide init --hook $hook powershell | Out-String)
+})
+
+# Aliases
+New-Alias -Name ll -Value Get-ChildItem
+
+# Env-vars
+$env:EDITOR = "hx"
