@@ -43,6 +43,7 @@
     // File Explorer
     "explorer.compactFolders": true, // Collapse empty folders like for Java pkgs
     "workbench.tree.renderIndentGuides": "always",
+    "workbench.list.automaticKeyboardNavigation": false,
 
     // Window
     "window.menuBarVisibility": "compact",
@@ -160,8 +161,13 @@
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "off",
 
+    // Search editor
+    "search.mode": "reuseEditor",
+
     // Disable nags
     "extensions.ignoreRecommendations": false,
+    "git.openRepositoryInParentFolders": "never",
+    "powershell.promptToUpdatePowerShell": false,
     "telemetry.telemetryLevel": "off",
     "redhat.telemetry.enabled": false,
 
@@ -366,7 +372,7 @@
                 "p": { "text": "Paste clipboard after selections",              "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "end"   }] },
                 "P": { "text": "Paste clipboard before selections",             "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "start" }] },
                 "R": { "text": "Replace selections by clipboard content",       "command": "dance.edit.insert", "args": [{ "register": "dquote" }]                    },
-                "/": { "text": "Global search in workspace folder",             "command": "workbench.action.findInFiles"                                             },
+                "/": { "text": "Global search in workspace folder",             "command": "search.action.openEditor"                                                 },
                 "k": { "text": "Show docs for item under cursor",               "command": "editor.action.showHover"                                                  },
                 "r": { "text": "Rename symbol",                                 "command": "editor.action.rename"                                                     },
                 "h": { "text": "Select symbol references",                      "command": "???"                                                                      },
@@ -401,6 +407,40 @@
             "items": {
                 "t": { "text": "current thread", "command": "???" },
                 "f": { "text": "stack frame",    "command": "???" },
+            },
+        },
+
+        "file-explorer": {
+            "items": {
+                "c": { "text": "Copy",     "command": "filesExplorer.copy"                                         },
+                "d": { "text": "Delete",   "command": "moveFileToTrash"                                            },
+                "n": { "text": "New ...",  "command": "dance.openMenu", "args": [{ "menu": "file-explorer-new"  }] },
+                "o": { "text": "Open ...", "command": "dance.openMenu", "args": [{ "menu": "file-explorer-open" }] },
+                "p": { "text": "Paste",    "command": "filesExplorer.paste"                                        },
+                "r": { "text": "Rename",   "command": "renameFile"                                                 },
+                "x": { "text": "Cut",      "command": "filesExplorer.cut"                                          },
+                "y": { "text": "Yank ...", "command": "dance.openMenu", "args": [{ "menu": "file-explorer-yank" }] },
+            },
+        },
+
+        "file-explorer-new": {
+            "items": {
+                "f": { "text": "File",      "command": "explorer.newFile"   },
+                "d": { "text": "Directory", "command": "explorer.newFolder" },
+            },
+        },
+
+        "file-explorer-open": {
+            "items": {
+                "o": { "text": "Open with ...",           "command": "explorer.openWith" },
+                "r": { "text": "Reveal in file explorer", "command": "revealFileInOS"    },
+            },
+        },
+
+        "file-explorer-yank": {
+            "items": {
+                "f": { "text": "File path",          "command": "copyFilePath"         },
+                "r": { "text": "Relative file path", "command": "copyRelativeFilePath" },
             },
         },
     },
