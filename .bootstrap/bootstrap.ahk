@@ -7,8 +7,10 @@ if !EnvGet("HOME") {
 
 ; Create shortcut if no ~\Desktop.
 if !FileExist(EnvGet("USERPROFILE") "\Desktop") {
-    ; FIXME: /j doesn't work for network drives, /d needs admin privileges
-    ;RunWait("cmd /c mklink /d `"" EnvGet("USERPROFILE") "\Desktop`" `"" A_Desktop "`"")
+    if A_IsAdmin {
+        ; /j doesn't work for network drives, /d requires admin privileges
+        RunWait("cmd /c mklink /d `"" EnvGet("USERPROFILE") "\Desktop`" `"" A_Desktop "`"")
+    }
 }
 
 ; Install keyboard layout, window manager and more.
@@ -256,10 +258,12 @@ for name, pkg in Map(
     ;"Xbox Gamebar",                             "-s msstore 9NZKPSTSNW4P",
     ;"Zeal",                                     "-s winget OlegShparber.Zeal",
 ) {
-    RunWait("winget install "
-        "--accept-source-agreements "
-        "--accept-package-agreements "
-        pkg)
+    if !InStr(pkg, "-s msstore") || HasMicrosoftStore() {
+        RunWait("winget install "
+            "--accept-source-agreements "
+            "--accept-package-agreements "
+            pkg)
+    }
 }
 
 ; Setup rust toolchain.
@@ -269,10 +273,12 @@ if IsExecutable("rustup") {
 }
 
 ; Install neovim plugins.
-if IsExecutable("nvim") {
+if IsExecutable("nvim -c q") {
     CloneNeovimRepo("wbthomason/packer.nvim")
     CloneNeovimRepo("rktjmp/hotpot.nvim")
-    RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
+    if IsDeveloperMode() {
+        RunWait("nvim --headless -c `"autocmd User PackerComplete qa`" +PackerSync")
+    }
 }
 
 RunWait("cmd /c pause")
@@ -288,7 +294,7 @@ CloneNeovimRepo(id) {
 CloneRepo(id, dir) {
     name := StrSplit(id, "/")[2]
     dest := dir "\" name
-    
+
     if !FileExist(dest) {
         RunWait("git clone https://github.com/" id " `"" dir "`"")
     } else {
@@ -303,4 +309,20 @@ IsExecutable(cmd) {
     } catch {
         return false
     }
+}
+
+HasMicrosoftStore() {
+    try {
+        value := RegRead("HKLM\SOFTWARE\Policies\Microsoft\WindowsStore", "RemoveWindowsStore")
+        return value == 0
+    }
+    return true
+}
+
+IsDeveloperMode() {
+    try {
+        value := RegRead("HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock", "AllowDevelopmentWithoutDevLicense")
+        return value == 1
+    }
+    return false
 }
