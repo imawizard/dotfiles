@@ -267,6 +267,21 @@ for name, pkg in Map(
     }
 }
 
+path := Exec("scoop.cmd prefix opera")[2]
+if FileExist(path) {
+    ; FIXME: Apparently must be written to HKLM to be listed under Settings > Standard-Apps > Webbrowser.
+    try RegWrite("Software\Clients\StartMenuInternet\ScoopedOpera\Capabilities", "REG_SZ", "HKCU\SOFTWARE\RegisteredApplications", "ScoopedOpera")
+    try RegWrite("Opera",                                                        "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera")
+    try RegWrite("Opera",                                                        "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities", "ApplicationName")
+    try RegWrite("Opera (Installed with Scoop)",                                 "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities", "ApplicationDescription")
+    try RegWrite(path "\launcher.exe,0",                                         "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities", "ApplicationIcon")
+    try RegWrite(path "\launcher.exe,0",                                         "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\DefaultIcon")
+    try RegWrite("ScoopedOpera",                                                 "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities\StartMenu", "StartMenuInternet")
+    try RegWrite("ScoopedOpera",                                                 "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities\URLAssociations", "http")
+    try RegWrite("ScoopedOpera",                                                 "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities\URLAssociations", "https")
+    try RegWrite("`"" path "\launcher.exe`"",                                    "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\shell\open\command")
+}
+
 ; Setup rust toolchain.
 if IsExecutable("rustup") {
     RunWait("rustup toolchain install nightly")
@@ -326,4 +341,16 @@ IsDeveloperMode() {
         return value == 1
     }
     return false
+}
+
+Exec(cmd, stdin := "") {
+    shell := ComObject("WScript.Shell")
+    exec := shell.Exec(cmd)
+    if stdin !== "" {
+        exec.StdIn.WriteLine(stdin)
+    }
+    while exec.Status == 0 {
+        Sleep(20)
+    }
+    return [exec.ExitCode(), SubStr(exec.StdOut.ReadAll(), 1, -2)]
 }
