@@ -34,6 +34,7 @@ loop reg "HKLM\SYSTEM\CurrentControlSet\Enum\HID", "KVR" {
 
  try RegWrite(1,   "REG_DWORD", "HKLM\System\CurrentControlSet\Control\FileSystem",                          "LongPathsEnabled")              ; Enable long paths
 ;try RegWrite(1,   "REG_DWORD", "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System",            "DisableLockWorkstation")        ; Disable locking as a whole with its Win+L hotkey
+ try RegWrite(0,   "REG_DWORD", "HKCU\Control Panel\Keyboard",                                               "PrintScreenKeyForSnippingEnabled")
 
 ; Adjust taskbar.
  try RegWrite(0,   "REG_DWORD", "HKCU\Software\Microsoft\Windows\DWM",                                       "EnableAeroPeek")                ; Disable Aero Peek
