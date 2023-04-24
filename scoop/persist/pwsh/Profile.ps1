@@ -83,8 +83,56 @@ Invoke-Expression (& {
     (zoxide init --hook $hook powershell | Out-String)
 })
 
+# lazygit macro
+function lg {
+    $tmpfile = New-TemporaryFile
+    try {
+        $env:LAZYGIT_NEW_DIR_FILE = $tmpfile
+        $lazygit = $env:LAZYGIT
+        if (-not $lazygit) {
+             $lazygit = 'lazygit'
+        }
+        & $lazygit $args
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "lazygit exited with code $LASTEXITCODE"
+            return
+        }
+        $path = Get-Content $tmpfile
+        if ($path) {
+            cd $path
+        }
+    } finally {
+        Remove-Item -force $tmpfile
+        $env:LAZYGIT_NEW_DIR_FILE = ""
+    }
+}
+
+# broot macro
+# See https://github.com/Canop/broot/issues/159
+function br {
+    $tmpfile = New-TemporaryFile
+    try {
+        $broot = $env:BROOT
+        if (-not $broot) {
+             $broot = 'broot'
+        }
+        & $broot --outcmd $tmpfile $args
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "$broot exited with code $LASTEXITCODE"
+            return
+        }
+        $cmd = Get-Content $tmpfile
+        if ($cmd) {
+            Invoke-Expression $cmd
+        }
+    } finally {
+        Remove-Item -force $tmpfile
+    }
+}
+
 # Aliases
 New-Alias -Name ll -Value Get-ChildItem
 
 # Env-vars
 $env:EDITOR = "hx"
+$env:SHELL  = "pwsh"
