@@ -84,7 +84,7 @@
 
     { "key": "q",             "command": "workbench.action.closeSidebar", "when": "filesExplorerFocus"                                                         },
     { "key": "enter",         "command": "renameFile",                    "when": "filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly" },
-    { "key": "escape",        "command": "cancelRenameInput",             "when": "foldersViewVisible && !listFocus" },
+    { "key": "escape",        "command": "cancelRenameInput",             "when": "filesExplorerFocus && !listFocus" },
     { "key": "alt+backspace", "command": "moveFileToTrash",               "when": "filesExplorerFocus && !explorerResourceIsRoot"                              },
 
     { "key": "h",       "command": "list.collapse",                                        "when": "listFocus && !inputFocus"                     },
