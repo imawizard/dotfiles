@@ -15,8 +15,14 @@ left = [
   "mode",
   "spinner",
   "file-name",
+  "file-modification-indicator",
+  "spacer",
   "version-control",
+  "spacer",
+  "spacer",
+  "spacer",
   "selections",
+  "primary-selection-length",
   "diagnostics",
 ]
 center = []
