@@ -66,6 +66,16 @@ return {
     -- TODO: Should keep e.g. vim's cursor position (rn always bottom instead).
     { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
     { key = "]", mods = "LEADER", action = act.PasteFrom("Clipboard") },
+    { key = "{", mods = "LEADER|SHIFT", action = act.Multiple({
+        { RotatePanes = "CounterClockwise" },
+        { ActivatePaneDirection = "Prev" },
+      }),
+    },
+    { key = "}", mods = "LEADER|SHIFT", action = act.Multiple({
+        { RotatePanes = "Clockwise" },
+        { ActivatePaneDirection = "Next" },
+      }),
+    },
     { key = "Space", mods = "LEADER", action = act.QuickSelect },
 
     -- panes
@@ -75,8 +85,12 @@ return {
     { key = "q", mods = "LEADER", action = act.PaneSelect({ mode = "Activate", alphabet = "0123456789" }) },
     { key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
     { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+    { key = "!", mods = "LEADER|SHIFT", action = wezterm.action_callback(function(win, pane)
+      local tab, window = pane:move_to_new_tab()
+      tab:activate()
+    end) },
 
-    -- windows
+    -- tabs
     { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
     { key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
     { key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
