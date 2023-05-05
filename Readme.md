@@ -21,6 +21,7 @@ if ($(scoop config root_path)) {
     New-Item -Force -Type Directory "$env:USERPROFILE\scoop"
     Move-Item -Force "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop"
     cmd /c mklink /j "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop\persist"
+    cmd /c mklink /j "$env:USERPROFILE\scoop\shims" "$(scoop config root_path)\shims"
 }
 scoop install git
 git config --global http.sslBackend schannel
