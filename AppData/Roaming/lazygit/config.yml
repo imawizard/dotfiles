@@ -1,9 +1,14 @@
 gui:
   language: en
-  showBottomLine: false
+  showBottomLine: true
   showIcons: true
   skipRewordInEditorWarning: true
+  skipStashWarning: true
   border: rounded
+  scrollHeight: 3
+  theme:
+    selectedLineBgColor:
+      - "#b6e2ff"
 
 git:
   commit:
