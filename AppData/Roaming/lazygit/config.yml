@@ -9,4 +9,10 @@ git:
   commit:
     verbose: always
 
+os:
+  edit: "hx {{filename}}"
+  editAtLine: "hx {{filename}}"
+  editAtLineAndWait: "hx {{filename}}"
+  editInTerminal: true
+
 promptToReturnFromSubprocess: false
