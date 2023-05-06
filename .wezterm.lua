@@ -9,14 +9,30 @@ github.brights[6] = "#ffa29f"
 wezterm.on(
   "format-tab-title",
   function(tab, tabs, panes, config, hover, max_width)
-    local title = tab.tab_index .. ": "
-    local custom = tab.tab_title
+    local pane = tab.active_pane
 
-    if custom and #custom > 0 then
-      title = title .. "\x1b[4m" .. custom .. "\x1b[0m" .. "|"
+    function basename(s)
+      return string.gsub(s, "(.*[/\\])(.*)", "%2")
     end
 
-    return " " .. title .. tab.active_pane.title .. " "
+    local process = basename(pane.foreground_process_name)
+    local title = tab.tab_index .. ":"
+
+    if pane.title and pane.title ~= process then
+      title = title .. pane.title
+    else
+      local manually_set = tab.tab_title
+      if manually_set and #manually_set > 0 then
+        title = title .. "\x1b[4m" .. manually_set .. "\x1b[0m"
+      else
+        local cwd = string.gsub(pane.current_working_dir, os.getenv("HOME"), "~")
+        title = title .. basename(cwd)
+      end
+
+      title = title .. "|" .. process
+    end
+
+    return " " .. title .. " "
   end
 )
 
