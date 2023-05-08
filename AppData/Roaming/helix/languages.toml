@@ -1,24 +1,4 @@
 [[language]]
-name = "json"
-auto-format = true
-formatter = { command = "git", args = ["stripspace"] }
-
-[[language]]
-name = "yaml"
-auto-format = true
-formatter = { command = "git", args = ["stripspace"] }
-
-[[language]]
-name = "toml"
-auto-format = true
-formatter = { command = "git", args = ["stripspace"] }
-
-[[language]]
-name = "hcl"
-auto-format = true
-formatter = { command = "git", args = ["stripspace"] }
-
-[[language]]
 name = "hjson"
 scope = "source.hjson"
 file-types = ["hjson"]
