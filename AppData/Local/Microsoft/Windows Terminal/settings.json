@@ -6,6 +6,9 @@
         { "command": "commandPalette", "keys": "shift+alt+p" },
         { "command": "prevTab", "keys": "ctrl+pageup" },
         { "command": "nextTab", "keys": "ctrl+pagedown" },
+        { "command": "unbound", "keys": "ctrl+plus" },
+        { "command": "unbound", "keys": "ctrl+minus" },
+        { "command": "unbound", "keys": "alt+enter" }
     ],
     "alwaysShowNotificationIcon": false,
     "alwaysShowTabs": false,
