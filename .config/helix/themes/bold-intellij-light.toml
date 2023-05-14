@@ -1,0 +1,204 @@
+# Bold Intellij Light theme
+
+# Interface
+
+"ui.background"                    = { bg = "#ffffff" }
+#"ui.background.separator"         = {}
+
+"ui.cursor"                        = { bg = "#909090" }
+#"ui.cursor.normal"                = {}
+#"ui.cursor.insert"                = {}
+#"ui.cursor.select"                = {}
+"ui.cursor.primary"                = { fg = "#ffffff", bg = "#262626" }
+#"ui.cursor.primary.normal"        = {}
+#"ui.cursor.primary.insert"        = {}
+#"ui.cursor.primary.select"        = {}
+"ui.cursor.match"                  = { modifiers = ["bold"], underline = { color = "#080808", style = "line" } }
+
+"ui.gutter"                        = { fg = "#adadad", bg = "#f2f2f2" }
+"ui.gutter.selected"               = { fg = "#282828", bg = "#f2f2f2" }
+#"ui.linenr"                       = {}
+#"ui.linenr.selected"              = {}
+#"ui.debug.breakpoint"             = {}
+#"ui.debug.active"                 = {}
+
+"ui.statusline"                    = { bg = "#d0d0d0" }
+"ui.statusline.inactive"           = { bg = "#f2f2f2" }
+"ui.statusline.normal"             = { fg = "#ffffff", bg = "#98c379", modifiers = ["bold"] }
+"ui.statusline.insert"             = { fg = "#ffffff", bg = "#61afef", modifiers = ["bold"] }
+"ui.statusline.select"             = { fg = "#ffffff", bg = "#c678dd", modifiers = ["bold"] }
+#"ui.statusline.separator"         = {}
+
+#"ui.bufferline"                   = {}
+#"ui.bufferline.active"            = {}
+
+"ui.popup"                         = { bg = "#f7f7f7" }
+"ui.popup.info"                    = { bg = "#fff8dc" }
+"ui.window"                        = { bg = "#f2f2f2" }
+"ui.help"                          = { bg = "#fff8dc" }
+
+"ui.text"                          = { fg = "#080808" }
+"ui.text.focus"                    = { fg = "#000000", bg = "#b4eeb4" }
+#"ui.text.focus"                   = { fg = "#ffffff", bg = "#2b77bd", modifiers = ["bold"] }
+#"ui.text.inactive"                = {}
+#"ui.text.info"                    = {}
+#"ui.virtual"                      = {}
+"ui.virtual.ruler"                 = { bg = "#eeeeee" }
+"ui.virtual.whitespace"            = { fg = "#ffffff" }
+"ui.virtual.indent-guide"          = { fg = "#e6e6e6" }
+"ui.virtual.inlay-hint"            = { fg = "#7a7a7a", bg = "#ededed" }
+#"ui.virtual.inlay-hint.parameter" = {}
+#"ui.virtual.inlay-hint.type"      = {}
+"ui.virtual.wrap"                  = { fg = "#c0c0c0" }
+
+"ui.menu"                          = { fg = "Black", bg = "#fff8dc" }
+"ui.menu.selected"                 = { bg = "#adadad" }
+"ui.menu.scroll"                   = { fg = "Gray", bg = "#dddddd" }
+
+"ui.selection"                     = { bg = "#b6e2ff" }
+"ui.selection.primary"             = { bg = "#a6d2ff" }
+"ui.cursorline"                    = { bg = "#dddddd" }
+#"ui.cursorline.primary"           = {}
+#"ui.cursorline.secondary"         = {}
+#"ui.cursorcolumn.primary"         = {}
+#"ui.cursorcolumn.secondary"       = {}
+
+"error"                            = { fg = "Red", modifiers = ["bold"] }
+"warning"                          = { fg = "Orange", modifiers = ["bold"] }
+"info"                             = { fg = "Green", modifiers = ["bold"] }
+"hint"                             = { fg = "Gray", modifiers = ["bold"] }
+
+#"diagnostic"                      = {}
+"diagnostic.error"                 = { underline = { color = "Red", style = "curl" } }
+"diagnostic.warning"               = { underline = { color = "Orange", style = "curl" } }
+"diagnostic.info"                  = { underline = { color = "Green", style = "curl" } }
+"diagnostic.hint"                  = { underline = { color = "Gray", style = "curl" } }
+
+#"markup"                          = {}
+#"markup.normal"                   = {}
+#"markup.normal.completion"        = {}
+#"markup.normal.hover"             = {}
+#"markup.heading"                  = {}
+#"markup.heading.completion"       = {}
+#"markup.heading.hover"            = {}
+#"markup.raw"                      = {}
+#"markup.raw.inline"               = {}
+#"markup.raw.inline.completion"    = {}
+#"markup.raw.inline.hover"         = {}
+
+# Syntax
+
+"attribute"                        = { fg = "#9e880d" }
+
+#"type"                            = {}
+"type.builtin"                     = { fg = "#002fa6" }
+#"type.enum"                       = {}
+#"type.enum.variant"               = {}
+
+"constructor"                      = { fg = "#871094" }
+
+"constant"                         = { fg = "#871094" }
+"constant.builtin"                 = { fg = "#002fa6" }
+#"constant.builtin.boolean"        = {}
+"constant.character"               = { fg = "#067d17" }
+"constant.character.escape"        = { fg = "#0037a6" }
+"constant.numeric"                 = { fg = "#1750eb" }
+#"constant.numeric.integer"        = {}
+#"constant.numeric.float"          = {}
+
+"string"                           = { fg = "#067d17" }
+#"string.regexp"                   = {}
+#"string.special"                  = {}
+#"string.special.path"             = {}
+#"string.special.url"              = {}
+"string.special.symbol"            = { fg = "#181818", modifiers = ["bold"] }
+
+"comment"                          = { fg = "#8c8c8c", modifiers = ["italic"] }
+#"comment.line"                    = {}
+#"comment.block"                   = {}
+#"comment.block.documentation"     = {}
+
+#"variable"                        = {}
+"variable.builtin"                 = { fg = "#181818", modifiers = ["bold"] }
+#"variable.parameter"              = {}
+#"variable.other"                  = {}
+#"variable.other.member"           = {}
+
+"label"                            = { underline = { color = "#808080", style = "line" } }
+
+#"punctuation"                     = {}
+#"punctuation.delimiter"           = {}
+#"punctuation.bracket"             = {}
+"punctuation.special"              = { fg = "#0037a6" }
+
+"keyword"                          = { fg = "#181818", modifiers = ["bold"] }
+#"keyword.control"                 = {}
+#"keyword.control.conditional"     = {}
+#"keyword.control.repeat"          = {}
+#"keyword.control.import"          = {}
+#"keyword.control.return"          = {}
+#"keyword.control.exception"       = {}
+#"keyword.operator"                = {}
+"keyword.directive"                = { fg = "#9e880d" }
+#"keyword.function"                = {}
+#"keyword.storage"                 = {}
+#"keyword.storage.type"            = {}
+#"keyword.storage.modifier"        = {}
+
+#"operator"                        = {}
+
+#"function"                        = {}
+#"function.builtin"                = {}
+#"function.method"                 = {}
+#"function.macro"                  = {}
+#"function.special"                = {}
+#"function.static"                 = {}
+
+#"tag"                             = {}
+#"tag.builtin"                     = {}
+
+#"namespace"                       = {}
+#"special"                         = {}
+
+#"markup"                          = {}
+#"markup.heading"                  = {}
+#"markup.heading.marker"           = {}
+#"markup.heading.1"                = {}
+#"markup.heading.2"                = {}
+#"markup.heading.3"                = {}
+#"markup.heading.4"                = {}
+#"markup.heading.5"                = {}
+#"markup.heading.6"                = {}
+#"markup.list"                     = {}
+#"markup.list.unnumbered"          = {}
+#"markup.list.numbered"            = {}
+#"markup.list.checked"             = {}
+#"markup.list.unchecked"           = {}
+"markup.bold"                      = { modifiers = ["bold"] }
+"markup.italic"                    = { modifiers = ["bold", "italic"] }
+"markup.strikethrough"             = { modifiers = ["bold", "crossed_out"] }
+"markup.link"                      = { fg = "#3d3d3d", modifiers = ["italic"] }
+#"markup.link.url"                 = { fg = "#4585be", underline = { style = "line" } }
+#"markup.link.label"               = {}
+#"markup.link.text"                = {}
+#"markup.quote"                    = {}
+#"markup.raw"                      = {}
+#"markup.raw.inline"               = {}
+#"markup.raw.block"                = {}
+
+#"diff"                            = {}
+"diff.plus"                        = { fg = "Green" }
+"diff.minus"                       = { fg = "Red" }
+"diff.delta"                       = { fg = "Gray" }
+#"diff.delta.moved"                = {}
+
+[palette]
+Black        = "#000000"
+Red          = "#ff0000"
+Orange       = "#ffa500"
+Green        = "#008000"
+Cyan         = "#00ffff"
+Gray         = "#808080"
+LightGray    = "#d3d3d3"
+Magenta      = "#ff00ff"
+LightMagenta = "#ffbbff"
