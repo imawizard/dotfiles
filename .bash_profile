@@ -33,6 +33,9 @@ export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
 # Load up broot.
 [[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
 
+# Load up shadowenv.
+[[ ! $(command -v __shadowenv_hook) && $(command -v shadowenv) ]] && eval "$(shadowenv init bash)"
+
 # Homebrew settings
 export HOMEBREW_AUTOREMOVE=1
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=90

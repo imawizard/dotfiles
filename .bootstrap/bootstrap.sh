@@ -640,6 +640,7 @@ tap "universal-ctags/universal-ctags"
  brew "ncdu"
  brew "rclone"
  brew "rename"
+ brew "shadowenv"
  brew "terminal-notifier"
  brew "trash"
  brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]

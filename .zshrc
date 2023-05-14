@@ -115,6 +115,9 @@ plugins=(
 # Load up broot.
 [[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
 
+# Load up shadowenv.
+[[ ! $(command -v __shadowenv_hook) && $(command -v shadowenv ) ]] && eval "$(shadowenv init zsh)"
+
 # Load Zsh Line Editor plugins.
 test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
 test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"
