@@ -121,6 +121,10 @@ test -r ~/.bash_profile && . "$_"
 # Load up shadowenv.
 [[ $(command -v shadowenv ) ]] && eval "$(shadowenv init zsh)"
 
+# Load fzf extensions.
+test -r /usr/share/doc/fzf/examples/key-bindings.zsh && . "$_"
+test -r /usr/share/doc/fzf/examples/completion.zsh && . "$_"
+
 # Load Zsh Line Editor plugins.
 test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
 test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"

@@ -46,6 +46,10 @@ if [[ $SHELL =~ bash ]]; then
   # Load up shadowenv.
   [[ $(command -v shadowenv) ]] && eval "$(shadowenv init bash)"
 
+  # Load fzf extensions.
+  test -r /usr/share/doc/fzf/examples/key-bindings.bash && . "$_"
+  test -r /usr/share/doc/fzf/examples/completion.bash && . "$_"
+
   # Load bashrc for interactive login-shells.
   test -r ~/.bashrc && . "$_"
 
