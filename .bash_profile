@@ -40,6 +40,13 @@ export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=14
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
 
+# Load everything in .bashrc.d and .bashrc.
+for file in ~/.bashrc.d/**/*; do
+  [[ $(dirname $file) =~ \.bak$ ]] && continue
+  test -r "$file" && . "$_"
+done
+[[ $SHELL =~ bash ]] && test -r ~/.bashrc && . "$_"
+
 # Motivation reminder
 printf "There are \e[1m%d\e[0m weeks left this year. %s\n"              \
     $(( ($(date -v 12m -v 31d -v 23H +%s) - $(date +%s)) / 86400 / 7 )) \
