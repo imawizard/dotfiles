@@ -441,6 +441,15 @@ if [[ ! -e ~/flutter ]]; then
     fi
 fi
 
+# Install carp.
+if [[ ! -e ~/carp ]]; then
+    echo "Installing carp..."
+    wget https://github.com/carp-lang/Carp/releases/download/v0.5.5/carp-v0.5.5-x86_64-macos.zip -O ~/dl.zip && \
+        unzip -d ~ "$_" >/dev/null && \
+        rm -f "$_" && \
+        mv ~/carp-v* ~/carp
+fi
+
 if [[ $(command -v cargo) && ${CARGO_PACKAGES[*]} ]]; then
     echo "Installing Cargo packages..."
     for pkg in "${CARGO_PACKAGES[@]}"; do
