@@ -1,0 +1,64 @@
+[[language]]
+name = "bash"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "json"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "yaml"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "toml"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "hcl"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "hjson"
+scope = "source.hjson"
+file-types = ["hjson"]
+roots = []
+indent = { unit = "    ", tab-width = 4 }
+comment-token = "//"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "conf"
+scope = "source.conf"
+file-types = ["conf"]
+roots = []
+indent = { unit = "    ", tab-width = 4 }
+comment-token = "#"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "powershell"
+scope = "source.powershell"
+file-types = ["ps1"]
+roots = []
+indent = { unit = "    ", tab-width = 4 }
+comment-token = "#"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
+
+[[language]]
+name = "autohotkey"
+scope = "source.autohotkey"
+file-types = ["ahk"]
+roots = []
+indent = { unit = "    ", tab-width = 4 }
+comment-token = ";"
+auto-format = true
+formatter = { command = "git", args = ["stripspace"] }
