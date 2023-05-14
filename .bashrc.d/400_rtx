@@ -1,0 +1,14 @@
+# `rtx local` should use .tool-versions
+export RTX_USE_TOML=0
+
+# Make --pin the default, instead of --fuzzy
+export RTX_ASDF_COMPAT=1
+
+case $CURRENT_SHELL in
+bash)
+    command -v rtx >/dev/null && . <("$_" activate bash)
+    ;;
+zsh)
+    command -v rtx >/dev/null && . <("$_" activate zsh)
+    ;;
+esac

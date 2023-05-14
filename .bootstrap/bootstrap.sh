@@ -695,6 +695,7 @@ tap "universal-ctags/universal-ctags"
  brew "scala"
 
 # Package managers and build systems
+#brew "asdf"
 #brew "carthage"                 # alternative to cocoapods
 #brew "cocoapods"                # install with sudo gem
 #brew "mage"
@@ -703,6 +704,7 @@ tap "universal-ctags/universal-ctags"
  brew "cpanminus"                # run instmodsh for installs
  brew "leiningen"
  brew "luarocks"
+ brew "rtx"
  brew "wasm-pack"
 
 # Linters and formatters
