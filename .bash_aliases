@@ -3,6 +3,8 @@
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias ll='exa -l'
+alias la='exa -la'
 alias cat='bat'
 
 # Commands ...............................................................{{{1
