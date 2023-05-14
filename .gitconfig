@@ -1,13 +1,14 @@
 [core]
   autocrlf = input
-[merge]
-  ff = only
+[pull]
+  rebase = true
 [push]
   autoSetupRemote = true
 [fetch]
   prune = true
 [rebase]
   autoSquash = true
+  autoStash = true
 [diff]
   colorMoved = zebra
 
