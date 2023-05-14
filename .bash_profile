@@ -14,6 +14,16 @@ export PATH=$PATH:$HOME/.composer/vendor/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
+# Explicitly set config dir (e.g. for lazygit).
+export XDG_CONFIG_HOME=$HOME/.config
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='hx'
+fi
+
 # Set Chrome for flutter.
 export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
 
@@ -21,7 +31,7 @@ export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
 [[ ! $(command -v z) && $(command -v zoxide) ]] && eval "$(zoxide init bash)"
 
 # Load up broot.
-[[ ! $(command -v br) ]] && test -f ~/.config/broot/launcher/bash/br && . "$_"
+[[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
 
 # Homebrew settings
 export HOMEBREW_AUTOREMOVE=1

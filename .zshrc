@@ -97,7 +97,7 @@ plugins=(
                       # wiki...
 )
 
-source $ZSH/oh-my-zsh.sh
+. $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -105,13 +105,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='hx'
-fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -124,10 +117,17 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-test -f ~/.bash_aliases && . "$_"
+test -r ~/.bash_aliases && . "$_"
 
 # Load up zoxide.
-[[ $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
+[[ ! $(command -v z) && $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
+
+# Load up broot.
+[[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
 
 # Load bash profile.
-test -f ~/.bash_profile && . "$_"
+test -r ~/.bash_profile && . "$_"
+
+# Load Zsh Line Editor plugins.
+test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
+test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"
