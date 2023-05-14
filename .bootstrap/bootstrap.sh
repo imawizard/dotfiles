@@ -12,7 +12,7 @@ fi
 # Check for oh-my-zsh, install if we don't have it.
 if [[ ! -d ~/.oh-my-zsh ]]; then
     echo "Installing oh-my-zsh..."
-    RUNZSH=no sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 # Ask for super user permissions.
