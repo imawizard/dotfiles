@@ -1,4 +1,4 @@
-export CURRENT_SHELL=$(ps hcp $$ | rev | cut -d' ' -f1 | rev)
+export CURRENT_SHELL=$(ps -cp $$ | tail -n1 | rev | cut -d' ' -f1 | rev | tr -dc '[:alnum:]')
 
 # Load everything in .bashrc.d.
 test -d ~/.bashrc.d && eval "$(
