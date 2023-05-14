@@ -17,4 +17,10 @@ git:
     colorArg: always
     pager: delta --light --paging=never
 
+os:
+  edit: "hx {{filename}}"
+  editAtLine: "hx {{filename}}"
+  editAtLineAndWait: "hx {{filename}}"
+  editInTerminal: true
+
 promptToReturnFromSubprocess: false
