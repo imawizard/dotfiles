@@ -1,0 +1,12 @@
+gui:
+  language: en
+  showBottomLine: false
+  showIcons: true
+  skipRewordInEditorWarning: true
+  border: rounded
+
+git:
+  commit:
+    verbose: always
+
+promptToReturnFromSubprocess: false
