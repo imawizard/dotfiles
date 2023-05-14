@@ -419,9 +419,6 @@ echo "$Brewfile" | brew bundle install --file=-
 echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
 brew cleanup
 
-# Install tea.
-curl -fsSL tea.xyz | sh
-
 # Install rustup and rust toolchain.
 if [[ $(command -v rustup-init) ]]; then
     rustup-init --default-toolchain nightly --no-modify-path -y
