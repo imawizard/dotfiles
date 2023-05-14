@@ -32,8 +32,11 @@ export ICLOUD_DRIVE=$(test -d ~/Library/Mobile\ Documents/com~apple~CloudDocs &&
 # Disable macOS update notifications.
 test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 
-# Copy keyboard layout.
-test -f ../Amalgamation.keylayout/Amalgamation.keylayout && \
+# Install keyboard layout.
+{ test ! -e $(dirname "$0")/Amalgamation.keylayout && \
+    git clone https://github.com/imawizard/Amalgamation.keylayout "$_" || \
+    git -C "$_" pull --rebase
+} && test -f "$_/Amalgamation.keylayout" && \
     sudo cp "$_" "/Library/Keyboard Layouts/" && \
     echo "Copied keyboard layout"
 
