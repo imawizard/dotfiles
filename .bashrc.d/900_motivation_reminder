@@ -1,0 +1,3 @@
+printf "There are \e[1m%d\e[0m weeks left this year. %s\n"              \
+    $(( ($(date -v 12m -v 31d -v 23H +%s) - $(date +%s)) / 86400 / 7 )) \
+    "What will you do?"

@@ -1,0 +1,8 @@
+case $CURRENT_SHELL in
+bash)
+    command -v broot >/dev/null && . <("$_" --print-shell-function bash)
+    ;;
+zsh)
+    command -v broot >/dev/null && . <("$_" --print-shell-function zsh)
+    ;;
+esac

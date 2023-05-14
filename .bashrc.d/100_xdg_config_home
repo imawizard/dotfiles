@@ -1,0 +1,2 @@
+# Explicitly set config dir (e.g. for lazygit).
+export XDG_CONFIG_HOME=$HOME/.config

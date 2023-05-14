@@ -1,0 +1,8 @@
+case $CURRENT_SHELL in
+bash)
+    command -v zoxide >/dev/null && . <("$_" init bash)
+    ;;
+zsh)
+    command -v zoxide >/dev/null && . <("$_" init zsh)
+    ;;
+esac

@@ -97,29 +97,9 @@ plugins=(
                         # wiki...
 )
 
-. $ZSH/oh-my-zsh.sh
+# Load oh-my-zsh.
+test -r $ZSH/oh-my-zsh.sh && . "$_"
 
-# User configuration
-
-# Load bash profile.
+# Load bash profile and aliases.
 test -r ~/.bash_profile && . "$_"
-
-# Load up zoxide.
-command -v zoxide >/dev/null && . <("$_" init zsh)
-
-# Load up broot.
-command -v broot >/dev/null && . <("$_" --print-shell-function zsh)
-
-# Load up shadowenv.
-command -v shadowenv >/dev/null && . <("$_" init zsh)
-
-# Load fzf extensions.
-test -r /usr/share/doc/fzf/examples/key-bindings.zsh && . "$_"
-test -r /usr/share/doc/fzf/examples/completion.zsh && . "$_"
-
-# Load Zsh Line Editor plugins.
-test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
-test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"
-
-# Load aliases.
 test -r ~/.bash_aliases && . "$_"

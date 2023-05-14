@@ -1,0 +1,4 @@
+if [[ $CURRENT_SHELL == zsh ]]; then
+    test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
+    test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"
+fi

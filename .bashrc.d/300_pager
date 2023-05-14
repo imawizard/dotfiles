@@ -1,0 +1,2 @@
+export PAGER=less
+export LESS="--quit-if-one-screen --raw-control-chars"
