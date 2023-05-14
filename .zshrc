@@ -109,19 +109,21 @@ plugins=(
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# Load bash profile.
+test -r ~/.bash_profile && . "$_"
+
 # Load up zoxide.
-[[ ! $(command -v z) && $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
+[[ $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
 
 # Load up broot.
-[[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
+[[ $(command -v broot) ]] && eval "$(broot --print-shell-function zsh)"
 
 # Load up shadowenv.
-[[ ! $(command -v __shadowenv_hook) && $(command -v shadowenv ) ]] && eval "$(shadowenv init zsh)"
+[[ $(command -v shadowenv ) ]] && eval "$(shadowenv init zsh)"
 
 # Load Zsh Line Editor plugins.
 test -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh && . "$_"
 test -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && . "$_"
 
-# Load bash profile and aliases.
-test -r ~/.bash_profile && . "$_"
+# Load aliases.
 test -r ~/.bash_aliases && . "$_"

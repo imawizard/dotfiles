@@ -27,15 +27,6 @@ fi
 # Set Chrome for flutter.
 export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
 
-# Load up zoxide.
-[[ ! $(command -v z) && $(command -v zoxide) ]] && eval "$(zoxide init bash)"
-
-# Load up broot.
-[[ ! $(command -v br) ]] && test -r ~/.config/broot/launcher/bash/br && . "$_"
-
-# Load up shadowenv.
-[[ ! $(command -v __shadowenv_hook) && $(command -v shadowenv) ]] && eval "$(shadowenv init bash)"
-
 # Homebrew settings
 export HOMEBREW_AUTOREMOVE=1
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=90
@@ -43,12 +34,28 @@ export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=14
 export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
 
-# Load everything in .bashrc.d and .bashrc.
+# Skip this e.g. if sourced from zshrc.
+if [[ $SHELL =~ bash ]]; then
+
+  # Load up zoxide.
+  [[ $(command -v zoxide) ]] && eval "$(zoxide init bash)"
+
+  # Load up broot.
+  [[ $(command -v broot) ]] && eval "$(broot --print-shell-function bash)"
+
+  # Load up shadowenv.
+  [[ $(command -v shadowenv) ]] && eval "$(shadowenv init bash)"
+
+  # Load bashrc for interactive login-shells.
+  test -r ~/.bashrc && . "$_"
+
+fi
+
+# Load everything in .bashrc.d.
 for file in ~/.bashrc.d/**/*; do
   [[ $(dirname $file) =~ \.bak$ ]] && continue
   test -r "$file" && . "$_"
 done
-[[ $SHELL =~ bash ]] && test -r ~/.bashrc && . "$_"
 
 # Motivation reminder
 printf "There are \e[1m%d\e[0m weeks left this year. %s\n"              \
