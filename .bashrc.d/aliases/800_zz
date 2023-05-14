@@ -1,4 +1,4 @@
 # Open Finder with z.
 zz() {
-    _z $@ && ofd && popd >/dev/null
+    z "$@" && ofd && popd >/dev/null
 }

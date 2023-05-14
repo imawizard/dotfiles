@@ -1,22 +1,19 @@
 # Read cht.sh.
 cht() {
     if [[ $1 == "--help" || $# -lt 1 ]]; then
-        echo "usage: cht topic [-c] [query]"
+        echo "usage: cht topic [query]"
         return 1
     fi
+
     local topic="$1"
     shift
-    local opts='\?Q'
-    if [[ $1 == "-c" ]]; then
-        opts=""
-        shift
-    fi
     local query="${*// /+}"
+
+    # Append some symbol to the query as that (for whatever reason) impacts the
+    # output, see e.g.: https://cht.sh/bash/case
+    #               and https://cht.sh/bash/case!
+    [[ $query != :* ]] && query="$query!"
+
     [[ $query ]] && query="/$query"
-    local out="$(echo cht.sh/$topic$query$opts | xargs curl 2>/dev/null)"
-    if [[ ! $out ]]; then
-        echo cht.sh/$topic$query | xargs curl
-    else
-        echo $out
-    fi
+    curl -fsSL "cht.sh/$topic$query?style=vs" | $PAGER
 }
