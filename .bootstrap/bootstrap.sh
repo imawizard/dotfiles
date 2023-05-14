@@ -534,14 +534,6 @@ fi
 
 secrets
 
-# Restore dotfiles.
-(
-    test -d ../dotfiles && pushd "$_" || exit
-    find . -type d -depth 1 \
-        -not \( -name ".*" -or -name "*.nostow" -or -name "windows" \) \
-        -print0 | xargs -0 basename | xargs stow
-)
-
 # Install neovim plugins.
 test ! -e ~/.vim/swap && mkdir "$_"
 test ! -e ~/.vim/undo && mkdir "$_"
