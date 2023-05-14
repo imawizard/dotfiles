@@ -18,10 +18,10 @@ export PATH=$PATH:$GOPATH/bin
 export XDG_CONFIG_HOME=$HOME/.config
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+if [[ $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
 else
-  export EDITOR='hx'
+    export EDITOR='hx'
 fi
 
 # Set Chrome for flutter.
@@ -37,28 +37,28 @@ export HOMEBREW_NO_ANALYTICS=1
 # Skip this e.g. if sourced from zshrc.
 if [[ $SHELL =~ bash ]]; then
 
-  # Load up zoxide.
-  [[ $(command -v zoxide) ]] && eval "$(zoxide init bash)"
+    # Load up zoxide.
+    command -v zoxide >/dev/null && . <("$_" init bash)
 
-  # Load up broot.
-  [[ $(command -v broot) ]] && eval "$(broot --print-shell-function bash)"
+    # Load up broot.
+    command -v broot >/dev/null && . <("$_" --print-shell-function bash)
 
-  # Load up shadowenv.
-  [[ $(command -v shadowenv) ]] && eval "$(shadowenv init bash)"
+    # Load up shadowenv.
+    command -v shadowenv >/dev/null && . <("$_" init bash)
 
-  # Load fzf extensions.
-  test -r /usr/share/doc/fzf/examples/key-bindings.bash && . "$_"
-  test -r /usr/share/doc/fzf/examples/completion.bash && . "$_"
+    # Load fzf extensions.
+    test -r /usr/share/doc/fzf/examples/key-bindings.bash && . "$_"
+    test -r /usr/share/doc/fzf/examples/completion.bash && . "$_"
 
-  # Load bashrc for interactive login-shells.
-  test -r ~/.bashrc && . "$_"
+    # Load bashrc for interactive login-shells.
+    test -r ~/.bashrc && . "$_"
 
 fi
 
 # Load everything in .bashrc.d.
 for file in ~/.bashrc.d/**/*; do
-  [[ $(dirname $file) =~ \.bak$ ]] && continue
-  test -r "$file" && . "$_"
+    [[ $(dirname $file) =~ \.bak$ ]] && continue
+    test -r "$file" && . "$_"
 done
 
 # Motivation reminder

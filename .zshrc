@@ -69,57 +69,49 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  aliases             # acs --help
-  colored-man-pages
-  cp                  # cpv
-  git
-  gitignore           # gi
-  macos               # tab - open dir in new tab
-                      # split_tab
-                      # vsplit_tab
-                      # ofd - open finder dir
-                      # pfd - print finder dir
-                      # pfs - print finder selection
-                      # cdf - cd to finder dir
-                      # pushdf - pushd finder dir
-                      # quick-look
-                      # man-preview
-                      # showfiles
-                      # hidefiles
-                      # itunes
-                      # music
-                      # spotify
-                      # rmdsstore
-  urltools            # urlencode
-  #vi-mode
-  web-search          # google
-                      # github
-                      # wiki...
+    aliases             # acs --help
+    colored-man-pages
+    cp                  # cpv
+    git
+    gitignore           # gi
+    macos               # tab - open dir in new tab
+                        # split_tab
+                        # vsplit_tab
+                        # ofd - open finder dir
+                        # pfd - print finder dir
+                        # pfs - print finder selection
+                        # cdf - cd to finder dir
+                        # pushdf - pushd finder dir
+                        # quick-look
+                        # man-preview
+                        # showfiles
+                        # hidefiles
+                        # itunes
+                        # music
+                        # spotify
+                        # rmdsstore
+    urltools            # urlencode
+    #vi-mode
+    web-search          # google
+                        # github
+                        # wiki...
 )
 
 . $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
 # Load bash profile.
 test -r ~/.bash_profile && . "$_"
 
 # Load up zoxide.
-[[ $(command -v zoxide) ]] && eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && . <("$_" init zsh)
 
 # Load up broot.
-[[ $(command -v broot) ]] && eval "$(broot --print-shell-function zsh)"
+command -v broot >/dev/null && . <("$_" --print-shell-function zsh)
 
 # Load up shadowenv.
-[[ $(command -v shadowenv ) ]] && eval "$(shadowenv init zsh)"
+command -v shadowenv >/dev/null && . <("$_" init zsh)
 
 # Load fzf extensions.
 test -r /usr/share/doc/fzf/examples/key-bindings.zsh && . "$_"

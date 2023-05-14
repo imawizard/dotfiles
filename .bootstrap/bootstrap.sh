@@ -33,15 +33,15 @@ export ICLOUD_DRIVE=$(test -d ~/Library/Mobile\ Documents/com~apple~CloudDocs &&
 test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 
 # Copy keyboard layout.
-test -f ../Amalgamation.keylayout/Amalgamation.keylayout \
-    && sudo cp "$_" "/Library/Keyboard Layouts/" \
-    && echo "Copied keyboard layout"
+test -f ../Amalgamation.keylayout/Amalgamation.keylayout && \
+    sudo cp "$_" "/Library/Keyboard Layouts/" && \
+    echo "Copied keyboard layout"
 
 # Create iCloud shortcut.
-[[ $ICLOUD_DRIVE ]] \
-    && test ! -e ~/iCloud\ Drive \
-    && ln -s "$ICLOUD_DRIVE" "$_" \
-    && chflags -h hidden "$_"
+[[ $ICLOUD_DRIVE ]] && \
+    test ! -e ~/iCloud\ Drive && \
+    ln -s "$ICLOUD_DRIVE" "$_" && \
+    chflags -h hidden "$_"
 
 # Kick off iCloud download for config directory.
 find "$ICLOUD_DRIVE/.config" -name '*.icloud' -exec brctl download {} \;
@@ -217,13 +217,14 @@ killall Mail 2>/dev/null
 #   $ = Shift
 #   ~ = Option
 test ! -e custommenu.hotkeys && defaults read com.apple.universalaccess com.apple.custommenu.apps -array NSGlobalDomain >"$_"
-defaults write com.apple.universalaccess com.apple.custommenu.apps -array NSGlobalDomain \
-    com.apple.finder         \
-    com.apple.Notes          \
-    com.apple.Preview        \
-    com.operasoftware.Opera  \
-    com.apple.mail           \
-    com.apple.ActivityMonitor
+defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
+    com.apple.finder          \
+    com.apple.Notes           \
+    com.apple.Preview         \
+    com.operasoftware.Opera   \
+    com.apple.mail            \
+    com.apple.ActivityMonitor \
+    NSGlobalDomain
 
 # Global hotkeys
 test ! -e global.hotkeys && defaults read NSGlobalDomain NSUserKeyEquivalents >"$_"
@@ -419,7 +420,7 @@ brew cleanup
 if [[ $(command -v rustup-init) ]]; then
     rustup-init --default-toolchain nightly --no-modify-path -y
 else
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain nightly --no-modify-path -y
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain nightly --no-modify-path -y
 fi
 
 # Install flutter and dart.
@@ -556,7 +557,7 @@ fi
 
 echo "Installing Quicklook & Services..."
 find "$ICLOUD_DRIVE/.config/Apps/Quicklook" -name '*.qlgenerator' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Quicklook/" \;
-find "$ICLOUD_DRIVE/.config/Apps/Services"  -name '*.workflow'    -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Services/"  \;
+find "$ICLOUD_DRIVE/.config/Apps/Services" -name '*.workflow' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Services/" \;
 
 # .........................................................................}}}
 
