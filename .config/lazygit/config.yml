@@ -13,5 +13,8 @@ gui:
 git:
   commit:
     verbose: always
+  paging:
+    colorArg: always
+    pager: delta --light --paging=never
 
 promptToReturnFromSubprocess: false
