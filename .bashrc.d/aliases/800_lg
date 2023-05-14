@@ -1,0 +1,11 @@
+# lazygit macro
+lg() {
+    export LAZYGIT_NEW_DIR_FILE=$XDG_CONFIG_HOME/lazygit/newdir
+
+    lazygit "$@"
+
+    if [[ -r $LAZYGIT_NEW_DIR_FILE ]]; then
+        cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+        rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
+    fi
+}

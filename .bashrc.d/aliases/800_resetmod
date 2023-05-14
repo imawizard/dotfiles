@@ -1,0 +1,8 @@
+# Recursively reset directory and file modes.
+resetmod() {
+    echo "Do you want to recursivly reset modes for '$(pwd)' (y/N)?"
+    read
+    [[ $REPLY != "y" && $REPLY != "Y" ]] && return
+    find . -type d -exec chmod 0755 {} \;
+    find . -type f -exec chmod 0644 {} \;
+}

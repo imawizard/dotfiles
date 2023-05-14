@@ -1,0 +1,8 @@
+# Show all brew formulae with their dependencies.
+brewdeps() {
+    brew list | while read form; do
+        echo -n "$form ->"
+        brew deps $form | awk '{ printf(" %s ", $0) }'
+        echo ""
+    done
+}

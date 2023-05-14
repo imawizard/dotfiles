@@ -1,0 +1,3 @@
+alias cat='bat --paging=always'
+alias watch='watch --color'
+alias archey='archey --color --offline'

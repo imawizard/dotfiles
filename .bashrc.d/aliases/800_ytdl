@@ -1,0 +1,7 @@
+# Download videos from youtube.
+ytdl() {
+    local id
+    for id in $*[@]; do
+        youtube-dl -x --audio-quality 0 --audio-format mp3 --embed-thumbnail --metadata-from-title "(?P<artist>.+?) - (?P<title>[^\(]+)" "$id"
+    done
+}

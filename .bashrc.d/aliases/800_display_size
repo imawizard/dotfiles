@@ -1,0 +1,24 @@
+# Display size of folders and files.
+ds() {
+    du -sh $1
+}
+
+# Display apparent size of folders and files.
+das() {
+    local dir=${1:-.}
+    find "$dir" -type f -exec ls -lnq {} \+ | awk '
+        function pp(v) {
+            n = split("B K M G T P E", unit, " ");
+            for (i = 1; i < n-1; i++) {
+                if (v < 1024) {
+                    break;
+                }
+                v /= 1024;
+            }
+            printf("%.3f%s\t'$dir'\n", v, unit[i]);
+        }
+
+        BEGIN { sum = 0 }
+        { sum += $5 }
+        END { pp(sum) }'
+}

@@ -1,0 +1,62 @@
+# Use rg interactively in fzf
+if [[ $(fzf --version) < 0.30 ]]; then
+    rfv() {
+        RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+        INITIAL_QUERY="${*:-}"
+        IFS=: read -ra selected < <(
+        FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")"                                    \
+        fzf --ansi                                                                                        \
+            --color "hl:-1:underline,hl+:-1:underline:reverse"                                            \
+            --disabled --query "$INITIAL_QUERY"                                                           \
+            --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true"                                      \
+            --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
+            --prompt '1. ripgrep> '                                                                       \
+            --delimiter :                                                                                 \
+            --preview 'bat --color=always {1} --highlight-line {2}'                                       \
+            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+        )
+        [[ ${selected[0]} ]] && $EDITOR "${selected[0]}" "+${selected[1]}"
+    }
+elif [[ $(fzf --version) < 0.38 ]]; then
+    rfv() {
+        rm -f /tmp/rg-fzf-{r,f}
+        RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+        INITIAL_QUERY="${*:-}"
+        IFS=: read -ra selected < <(
+            FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")"                                                                                                                                  \
+            fzf --ansi                                                                                                                                                                                      \
+                --color "hl:-1:underline,hl+:-1:underline:reverse"                                                                                                                                          \
+                --disabled --query "$INITIAL_QUERY"                                                                                                                                                         \
+                --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true"                                                                                                                                    \
+                --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(2. fzf> )+enable-search+rebind(ctrl-r)+transform-query(echo {q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f)"                                     \
+                --bind "ctrl-r:unbind(ctrl-r)+change-prompt(1. ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)+transform-query(echo {q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r)" \
+                --bind "start:unbind(ctrl-r)"                                                                                                                                                               \
+                --prompt '1. ripgrep> '                                                                                                                                                                     \
+                --delimiter :                                                                                                                                                                               \
+                --header '╱ CTRL-R (ripgrep mode) ╱ CTRL-F (fzf mode) ╱'                                                                                                                                    \
+                --preview 'bat --color=always {1} --highlight-line {2}'                                                                                                                                     \
+                --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+        )
+        [[ ${selected[0]} ]] && $EDITOR "${selected[0]}" "+${selected[1]}"
+    }
+else
+    rfv() {
+        rm -f /tmp/rg-fzf-{r,f}
+        RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+        INITIAL_QUERY="${*:-}"
+        FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")"                                                                                                                                  \
+        fzf --ansi                                                                                                                                                                                      \
+            --color "hl:-1:underline,hl+:-1:underline:reverse"                                                                                                                                          \
+            --disabled --query "$INITIAL_QUERY"                                                                                                                                                         \
+            --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true"                                                                                                                                    \
+            --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(2. fzf> )+enable-search+rebind(ctrl-r)+transform-query(echo {q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f)"                                     \
+            --bind "ctrl-r:unbind(ctrl-r)+change-prompt(1. ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)+transform-query(echo {q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r)" \
+            --bind "start:unbind(ctrl-r)"                                                                                                                                                               \
+            --prompt '1. ripgrep> '                                                                                                                                                                     \
+            --delimiter :                                                                                                                                                                               \
+            --header '╱ CTRL-R (ripgrep mode) ╱ CTRL-F (fzf mode) ╱'                                                                                                                                    \
+            --preview 'bat --color=always {1} --highlight-line {2}'                                                                                                                                     \
+            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'                                                                                                                                         \
+            --bind 'enter:become($EDITOR {1} +{2})'
+    }
+fi

@@ -100,6 +100,5 @@ plugins=(
 # Load oh-my-zsh.
 test -r $ZSH/oh-my-zsh.sh && . "$_"
 
-# Load bash profile and aliases.
+# Load bash profile.
 test -r ~/.bash_profile && . "$_"
-test -r ~/.bash_aliases && . "$_"

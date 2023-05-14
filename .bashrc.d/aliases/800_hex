@@ -1,0 +1,10 @@
+# Like base64 for hex.
+hex() {
+    if [[ $1 == "--help" ]]; then
+        echo "usages:"
+        echo "  hex filename"
+        echo "  echo \"abc\" | hex"
+        return 1
+    fi
+    xxd -p $@ | tr -d "\n" && echo
+}

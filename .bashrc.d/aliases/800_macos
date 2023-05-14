@@ -1,0 +1,77 @@
+[[ $OSTYPE != darwin* ]] && return 1
+
+# Compare system preferences.
+diffprefs() {
+    test -e prefs-new.txt && mv -f "$_" prefs-old.txt
+    defaults read >prefs-new.txt
+    test -e prefs-old.txt && diff "$_" prefs-new.txt
+}
+
+# Look in current dir for iCloud files to download.
+icloud_download() {
+    find . -name '*.icloud' -exec brctl download {} \; -print
+}
+
+# Try to remove all local iCloud copies in current dir.
+icloud_evict() {
+    find . -not -name '*.icloud' -exec brctl evict {} \; -print
+}
+
+# Restart iCloud Drive daemon.
+killicloud() {
+    local force_full_resync=false
+    killall bird
+    if $force_full_resync; then
+        trash "~/Library/Application Support/CloudDocs"
+    fi
+}
+
+# Kill FaceTime's popup-window (or try 'Do Not Disturb').
+killft() {
+    killall FaceTimeNotificationCenterService
+}
+
+# Remove the red circle indicating there's an OS update.
+hide_os_update() {
+    defaults delete com.apple.preferences.softwareupdate LatestMajorOSSeenByUserBundleIdentifier
+    softwareupdate --list
+}
+
+# Start an unthrottled TimeMachine backup.
+do_timemachine_backup() {
+    if [[ $(sysctl debug.lowpri_throttle_enabled | grep ': 1') ]]; then
+        sudo sysctl debug.lowpri_throttle_enabled=0
+    fi
+    tmutil startbackup
+}
+
+# List all registered UTI handlers.
+listutis() {
+    local filepath="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
+    local utis=$($filepath -dump | grep '^uti:' | awk '{ print $2 }' | sort | uniq)
+    if [[ $(command -v duti) ]]; then
+        while read -r uti; do
+            local hndlr=$(duti -d $uti 2>/dev/null)
+            [[ $hndlr ]] && echo "$uti -> $hndlr"
+        done <<< "$utis"
+    else
+        echo "$utis"
+    fi
+}
+
+# List all extensions with handlers.
+listexts() {
+    local filepath="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
+    local exts=$($filepath -dump | grep '^bindings:' | perl -nle 'print s/^\.|,$//gr for grep /^\./, split " "' | sort | uniq)
+    if [[ $(command -v duti) ]]; then
+        while read -r ext; do
+            local hndlr=$(duti -x $ext 2>/dev/null | perl -ne 'print if /^\//')
+            [[ $hndlr ]] && echo "$ext -> $hndlr"
+        done <<< "$exts"
+    else
+        echo "$exts"
+    fi
+}
+
+test -f "$HOME/iCloud Drive/.config/.bash_aliases" && . "$_"
+

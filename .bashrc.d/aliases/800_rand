@@ -1,0 +1,24 @@
+# Outputs random bytes.
+rand() {
+    local mode
+    local showusage=false
+    if [[ $# -gt 1 ]]; then
+        case $1 in
+        hex|base64)
+            mode="-$1"
+            shift
+            ;;
+        *)
+            showusage=true
+            ;;
+        esac
+    fi
+    if [[ ! $1 =~ ^[0-9]+$ ]]; then
+        showusage=true
+    fi
+    if $showusage; then
+        echo "usage: rand [hex|base64] num"
+        return 1
+    fi
+    openssl rand $mode $1
+}

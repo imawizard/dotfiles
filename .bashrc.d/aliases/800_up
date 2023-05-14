@@ -1,0 +1,28 @@
+# Disable standby.
+up() {
+    if [[ $1 == "--help" ]]; then
+        echo "usage: up [minutes]"
+        return 1
+    fi
+    local mins=$(( 4 * 60 ))
+    if [[ $1 ]]; then
+        mins=$(( $1 ))
+    fi
+    local secs=$(( mins * 60 ))
+    if ! pgrep -x "caffeinate" >/dev/null; then
+        nohup caffeinate -du -t $secs >/dev/null 2>&1 &
+        echo "Staying awake..."
+    else
+        echo "Already staying awake."
+    fi
+}
+
+# Enable it again.
+down() {
+    if pgrep -x "caffeinate" >/dev/null; then
+        killall caffeinate
+        echo "Able to sleep again."
+    else
+        echo "Already able to sleep."
+    fi
+}

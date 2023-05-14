@@ -1,0 +1,50 @@
+# Clean various temporary files.
+cleansys() {
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m trash\e[0m"
+    cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/
+
+    #echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m local tm snapshots\e[0m"
+    #tmutil deletelocalsnapshots /
+
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m docker\e[0m"
+    docker system prune -f
+
+    #~/Library/Developer/Xcode/Archives
+    #~/Library/Developer/Xcode/iOS DeviceSupport
+    #~/Library/Developer/CoreSimulator
+    #~/Library/Caches/com.apple.dt.Xcode
+    #~/Library/Application Support/MobileSync/Backup
+    #~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads
+
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m xcode\e[0m"
+    cleansys_rmdir ~/Library/Developer/Xcode/DerivedData
+
+    if [[ $((10 * 1024 * 1024)) -lt $(stat -f '%z' ~/Library/Caches/com.apple.dt.Xcode/fsCachedData 2>/dev/null) ]]; then
+        echo "manually check ~/Library/Caches/com.apple.dt.Xcode/fsCachedData"
+    fi
+    if [[ $((10 * 1024 * 1024)) -lt $(stat -f '%z' /Library/Developer/CoreSimulator/Profiles/Runtimes 2>/dev/null) ]]; then
+        echo "manually check /Library/Developer/CoreSimulator/Profiles/Runtimes"
+    fi
+    xcrun simctl erase all && echo "Simulators erased"
+
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m gradle\e[0m"
+    cleansys_rmdir ~/.gradle/caches
+
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
+    find ~/.vim/swap -type f -mtime +7 -print -delete
+    find ~/.vim/undo -type f -mtime +7 -print -delete
+
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
+    brew autoremove -v
+    cleansys_rmdir ~/Library/Caches/Homebrew
+}
+
+cleansys_rmdir() {
+    local size=$(du -shc $@ 2>/dev/null | grep total | cut -f1)
+    for dir in $*[@]; do
+        if [[ $(ls -A "$dir" 2>/dev/null) ]]; then
+            rm -rf "$dir"
+        fi
+    done
+    echo "...freed $size"
+}

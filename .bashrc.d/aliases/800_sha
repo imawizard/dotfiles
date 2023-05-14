@@ -1,0 +1,32 @@
+# Like md5 for sha1.
+sha1() {
+    if [[ $1 == "--help" ]]; then
+        echo "usages:"
+        echo "  sha1 filename"
+        echo "  echo \"abc\" | sha1"
+        return 1
+    fi
+    shasum -a 1 $@
+}
+
+# Like md5 for sha256.
+sha256() {
+    if [[ $1 == "--help" ]]; then
+        echo "usages:"
+        echo "  sha256 filename"
+        echo "  echo \"abc\" | sha256"
+        return 1
+    fi
+    shasum -a 256 $@
+}
+
+# Like md5 for sha512.
+sha512() {
+    if [[ $1 == "--help" ]]; then
+        echo "usages:"
+        echo "  sha512 filename"
+        echo "  echo \"abc\" | sha512"
+        return 1
+    fi
+    shasum -a 512 $@
+}
