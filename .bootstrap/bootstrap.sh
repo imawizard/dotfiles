@@ -317,120 +317,6 @@ defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "Proze
 
 # Install software and tools .............................................{{{1
 
-# Install formulae and casks.
-Brewfile=$(sed '1,/^__DATA__$/d' "$0"; secrets brewfile)
-echo "$Brewfile" | brew bundle install --file=-
-echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
-brew cleanup
-
-# Install plug.vim.
-test ! -e ~/.vim/autoload/plug.vim \
-    && curl -fLo "$_" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install tpm for tmux.
-[[ $(brew ls --versions tmux) ]] && test ! -e ~/.tmux/plugins/tpm \
-    && git clone https://github.com/tmux-plugins/tpm "$_"
-
-# Install flutter and dart.
-if [[ ! -e ~/flutter ]]; then
-    echo "Installing flutter..."
-    suffix=$([[ $(uname -m) == "arm64" ]] && echo "_arm64")
-    wget -O ~/dl.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos"${suffix}"_3.3.4-stable.zip
-    unzip -d ~ ~/dl.zip >/dev/null
-    rm -f ~/dl.zip
-
-    ~/flutter/bin/flutter config --no-analytics
-    ~/flutter/bin/dart --disable-analytics
-
-    if [[ $suffix ]]; then
-        sudo softwareupdate --install-rosetta --agree-to-license
-        sudo gem uninstall ffi
-        sudo gem install ffi -- --enable-libffi-alloc
-    fi
-fi
-
-# .........................................................................}}}
-
-# Install various packages ...............................................{{{1
-
-RUBY_GEMS=(
-    #bundler
-    #filewatcher
-    #neovim-ruby-host
-    #xcpretty
-    asciidoctor
-    cocoapods
-    iStats
-)
-
-NPM_PACKAGES=(
-    #marked
-    bash-language-server
-    dot-language-server
-    neovim
-    npm
-    vim-language-server
-    vscode-langservers-extracted
-)
-
-PIP3_PACKAGES=(
-    #markdown
-    #neovim-remote
-    #virtualenv
-    #virtualenvwrapper
-    pynvim
-)
-
-PIP2_PACKAGES=(
-    #ipython
-    #pygments                  # for ccat
-    #six                       # for lldb
-    #virtualenv
-    #virtualenvwrapper
-)
-
-CPAN_PACKAGES=(
-    #Neovim::Ext               # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
-    #Perl::LanguageServer
-    Perl::Critic
-    Perl::Tidy
-    PLS
-)
-
-PUB_PACKAGES=(
-    #dart_ctags
-    dart_language_server
-    devtools
-    webdev
-)
-
-COMPOSER_PACKAGES=(
-    #friendsofphp/php-cs-fixer
-    #phpactor/phpactor
-    #phploc/phploc
-    #phpmd/phpmd
-    #phpstan/phpstan
-    #sebastian/phpcpd
-    #squizlabs/php_codesniffer
-)
-
-GO_PACKAGES=(
-    #github.com/technosophos/dashing@latest
-    github.com/go-delve/delve/cmd/dlv@latest
-    github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-    github.com/mattn/efm-langserver@latest
-    github.com/mgechev/revive@latest
-    golang.org/x/tools/gopls@latest
-    mvdan.cc/sh/v3/cmd/shfmt@latest
-)
-
-RUSTUP_COMPONENTS=(
-    #llvm-tools-preview
-    clippy
-    rust-analyzer
-    rust-src
-)
-
 CARGO_PACKAGES=(
     #cargo-audit
     #cargo-c
@@ -445,31 +331,155 @@ CARGO_PACKAGES=(
     evcxr_repl
 )
 
-if [[ ${RUBY_GEMS[*]} ]]; then
-    echo "Installing Ruby gems"
+COMPOSER_PACKAGES=(
+    #friendsofphp/php-cs-fixer
+    #phpactor/phpactor
+    #phploc/phploc
+    #phpmd/phpmd
+    #phpstan/phpstan
+    #sebastian/phpcpd
+    #squizlabs/php_codesniffer
+)
 
-    # Fix for Xcode toolchain's Ruby 12.3 on Catalina.
-    if [[ "v$MACOS_VERSION" == "v10.15"* ]]; then
-        (test -d "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" \
-            && cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
-        (test -d "$(xcode-select -p)/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" \
-            && cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
+CPAN_PACKAGES=(
+    #Neovim::Ext               # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
+    #Perl::LanguageServer
+    Perl::Critic
+    Perl::Tidy
+    PLS
+)
+
+GO_PACKAGES=(
+    #github.com/technosophos/dashing@latest
+    github.com/go-delve/delve/cmd/dlv@latest
+    github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    github.com/mattn/efm-langserver@latest
+    github.com/mgechev/revive@latest
+    golang.org/x/tools/gopls@latest
+    mvdan.cc/sh/v3/cmd/shfmt@latest
+)
+
+NPM_PACKAGES=(
+    #marked
+    bash-language-server
+    dot-language-server
+    neovim
+    npm
+    vim-language-server
+    vscode-langservers-extracted
+)
+
+PIP2_PACKAGES=(
+    #ipython
+    #pygments                  # for ccat
+    #six                       # for lldb
+    #virtualenv
+    #virtualenvwrapper
+)
+
+PIP3_PACKAGES=(
+    #markdown
+    #neovim-remote
+    #virtualenv
+    #virtualenvwrapper
+    pynvim
+)
+
+PUB_PACKAGES=(
+    #dart_ctags
+    dart_language_server
+    devtools
+    webdev
+)
+
+RUBY_GEMS=(
+    #bundler
+    #filewatcher
+    #neovim-ruby-host
+    #xcpretty
+    asciidoctor
+    cocoapods
+    iStats
+)
+
+RUSTUP_COMPONENTS=(
+    #llvm-tools-preview
+    clippy
+    rust-analyzer
+    rust-src
+)
+
+# Install formulae and casks.
+Brewfile=$(sed '1,/^__DATA__$/d' "$0"; secrets brewfile)
+echo "$Brewfile" | brew bundle install --file=-
+echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
+brew cleanup
+
+# Install rustup and rust toolchain.
+if [[ $(command -v rustup-init) ]]; then
+    rustup-init --default-toolchain nightly --no-modify-path -y
+else
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain nightly --no-modify-path -y
+fi
+
+# Install flutter and dart.
+if [[ ! -e ~/flutter ]]; then
+    echo "Installing flutter..."
+    suffix=$([[ $(uname -m) == "arm64" ]] && echo "_arm64")
+    wget -O ~/dl.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos"${suffix}"_3.7.12-stable.zip
+    unzip -d ~ ~/dl.zip >/dev/null
+    rm -f ~/dl.zip
+
+    ~/flutter/bin/flutter config --no-analytics
+    ~/flutter/bin/dart --disable-analytics
+
+    if [[ $suffix ]]; then
+        sudo softwareupdate --install-rosetta --agree-to-license
+        sudo gem uninstall ffi
+        sudo gem install ffi -- --enable-libffi-alloc
     fi
+fi
 
-    for pkg in "${RUBY_GEMS[@]}"; do
-        sudo gem install "$pkg"
+if [[ $(command -v cargo) && ${CARGO_PACKAGES[*]} ]]; then
+    echo "Installing Cargo packages..."
+    for pkg in "${CARGO_PACKAGES[@]}"; do
+        if [[ ! $pkg =~ ^http ]]; then
+            cargo install --locked "$pkg"
+        else
+            cargo install --locked --git "$pkg"
+        fi
     done
 fi
 
-if [[ $(brew ls --versions python) && ${PIP3_PACKAGES[*]} ]]; then
-    echo "Installing Python3 packages..."
-    python3 -m pip install --upgrade pip
-    for pkg in "${PIP3_PACKAGES[@]}"; do
-        python3 -m pip install "$pkg"
+if [[ $(command -v composer) && ${COMPOSER_PACKAGES[*]} ]]; then
+    echo "Installing Composer packages..."
+    for pkg in "${COMPOSER_PACKAGES[@]}"; do
+        composer global require "$pkg"
     done
 fi
 
-if [[ $(brew ls --versions python@2) && ${PIP2_PACKAGES[*]} ]]; then
+if [[ $(command -v cpanm) && ${CPAN_PACKAGES[*]} ]]; then
+    echo "Installing CPAN packages..."
+    for pkg in "${CPAN_PACKAGES[@]}"; do
+        cpanm "$pkg"
+    done
+fi
+
+if [[ $(command -v go) && ${GO_PACKAGES[*]} ]]; then
+    echo "Installing Go packages..."
+    for pkg in "${GO_PACKAGES[@]}"; do
+        go install "$pkg"
+    done
+fi
+
+if [[ $(command -v npm) && ${NPM_PACKAGES[*]} ]]; then
+    echo "Installing Nodejs packages..."
+    for pkg in "${NPM_PACKAGES[@]}"; do
+        npm install --global "$pkg"
+    done
+fi
+
+if [[ $(command -v python) && ${PIP2_PACKAGES[*]} ]]; then
     echo "Installing Python2 packages..."
     python -m pip install --upgrade pip setuptools
     for pkg in "${PIP2_PACKAGES[@]}"; do
@@ -477,17 +487,11 @@ if [[ $(brew ls --versions python@2) && ${PIP2_PACKAGES[*]} ]]; then
     done
 fi
 
-if [[ $(brew ls --versions npm) && ${NPM_PACKAGES[*]} ]]; then
-    echo "Installing Nodejs packages..."
-    for pkg in "${NPM_PACKAGES[@]}"; do
-        npm install -g "$pkg"
-    done
-fi
-
-if [[ $(brew ls --versions cpanm) && ${CPAN_PACKAGES[*]} ]]; then
-    echo "Installing CPAN packages..."
-    for pkg in "${CPAN_PACKAGES[@]}"; do
-        cpanm "$pkg"
+if [[ $(command -v python3) && ${PIP3_PACKAGES[*]} ]]; then
+    echo "Installing Python3 packages..."
+    python3 -m pip install --upgrade pip
+    for pkg in "${PIP3_PACKAGES[@]}"; do
+        python3 -m pip install "$pkg"
     done
 fi
 
@@ -498,59 +502,63 @@ if [[ -x ~/flutter/bin/dart && ${PUB_PACKAGES[*]} ]]; then
     done
 fi
 
-if [[ $(brew ls --versions composer) && ${COMPOSER_PACKAGES[*]} ]]; then
-    echo "Installing Composer packages..."
-    for pkg in "${COMPOSER_PACKAGES[@]}"; do
-        composer global require "$pkg"
+if [[ ${RUBY_GEMS[*]} ]]; then
+    echo "Installing Ruby gems"
+
+    # Fix for Xcode toolchain's Ruby 12.3 on Catalina.
+    if [[ "v$MACOS_VERSION" == "v10.15"* ]]; then
+        (test -d "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" && \
+            cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
+        (test -d "$(xcode-select -p)/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" && \
+            cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
+    fi
+
+    for pkg in "${RUBY_GEMS[@]}"; do
+        sudo gem install "$pkg"
     done
 fi
 
-if [[ $(brew ls --versions go) && ${GO_PACKAGES[*]} ]]; then
-    echo "Installing Go packages..."
-    for pkg in "${GO_PACKAGES[@]}"; do
-        go install "$pkg"
+if [[ $(command -v rustup) && ${RUSTUP_COMPONENTS[*]} ]]; then
+    echo "Installing Rust components..."
+    for pkg in "${RUSTUP_COMPONENTS[@]}"; do
+        rustup component add "$pkg"
     done
 fi
 
-if [[ $(brew ls --versions rustup) ]]; then
-    rustup-init --default-toolchain nightly -y --no-modify-path
-
-    if [[ ${RUSTUP_COMPONENTS[*]} ]]; then
-        echo "Installing Rust components..."
-        for pkg in "${RUSTUP_COMPONENTS[@]}"; do
-            rustup component add "$pkg"
-        done
-    fi
-
-    if [[ ${CARGO_PACKAGES[*]} ]]; then
-        echo "Installing Cargo packages..."
-        for pkg in "${CARGO_PACKAGES[@]}"; do
-            cargo install "$pkg"
-        done
-    fi
+# Install plug.vim and vim plugins.
+if [[ $(command -v vim) ]]; then
+    test ! -e ~/.vim/swap && mkdir "$_"
+    test ! -e ~/.vim/undo && mkdir "$_"
+    test ! -e ~/.vim/autoload/plug.vim && \
+        curl -fLo "$_" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    vim +PlugInstall +qa
 fi
 
-# .........................................................................}}}
+# Install packer, hotpot and neovim plugins.
+if [[ $(command -v nvim) ]]; then
+    test ! -e ~/.vim/swap && mkdir "$_"
+    test ! -e ~/.vim/undo && mkdir "$_"
+    test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
+        git clone --depth 1 https://github.com/wbthomason/packer.nvim "$_" || \
+        git -C "$_" pull --rebase
+    test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim && \
+        git clone --depth 1 https://github.com/rktjmp/hotpot.nvim "$_" || \
+        git -C "$_" pull --rebase
+    nvim --headless -c 'autocmd User PackerComplete qa' +PackerSync
+fi
 
-secrets
-
-# Install neovim plugins.
-test ! -e ~/.vim/swap && mkdir "$_"
-test ! -e ~/.vim/undo && mkdir "$_"
-test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim       && \
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$_" || \
-    git -C "$_" pull --rebase
-test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim       && \
-    git clone --depth 1 https://github.com/rktjmp/hotpot.nvim "$_" || \
-    git -C "$_" pull --rebase
-nvim --headless -c 'autocmd User PackerComplete qa' +PackerSync
-
-# Install tmux plugins.
-test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
+# Install tpm and tmux plugins.
+if [[ $(command -v tmux) ]]; then
+    test ! -e ~/.tmux/plugins/tpm && \
+        git clone --depth 1 https://github.com/tmux-plugins/tpm "$_"
+    test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
+fi
 
 echo "Installing Quicklook & Services..."
 find "$ICLOUD_DRIVE/.config/Apps/Quicklook" -name '*.qlgenerator' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Quicklook/" \;
 find "$ICLOUD_DRIVE/.config/Apps/Services"  -name '*.workflow'    -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Services/"  \;
+
+# .........................................................................}}}
 
 secrets post
 
