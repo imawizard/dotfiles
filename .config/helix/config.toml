@@ -1,6 +1,7 @@
 theme = "bold-intellij-light"
 
 [editor]
+true-color = true
 cursorline = false
 auto-save = true
 rulers = [80]
