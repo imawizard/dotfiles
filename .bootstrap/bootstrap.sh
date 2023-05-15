@@ -436,283 +436,283 @@ tap "koekeishiya/formulae"
 tap "universal-ctags/universal-ctags"
 
 # Core
-  brew "cowsay"
-  brew "fortune"
-  brew "telnet"
-  brew "tmux"
-  brew "tree"
-  brew "watch"
-  brew "wget"
-  brew "zsh-autosuggestions"
-  brew "zsh-syntax-highlighting"
- #brew "bash"                     # newer version
- #brew "curl"                     # newer version
- #brew "diffutils"                # newer version
- #brew "gdb"                      # gdb needs to be signed
- #brew "neovim"
- #brew "ripgrep"                  # or the_silver_searcher or ack
- #brew "rsync"                    # newer version
- #brew "screen"                   # newer version
- #brew "ssh-copy-id"              # newer version
- #brew "starship"
- #brew "stow"
- #brew "valgrind"                 # only compatible with macOS<10.13
- #brew "vim"                      # newer version
- #brew "zoxide"
- #brew "zsh"                      # newer version
- #brew "zsh-completions"
+    brew "cowsay"
+    brew "fortune"
+    brew "telnet"
+    brew "tmux"
+    brew "tree"
+    brew "watch"
+    brew "wget"
+    brew "zsh-autosuggestions"
+    brew "zsh-syntax-highlighting"
+    #brew "bash"                     # newer version
+    #brew "curl"                     # newer version
+    #brew "diffutils"                # newer version
+    #brew "gdb"                      # gdb needs to be signed
+    #brew "neovim"
+    #brew "ripgrep"                  # or the_silver_searcher or ack
+    #brew "rsync"                    # newer version
+    #brew "screen"                   # newer version
+    #brew "ssh-copy-id"              # newer version
+    #brew "starship"
+    #brew "stow"
+    #brew "valgrind"                 # only compatible with macOS<10.13
+    #brew "vim"                      # newer version
+    #brew "zoxide"
+    #brew "zsh"                      # newer version
+    #brew "zsh-completions"
 
 # Libraries
-  brew "bison"
-  brew "libiconv"
-  brew "meson"
-  brew "re2c"
+    brew "bison"
+    brew "libiconv"
+    brew "meson"
+    brew "re2c"
 
 # Utilities
-  brew "entr"                     # or fswatch
-  brew "fdupes"
-  brew "ncdu"
-  brew "trash"
-  brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
- #brew "archey"                   # deprecated, or screenfetch or neofetch
- #brew "asciinema"
- #brew "bat"
- #brew "broot"
- #brew "byobu"
- #brew "cgdb"                     # needs gdb to be signed
- #brew "cloc"
- #brew "ctags"                    # use universal-ctags
- #brew "dust"
- #brew "exa"
- #brew "fd"
- #brew "figlet"
- #brew "fzf"                      # or fzy or peco
- #brew "ghq"
- #brew "git-delta"
- #brew "helix"
- #brew "httpie"
- #brew "jq"                       # or fx
- #brew "lazygit"
- #brew "lynx"
- #brew "mackup"                   # use stow
- #brew "mas"
- #brew "micro"
- #brew "nnn"                      # or ranger or lf
- #brew "rclone"
- #brew "rename"
- #brew "restic"
- #brew "shadowenv"                # install with cargo
- #brew "snappy"
- #brew "terminal-notifier"
- #brew "youtube-dl"
+    brew "entr"                      # or fswatch
+    brew "fdupes"
+    brew "ncdu"
+    brew "trash"
+    brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
+    #brew "archey"                   # deprecated, or screenfetch or neofetch
+    #brew "asciinema"
+    #brew "bat"
+    #brew "broot"
+    #brew "byobu"
+    #brew "cgdb"                     # needs gdb to be signed
+    #brew "cloc"
+    #brew "ctags"                    # use universal-ctags
+    #brew "dust"
+    #brew "exa"
+    #brew "fd"
+    #brew "figlet"
+    #brew "fzf"                      # or fzy or peco
+    #brew "ghq"
+    #brew "git-delta"
+    #brew "helix"
+    #brew "httpie"
+    #brew "jq"                       # or fx
+    #brew "lazygit"
+    #brew "lynx"
+    #brew "mackup"                   # use stow
+    #brew "mas"
+    #brew "micro"
+    #brew "nnn"                      # or ranger or lf
+    #brew "rclone"
+    #brew "rename"
+    #brew "restic"
+    #brew "shadowenv"                # install with cargo
+    #brew "snappy"
+    #brew "terminal-notifier"
+    #brew "youtube-dl"
 
 # Compilers
-  brew "discount"                 # or peg-markdown
-  brew "rustup-init"
- #brew "clojure"
- #brew "clojurescript"
- #brew "dart-lang/dart/dart"      # contained in flutter
- #brew "deno"
- #brew "fennel"
- #brew "go"
- #brew "haskell-stack"
- #brew "hy"
- #brew "janet"
- #brew "lua"
- #brew "node"
- #brew "perl"
- #brew "php"                      # newer one
- #brew "pypy"
- #brew "pypy3"
- #brew "python"
- #brew "python@2"
- #brew "ruby"                     # newer one, keg-only
- #brew "scala"
- #brew "typescript"               # install with npm
+    brew "discount"                  # or peg-markdown
+    brew "rustup-init"
+    #brew "clojure"
+    #brew "clojurescript"
+    #brew "dart-lang/dart/dart"      # contained in flutter
+    #brew "deno"
+    #brew "fennel"
+    #brew "go"
+    #brew "haskell-stack"
+    #brew "hy"
+    #brew "janet"
+    #brew "lua"
+    #brew "node"
+    #brew "perl"
+    #brew "php"                      # newer one
+    #brew "pypy"
+    #brew "pypy3"
+    #brew "python"
+    #brew "python@2"
+    #brew "ruby"                     # newer one, keg-only
+    #brew "scala"
+    #brew "typescript"               # install with npm
 
 # Package managers and build systems
- #brew "asdf"
- #brew "carthage"                 # alternative to cocoapods
- #brew "cocoapods"                # install with sudo gem
- #brew "composer"
- #brew "cpanminus"                # run instmodsh for installs
- #brew "leiningen"
- #brew "luarocks"
- #brew "mage"
- #brew "pnpm"                     # or yarn
- #brew "rtx"                      # install with cargo
- #brew "wasm-pack"
+    #brew "asdf"
+    #brew "carthage"                 # alternative to cocoapods
+    #brew "cocoapods"                # install with sudo gem
+    #brew "composer"
+    #brew "cpanminus"                # run instmodsh for installs
+    #brew "leiningen"
+    #brew "luarocks"
+    #brew "mage"
+    #brew "pnpm"                     # or yarn
+    #brew "rtx"                      # install with cargo
+    #brew "wasm-pack"
 
 # Linters and formatters
-  brew "clojure-lsp/brew/clojure-lsp-native"
-  brew "shellcheck"
- #brew "texlab"
+    brew "clojure-lsp/brew/clojure-lsp-native"
+    #brew "shellcheck"
+    #brew "texlab"
 
 # Security
- #brew "git-crypt"
- #brew "radare2"
- #brew "nmap"
+    #brew "git-crypt"
+    #brew "radare2"
+    #brew "nmap"
 
 # Storage
- #brew "caddy"
- #brew "git"
- #brew "hub"
- #brew "mariadb"
- #brew "memcached"
- #brew "mercurial"
- #brew "mongodb/brew/mongodb-community"
- #brew "postgresql"
- #brew "rabbitmq"
- #brew "sqlite"                   # newer version, keg-only
+    #brew "caddy"
+    #brew "git"
+    #brew "hub"
+    #brew "mariadb"
+    #brew "memcached"
+    #brew "mercurial"
+    #brew "mongodb/brew/mongodb-community"
+    #brew "postgresql"
+    #brew "rabbitmq"
+    #brew "sqlite"                   # newer version, keg-only
 
 # DevOps
- #brew "aws-shell"
- #brew "aws/tap/aws-sam-cli"
- #brew "awscli"
- #brew "docker"
- #brew "docker-machine"
- #brew "docker-swarm"
- #brew "kind"
- #brew "kubernetes-cli"
- #brew "lazydocker"
- #brew "minikube"
- #brew "terraform"
+    #brew "aws-shell"
+    #brew "aws/tap/aws-sam-cli"
+    #brew "awscli"
+    #brew "docker"
+    #brew "docker-machine"
+    #brew "docker-swarm"
+    #brew "kind"
+    #brew "kubernetes-cli"
+    #brew "lazydocker"
+    #brew "minikube"
+    #brew "terraform"
 
 # Conversion
-  brew "ffmpeg"
-  brew "graphviz"
- #brew "gifsicle"
- #brew "imagemagick"
- #brew "markdown"
+    brew "ffmpeg"
+    brew "graphviz"
+    #brew "gifsicle"
+    #brew "imagemagick"
+    #brew "markdown"
 
 # Cask Essentials
-  cask "iterm2"                   # or kitty or alacritty
-  cask "karabiner-elements"
-  cask "keka"
-  cask "kekaexternalhelper"       # previously kekadefaultapp
-  cask "opera"
- #cask "alfred"                   # or raycast
- #cask "obsidian"
- #cask "onedrive"
- #cask "onyx"
- #cask "ukelele"
- #cask "vanilla"                  # or dozer
- #cask "virtualbox"
- #cask "virtualbox-extension-pack"
+    cask "iterm2"                    # or kitty or alacritty
+    cask "karabiner-elements"
+    cask "keka"
+    cask "kekaexternalhelper"        # previously kekadefaultapp
+    cask "opera"
+    #cask "alfred"                   # or raycast
+    #cask "obsidian"
+    #cask "onedrive"
+    #cask "onyx"
+    #cask "ukelele"
+    #cask "vanilla"                  # or dozer
+    #cask "virtualbox"
+    #cask "virtualbox-extension-pack"
 
 # Window Tools
-  cask "alt-tab"
-  cask "amethyst"                 # or yabai
-  cask "hammerspoon"
-  cask "hazeover"
-  cask "spaceid"
- #cask "fluid"
- #cask "spectacle"                # or rectangle
- #cask "ubersicht"                # desktop widgets
- #cask "whichspace"
+    cask "alt-tab"
+    cask "amethyst"                  # or yabai
+    cask "hammerspoon"
+    cask "hazeover"
+    cask "spaceid"
+    #cask "fluid"
+    #cask "spectacle"                # or rectangle
+    #cask "ubersicht"                # desktop widgets
+    #cask "whichspace"
 
 # QuickLook
-  cask "qlmarkdown"
-  cask "qlmobi"
-  cask "qlstephen"
-  cask "quicklook-json"
- #cask "hetimazipql"              # removed because website is down
- #cask "qlcolorcode"
- #cask "quicklook-csv"
+    cask "qlmarkdown"
+    cask "qlmobi"
+    cask "qlstephen"
+    cask "quicklook-json"
+    #cask "hetimazipql"              # removed because website is down
+    #cask "qlcolorcode"
+    #cask "quicklook-csv"
 
 # Security
-  cask "macpass"
-  cask "tunnelblick"
- #cask "gpg-suite"                # GPG Mail is paid
- #cask "lulu"
- #cask "oversight"
- #cask "whatsyoursign"
+    cask "macpass"
+    cask "tunnelblick"
+    #cask "gpg-suite"                # GPG Mail is paid
+    #cask "lulu"
+    #cask "oversight"
+    #cask "whatsyoursign"
 
 # Development
-  cask "android-studio"
-  cask "boop"
-  cask "hex-fiend"
-  cask "meld"
-  cask "visual-studio-code"
- #cask "clion"
- #cask "cocoapods"                # bundled app with editor
- #cask "dash"
- #cask "docker"
- #cask "goland"
- #cask "jd-gui"
- #cask "phpstorm"
- #cask "rancher"
- #cask "temurin"                  # or java, keg-only
- #cask "vagrant"
- #cask "vimr"
- #cask "xammp"
+    cask "android-studio"
+    cask "boop"
+    cask "hex-fiend"
+    cask "meld"
+    cask "visual-studio-code"
+    #cask "clion"
+    #cask "cocoapods"                # bundled app with editor
+    #cask "dash"
+    #cask "docker"
+    #cask "goland"
+    #cask "jd-gui"
+    #cask "phpstorm"
+    #cask "rancher"
+    #cask "temurin"                  # or java, keg-only
+    #cask "vagrant"
+    #cask "vimr"
+    #cask "xammp"
 
 # Storage
-  cask "db-browser-for-sqlite"
-  cask "gitup"                    # or sourcetree or gitx or fork
-  cask "robo-3t"                  # or mongotron or nosqlclient
-  cask "sequel-ace"
- #cask "another-redis-desktop-manager"
- #cask "handbrake-nightly"
- #cask "postico"                  # paid
- #cask "redis"
- #cask "sequel-pro-nightly"       # outdated, use sequel-ace
+    cask "db-browser-for-sqlite"
+    cask "gitup"                     # or sourcetree or gitx or fork
+    cask "robo-3t"                   # or mongotron or nosqlclient
+    cask "sequel-ace"
+    #cask "another-redis-desktop-manager"
+    #cask "handbrake-nightly"
+    #cask "postico"                  # paid
+    #cask "redis"
+    #cask "sequel-pro-nightly"       # outdated, use sequel-ace
 
 # Reversing
- #cask "bit-slicer"
- #cask "cutter"
- #cask "ghidra"
- #cask "idafree"
+    #cask "bit-slicer"
+    #cask "cutter"
+    #cask "ghidra"
+    #cask "idafree"
 
 # Writing & Notes
-  cask "anki"
-  cask "basictex"
- #cask "bibdesk"
- #cask "notion"
- #cask "skim"
+    cask "anki"
+    cask "basictex"
+    #cask "bibdesk"
+    #cask "notion"
+    #cask "skim"
 
 # Multimedia
-  cask "drawio"
-  cask "iina"                     # or vlc
-  cask "kap"
-  cask "sf-symbols"
- #cask "caption"
- #cask "cfxr"                     # 32bit only
- #cask "freac"
- #cask "inkscape"
- #cask "macsvg"
- #cask "moonlight"
- #cask "spotify"
- #cask "transmission-nightly"
+    cask "drawio"
+    cask "iina"                     # or vlc
+    cask "kap"
+    cask "sf-symbols"
+    #cask "caption"
+    #cask "cfxr"                     # 32bit only
+    #cask "freac"
+    #cask "inkscape"
+    #cask "macsvg"
+    #cask "moonlight"
+    #cask "spotify"
+    #cask "transmission-nightly"
 
 # Communication
- #cask "colloquy"
- #cask "discord"
- #cask "mumble"
- #cask "skype"
- #cask "slack"
- #cask "teamspeak-client"
- #cask "teamviewer"
- #cask "whatsapp"
+    #cask "colloquy"
+    #cask "discord"
+    #cask "mumble"
+    #cask "skype"
+    #cask "slack"
+    #cask "teamspeak-client"
+    #cask "teamviewer"
+    #cask "whatsapp"
 
 # osxfuse
-  cask "macfuse"
- #cask "osxfuse"                  # deprecated
- #brew "sshfs"                    # deprecated
- #brew "gocryptfs"                # brew says it needs libfuse
+    cask "macfuse"
+    #cask "osxfuse"                  # deprecated
+    #brew "sshfs"                    # deprecated
+    #brew "gocryptfs"                # brew says it needs libfuse
 
 # Fonts
-  cask "font-clear-sans"
-  cask "font-fira-code-nerd-font"
-  cask "font-hack-nerd-font"
-  cask "font-inconsolata"
-  cask "font-metropolis"
-  cask "font-monoid"
-  cask "font-work-sans"
- #cask "font-roboto"              # needs svn
- #cask "font-roboto-condensed"    # needs svn
- #cask "font-source-code-pro"     # needs svn
- #cask "font-ubuntu"              # needs svn
+    cask "font-clear-sans"
+    cask "font-fira-code-nerd-font"
+    cask "font-hack-nerd-font"
+    cask "font-inconsolata"
+    cask "font-metropolis"
+    cask "font-monoid"
+    cask "font-work-sans"
+    #cask "font-roboto"              # needs svn
+    #cask "font-roboto-condensed"    # needs svn
+    #cask "font-source-code-pro"     # needs svn
+    #cask "font-ubuntu"              # needs svn
 
 # .........................................................................}}}
 
@@ -758,7 +758,7 @@ $ cpanm
     Perl::Critic
     Perl::Tidy
     PLS
-    #Neovim::Ext                  # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
+    #Neovim::Ext                     # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
     #Perl::LanguageServer
 
 $ dart pub global activate
@@ -809,8 +809,8 @@ $ npm install --global
 $ python -m pip install --upgrade
     pip
     #ipython
-    #pygments                     # for ccat
-    #six                          # for lldb
+    #pygments                        # for ccat
+    #six                             # for lldb
     #virtualenv
     #virtualenvwrapper
 
