@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Check for Homebrew, install if we don't have it.
 if [[ ! $(command -v brew) ]]; then
     echo "Installing Homebrew..."
@@ -39,6 +41,9 @@ test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 } && test -f "$_/Amalgamation.keylayout" && \
     sudo cp "$_" "/Library/Keyboard Layouts/" && \
     echo "Copied keyboard layout"
+
+# Abort if brew isn't installed.
+command -v brew >/dev/null || exit 1
 
 # Create iCloud shortcut.
 [[ $ICLOUD_DRIVE ]] && \
@@ -101,7 +106,7 @@ defaults write com.apple.AppleBluetoothMultitouch.trackpad Clicking -bool true  
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true                                  # Enable App-Exposé
 
 # Mouse
-defaults write com.apple.universalaccess mouseDriverCursorSize -float 1.25                            # Change cursor size, requires logging out!
+sudo defaults write com.apple.universalaccess mouseDriverCursorSize -float 1.25                       # Change cursor size, requires logging out!
 defaults write NSGlobalDomain com.apple.mouse.scaling -float 1.6                                      # Change pointer speed
 defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string "TwoButton"                     # Enable right-click
 
@@ -202,7 +207,7 @@ defaults write com.apple.terminal StringEncodings -array 4                      
 # Restart Apps to apply changes
 killall Finder
 killall Dock
-killall Mail 2>/dev/null
+killall -q Mail || true
 
 # Reset apps' access rights.
 #tccutil reset CoreLocationAgent # /var/db/locationd/clients.plist
@@ -220,7 +225,7 @@ killall Mail 2>/dev/null
 #   $ = Shift
 #   ~ = Option
 test ! -e custommenu.hotkeys && defaults read com.apple.universalaccess com.apple.custommenu.apps -array NSGlobalDomain >"$_"
-defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
+sudo defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
     com.apple.finder          \
     com.apple.Notes           \
     com.apple.Preview         \
@@ -321,100 +326,8 @@ defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "Proze
 
 # Install software and tools .............................................{{{1
 
-CARGO_PACKAGES=(
-    #cargo-audit
-    #cargo-c
-    #cargo-docset
-    #cargo-duplicates
-    #cargo-edit
-    #cargo-expand
-    #cargo-make
-    #cargo-outdated
-    #cargo-watch
-    #simple-http-server
-    evcxr_repl
-)
-
-COMPOSER_PACKAGES=(
-    #friendsofphp/php-cs-fixer
-    #phpactor/phpactor
-    #phploc/phploc
-    #phpmd/phpmd
-    #phpstan/phpstan
-    #sebastian/phpcpd
-    #squizlabs/php_codesniffer
-)
-
-CPAN_PACKAGES=(
-    #Neovim::Ext               # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
-    #Perl::LanguageServer
-    Perl::Critic
-    Perl::Tidy
-    PLS
-)
-
-GO_PACKAGES=(
-    #github.com/technosophos/dashing@latest
-    github.com/go-delve/delve/cmd/dlv@latest
-    github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-    github.com/mattn/efm-langserver@latest
-    github.com/mgechev/revive@latest
-    golang.org/x/tools/gopls@latest
-    mvdan.cc/sh/v3/cmd/shfmt@latest
-)
-
-NPM_PACKAGES=(
-    #marked
-    bash-language-server
-    dot-language-server
-    neovim
-    npm
-    vim-language-server
-    vscode-langservers-extracted
-)
-
-PIP2_PACKAGES=(
-    #ipython
-    #pygments                  # for ccat
-    #six                       # for lldb
-    #virtualenv
-    #virtualenvwrapper
-)
-
-PIP3_PACKAGES=(
-    #markdown
-    #neovim-remote
-    #virtualenv
-    #virtualenvwrapper
-    pynvim
-)
-
-PUB_PACKAGES=(
-    #dart_ctags
-    dart_language_server
-    devtools
-    webdev
-)
-
-RUBY_GEMS=(
-    #bundler
-    #filewatcher
-    #neovim-ruby-host
-    #xcpretty
-    asciidoctor
-    cocoapods
-    iStats
-)
-
-RUSTUP_COMPONENTS=(
-    #llvm-tools-preview
-    clippy
-    rust-analyzer
-    rust-src
-)
-
 # Install formulae and casks.
-Brewfile=$(sed '1,/^__DATA__$/d' "$0"; secrets brewfile)
+Brewfile=$(perl -nlE 'say if (/^# --Brewfile/.../^# --/) && !/^# --/' "$0"; secrets brewfile)
 echo "$Brewfile" | brew bundle install --file=-
 echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
 brew cleanup
@@ -426,116 +339,31 @@ else
     curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain nightly --no-modify-path -y
 fi
 
-# Install flutter and dart.
-if [[ ! -e ~/flutter ]]; then
-    echo "Installing flutter..."
-    suffix=$([[ $(uname -m) == "arm64" ]] && echo "_arm64")
-    wget -O ~/dl.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos"${suffix}"_3.7.12-stable.zip
-    unzip -d ~ ~/dl.zip >/dev/null
-    rm -f ~/dl.zip
+# Install rtx and everything in ~/.tool-versions
+cargo install --locked --git https://github.com/jdxcode/rtx rtx-cli --version ~1.29
+command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
+rtx install
 
-    ~/flutter/bin/flutter config --no-analytics
-    ~/flutter/bin/dart --disable-analytics
-
-    if [[ $suffix ]]; then
-        sudo softwareupdate --install-rosetta --agree-to-license
-        sudo gem uninstall ffi
-        sudo gem install ffi -- --enable-libffi-alloc
+# Install various tools and packages
+cmd="echo"; can=true
+perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
+| while read -r line; do
+    if [[ $line =~ ^\s*\$ ]]; then
+        cmd="${line##*$ }"
+        can=$(command -v "$(echo "$cmd" | cut -d' ' -f1)" || true)
+    elif [[ ! $line =~ ^\s*(#|$) && $can ]]; then
+        echo -e "\033[7m\$ $cmd $line\033[0m"
+        $cmd $line
     fi
-fi
+done
 
 # Install carp.
-if [[ ! -e ~/carp ]]; then
+if [[ ! -e ~/.carp ]]; then
     echo "Installing carp..."
     wget https://github.com/carp-lang/Carp/releases/download/v0.5.5/carp-v0.5.5-x86_64-macos.zip -O ~/dl.zip && \
         unzip -d ~ "$_" >/dev/null && \
         rm -f "$_" && \
-        mv ~/carp-v* ~/carp
-fi
-
-if [[ $(command -v cargo) && ${CARGO_PACKAGES[*]} ]]; then
-    echo "Installing Cargo packages..."
-    for pkg in "${CARGO_PACKAGES[@]}"; do
-        if [[ ! $pkg =~ ^http ]]; then
-            cargo install --locked "$pkg"
-        else
-            cargo install --locked --git "$pkg"
-        fi
-    done
-fi
-
-if [[ $(command -v composer) && ${COMPOSER_PACKAGES[*]} ]]; then
-    echo "Installing Composer packages..."
-    for pkg in "${COMPOSER_PACKAGES[@]}"; do
-        composer global require "$pkg"
-    done
-fi
-
-if [[ $(command -v cpanm) && ${CPAN_PACKAGES[*]} ]]; then
-    echo "Installing CPAN packages..."
-    for pkg in "${CPAN_PACKAGES[@]}"; do
-        cpanm "$pkg"
-    done
-fi
-
-if [[ $(command -v go) && ${GO_PACKAGES[*]} ]]; then
-    echo "Installing Go packages..."
-    for pkg in "${GO_PACKAGES[@]}"; do
-        go install "$pkg"
-    done
-fi
-
-if [[ $(command -v npm) && ${NPM_PACKAGES[*]} ]]; then
-    echo "Installing Nodejs packages..."
-    for pkg in "${NPM_PACKAGES[@]}"; do
-        npm install --global "$pkg"
-    done
-fi
-
-if [[ $(command -v python) && ${PIP2_PACKAGES[*]} ]]; then
-    echo "Installing Python2 packages..."
-    python -m pip install --upgrade pip setuptools
-    for pkg in "${PIP2_PACKAGES[@]}"; do
-        python -m pip install "$pkg"
-    done
-fi
-
-if [[ $(command -v python3) && ${PIP3_PACKAGES[*]} ]]; then
-    echo "Installing Python3 packages..."
-    python3 -m pip install --upgrade pip
-    for pkg in "${PIP3_PACKAGES[@]}"; do
-        python3 -m pip install "$pkg"
-    done
-fi
-
-if [[ -x ~/flutter/bin/dart && ${PUB_PACKAGES[*]} ]]; then
-    echo "Installing pub packages..."
-    for pkg in "${PUB_PACKAGES[@]}"; do
-        ~/flutter/bin/dart pub global activate "$pkg"
-    done
-fi
-
-if [[ ${RUBY_GEMS[*]} ]]; then
-    echo "Installing Ruby gems"
-
-    # Fix for Xcode toolchain's Ruby 12.3 on Catalina.
-    if [[ "v$MACOS_VERSION" == "v10.15"* ]]; then
-        (test -d "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" && \
-            cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
-        (test -d "$(xcode-select -p)/SDKs/MacOSX.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0" && \
-            cd "$_" && sudo ln -s universal-darwin20 universal-darwin19 2>/dev/null)
-    fi
-
-    for pkg in "${RUBY_GEMS[@]}"; do
-        sudo gem install "$pkg"
-    done
-fi
-
-if [[ $(command -v rustup) && ${RUSTUP_COMPONENTS[*]} ]]; then
-    echo "Installing Rust components..."
-    for pkg in "${RUSTUP_COMPONENTS[@]}"; do
-        rustup component add "$pkg"
-    done
+        mv ~/carp-v* ~/.carp
 fi
 
 # Install plug.vim and vim plugins.
@@ -567,6 +395,12 @@ if [[ $(command -v tmux) ]]; then
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
 fi
 
+# Link helix' runtime.                                                                                               
+if ! test -e ~/.config/helix/runtime || test -L "$_"; then                                                           
+    test -e "$_" && rm "$_"                                                                                          
+    ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"                  
+fi                                                                                                                   
+
 # Possibly add missing tmux-256color.
 test ! -f ~/.terminfo/*/tmux-256color && \
     tee <<HERE $(basename "$_").terminfo >/dev/null && tic "$_" && rm -f "$_"
@@ -575,7 +409,7 @@ tmux-256color|screen with 256 colors and italic,
   use=screen-256color,
 HERE
 
-echo "Installing Quicklook & Services..."
+# Install quicklook and services.
 find "$ICLOUD_DRIVE/.config/Apps/Quicklook" -name '*.qlgenerator' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Quicklook/" \;
 find "$ICLOUD_DRIVE/.config/Apps/Services" -name '*.workflow' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Services/" \;
 
@@ -587,8 +421,7 @@ echo
 echo "Done"
 exit
 
-__DATA__
-# Brewfile ...............................................................{{{1
+# --Brewfile .............................................................{{{1
 
 tap "homebrew/core"
 tap "homebrew/bundle"
@@ -603,275 +436,401 @@ tap "koekeishiya/formulae"
 tap "universal-ctags/universal-ctags"
 
 # Core
-#brew "bash"                     # newer version
-#brew "curl"                     # newer version
-#brew "diffutils"                # newer version
-#brew "gdb"                      # gdb needs to be signed
-#brew "rsync"                    # newer version
-#brew "screen"                   # newer version
-#brew "ssh-copy-id"              # newer version
-#brew "starship"
-#brew "valgrind"                 # only compatible with macOS<10.13
-#brew "vim"                      # newer version
-#brew "zsh"                      # newer version
-#brew "zsh-completions"
- brew "cowsay"
- brew "fortune"
- brew "neovim"
- brew "ripgrep"                  # or the_silver_searcher or ack
- brew "stow"
- brew "telnet"
- brew "tmux"
- brew "tree"
- brew "watch"
- brew "wget"
- brew "zoxide"
- brew "zsh-autosuggestions"
- brew "zsh-syntax-highlighting"
+  brew "cowsay"
+  brew "fortune"
+  brew "telnet"
+  brew "tmux"
+  brew "tree"
+  brew "watch"
+  brew "wget"
+  brew "zsh-autosuggestions"
+  brew "zsh-syntax-highlighting"
+ #brew "bash"                     # newer version
+ #brew "curl"                     # newer version
+ #brew "diffutils"                # newer version
+ #brew "gdb"                      # gdb needs to be signed
+ #brew "neovim"
+ #brew "ripgrep"                  # or the_silver_searcher or ack
+ #brew "rsync"                    # newer version
+ #brew "screen"                   # newer version
+ #brew "ssh-copy-id"              # newer version
+ #brew "starship"
+ #brew "stow"
+ #brew "valgrind"                 # only compatible with macOS<10.13
+ #brew "vim"                      # newer version
+ #brew "zoxide"
+ #brew "zsh"                      # newer version
+ #brew "zsh-completions"
+
+# Libraries
+  brew "bison"
+  brew "libiconv"
+  brew "meson"
+  brew "re2c"
 
 # Utilities
-#brew "byobu"
-#brew "cgdb"                     # needs gdb to be signed
-#brew "ctags"                    # use universal-ctags
-#brew "dust"
-#brew "fd"
-#brew "figlet"
-#brew "httpie"
-#brew "lynx"
-#brew "mackup"                   # use stow
-#brew "mas"
-#brew "micro"
-#brew "nnn"                      # or ranger or lf
-#brew "restic"
-#brew "snappy"
- brew "archey"                   # or screenfetch or neofetch
- brew "asciinema"
- brew "bat"
- brew "broot"
- brew "cloc"
- brew "entr"                     # or fswatch
- brew "exa"
- brew "fdupes"
- brew "fzf"                      # or fzy or peco
- brew "ghq"
- brew "git-delta"
- brew "helix"
- brew "jq"                       # or fx
- brew "lazygit"
- brew "ncdu"
- brew "rclone"
- brew "rename"
- brew "shadowenv"
- brew "terminal-notifier"
- brew "trash"
- brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
- brew "youtube-dl"
+  brew "entr"                     # or fswatch
+  brew "fdupes"
+  brew "ncdu"
+  brew "trash"
+  brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
+ #brew "archey"                   # deprecated, or screenfetch or neofetch
+ #brew "asciinema"
+ #brew "bat"
+ #brew "broot"
+ #brew "byobu"
+ #brew "cgdb"                     # needs gdb to be signed
+ #brew "cloc"
+ #brew "ctags"                    # use universal-ctags
+ #brew "dust"
+ #brew "exa"
+ #brew "fd"
+ #brew "figlet"
+ #brew "fzf"                      # or fzy or peco
+ #brew "ghq"
+ #brew "git-delta"
+ #brew "helix"
+ #brew "httpie"
+ #brew "jq"                       # or fx
+ #brew "lazygit"
+ #brew "lynx"
+ #brew "mackup"                   # use stow
+ #brew "mas"
+ #brew "micro"
+ #brew "nnn"                      # or ranger or lf
+ #brew "rclone"
+ #brew "rename"
+ #brew "restic"
+ #brew "shadowenv"                # install with cargo
+ #brew "snappy"
+ #brew "terminal-notifier"
+ #brew "youtube-dl"
 
 # Compilers
-#brew "dart-lang/dart/dart"      # contained in flutter
-#brew "haskell-stack"
-#brew "php"                      # newer one
-#brew "pypy"
-#brew "pypy3"
-#brew "python@2"
-#brew "ruby"                     # newer one, keg-only
-#brew "typescript"               # install with npm
- brew "clojure"
- brew "clojurescript"
- brew "deno"
- brew "discount"                 # or peg-markdown
- brew "fennel"
- brew "go"
- brew "hy"
- brew "janet"
- brew "lua"
- brew "node"
- brew "perl"
- brew "python"
- brew "rustup-init"
- brew "scala"
+  brew "discount"                 # or peg-markdown
+  brew "rustup-init"
+ #brew "clojure"
+ #brew "clojurescript"
+ #brew "dart-lang/dart/dart"      # contained in flutter
+ #brew "deno"
+ #brew "fennel"
+ #brew "go"
+ #brew "haskell-stack"
+ #brew "hy"
+ #brew "janet"
+ #brew "lua"
+ #brew "node"
+ #brew "perl"
+ #brew "php"                      # newer one
+ #brew "pypy"
+ #brew "pypy3"
+ #brew "python"
+ #brew "python@2"
+ #brew "ruby"                     # newer one, keg-only
+ #brew "scala"
+ #brew "typescript"               # install with npm
 
 # Package managers and build systems
-#brew "asdf"
-#brew "carthage"                 # alternative to cocoapods
-#brew "cocoapods"                # install with sudo gem
-#brew "mage"
-#brew "pnpm"                     # or yarn
- brew "composer"
- brew "cpanminus"                # run instmodsh for installs
- brew "leiningen"
- brew "luarocks"
- brew "rtx"
- brew "wasm-pack"
+ #brew "asdf"
+ #brew "carthage"                 # alternative to cocoapods
+ #brew "cocoapods"                # install with sudo gem
+ #brew "composer"
+ #brew "cpanminus"                # run instmodsh for installs
+ #brew "leiningen"
+ #brew "luarocks"
+ #brew "mage"
+ #brew "pnpm"                     # or yarn
+ #brew "rtx"                      # install with cargo
+ #brew "wasm-pack"
 
 # Linters and formatters
- brew "clojure-lsp/brew/clojure-lsp-native"
- brew "shellcheck"
- brew "texlab"
+  brew "clojure-lsp/brew/clojure-lsp-native"
+  brew "shellcheck"
+ #brew "texlab"
 
 # Security
-#brew "git-crypt"
-#brew "radare2"
-#brew "nmap"
+ #brew "git-crypt"
+ #brew "radare2"
+ #brew "nmap"
 
 # Storage
-#brew "caddy"
-#brew "hub"
-#brew "mariadb"
-#brew "memcached"
-#brew "mercurial"
-#brew "mongodb/brew/mongodb-community"
-#brew "postgresql"
-#brew "rabbitmq"
-#brew "sqlite"                   # newer version, keg-only
- brew "git"
+ #brew "caddy"
+ #brew "git"
+ #brew "hub"
+ #brew "mariadb"
+ #brew "memcached"
+ #brew "mercurial"
+ #brew "mongodb/brew/mongodb-community"
+ #brew "postgresql"
+ #brew "rabbitmq"
+ #brew "sqlite"                   # newer version, keg-only
 
 # DevOps
-#brew "aws-shell"
-#brew "aws/tap/aws-sam-cli"
-#brew "docker"
-#brew "docker-machine"
-#brew "docker-swarm"
-#brew "kubernetes-cli"
-#brew "minikube"
- brew "awscli"
- brew "kind"
- brew "lazydocker"
- brew "terraform"
+ #brew "aws-shell"
+ #brew "aws/tap/aws-sam-cli"
+ #brew "awscli"
+ #brew "docker"
+ #brew "docker-machine"
+ #brew "docker-swarm"
+ #brew "kind"
+ #brew "kubernetes-cli"
+ #brew "lazydocker"
+ #brew "minikube"
+ #brew "terraform"
 
 # Conversion
-#brew "gifsicle"
-#brew "imagemagick"
-#brew "markdown"
- brew "ffmpeg"
- brew "graphviz"
+  brew "ffmpeg"
+  brew "graphviz"
+ #brew "gifsicle"
+ #brew "imagemagick"
+ #brew "markdown"
 
 # Cask Essentials
-#cask "alfred"                   # or raycast
-#cask "obsidian"
-#cask "onedrive"
-#cask "onyx"
-#cask "ukelele"
-#cask "vanilla"                  # or dozer
-#cask "virtualbox"
-#cask "virtualbox-extension-pack"
- cask "iterm2"                   # or kitty or alacritty
- cask "karabiner-elements"
- cask "keka"
- cask "kekaexternalhelper"       # previously kekadefaultapp
- cask "opera"
-
-# Tiling window manager
- cask "amethyst"                 # or yabai
+  cask "iterm2"                   # or kitty or alacritty
+  cask "karabiner-elements"
+  cask "keka"
+  cask "kekaexternalhelper"       # previously kekadefaultapp
+  cask "opera"
+ #cask "alfred"                   # or raycast
+ #cask "obsidian"
+ #cask "onedrive"
+ #cask "onyx"
+ #cask "ukelele"
+ #cask "vanilla"                  # or dozer
+ #cask "virtualbox"
+ #cask "virtualbox-extension-pack"
 
 # Window Tools
-#cask "fluid"
-#cask "ubersicht"                # desktop widgets
-#cask "whichspace"
- cask "alt-tab"
- cask "spaceid"
- cask "spectacle"                # or rectangle
+  cask "alt-tab"
+  cask "amethyst"                 # or yabai
+  cask "hammerspoon"
+  cask "hazeover"
+  cask "spaceid"
+ #cask "fluid"
+ #cask "spectacle"                # or rectangle
+ #cask "ubersicht"                # desktop widgets
+ #cask "whichspace"
 
 # QuickLook
-#cask "hetimazipql"              # removed because website is down
-#cask "qlcolorcode"
-#cask "quicklook-csv"
- cask "qlmarkdown"
- cask "qlmobi"
- cask "qlstephen"
- cask "quicklook-json"
+  cask "qlmarkdown"
+  cask "qlmobi"
+  cask "qlstephen"
+  cask "quicklook-json"
+ #cask "hetimazipql"              # removed because website is down
+ #cask "qlcolorcode"
+ #cask "quicklook-csv"
 
 # Security
-#cask "gpg-suite"                # GPG Mail is paid
-#cask "lulu"
-#cask "oversight"
-#cask "whatsyoursign"
- cask "macpass"
- cask "tunnelblick"
+  cask "macpass"
+  cask "tunnelblick"
+ #cask "gpg-suite"                # GPG Mail is paid
+ #cask "lulu"
+ #cask "oversight"
+ #cask "whatsyoursign"
 
 # Development
-#cask "clion"
-#cask "cocoapods"                # bundled app with editor
-#cask "dash"
-#cask "docker"
-#cask "jd-gui"
-#cask "phpstorm"
-#cask "temurin"                  # or java, keg-only
-#cask "vagrant"
-#cask "xammp"
- cask "android-studio"
- cask "boop"
- cask "goland"
- cask "hex-fiend"
- cask "meld"
- cask "rancher"
- cask "vimr"
- cask "visual-studio-code"
+  cask "android-studio"
+  cask "boop"
+  cask "hex-fiend"
+  cask "meld"
+  cask "visual-studio-code"
+ #cask "clion"
+ #cask "cocoapods"                # bundled app with editor
+ #cask "dash"
+ #cask "docker"
+ #cask "goland"
+ #cask "jd-gui"
+ #cask "phpstorm"
+ #cask "rancher"
+ #cask "temurin"                  # or java, keg-only
+ #cask "vagrant"
+ #cask "vimr"
+ #cask "xammp"
 
 # Storage
-#cask "another-redis-desktop-manager"
-#cask "handbrake-nightly"
-#cask "postico"                  # paid
-#cask "redis"
-#cask "sequel-pro-nightly"       # outdated, use sequel-ace
- cask "db-browser-for-sqlite"
- cask "gitup"                    # or sourcetree or gitx or fork
- cask "robo-3t"                  # or mongotron or nosqlclient
- cask "sequel-ace"
+  cask "db-browser-for-sqlite"
+  cask "gitup"                    # or sourcetree or gitx or fork
+  cask "robo-3t"                  # or mongotron or nosqlclient
+  cask "sequel-ace"
+ #cask "another-redis-desktop-manager"
+ #cask "handbrake-nightly"
+ #cask "postico"                  # paid
+ #cask "redis"
+ #cask "sequel-pro-nightly"       # outdated, use sequel-ace
 
 # Reversing
-#cask "bit-slicer"
-#cask "cutter"
-#cask "ghidra"
-#cask "idafree"
+ #cask "bit-slicer"
+ #cask "cutter"
+ #cask "ghidra"
+ #cask "idafree"
 
 # Writing & Notes
-#cask "bibdesk"
-#cask "notion"
-#cask "skim"
- cask "anki"
- cask "basictex"
+  cask "anki"
+  cask "basictex"
+ #cask "bibdesk"
+ #cask "notion"
+ #cask "skim"
 
 # Multimedia
-#cask "caption"
-#cask "cfxr"                     # 32bit only
-#cask "freac"
-#cask "inkscape"
-#cask "macsvg"
-#cask "moonlight"
-#cask "spotify"
-#cask "transmission-nightly"
- cask "drawio"
- cask "iina"                     # or vlc
- cask "kap"
- cask "sf-symbols"
+  cask "drawio"
+  cask "iina"                     # or vlc
+  cask "kap"
+  cask "sf-symbols"
+ #cask "caption"
+ #cask "cfxr"                     # 32bit only
+ #cask "freac"
+ #cask "inkscape"
+ #cask "macsvg"
+ #cask "moonlight"
+ #cask "spotify"
+ #cask "transmission-nightly"
 
 # Communication
-#cask "colloquy"
-#cask "discord"
-#cask "mumble"
-#cask "skype"
-#cask "slack"
-#cask "teamspeak-client"
-#cask "teamviewer"
-#cask "whatsapp"
+ #cask "colloquy"
+ #cask "discord"
+ #cask "mumble"
+ #cask "skype"
+ #cask "slack"
+ #cask "teamspeak-client"
+ #cask "teamviewer"
+ #cask "whatsapp"
 
 # osxfuse
- cask "osxfuse"
- brew "sshfs"
- brew "gocryptfs"
+  cask "macfuse"
+ #cask "osxfuse"                  # deprecated
+ #brew "sshfs"                    # deprecated
+ #brew "gocryptfs"                # brew says it needs libfuse
 
 # Fonts
-#cask "font-roboto"              # needs svn
-#cask "font-roboto-condensed"    # needs svn
-#cask "font-source-code-pro"     # needs svn
-#cask "font-ubuntu"              # needs svn
- cask "font-clear-sans"
- cask "font-fira-code-nerd-font"
- cask "font-hack-nerd-font"
- cask "font-inconsolata"
- cask "font-metropolis"
- cask "font-monoid"
- cask "font-work-sans"
+  cask "font-clear-sans"
+  cask "font-fira-code-nerd-font"
+  cask "font-hack-nerd-font"
+  cask "font-inconsolata"
+  cask "font-metropolis"
+  cask "font-monoid"
+  cask "font-work-sans"
+ #cask "font-roboto"              # needs svn
+ #cask "font-roboto-condensed"    # needs svn
+ #cask "font-source-code-pro"     # needs svn
+ #cask "font-ubuntu"              # needs svn
+
+# .........................................................................}}}
+
+# --Tools ................................................................{{{1
+
+$ cargo install --locked
+    bat
+    broot
+    evcxr_repl
+    exa
+    git-delta
+    hyperfine
+    macchina
+    ripgrep
+    texlab
+    tokei
+    wasm-pack
+    zoxide
+    --git https://github.com/helix-editor/helix helix-term
+    --git https://github.com/Shopify/shadowenv
+    #cargo-audit
+    #cargo-c
+    #cargo-docset
+    #cargo-duplicates
+    #cargo-edit
+    #cargo-expand
+    #cargo-make
+    #cargo-outdated
+    #cargo-watch
+    #simple-http-server
+
+$ composer global require
+    #friendsofphp/php-cs-fixer
+    #phpactor/phpactor
+    #phploc/phploc
+    #phpmd/phpmd
+    #phpstan/phpstan
+    #sebastian/phpcpd
+    #squizlabs/php_codesniffer
+
+$ cpanm
+    File::Rename
+    Perl::Critic
+    Perl::Tidy
+    PLS
+    #Neovim::Ext                  # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
+    #Perl::LanguageServer
+
+$ dart pub global activate
+    dart_language_server
+    devtools
+    webdev
+    #dart_ctags
+
+$ gem install
+    asciidoctor
+    cocoapods
+    iStats
+    terminal-notifier
+    #bundler
+    #filewatcher
+    #neovim-ruby-host
+    #xcpretty
+
+$ go install
+    github.com/charmbracelet/glow@latest
+    github.com/go-delve/delve/cmd/dlv@latest
+    github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    github.com/hashicorp/terraform-ls@latest
+    github.com/jesseduffield/lazydocker@latest
+    github.com/jesseduffield/lazygit@latest
+    github.com/junegunn/fzf@latest
+    github.com/mattn/efm-langserver@latest
+    github.com/mgechev/revive@latest
+    github.com/rclone/rclone@latest
+    github.com/terraform-docs/terraform-docs@latest
+    github.com/terraform-linters/tflint@latest
+    golang.org/x/tools/gopls@latest
+    mvdan.cc/sh/v3/cmd/shfmt@latest
+    #github.com/technosophos/dashing@latest
+
+$ luarocks --local install
+    fennel
+
+$ npm install --global
+    npm
+    bash-language-server
+    dot-language-server
+    neovim
+    vim-language-server
+    vscode-langservers-extracted
+    #marked
+
+$ python -m pip install --upgrade
+    pip
+    #ipython
+    #pygments                     # for ccat
+    #six                          # for lldb
+    #virtualenv
+    #virtualenvwrapper
+
+$ python3 -m pip install --upgrade
+    pip
+    asciinema
+    cookiecutter
+    hy
+    pre-commit
+    pynvim
+    youtube-dl
+    #markdown
+    #neovim-remote
+    #virtualenv
+    #virtualenvwrapper
+
+$ rustup component add
+    clippy
+    rust-analyzer
+    rust-src
+    #llvm-tools-preview
 
 # .........................................................................}}}
