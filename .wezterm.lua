@@ -18,7 +18,7 @@ wezterm.on(
     local process = basename(pane.foreground_process_name)
     local title = tab.tab_index .. ":"
 
-    if pane.title and pane.title ~= process then
+    if pane.title and basename(pane.title) ~= process then
       title = title .. pane.title
     else
       local manually_set = tab.tab_title
