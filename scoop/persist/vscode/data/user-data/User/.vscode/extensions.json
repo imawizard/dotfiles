@@ -4,6 +4,8 @@
         "EditorConfig.EditorConfig",
         "gregoire.dance",
         "ms-vscode.hexeditor",
+        "ybaumes.highlight-trailing-white-spaces",
+        "wayou.vscode-todo-highlight",
 
         // WSL, SSH & Github/Azure repos
         "ms-vscode-remote.vscode-remote-extensionpack",
@@ -20,10 +22,17 @@
 
         // C/C++
         //"ms-vscode.cpptools",
+        //"vadimcn.vscode-lldb",
+
+        // Clojure
+        //"betterthantomorrow.calva",
 
         // Dart/Flutter
         //"Dart-Code.dart-code",
         //"Dart-Code.flutter",
+
+        // dotEnv
+        //"dotenv.dotenv-vscode",
 
         // Go
         //"golang.Go",
@@ -49,6 +58,9 @@
         //"ms-mssql.data-workspace-vscode",
         //"ms-mssql.sql-bindings-vscode",
         //"ms-azuretools.vscode-cosmosdb",
+
+        // Toml
+        //"tamasfe.even-better-toml",
 
         // YAML
         //"redhat.vscode-yaml",
