@@ -470,6 +470,7 @@ tap "universal-ctags/universal-ctags"
 # Libraries
     brew "bison"
     brew "libiconv"
+    brew "libzip"
     brew "meson"
     brew "re2c"
 
