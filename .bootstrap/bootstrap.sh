@@ -340,7 +340,7 @@ else
 fi
 
 # Install rtx and everything in ~/.tool-versions
-cargo install --locked --git https://github.com/jdxcode/rtx rtx-cli --version ~1.29
+cargo install --locked --git https://github.com/jdxcode/rtx rtx-cli
 command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
 rtx install
 
