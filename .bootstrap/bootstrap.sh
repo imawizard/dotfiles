@@ -471,6 +471,7 @@ tap "universal-ctags/universal-ctags"
 # Utilities
     brew "entr"                      # or fswatch
     brew "fdupes"
+    brew "jq"                        # or fx
     brew "ncdu"
     brew "trash"
     brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
@@ -491,7 +492,6 @@ tap "universal-ctags/universal-ctags"
     #brew "git-delta"
     #brew "helix"
     #brew "httpie"
-    #brew "jq"                       # or fx
     #brew "lazygit"
     #brew "lynx"
     #brew "mackup"                   # use stow
