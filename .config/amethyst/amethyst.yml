@@ -1,7 +1,7 @@
 # General
 ignore-menu-bar: false
 new-windows-to-main: false
-follow-space-thrown-windows: true
+follow-space-thrown-windows: false
 
 window-minimum-width: 0
 window-minimum-height: 0
@@ -157,7 +157,7 @@ relaunch-amethyst:
   key: ";" # qwerty's q
 
 # Mouse
-mouse-follows-focus: false
+mouse-follows-focus: true
 focus-follows-mouse: false
 mouse-swaps-windows: false
 
