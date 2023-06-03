@@ -42,6 +42,11 @@ test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
     sudo cp "$_" "/Library/Keyboard Layouts/" && \
     echo "Copied keyboard layout"
 
+# Pull Chrome extensions.
+test ! -e $(dirname "$0")/chrome-extensions && \
+    git clone https://github.com/imawizard/chrome-extensions "$_" || \
+    git -C "$_" pull --rebase
+
 # Abort if brew isn't installed.
 command -v brew >/dev/null || exit 1
 
