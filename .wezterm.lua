@@ -95,8 +95,8 @@ return {
     { key = "Space", mods = "LEADER", action = act.QuickSelect },
 
     -- panes
-    { key = "%", mods = "LEADER|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    { key = '"', mods = "LEADER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    { key = "%", mods = "LEADER|SHIFT", action = act.SplitHorizontal({}) },
+    { key = '"', mods = "LEADER|SHIFT", action = act.SplitVertical({}) },
     { key = "o", mods = "LEADER", action = act.ActivatePaneDirection("Next") },
     { key = "q", mods = "LEADER", action = act.PaneSelect({ mode = "Activate", alphabet = "0123456789" }) },
     { key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
@@ -107,7 +107,7 @@ return {
     end) },
 
     -- tabs
-    { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "c", mods = "LEADER", action = act.SpawnCommandInNewTab({ cwd = os.getenv("HOME") }) },
     { key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
     { key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
     { key = "&", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
