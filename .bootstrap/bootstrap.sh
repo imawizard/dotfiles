@@ -810,6 +810,7 @@ $ npm install --global
     neovim
     vim-language-server
     vscode-langservers-extracted
+    yaml-language-server
     #marked
 
 $ python -m pip install --upgrade
