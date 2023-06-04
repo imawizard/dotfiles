@@ -224,108 +224,26 @@ killall -q Mail || true
 
 # Set up hotkeys .........................................................{{{1
 
-# Extra app hotkeys
-#   ^ = Ctrl
-#   @ = Cmd
-#   $ = Shift
-#   ~ = Option
-test ! -e custommenu.hotkeys && defaults read com.apple.universalaccess com.apple.custommenu.apps -array NSGlobalDomain >"$_"
+domains=()
+old=$IFS
+IFS=$'\n'
+for line in $(
+    perl -nlE "say if (/^# --Hotkeys/.../^# --/) && !/^# --/" "$0"
+); do
+    if [[ $line =~ ^\s*\- ]]; then
+        domain="${line##*- }"
+        domains+=($domain)
+        defaults delete "$domain" NSUserKeyEquivalents 2>/dev/null
+    elif [[ ! $line =~ ^\s*(#|$) ]]; then
+        name=$(echo "${line% *}" | xargs)
+        key="${line##* }"
+        defaults write "$domain" NSUserKeyEquivalents -dict-add "$name" "$key"
+    fi
+done
+IFS=$old
+
 sudo defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
-    com.apple.finder          \
-    com.apple.Notes           \
-    com.apple.Preview         \
-    com.operasoftware.Opera   \
-    com.apple.mail            \
-    com.apple.ActivityMonitor \
-    NSGlobalDomain
-
-# Global hotkeys
-test ! -e global.hotkeys && defaults read NSGlobalDomain NSUserKeyEquivalents >"$_"
-defaults delete NSGlobalDomain             NSUserKeyEquivalents 2>/dev/null
-defaults write  NSGlobalDomain             NSUserKeyEquivalents -dict-add "Sleep"                           "@$\\Uf70f"
-defaults write  NSGlobalDomain             NSUserKeyEquivalents -dict-add "Ruhezustand"                     "@$\\Uf70f"
-
-# Finder hotkeys
-test ! -e finder.hotkeys && defaults read com.apple.finder NSUserKeyEquivalents >"$_"
-defaults delete com.apple.finder           NSUserKeyEquivalents 2>/dev/null
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Bring All to Front"              "~\\Uf70e"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Alle nach vorne bringen"         "~\\Uf70e"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Print"                           "@~r"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Drucken"                         "@~r"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "New Finder Window"               "@~^n"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Neues Fenster"                   "@~^n"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Tags..."                         "^t"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Tags ..."                        "^t"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Forward"                         "@'"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Vorw\\U00e4rts"                  "@'"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Back"                            "@;"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Zur\\U00fcck"                    "@;"
-
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Recents"                         "@\$y"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Zuletzt benutzt"                 "@\$y"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Documents"                       "@\$s"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Dokumente"                       "@\$s"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Desktop"                         "@\$h"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Schreibtisch"                    "@\$h"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Downloads"                       "@~p"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Home"                            "@\$j"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Benutzerordner"                  "@\$j"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Library"                         "@\$p"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Computer"                        "@\$i"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "AirDrop"                         "@\$o"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Network"                         "@\$v"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Netzwerk"                        "@\$v"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "iCloud Drive"                    "@\$f"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Applications"                    "@\$a"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Programme"                       "@\$a"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Utilities"                       "@\$g"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Dienstprogramme"                 "@\$g"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Go to Folder"                    "@\$u"
-defaults write  com.apple.finder           NSUserKeyEquivalents -dict-add "Gehe zum Ordner ..."             "@\$u"
-
-# Notes hotkeys
-test ! -e notes.hotkeys && defaults read com.apple.Notes NSUserKeyEquivalents >"$_"
-defaults delete com.apple.Notes            NSUserKeyEquivalents 2>/dev/null
-defaults write  com.apple.Notes            NSUserKeyEquivalents -dict-add "Strikethrough"                   "@\$u";
-defaults write  com.apple.Notes            NSUserKeyEquivalents -dict-add "Durchgestrichen"                 "@\$u";
-
-# Preview hotkeys
-test ! -e preview.hotkeys && defaults read com.apple.Preview NSUserKeyEquivalents >"$_"
-defaults delete com.apple.Preview          NSUserKeyEquivalents 2>/dev/null
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Export as PDF..."                "~\$o"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Als PDF exportieren ..."         "~\$o"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Export As..."                    "@~s"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Exportieren ..."                 "@~s"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Adjust Size..."                  "@~g"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Gr\\U00f6\\U00dfenkorrektur ..." "@~g"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Save As..."                      "@\$s"
-defaults write  com.apple.Preview          NSUserKeyEquivalents -dict-add "Sichern unter ..."               "@\$s"
-
-# Opera hotkeys
-test ! -e opera.hotkeys && defaults read com.operasoftware.Opera NSUserKeyEquivalents >"$_"
-defaults delete com.operasoftware.Opera    NSUserKeyEquivalents 2>/dev/null
-defaults write  com.operasoftware.Opera    NSUserKeyEquivalents -dict-add "Developer Tools"                 "@\$i"
-defaults write  com.operasoftware.Opera    NSUserKeyEquivalents -dict-add "Entwicklerwerkzeuge"             "@\$i"
-defaults write  com.operasoftware.Opera    NSUserKeyEquivalents -dict-add "Close Window"                    "@~w"
-defaults write  com.operasoftware.Opera    NSUserKeyEquivalents -dict-add "Fenster schlie\\U00dfen"         "@~w"
-
-# Mail hotkeys
-test ! -e mail.hotkeys && defaults read com.apple.mail NSUserKeyEquivalents >"$_"
-defaults delete com.apple.mail             NSUserKeyEquivalents 2>/dev/null
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "Date"                            "@k"
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "Datum"                           "@k"
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "From"                            "@\$k"
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "Von"                             "@\$k"
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "Remove Style"                    "@\$b"
-defaults write  com.apple.mail             NSUserKeyEquivalents -dict-add "Stil entfernen"                  "@\$b"
-
-# Activity Monitor hotkeys
-test ! -e activity_monitor.hotkeys && defaults read com.apple.ActivityMonitor NSUserKeyEquivalents >"$_"
-defaults delete com.apple.ActivityMonitor  NSUserKeyEquivalents 2>/dev/null
-defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "All Processes, Hierarchically"   "@1"
-defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "Alle Prozesse, hierarchisch"     "@1"
-defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "Windowed Processes"              "@2"
-defaults write  com.apple.ActivityMonitor  NSUserKeyEquivalents -dict-add "Prozesse mit Fenstern"           "@2"
+    "${domains[@]}"
 
 # .........................................................................}}}
 
@@ -839,5 +757,84 @@ $ rustup component add
     rust-analyzer
     rust-src
     #llvm-tools-preview
+
+# .........................................................................}}}
+
+# --Hotkeys ..............................................................{{{1
+
+# Special keys:
+#  ^ = Ctrl
+#  @ = Cmd
+#  $ = Shift
+#  ~ = Option
+
+- com.apple.finder
+    Bring All to Front              ~\\Uf70e
+    Alle nach vorne bringen         ~\\Uf70e
+    Print                           @~r
+    Drucken                         @~r
+    New Finder Window               @~^n
+    Neues Fenster                   @~^n
+    Tags...                         ^t
+    Tags ...                        ^t
+    Forward                         @'
+    Vorw\\U00e4rts                  @'
+    Back                            @;
+    Zur\\U00fcck                    @;
+    Recents                         @\$y
+    Zuletzt benutzt                 @\$y
+    Documents                       @\$s
+    Dokumente                       @\$s
+    Desktop                         @\$h
+    Schreibtisch                    @\$h
+    Downloads                       @~p
+    Home                            @\$j
+    Benutzerordner                  @\$j
+    Library                         @\$p
+    Computer                        @\$i
+    AirDrop                         @\$o
+    Network                         @\$v
+    Netzwerk                        @\$v
+    iCloud Drive                    @\$f
+    Applications                    @\$a
+    Programme                       @\$a
+    Utilities                       @\$g
+    Dienstprogramme                 @\$g
+    Go to Folder                    @\$u
+    Gehe zum Ordner ...             @\$u
+
+- com.apple.Notes
+    Strikethrough                   @\$u
+    Durchgestrichen                 @\$u
+
+- com.apple.Preview
+    Export as PDF...                ~\$o
+    Als PDF exportieren ...         ~\$o
+    Export As...                    @~s
+    Exportieren ...                 @~s
+    Adjust Size...                  @~g
+    Gr\\U00f6\\U00dfenkorrektur ... @~g
+    Save As...                      @\$s
+    Sichern unter ...               @\$s
+
+- com.operasoftware.Opera
+    Developer Tools                 @\$i
+    Entwicklerwerkzeuge             @\$i
+    Close Window                    @~w
+    Fenster schlie\\U00dfen         @~w
+
+- com.apple.mail
+    Date                            @k
+    Datum                           @k
+    From                            @\$k
+    Von                             @\$k
+    Remove Style                    @\$b
+    Stil entfernen                  @\$b
+
+- com.apple.ActivityMonitor
+    All Processes, Hierarchically   @1
+    Alle Prozesse, hierarchisch     @1
+    Windowed Processes              @2
+    Prozesse mit Fenstern           @2
 
 # .........................................................................}}}
