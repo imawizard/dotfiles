@@ -110,6 +110,8 @@ return {
     { key = "c", mods = "LEADER", action = act.SpawnCommandInNewTab({ cwd = os.getenv("HOME") }) },
     { key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
     { key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
+    { key = "p", mods = "LEADER|CTRL", action = act.ActivateTabRelative(-1) },
+    { key = "n", mods = "LEADER|CTRL", action = act.ActivateTabRelative(1) },
     { key = "&", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
     { key = ",", mods = "LEADER",
       action = act.PromptInputLine({
@@ -202,8 +204,8 @@ return {
       { key = ";", mods = "NONE",  action = act.CopyMode("JumpAgain") },
       { key = ",", mods = "NONE",  action = act.CopyMode("JumpReverse") },
 
-      { key = "/", mods="SHIFT", action = act.Multiple({
-          { Search = { CaseSensitiveString = "" } },
+      { key = "/", mods="NONE", action = act.Multiple({
+          { Search = { CaseInSensitiveString = "" } },
           { CopyMode = "ClearPattern" },
         }),
       },
