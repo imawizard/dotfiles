@@ -27,8 +27,9 @@
         {
             "colorScheme": "One Half Light",
             "font": {
-                "face": "FiraCode NFM",
-                "size": 10
+                "face": "FiraCode Nerd Font Mono",
+                "size": 10,
+                "features": { "calt": 0, "clig": 0, "liga": 0 }
             },
             "bellStyle": "taskbar",
             "cursorShape": "vintage"

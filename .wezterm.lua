@@ -50,7 +50,7 @@ return {
   switch_to_last_active_tab_when_closing_tab = true,
 
   color_scheme = "Github",
-  font = wezterm.font("FiraCode NFM"),
+  font = wezterm.font("FiraCode Nerd Font Mono"),
   font_size = 9.5,
   harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 

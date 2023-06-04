@@ -56,7 +56,7 @@
     "editor.hideCursorInOverviewRuler": false,
 
     // Editor
-    "editor.fontFamily": "FiraCode NF",
+    "editor.fontFamily": "FiraCode Nerd Font Mono",
     "editor.fontLigatures": false,
     "editor.fontSize": 11,
     "window.newWindowDimensions": "maximized",
