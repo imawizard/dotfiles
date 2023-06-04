@@ -165,6 +165,7 @@
     "search.mode": "reuseEditor",
 
     // Disable nags
+    "update.mode": "manual",
     "extensions.ignoreRecommendations": false,
     "git.openRepositoryInParentFolders": "never",
     "powershell.promptToUpdatePowerShell": false,
