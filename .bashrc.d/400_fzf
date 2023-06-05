@@ -1,10 +1,18 @@
+location=$(
+    { command -v rtx >/dev/null && "$_" where fzf 2>/dev/null && echo "/shell" \
+    || { test -d /usr/share/doc/fzf/examples && echo "$_"; } } \
+    | tr -d '\n'
+)
+
+[[ ! $location ]] && return 1
+
 case $CURRENT_SHELL in
 bash)
-    test -r /usr/share/doc/fzf/examples/key-bindings.bash && . "$_"
-    test -r /usr/share/doc/fzf/examples/completion.bash && . "$_"
+    test -r "$location/key-bindings.bash" && . "$_"
+    test -r "$location/completion.bash" && . "$_"
     ;;
 zsh)
-    test -r /usr/share/doc/fzf/examples/key-bindings.zsh && . "$_"
-    test -r /usr/share/doc/fzf/examples/completion.zsh && . "$_"
+    test -r "$location/key-bindings.zsh" && . "$_"
+    test -r "$location/completion.zsh" && . "$_"
     ;;
 esac
