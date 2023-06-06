@@ -702,6 +702,7 @@ $ gem install
     #xcpretty
 
 $ go install
+    github.com/antonmedv/fx@latest
     github.com/charmbracelet/glow@latest
     github.com/go-delve/delve/cmd/dlv@latest
     github.com/golangci/golangci-lint/cmd/golangci-lint@latest
