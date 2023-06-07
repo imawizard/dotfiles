@@ -34,11 +34,22 @@ git config core.worktree ..; git config status.showUntrackedFiles no
 git reset --mixed; git checkout ..
 ```
 
+## [Ubuntu](https://github.com/imawizard/dotfiles/tree/ubuntu)
+
+```sh
+mkdir ~/.dotfiles.git && cd $_
+git clone --no-checkout --branch ubuntu https://github.com/imawizard/dotfiles .
+mv .git/* ./ && rm -rf .git
+git config core.worktree .. && git config status.showUntrackedFiles no
+git reset --mixed && git checkout ..
+```
+
 ## Resources
 
 ### Dotfiles
 
 - [archseer / Blaž Hrastnik](https://github.com/archseer/dotfiles)
+- [Casey Rodarmor](https://github.com/casey/dotfiles)
 - [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
 - [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
 - [fasterthanlime / Amos Wenger](https://github.com/fasterthanlime/dotfiles)
@@ -83,6 +94,7 @@ git reset --mixed; git checkout ..
 - [Text System Defaults and Key Bindings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/TextDefaultsBindings/TextDefaultsBindings.html)
 - [Keybindings Commands](https://developer.apple.com/documentation/appkit/nsstandardkeybindingresponding)
 - [Function-Key Unicode Values](https://developer.apple.com/documentation/appkit/1535851-function-key_unicode_values)
+- [Xah Lee - Create Custom Keyboard Layout](http://xahlee.info/kbd/osx_keybinding.html)
 
 ### macOS Preferences
 
