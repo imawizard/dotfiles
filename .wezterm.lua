@@ -95,8 +95,8 @@ return {
     { key = "Space", mods = "LEADER", action = act.QuickSelect },
 
     -- panes
-    { key = "%", mods = "LEADER|SHIFT", action = act.SplitHorizontal({}) },
-    { key = '"', mods = "LEADER|SHIFT", action = act.SplitVertical({}) },
+    { key = "%", mods = "LEADER|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    { key = '"', mods = "LEADER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
     { key = "o", mods = "LEADER", action = act.ActivatePaneDirection("Next") },
     { key = "q", mods = "LEADER", action = act.PaneSelect({ mode = "Activate", alphabet = "0123456789" }) },
     { key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
