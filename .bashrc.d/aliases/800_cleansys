@@ -21,16 +21,6 @@ cleansys() {
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m gradle\e[0m"
     cleansys_gradle
 
-    #echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m local tm snapshots\e[0m"
-    #tmutil deletelocalsnapshots /
-
-    #~/Library/Developer/Xcode/Archives
-    #~/Library/Developer/Xcode/iOS DeviceSupport
-    #~/Library/Developer/CoreSimulator
-    #~/Library/Caches/com.apple.dt.Xcode
-    #~/Library/Application Support/MobileSync/Backup
-    #~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads
-
     local took=$(($(date +%s) - $t))
     if [[ $took -gt 59 ]]; then
         local mins=$(($took / 60))
