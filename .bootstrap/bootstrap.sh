@@ -116,6 +116,30 @@ exit
 
 # --Tools ................................................................{{{1
 
+$ sudo apt
+    update
+
+$ sudo apt install -y
+    bc
+    jq
+    rr
+    valgrind
+    zsh
+
+    autoconf
+    bison
+    build-essential
+    gettext
+    libbz2-dev
+    libcurl4-openssl-dev
+    libffi-dev
+    liblzma-dev
+    libreadline-dev
+    libsqlite3-dev
+    libyaml-dev
+    locate
+    meson
+
 $ mise
     install -y
 
