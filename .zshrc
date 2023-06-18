@@ -98,7 +98,7 @@ plugins=(
 
     fzf-tab
     zsh-autosuggestions
-    fast-syntax-highlighting
+    #fast-syntax-highlighting
 )
 
 # Load oh-my-zsh.

@@ -1,2 +1,7 @@
-alias clip='pbcopy'
-alias paste='pbpaste'
+if [[ $(uname -r | grep -i -- -WSL) ]]; then
+    alias clip='win32yank.exe -i'
+    alias paste='win32yank.exe -o'
+else
+    alias clip='xclip -i'
+    alias paste='xclip -o'
+fi

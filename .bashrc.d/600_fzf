@@ -18,7 +18,7 @@ export FZF_ALT_C_OPTS="
 export FZF_CTRL_R_OPTS="
     --bind 'ctrl-o:toggle-preview'
     --preview 'echo {}' --preview-window down:3:hidden:wrap
-    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+    --bind 'ctrl-y:execute-silent(echo -n {2..} | $([[ $(uname -r | grep -i -- -WSL) ]] && echo 'win32yank.exe -i' || echo 'xclip -i'))+abort'
 "
 
 location=$(
