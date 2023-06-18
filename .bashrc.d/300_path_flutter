@@ -1,3 +1,1 @@
 export PATH=$PATH:$HOME/.pub-cache/bin
-
-export CHROME_EXECUTABLE=/Applications/Opera.app/Contents/MacOS/Opera
