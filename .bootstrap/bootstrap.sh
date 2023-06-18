@@ -686,8 +686,6 @@ $ cpanm
     #Perl::LanguageServer
 
 $ dart pub global activate
-    dart_language_server
-    devtools
     webdev
     #dart_ctags
 
