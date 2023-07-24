@@ -18,19 +18,15 @@
         :diagnostics {:enable true}
         :git {:ignore false}
         :select_prompts true
-        :remove_keymaps ["g?" "s"]
-        :view {:hide_root_folder true
-               :mappings {:list [{:key "<CR>"
-                                  :action "open file and close tree"
-                                  :action_cb #(do (api.node.open.no_window_picker)
-                                                  (api.tree.close))}
-                                 {:key "<ESC>"
-                                  :action "focus previous window"
-                                  :action_cb #(vim.cmd "wincmd p")}
-                                 {:key "o"    :action "edit_no_picker"}
-                                 {:key "O"    :action "edit"}
-                                 {:key "?"    :action "toggle_help"}
-                                 {:key "!"    :action "system_open"}]}}
+        :on_attach (fn []
+                     (bind!
+                      :desc "open file and close tree" "<CR>" n #(do (api.node.open.no_window_picker)
+                                                                     (api.tree.close))
+                      :desc "focus previous window" "<ESC>" n #(vim.cmd "wincmd p")
+                      "o" n #(api.node.open.no_window_picker)
+                      "O" n #(api.node.open.edit)
+                      "?" n #(api.tree.toggle_help)
+                      "!" n #(api.node.run.system)))
         :renderer {:group_empty true
                    :icons {:glyphs {:default  ""
                                     :symlink  ""
