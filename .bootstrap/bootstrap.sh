@@ -308,7 +308,8 @@ if [[ $(command -v nvim) ]]; then
     test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim && \
         git clone --depth 1 https://github.com/rktjmp/hotpot.nvim "$_" || \
         git -C "$_" pull --rebase
-    nvim --headless +TSUpdateSync +qa
+    nvim --headless -c 'TSUpdateSync' +qa
+    nvim --headless -c 'TSInstallSync all' +qa
     nvim --headless -c 'autocmd User PackerComplete qa' +PackerSync
 fi
 
