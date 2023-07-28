@@ -15,7 +15,9 @@
     "MouseHighlighter": false,
     "MouseJump": false,
     "MousePointerCrosshairs": false,
+    "MouseWithoutBorders": false,
     "PastePlain": false,
+    "Peek": false,
     "PowerRename": true,
     "PowerToys Run": true,
     "QuickAccent": false,
@@ -31,5 +33,5 @@
   "is_admin": false,
   "theme": "system",
   "system_theme": "light",
-  "powertoys_version": "v0.69.1"
+  "powertoys_version": "v0.71.0"
 }

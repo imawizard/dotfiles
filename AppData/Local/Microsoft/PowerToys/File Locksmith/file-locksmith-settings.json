@@ -1,3 +1,4 @@
 {
-  "Enabled": true
+  "Enabled": true,
+  "showInExtendedContextMenu": false
 }

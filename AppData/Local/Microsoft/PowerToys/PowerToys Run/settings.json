@@ -49,7 +49,31 @@
     "search_clicked_item_weight": 5,
     "search_query_tuning_enabled": true,
     "search_wait_for_slow_results": false,
-    "generate_thumbnails_from_files": true
+    "generate_thumbnails_from_files": true,
+    "DefaultOpenPowerLauncher": {
+      "win": false,
+      "ctrl": false,
+      "alt": true,
+      "shift": false,
+      "code": 32,
+      "key": ""
+    },
+    "DefaultOpenFileLocation": {
+      "win": false,
+      "ctrl": false,
+      "alt": false,
+      "shift": false,
+      "code": 0,
+      "key": ""
+    },
+    "DefaultCopyPathLocation": {
+      "win": false,
+      "ctrl": false,
+      "alt": false,
+      "shift": false,
+      "code": 0,
+      "key": ""
+    }
   },
   "plugins": [
     {
@@ -131,7 +155,20 @@
       "Author": "palenshus",
       "Disabled": false,
       "IsGlobal": true,
-      "ActionKeyword": "note ",
+      "ActionKeyword": "one ",
+      "WeightBoost": 0,
+      "IconPathDark": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\OneNote\\Images\\oneNote.dark.png",
+      "IconPathLight": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\OneNote\\Images\\oneNote.light.png",
+      "AdditionalOptions": []
+    },
+    {
+      "Id": "29DD65DB28C84A37BDEF1D2B43DA368B",
+      "Name": "PowerToys",
+      "Description": "Öffnen Sie PowerToys-Hilfsprogramme und -Einstellungen.",
+      "Author": "davidegiacometti",
+      "Disabled": false,
+      "IsGlobal": true,
+      "ActionKeyword": "@",
       "WeightBoost": 0,
       "IconPathDark": "OneNote\\Images\\oneNote.dark.png",
       "IconPathLight": "OneNote\\Images\\oneNote.light.png",

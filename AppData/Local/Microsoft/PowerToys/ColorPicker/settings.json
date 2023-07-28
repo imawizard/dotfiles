@@ -1,6 +1,14 @@
 {
   "name": "ColorPicker",
   "properties": {
+    "DefaultActivationShortcut": {
+      "win": true,
+      "ctrl": false,
+      "alt": false,
+      "shift": true,
+      "code": 67,
+      "key": ""
+    },
     "ActivationShortcut": {
       "win": false,
       "ctrl": false,
