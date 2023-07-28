@@ -241,11 +241,14 @@
     { "key": "shift+z", "command": "dance.openMenu", "args": { "menu": "view-hx",   "pass": [{ "shift": "jump" }], "locked": true }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     { "key": "shift+'",      "command": "dance.selectRegister",                     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "alt+shift+\\", "command": "dance.selections.pipe",                    "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "shift+1",      "command": "dance.selections.pipe.prepend",            "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "alt+shift+1",  "command": "dance.selections.pipe.append",             "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "shift+4",      "command": "dance.selections.filter",                  "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "ctrl+z",       "command": "workbench.action.terminal.toggleTerminal" },
+    { "key": "shift+\\", "command": "dance.run", "args": { "code": [
+        "let cmd = await prompt({ prompt: 'pipe:' })",
+        "await vscode.commands.executeCommand('dance.selections.pipe.replace', { expression: '#' + cmd});",
+    ] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     { "key": "ctrl+a", "command": "editor.emmet.action.incrementNumberByOne", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "ctrl+x", "command": "editor.emmet.action.decrementNumberByOne", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
