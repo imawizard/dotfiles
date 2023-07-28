@@ -14,12 +14,10 @@
     "alwaysShowTabs": false,
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "intenseTextStyle": "all",
     "language": "en-US",
     "launchMode": "maximizedFocus",
     "theme": "light",
     "windowingBehavior": "useNew",
-    "useAtlasEngine": true,
     "defaultProfile": "{3102335f-5824-46a8-b7aa-39725e064d29}",
     "profiles":
     {
@@ -32,7 +30,9 @@
                 "features": { "calt": 0, "clig": 0, "liga": 0 }
             },
             "bellStyle": "taskbar",
-            "cursorShape": "vintage"
+            "cursorShape": "vintage",
+            "intenseTextStyle": "all",
+            "useAtlasEngine": true
         },
         "list":
         [
