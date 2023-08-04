@@ -1,7 +1,4 @@
 {
-    // Error is located at bottom of hover:
-    // See https://github.com/microsoft/vscode/issues/73120
-
     // Unsupported: virtualedit+=all
     // See https://github.com/microsoft/vscode/issues/13960
 
@@ -17,28 +14,57 @@
     // Syntax scheme
     "editor.tokenColorCustomizations": {
         "textMateRules": [
+            { "scope": ["storage.type"],              "settings": { "foreground": "#002fa6" } },
+            { "scope": ["storage.modifier"],          "settings": { "foreground": "#181818" } },
+            { "scope": ["string"],                    "settings": { "foreground": "#067d17" } },
+            { "scope": ["string.other"],              "settings": { "foreground": "#181818", "fontStyle": "bold" } },
+            { "scope": ["comment"],                   "settings": { "foreground": "#8c8c8c", "fontStyle": "italic" } },
+            { "scope": ["constant"],                  "settings": { "foreground": "#871094" } },
+            { "scope": ["constant.numeric"],          "settings": { "foreground": "#1750eb" } },
+            { "scope": ["constant.character"],        "settings": { "foreground": "#067d17" } },
+            { "scope": ["constant.character.escape"], "settings": { "foreground": "#0037a6" } },
+            { "scope": ["entity.name.function"],      "settings": { "fontStyle": "" } },
             {
                 "scope": [
                     "keyword",
                     "keyword.control",
-                    "keyword.operator",
                     "keyword.operator.new",
-                    "keyword.operator.assignment",
-                    "keyword.operator.arithmetic",
-                    "keyword.operator.logical",
                     "keyword.other",
+                    "punctuation.semi",
                 ],
-                "settings": { "fontStyle": "bold" }
+                "settings": { "foreground": "#282828", "fontStyle": "bold" },
             },
             {
                 "scope": [
-                    "entity.name.function",
+                    "keyword.operator",
+                    "keyword.operator.assignment",
+                    "keyword.operator.arithmetic",
+                    "keyword.operator.logical",
                 ],
-                "settings": { "fontStyle": "" }
+                "settings": { "fontStyle": "" },
             },
         ],
     },
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            "boolean":                   { "bold": false },
+            "method":                    { "underline": false },
+            "*.declaration":             { "underline": true },
+            "property.declaration":      { "underline": false },
+            "typeParameter.declaration": { "underline": false },
+            "variable":                  { "underline": false },
+            "parameter":                 { "underline": false },
+            "builtinType":               { "foreground": "#002fa6" },
+            "operator":                  { "underline": false },
+            "enumMember":                { "foreground": "#871094", "underline": false },
+            "macro":                     { "foreground": "#dd6718" },
+            "attribute":                 { "foreground": "#9e880d" },
+            "selfKeyword":               { "bold": false, "underline": false },
+            "selfTypeKeyword":           { "bold": false },
+        },
+    },
     "editor.accessibilitySupport": "off",
+    "editor.bracketPairColorization.enabled": false,
 
     // File Explorer
     "explorer.compactFolders": true, // Collapse empty folders like for Java pkgs
@@ -52,7 +78,7 @@
     "files.simpleDialog.enable": true,
     "workbench.editor.enablePreview": false,
     "editor.scrollbar.horizontal": "hidden",
-    "editor.scrollbar.vertical": "hidden",
+    "editor.scrollbar.vertical": "visible",
     "editor.hideCursorInOverviewRuler": false,
 
     // Editor
@@ -603,6 +629,7 @@
     },
 
     // Rust
+    "rust-analyzer.check.command": "clippy",
     "rust-analyzer.inlayHints.renderColons": true,
     "rust-analyzer.inlayHints.bindingModeHints.enable": false,
     "rust-analyzer.inlayHints.chainingHints.enable": false,
@@ -616,6 +643,9 @@
     "rust-analyzer.inlayHints.typeHints.enable": true,
     "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": false,
     "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+    "[rust]": {
+        "editor.formatOnSave": true,
+    },
 
     // Perl
     "[perl]": {
@@ -647,5 +677,10 @@
     // Sass
     "[scss]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+
+    // Terraform
+    "[terraform]": {
+        "editor.formatOnSave": true,
     },
 }
