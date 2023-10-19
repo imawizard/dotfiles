@@ -21,22 +21,34 @@ enables-layout-hud-on-space-change: false
 restore-layouts-on-launch: true
 window-resize-step: 4
 layouts:
-  - tall
-  - wide
-  - fullscreen
-  - floating
+- tall
+- wide
+- fullscreen
+- floating
+- tall-right
+- two-pane
+- middle-wide
+- 3column-left
+- 3column-right
+- 4column-left
+- 4column-right
+- column
+- row
+- widescreen-tall
+- widescreen-tall-right
+- bsp
 
 # Shortcuts
 mod1:
-  - control
-  - command
-  - option
+- control
+- command
+- option
 
 mod2:
-  - control
-  - command
-  - option
-  - shift
+- control
+- command
+- option
+- shift
 
 focus-cw:
   mod: mod1
@@ -103,10 +115,10 @@ shrink-main:
 
 increase-main:
   mod: mod1
-  key: "w" # qwerty's comma
+  key: w # qwerty's comma
 decrease-main:
   mod: mod1
-  key: "v" # qwerty's period
+  key: v # qwerty's period
 
 select-floating-layout:
   mod: mod1
@@ -120,6 +132,12 @@ select-tall-layout:
 select-fullscreen-layout:
   mod: mod1
   key: "4"
+select-threecolumn-layout:
+  mod: mod1
+  key: "5"
+select-twopane-layout:
+  mod: mod1
+  key: "6"
 
 cycle-layout:
   mod: ""
@@ -165,7 +183,10 @@ mouse-swaps-windows: false
 float-small-windows: true
 floating-is-blacklist: true
 floating:
-  - com.apple.iBooksX
+- com.apple.iBooksX
+- com.apple.systempreferences
+- org.pqrs.Karabiner-EventViewer
+- org.pqrs.Karabiner-Elements.Settings
 
 # Debug
 debug-layout-info: false
