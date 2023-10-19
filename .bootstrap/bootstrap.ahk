@@ -110,6 +110,7 @@ for pkg in [
     "uutils-coreutils",
     "wezterm",
     "which",
+    "win32yank",
     "windows-terminal",
     "zoxide",
 
@@ -175,10 +176,13 @@ for pkg in [
 
     ; DevOps
     ;"aws",
+    ;"k9s",
     ;"kind",
+    ;"kubectl",
     ;"lazydocker",
     ;"minikube",
     ;"rancher-desktop",
+    ;"stern",
     ;"terraform",
 
     ; Reversing
@@ -193,7 +197,6 @@ for pkg in [
     ; Multimedia
     ;"anki",
     ;"audacity",
-    ;"draw.io",
     ;"freac",
     ;"miktex",
     ;"paint.net",
@@ -201,8 +204,12 @@ for pkg in [
     ;"vlc",
     ;"yed",
     ;"youtube-dl-gui",
+    "draw.io",
+    "ffmpeg",
     "FiraCode-NF",
     "FiraCode-NF-Mono",
+    "gifski",
+    "screentogif",
 
     ; Gaming
     ;"cemu",
