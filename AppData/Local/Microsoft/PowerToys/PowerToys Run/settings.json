@@ -1,4 +1,6 @@
 {
+  "name": "PowerToys Run",
+  "version": "1.0",
   "properties": {
     "search_result_preference": "most_recently_used",
     "search_type_preference": "application_name",
@@ -41,7 +43,7 @@
     "clear_input_on_launch": false,
     "tab_selects_context_buttons": true,
     "theme": 0,
-    "startupPosition": 2,
+    "startupPosition": 0,
     "use_centralized_keyboard_hook": true,
     "search_query_results_with_delay": true,
     "search_input_delay": 150,
@@ -49,6 +51,7 @@
     "search_clicked_item_weight": 5,
     "search_query_tuning_enabled": true,
     "search_wait_for_slow_results": false,
+    "use_pinyin": false,
     "generate_thumbnails_from_files": true,
     "DefaultOpenPowerLauncher": {
       "win": false,
@@ -89,16 +92,22 @@
       "IconPathLight": "Calculator\\Images\\calculator.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "InputUseEnglishFormat",
           "DisplayLabel": "Verwenden des englischen Zahlenformats (USA) für die Eingabe",
           "DisplayDescription": "Ignoriert Ihre Systemeinstellung und erwartet Zahlen im Format '1,000.55'.",
-          "Value": false
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "OutputUseEnglishFormat",
           "DisplayLabel": "Verwenden des englischen Zahlenformats (USA) für die Ausgabe",
           "DisplayDescription": "Ignoriert Ihre Systemeinstellung und gibt Zahlen im Format ‚1000.55‘ zurück.",
-          "Value": false
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -141,10 +150,12 @@
       "IconPathLight": "Indexer\\Images\\indexer.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "DisableDriveDetectionWarning",
           "DisplayLabel": "Warnung vor nicht indizierten Dateien deaktivieren",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -157,8 +168,8 @@
       "IsGlobal": true,
       "ActionKeyword": "one ",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\OneNote\\Images\\oneNote.dark.png",
-      "IconPathLight": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\OneNote\\Images\\oneNote.light.png",
+      "IconPathDark": "OneNote\\Images\\oneNote.dark.png",
+      "IconPathLight": "OneNote\\Images\\oneNote.light.png",
       "AdditionalOptions": []
     },
     {
@@ -224,7 +235,30 @@
       "WeightBoost": 0,
       "IconPathDark": "Shell\\Images\\shell.dark.png",
       "IconPathLight": "Shell\\Images\\shell.light.png",
-      "AdditionalOptions": []
+      "AdditionalOptions": [
+        {
+          "PluginOptionType": 0,
+          "Key": "LeaveShellOpen",
+          "DisplayLabel": "Shell geöffnet lassen",
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
+        },
+        {
+          "PluginOptionType": 1,
+          "Key": "ShellCommandExecution",
+          "DisplayLabel": "Ausführen von Shell-Befehlen",
+          "Value": false,
+          "ComboBoxValue": 2,
+          "ComboBoxOptions": [
+            "Befehl in Eingabeaufforderung ausführen (cmd.exe)",
+            "Befehl in PowerShell ausführen (PowerShell.exe)",
+            "Ausführbare Datei suchen und ausführen",
+            "Befehl in Windows-Terminal ausführen (wt.exe)"
+          ],
+          "NumberValue": 0
+        }
+      ]
     },
     {
       "Id": "CEA08895D2544B019B2E9C5009600DF4",
@@ -239,34 +273,45 @@
       "IconPathLight": "System\\Images\\lock.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "ConfirmSystemCommands",
           "DisplayLabel": "Dialogfeld zum Bestätigen von Systembefehlen anzeigen",
-          "DisplayDescription": null,
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "ShowSuccessOnEmptyRB",
           "DisplayLabel": "Nach dem Leeren des Papierkorb eine Erfolgsmeldung anzeigen",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "LocalizeSystemCommands",
           "DisplayLabel": "Lokalisierte Systembefehle anstelle von englischen Befehlen verwenden",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "SeparateResultEmptyRB",
           "DisplayLabel": "Separates Ergebnis für den Befehl \"Papierkorb leeren\" anzeigen",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "ReduceNetworkResultScore",
           "DisplayLabel": "Reduzieren Sie die Priorität von „IP“- und „MAC“-Ergebnissen, um die Reihenfolge in den globalen Ergebnissen zu verbessern",
           "DisplayDescription": "Wenn diese Einstellung aktiviert ist, müssen Sie mehr Zeichen eingeben, um die Ergebnisse zu finden.",
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -283,28 +328,39 @@
       "IconPathLight": "TimeDate\\Images\\timeDate.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "OnlyDateTimeNowGlobal",
           "DisplayLabel": "Nur das Ergebnis „Uhrzeit“, „Datum“ und „Jetzt“ für die Systemzeit globaler Abfragen anzeigen",
           "DisplayDescription": "Unabhängig von dieser Einstellung muss für globale Abfragen das erste Wort der Abfrage eine vollständige Übereinstimmung sein.",
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "TimeWithSeconds",
           "DisplayLabel": "Zeit mit Sekunden anzeigen",
           "DisplayDescription": "Diese Einstellung gilt für das Ergebnis „Zeit“ und „Jetzt“.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "DateWithWeekday",
           "DisplayLabel": "Datum mit Wochentag und Name des Monats anzeigen",
           "DisplayDescription": "Diese Einstellung gilt für das Ergebnis „Datum“ und „Jetzt“.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "HideNumberMessageOnGlobalQuery",
           "DisplayLabel": "Fehlermeldung „Ungültige Zahleneingabe“ in globalen Abfragen ausblenden",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -330,8 +386,21 @@
       "IsGlobal": false,
       "ActionKeyword": "//",
       "WeightBoost": 0,
-      "IconPathDark": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\Uri\\Images\\uri.dark.png",
-      "IconPathLight": "C:\\Develop\\scoop\\apps\\powertoys\\current\\modules\\launcher\\Plugins\\Uri\\Images\\uri.light.png",
+      "IconPathDark": "Uri\\Images\\uri.dark.png",
+      "IconPathLight": "Uri\\Images\\uri.light.png",
+      "AdditionalOptions": []
+    },
+    {
+      "Id": "a26b1bb4dbd911edafa10242ac120002",
+      "Name": "Wertgenerator",
+      "Description": "Ein Plug-In zum Berechnen von Hashes und Generieren von Werten.",
+      "Author": "IHorvalds",
+      "Disabled": false,
+      "IsGlobal": false,
+      "ActionKeyword": "hash ",
+      "WeightBoost": 0,
+      "IconPathDark": "ValueGenerator\\Images\\ValueGenerator.dark.png",
+      "IconPathLight": "ValueGenerator\\Images\\ValueGenerator.light.png",
       "AdditionalOptions": []
     },
     {
@@ -360,10 +429,12 @@
       "IconPathLight": "WebSearch\\Images\\WebSearch.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "NotGlobalIfUri",
           "DisplayLabel": "Nicht in globale Ergebnisse für Abfragen einschließen, die URIs sind",
-          "DisplayDescription": null,
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -386,29 +457,36 @@
       "Description": "Öffnet Windows-Terminal Profile.",
       "Author": "davidegiacometti",
       "Disabled": false,
-      "IsGlobal": true,
+      "IsGlobal": false,
       "ActionKeyword": "term ",
       "WeightBoost": 0,
       "IconPathDark": "WindowsTerminal\\Images\\WindowsTerminal.dark.png",
       "IconPathLight": "WindowsTerminal\\Images\\WindowsTerminal.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "OpenNewTab",
           "DisplayLabel": "Öffnen von Profilen in einer neuen Registerkarte",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "OpenQuake",
           "DisplayLabel": "Öffnen von Profilen im Quake-Fenster",
           "DisplayDescription": "Windows-Terminal unterstützt ein \"Quake\"-Feature, bei dem über einen globalen Hotkey auf ein Terminalfenster zugegriffen werden kann. Aktivieren Sie diese Option, um Profile auf einer neuen Registerkarte in diesem Fenster zu öffnen.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "ShowHiddenProfiles",
           "DisplayLabel": "Ausgeblendete Profile anzeigen",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     },
@@ -418,63 +496,81 @@
       "Description": "Wechselt zwischen geöffneten Fenstern.",
       "Author": "betadele",
       "Disabled": false,
-      "IsGlobal": true,
+      "IsGlobal": false,
       "ActionKeyword": "win ",
       "WeightBoost": 0,
       "IconPathDark": "WindowWalker\\Images\\windowwalker.dark.png",
       "IconPathLight": "WindowWalker\\Images\\windowwalker.light.png",
       "AdditionalOptions": [
         {
+          "PluginOptionType": 0,
           "Key": "ResultsFromVisibleDesktopOnly",
           "DisplayLabel": "Nur Ergebnisse vom sichtbaren Desktop anzeigen",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "SubtitleShowPid",
           "DisplayLabel": "Prozess-ID im Untertitel anzeigen",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "SubtitleShowDesktopName",
           "DisplayLabel": "Desktopnamen im Untertitel anzeigen",
           "DisplayDescription": "Diese Informationen werden nur in Untertiteln und QuickInfos angezeigt, wenn Sie mindestens zwei Desktops haben.",
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "ConfirmKillProcess",
           "DisplayLabel": "Bestätigung beim Beenden eines Prozesses anfordern",
-          "DisplayDescription": null,
-          "Value": true
+          "Value": true,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "KillProcessTree",
           "DisplayLabel": "Prozess und die untergeordneten Prozesse beenden",
           "DisplayDescription": "Seien Sie vorsichtig, wenn Sie dies aktivieren. Das Beenden der gesamten Prozessstruktur kann zu problematischen Anwendungsabstürzen führen.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "OpenAfterKillAndClose",
           "DisplayLabel": "Nach dem Schließen von Fenstern und Beenden von Prozessen geöffnet bleiben",
           "DisplayDescription": "Dieses Feature funktioniert nicht, wenn die Bestätigung beim Beenden von Prozessen aktiviert ist.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "HideKillProcessOnElevatedProcesses",
           "DisplayLabel": "Schaltfläche „Prozess abbrechen“ ausblenden, wenn zusätzliche Berechtigungen erforderlich sind",
-          "DisplayDescription": null,
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         },
         {
+          "PluginOptionType": 0,
           "Key": "HideExplorerSettingInfo",
           "DisplayLabel": "Explorer-Prozessinformationen ausblenden",
           "DisplayDescription": "Diese Meldung wird nur angezeigt, wenn mit einem Befehl zur direkten Aktivierung gesucht wird.",
-          "Value": false
+          "Value": false,
+          "ComboBoxValue": 0,
+          "NumberValue": 0
         }
       ]
     }
-  ],
-  "name": "PowerToys Run",
-  "version": "1.0"
+  ]
 }
