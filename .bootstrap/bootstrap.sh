@@ -527,11 +527,11 @@ tap "universal-ctags/universal-ctags"
     #cask "virtualbox-extension-pack"
 
 # Window Tools
-    cask "alt-tab"
     cask "amethyst"                  # or yabai
     cask "hammerspoon"
     cask "hazeover"
     cask "spaceid"
+    #cask "alt-tab"
     #cask "fluid"
     #cask "spectacle"                # or rectangle
     #cask "ubersicht"                # desktop widgets
@@ -599,7 +599,7 @@ tap "universal-ctags/universal-ctags"
 
 # Multimedia
     cask "drawio"
-    cask "iina"                     # or vlc
+    cask "iina"                      # or vlc
     cask "kap"
     cask "sf-symbols"
     #cask "caption"
