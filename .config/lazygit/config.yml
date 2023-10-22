@@ -1,26 +1,22 @@
 gui:
   language: en
   showBottomLine: true
-  showIcons: true
+  showBranchCommitHash: true
+  nerdFontsVersion: "3"
   skipRewordInEditorWarning: true
   skipStashWarning: true
   border: rounded
   scrollHeight: 3
   theme:
     selectedLineBgColor:
-      - "#b6e2ff"
+    - "#b6e2ff"
 
 git:
-  commit:
-    verbose: always
   paging:
     colorArg: always
     pager: delta --light --paging=never
 
 os:
-  edit: "hx {{filename}}"
-  editAtLine: "hx {{filename}}"
-  editAtLineAndWait: "hx {{filename}}"
-  editInTerminal: true
+  editPreset: helix
 
 promptToReturnFromSubprocess: false
