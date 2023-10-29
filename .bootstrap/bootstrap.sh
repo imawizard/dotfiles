@@ -704,6 +704,7 @@ $ gem install
 $ go install
     github.com/antonmedv/fx@latest
     github.com/charmbracelet/glow@latest
+    github.com/derailed/k9s@latest
     github.com/go-delve/delve/cmd/dlv@latest
     github.com/golangci/golangci-lint/cmd/golangci-lint@latest
     github.com/hashicorp/terraform-ls@latest
@@ -713,6 +714,7 @@ $ go install
     github.com/mattn/efm-langserver@latest
     github.com/mgechev/revive@latest
     github.com/rclone/rclone@latest
+    github.com/stern/stern@latest
     github.com/terraform-docs/terraform-docs@latest
     github.com/terraform-linters/tflint@latest
     golang.org/x/tools/gopls@latest
