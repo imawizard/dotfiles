@@ -1,6 +1,21 @@
 [language-server.rust-analyzer.config]
 check.command = "clippy"
 
+[language-server.gopls.config]
+gofumpt = true
+staticcheck = true
+experimentalPostfixCompletions = true
+usePlaceholders = false
+
+[language-server.zls.config]
+enable_argument_placeholders = false
+inlay_hints_show_parameter_name = false
+completions_with_replace = false
+
+[[language]]
+name = "json"
+auto-format = false
+
 [[language]]
 name = "hjson"
 scope = "source.hjson"

@@ -2,19 +2,29 @@ theme = "bold-intellij-light"
 
 [editor]
 true-color = true
+undercurl = true
 cursorline = false
 auto-save = true
 rulers = [80]
 color-modes = true
+preview-completion-insert = true
+completion-replace = false
+default-line-ending = "lf"
+insert-final-newline = true
+
+[editor.smart-tab]
+supersede-menu = true
 
 [editor.lsp]
 display-inlay-hints = true
+goto-reference-include-declaration = false
 
 [editor.statusline]
 left = [
   "mode",
   "spinner",
   "file-name",
+  "read-only-indicator",
   "file-modification-indicator",
   "spacer",
   "version-control",
@@ -27,6 +37,7 @@ left = [
 ]
 center = []
 right = [
+  "register",
   "position",
   "position-percentage",
   "spacer",
