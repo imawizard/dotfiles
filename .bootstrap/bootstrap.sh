@@ -267,6 +267,11 @@ cargo install --locked --git https://github.com/jdxcode/rtx rtx-cli
 command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
 rtx install
 
+# Install zsh plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+
 # Install various tools and packages
 cmd="echo"; can=true
 perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
@@ -368,8 +373,6 @@ tap "universal-ctags/universal-ctags"
     brew "tree"
     brew "watch"
     brew "wget"
-    brew "zsh-autosuggestions"
-    brew "zsh-syntax-highlighting"
     #brew "bash"                     # newer version
     #brew "curl"                     # newer version
     #brew "diffutils"                # newer version
@@ -385,7 +388,9 @@ tap "universal-ctags/universal-ctags"
     #brew "vim"                      # newer version
     #brew "zoxide"
     #brew "zsh"                      # newer version
+    #brew "zsh-autosuggestions"
     #brew "zsh-completions"
+    #brew "zsh-syntax-highlighting"
 
 # Libraries
     brew "bison"
