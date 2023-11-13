@@ -1,0 +1,8 @@
+case $CURRENT_SHELL in
+bash)
+    command -v carapace >/dev/null && . <($_ _carapace bash)
+    ;;
+zsh)
+    command -v carapace >/dev/null && . <($_ _carapace zsh)
+    ;;
+esac

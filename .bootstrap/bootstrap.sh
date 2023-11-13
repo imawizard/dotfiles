@@ -272,6 +272,14 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 
+# Install carapace
+if [[ $(command -v carapace) ]]; then
+    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_darwin_amd64.tar.gz -O ~/dl.tar.gz && \
+        tar -xzf "$_" && \
+        rm -f "$_" && \
+        mv carapace ~/.go/bin/
+fi
+
 # Install various tools and packages
 cmd="echo"; can=true
 perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
@@ -724,6 +732,7 @@ $ go install
     github.com/terraform-linters/tflint@latest
     golang.org/x/tools/gopls@latest
     mvdan.cc/sh/v3/cmd/shfmt@latest
+    #github.com/rsteube/carapace-bin # doesn't work because of replace-directive
     #github.com/technosophos/dashing@latest
 
 $ luarocks --local install
