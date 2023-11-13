@@ -6,9 +6,15 @@ export RTX_ASDF_COMPAT=1
 
 case $CURRENT_SHELL in
 bash)
-    command -v rtx >/dev/null && . <("$_" activate bash)
+    if command -v rtx >/dev/null; then
+        . <(rtx activate bash)
+        . <(rtx completion bash)
+    fi
     ;;
 zsh)
-    command -v rtx >/dev/null && . <("$_" activate zsh)
+    if command -v rtx >/dev/null; then
+        . <(rtx activate zsh)
+        . <(rtx completion zsh)
+    fi
     ;;
 esac
