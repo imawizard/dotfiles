@@ -1,5 +1,21 @@
+export FZF_DEFAULT_OPTS="
+    --info=inline-right
+    --layout=reverse
+    --color 'hl+:bold:-1,hl:bold:-1,gutter:-1,pointer:bright-green,bg+:black'
+"
+
+export FZF_ALT_C_OPTS="
+    --preview 'tree -C {}'
+"
+
+export FZF_CTRL_R_OPTS="
+    --bind 'ctrl-o:toggle-preview'
+    --preview 'echo {}' --preview-window up:3:hidden:wrap
+    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+"
+
 location=$(
-    { command -v rtx >/dev/null && "$_" where fzf 2>/dev/null && echo "/shell" \
+    { command -v rtx >/dev/null && $_ where fzf 2>/dev/null && echo "/shell" \
     || { test -d /usr/share/doc/fzf/examples && echo "$_"; } } \
     | tr -d '\n'
 )
