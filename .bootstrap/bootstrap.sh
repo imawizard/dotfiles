@@ -268,10 +268,16 @@ command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
 rtx install
 
 # Install zsh plugins
-git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+for repo in \
+    github.com/Aloxaf/fzf-tab \
+    github.com/zdharma-continuum/fast-syntax-highlighting \
+    github.com/zsh-users/zsh-autosuggestions \
+    github.com/zsh-users/zsh-syntax-highlighting \
+; do
+    test ! -e ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/${repo##*/} && \
+        git clone --depth 1 https://$repo "$_" || \
+        git -C "$_" pull --rebase
+done
 
 # Install carapace
 if [[ $(command -v carapace) ]]; then
@@ -321,7 +327,8 @@ fi
 # Install tpm and tmux plugins.
 if [[ $(command -v tmux) ]]; then
     test ! -e ~/.tmux/plugins/tpm && \
-        git clone --depth 1 https://github.com/tmux-plugins/tpm "$_"
+        git clone --depth 1 https://github.com/tmux-plugins/tpm "$_" || \
+        git -C "$_" pull --rebase
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
 fi
 
