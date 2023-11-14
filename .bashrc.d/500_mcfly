@@ -1,0 +1,13 @@
+export MCFLY_LIGHT=TRUE
+export MCFLY_FUZZY=2
+export MCFLY_RESULTS=15
+export MCFLY_DELETE_WITHOUT_CONFIRM=true
+
+case $CURRENT_SHELL in
+bash)
+    command -v mcfly >/dev/null && . <($_ init bash)
+    ;;
+zsh)
+    command -v mcfly >/dev/null && . <($_ init zsh)
+    ;;
+esac

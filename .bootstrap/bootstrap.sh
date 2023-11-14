@@ -671,6 +671,7 @@ $ cargo install --locked
     wasm-pack
     zoxide
     --git https://github.com/helix-editor/helix helix-term
+    --git https://github.com/cantino/mcfly
     --git https://github.com/Shopify/shadowenv
     #cargo-audit
     #cargo-c
