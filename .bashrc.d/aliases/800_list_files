@@ -1,2 +1,6 @@
-alias ll='exa -l'
-alias la='exa -la'
+alias ll='exa --long --group-directories-first'
+alias la='exa --long --group-directories-first --all'
+
+alias tree='exa --tree --all --ignore-glob .git'
+
+alias cloc='tokei'

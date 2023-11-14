@@ -294,15 +294,6 @@ perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
     fi
 done
 
-# Install carp.
-if [[ ! -e ~/.carp ]]; then
-    echo "Installing carp..."
-    wget https://github.com/carp-lang/Carp/releases/download/v0.5.5/carp-v0.5.5-x86_64-macos.zip -O ~/dl.zip && \
-        unzip -d ~ "$_" >/dev/null && \
-        rm -f "$_" && \
-        mv ~/carp-v* ~/.carp
-fi
-
 # Install plug.vim and vim plugins.
 if [[ $(command -v vim) ]]; then
     test ! -e ~/.vim/swap && mkdir "$_"
@@ -375,16 +366,15 @@ tap "koekeishiya/formulae"
 tap "universal-ctags/universal-ctags"
 
 # Core
-    brew "cowsay"
-    brew "fortune"
     brew "telnet"
     brew "tmux"
-    brew "tree"
     brew "watch"
     brew "wget"
     #brew "bash"                     # newer version
+    #brew "cowsay"
     #brew "curl"                     # newer version
     #brew "diffutils"                # newer version
+    #brew "fortune"
     #brew "gdb"                      # gdb needs to be signed
     #brew "neovim"
     #brew "ripgrep"                  # or the_silver_searcher or ack
@@ -393,6 +383,7 @@ tap "universal-ctags/universal-ctags"
     #brew "ssh-copy-id"              # newer version
     #brew "starship"
     #brew "stow"
+    #brew "tree"
     #brew "valgrind"                 # only compatible with macOS<10.13
     #brew "vim"                      # newer version
     #brew "zoxide"

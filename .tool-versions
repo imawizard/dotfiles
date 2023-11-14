@@ -1,22 +1,35 @@
-awscli          2.11.18
-azure-cli       2.48.1
-clojure         1.11.1.1273
-flutter         3.7.12-stable
-fzf             0.40.0
-git             2.40.1
-golang          1.20.4
-graalvm         22.3.2-java11
-janet           1.28.0
-kubectl         1.28.2
-leiningen       2.9.9
-lua             5.1.5
-minikube        1.31.2
-neovim          0.9.0
-node            20.1.0
-perl            5.36.1
-php             8.2.6
-powershell-core 7.3.4
-python          3.11.3
-ruby            truffleruby-22.3.1
-scala           3.2.2
+fzf             0.44.0
+git             2.42.1
+neovim          0.9.4
+perl            5.38.0
+python          3.11.6
+
+golang          1.21.4
 shellcheck      0.9.0
+zig             master
+
+#awscli          2.13.35
+#azure-cli       2.54.0
+
+#kubectl         1.28.3
+#minikube        1.32.0
+
+#bun             1.0.11
+#deno            1.38.1
+#node            21.1.0
+
+#lua             5.1.5
+#php             8.2.12
+#ruby            3.2.2
+
+#powershell-core 7.3.9
+#flutter         3.13.9-stable
+
+#carp            0.5.5
+#janet           1.32.1
+
+#clojure         1.11.1.1413
+#graalvm         22.3.3-java11
+#leiningen       2.9.9
+#ruby            truffleruby-23.1.1
+#scala           3.3.1
