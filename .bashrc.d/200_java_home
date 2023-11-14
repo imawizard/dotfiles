@@ -1,4 +1,4 @@
 test -d "$(command -v rtx  >/dev/null \
-    && "$_" where graalvm 2>/dev/null \
-    || "$_" where java    2>/dev/null \
+    && rtx where graalvm  2>/dev/null \
+    || rtx where java     2>/dev/null \
 )" && eval "export JAVA_HOME=\"$_\""

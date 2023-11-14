@@ -1,8 +1,8 @@
 case $CURRENT_SHELL in
 bash)
-    command -v shadowenv >/dev/null && . <("$_" init bash)
+    command -v shadowenv >/dev/null && . <($_ init bash)
     ;;
 zsh)
-    command -v shadowenv >/dev/null && . <("$_" init zsh)
+    command -v shadowenv >/dev/null && . <($_ init zsh)
     ;;
 esac
