@@ -49,6 +49,7 @@ git reset --mixed && git checkout ..
 ### Dotfiles
 
 - [archseer / Blaž Hrastnik](https://github.com/archseer/dotfiles)
+- [BurntSushi / Andrew Gallant](https://github.com/BurntSushi/dotfiles)
 - [Casey Rodarmor](https://github.com/casey/dotfiles)
 - [disrupted / Salomon Popp](https://github.com/disrupted/dotfiles)
 - [endocrimes / Danielle](https://github.com/endocrimes/dotfiles)
@@ -61,6 +62,7 @@ git reset --mixed && git checkout ..
 - [Lukas Reineke](https://github.com/lukas-reineke/dotfiles)
 - [Prabir Shrestha](https://github.com/prabirshrestha/dotfiles)
 - [simnalamburt / Hyeon Kim](https://github.com/simnalamburt/.dotfiles)
+- [Taupiqueur / Mathieu Ablasou](https://github.com/alexherbo2/dotfiles)
 - [thoughtbot, inc.](https://github.com/thoughtbot/dotfiles)
 - [Tim Untersberger](https://github.com/TimUntersberger/dotfiles)
 - [VonHeikemen / Heiker](https://github.com/VonHeikemen/dotfiles)
