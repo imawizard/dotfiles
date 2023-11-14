@@ -1,3 +1,5 @@
+command -v brew >/dev/null && . <($_ shellenv)
+
 export HOMEBREW_AUTOREMOVE=1
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=90
 export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=14
