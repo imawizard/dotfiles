@@ -96,6 +96,7 @@ plugins=(
                         # github
                         # wiki...
 
+    fzf-tab
     zsh-autosuggestions
     fast-syntax-highlighting
 )
@@ -105,3 +106,45 @@ test -r $ZSH/oh-my-zsh.sh && . "$_"
 
 # Load bash profile.
 test -r ~/.bash_profile && . "$_"
+
+# Configure completions.
+# See https://zsh.sourceforge.io/Doc/Release/Completion-System.html
+
+zstyle ':completion:*' list-prompt ''       # display all possibilities
+zstyle ':completion:*' insert-tab false     # always complete
+zstyle ':completion:*' squeeze-slashes true # dont treat // as /*/
+
+# enable groups
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%B%d%b'
+
+# for man completion
+zstyle ':completion:*' insert-sections yes
+zstyle ':completion:*' separate-sections yes
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+
+# disable sort when completing options of any command
+zstyle ':completion:complete:*:options' sort false
+
+# Configure fzf-tab
+
+# change group-name format from above
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# hide prefix-char
+zstyle ':fzf-tab:*' prefix ' '
+
+# set fzf colors
+zstyle ':fzf-tab:*' default-color $'\e[30m'
+zstyle ':fzf-tab:*' fzf-flags --color='hl+:bold:-1,hl:bold:-1,gutter:-1,pointer:bright-green,bg+:#dddddd'
+
+# set fzf bindings
+zstyle ':fzf-tab:*' fzf-bindings 'ctrl-o:toggle-preview'
+
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
