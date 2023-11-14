@@ -63,6 +63,7 @@ loop reg "HKLM\SYSTEM\CurrentControlSet\Enum\HID", "KVR" {
  try RegWrite(0,   "REG_DWORD", "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer",                   "ShowFrequent")                  ; Don't show often used folders in quickbar
  try RegWrite(1,   "REG_DWORD", "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers",  "DisableAutoplay")               ; Disable autoplay
  try RegWrite(255, "REG_DWORD", "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer",          "NoDriveTypeAutoRun")            ; ^
+ try RegWrite(1,   "REG_DWORD", "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer",          "ConfirmFileDelete")             ; Don't show confirmation when deleting files.
  try RegWrite(1,   "REG_DWORD", "HKLM\Software\Policies\Microsoft\Windows\Explorer",                         "NoUseStoreOpenWith")            ; Disable searching in store for unknown file extensions
  try RegWrite(1,   "REG_DWORD", "HKLM\Software\Policies\Microsoft\Windows\Explorer",                         "NoNewAppAlert")                 ; Disable alert for unknown file extensions
  try RegWrite(2,   "REG_DWORD", "HKCU\Control Panel\Desktop",                                                "MouseWheelRouting")             ; Scroll hovered window instead of active one.
