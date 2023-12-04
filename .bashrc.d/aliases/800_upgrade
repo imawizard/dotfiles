@@ -4,6 +4,8 @@ upgrade() {
 
     echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
     upgrade_brew
+    echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
+    upgrade_rtx
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m oh-my-zsh\e[0m"
     upgrade_oh_my_zsh
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m tmux plugins\e[0m"
@@ -33,6 +35,8 @@ upgrade() {
 
 # Update brew and software.
 upgrade_brew() {
+    [[ $(command -v brew) ]] || return 1
+
     brew update
 
     # Possibly filter progs not to update.
@@ -40,6 +44,13 @@ upgrade_brew() {
     brew outdated --cask | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade --cask
 
     brew cleanup -s
+}
+
+# Update rtx and asdf-plugins.
+upgrade_rtx() {
+    [[ $(command -v rtx) ]] || return 1
+
+    rtx self-update
 }
 
 # Update oh my zsh.
@@ -67,6 +78,7 @@ upgrade_vim() {
 upgrade_nvim() {
     [[ $(command -v nvim) ]] || return 1
 
+    nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'autocmd User PackerComplete qa' +PackerSync
 }
 

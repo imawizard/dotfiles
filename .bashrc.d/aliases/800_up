@@ -26,3 +26,8 @@ down() {
         echo "Already able to sleep."
     fi
 }
+
+
+# Disable sleep when closing the lid.
+alias up_lid='sudo pmset -a disablesleep 1'
+alias down_lid='sudo pmset -a disablesleep 0'

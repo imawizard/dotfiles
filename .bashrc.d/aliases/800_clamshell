@@ -1,3 +1,0 @@
-# Disable sleep when closing the lid.
-alias clamshell_sleep_off='sudo pmset -a disablesleep 1'
-alias clamshell_sleep_on='sudo pmset -a disablesleep 0'

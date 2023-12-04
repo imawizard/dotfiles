@@ -1,13 +1,26 @@
 # Clean various temporary files.
 cleansys() {
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m trash\e[0m"
+    local t=$(date +%s)
+
+    echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m trash\e[0m"
     cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
+    cleansys_brew
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
+    cleansys_rtx
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
+    cleansys_vim
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m cargo\e[0m"
+    cleansys_cargo
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m docker\e[0m"
+    cleansys_docker
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m xcode\e[0m"
+    cleansys_xcode
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m gradle\e[0m"
+    cleansys_gradle
 
     #echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m local tm snapshots\e[0m"
     #tmutil deletelocalsnapshots /
-
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m docker\e[0m"
-    docker system prune -f
 
     #~/Library/Developer/Xcode/Archives
     #~/Library/Developer/Xcode/iOS DeviceSupport
@@ -16,7 +29,55 @@ cleansys() {
     #~/Library/Application Support/MobileSync/Backup
     #~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads
 
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m xcode\e[0m"
+    local took=$(($(date +%s) - $t))
+    if [[ $took -gt 59 ]]; then
+        local mins=$(($took / 60))
+        local secs=$(($took % 60))
+        printf "Done, cleaned in %dm%02ds.\n" $mins $secs
+    else
+        echo "Done, cleaned in ${took}s."
+    fi
+}
+
+cleansys_brew() {
+    [[ $(command -v brew) ]] || return 1
+
+    brew autoremove -v
+    cleansys_rmdir ~/Library/Caches/Homebrew
+}
+
+cleansys_rtx() {
+    [[ $(command -v rtx) ]] || return 1
+
+    rtx prune -y
+    rtx cache clear
+}
+
+cleansys_vim() {
+    test -d ~/.vim/swap && find $_ -type f -mtime +14 -print -delete
+    test -d ~/.vim/undo && find $_ -type f -mtime +14 -print -delete
+}
+
+cleansys_cargo() {
+    test -d ~/.cargo/git/checkouts || return 1
+
+    for f in ~/.cargo/git/checkouts/*; do
+        test -d "$f" || continue
+        for c in $(command ls -1t "$f" | tail -n+2); do
+            cleansys_rmdir "$f/$c"
+        done
+    done
+}
+
+cleansys_docker() {
+    [[ $(command -v docker) ]] || return 1
+
+    docker system prune -f
+}
+
+cleansys_xcode() {
+    test -d ~/Library/Developer/Xcode || return 1
+
     cleansys_rmdir ~/Library/Developer/Xcode/DerivedData
 
     if [[ $((10 * 1024 * 1024)) -lt $(stat -f '%z' ~/Library/Caches/com.apple.dt.Xcode/fsCachedData 2>/dev/null) ]]; then
@@ -25,25 +86,27 @@ cleansys() {
     if [[ $((10 * 1024 * 1024)) -lt $(stat -f '%z' /Library/Developer/CoreSimulator/Profiles/Runtimes 2>/dev/null) ]]; then
         echo "manually check /Library/Developer/CoreSimulator/Profiles/Runtimes"
     fi
-    xcrun simctl erase all && echo "Simulators erased"
 
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m gradle\e[0m"
+    if [[ $(xcrun --find simctl 2>/dev/null) ]]; then
+        xcrun simctl erase all && echo "Simulators erased"
+    fi
+}
+
+cleansys_gradle() {
     cleansys_rmdir ~/.gradle/caches
-
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
-    find ~/.vim/swap -type f -mtime +7 -print -delete
-    find ~/.vim/undo -type f -mtime +7 -print -delete
-
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
-    brew autoremove -v
-    cleansys_rmdir ~/Library/Caches/Homebrew
 }
 
 cleansys_rmdir() {
+    if [[ $( command -v trash) ]]; then
+        rm=trash
+    else
+        rm=rm -rf
+    fi
+
     local size=$(du -shc $@ 2>/dev/null | grep total | cut -f1)
     for dir in $*[@]; do
-        if [[ $(ls -A "$dir" 2>/dev/null) ]]; then
-            rm -rf "$dir"
+        if [[ $(ls -A "$dir" 2>/dev/null) && $dir == $HOME/* ]]; then
+            $rm "$dir"
         fi
     done
     echo "...freed $size"
