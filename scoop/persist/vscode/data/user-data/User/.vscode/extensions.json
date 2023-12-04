@@ -45,11 +45,18 @@
         //"dbaeumer.vscode-eslint",
         //"esbenp.prettier-vscode",
 
+        // LaTeX
+        //"James-Yu.latex-workshop",
+
         // Makefile
         //"ms-vscode.makefile-tools",
 
+        // Python
+        //"ms-python.python",
+
         // Rust
         //"rust-lang.rust-analyzer",
+        //"serayuzgur.crates",
 
         // PowerShell
         //"ms-vscode.PowerShell",
@@ -73,6 +80,9 @@
 
         // Terraform
         //"azapi-vscode.azapi",
+
+        // Zig
+        //"ziglang.vscode-zig",
 
         // Azure
         //"ms-kubernetes-tools.vscode-aks-tools",

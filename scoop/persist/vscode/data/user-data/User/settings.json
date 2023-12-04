@@ -628,6 +628,25 @@
         "editor.defaultFormatter": "vscode.json-language-features",
     },
 
+    // LaTeX
+    "latex-workshop.latex.external.build.command": "make",
+    "latex-workshop.latex.external.build.args": ["pdf-running"],
+    "latex-workshop.latex.outDir": "%DIR%/..",
+    //"latex-workshop.docker.enabled": true,
+    //"latex-workshop.docker.image.latex": "texlive",
+    "latex-workshop.latex.autoBuild.interval": 1000,
+    "latex-workshop.message.error.show": false,
+    "workbench.editorAssociations": {
+        "*.pdf": "latex-workshop-pdf-hook",
+    },
+    "[latex]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.wordWrap": "on",
+        "editor.wrappingStrategy": "advanced",
+        "editor.minimap.enabled": false,
+    },
+
     // Rust
     "rust-analyzer.check.command": "clippy",
     "rust-analyzer.inlayHints.renderColons": true,
@@ -683,4 +702,10 @@
     "[terraform]": {
         "editor.formatOnSave": true,
     },
+
+    // Zig
+    "zig.initialSetupDone": true,
+    "zig.zls.completionsWithReplace": false,
+    "zig.zls.enableArgumentPlaceholders": true,
+    "zig.zls.inlayHintsShowParameterName": false,
 }
