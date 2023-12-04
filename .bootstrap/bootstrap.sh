@@ -257,9 +257,9 @@ brew cleanup
 
 # Install rustup and rust toolchain.
 if [[ $(command -v rustup-init) ]]; then
-    rustup-init --default-toolchain nightly --no-modify-path -y
+    rustup-init --default-toolchain stable --no-modify-path -y
 else
-    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain nightly --no-modify-path -y
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain stable --no-modify-path -y
 fi
 
 # Install rtx and everything in ~/.tool-versions
