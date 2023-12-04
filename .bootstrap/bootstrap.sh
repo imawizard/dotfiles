@@ -295,6 +295,7 @@ perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
         cmd="${line##*$ }"
         can=$(command -v "$(echo "$cmd" | cut -d' ' -f1)" || true)
     elif [[ ! $line =~ ^\s*(#|$) && $can ]]; then
+        line="$(echo ${line%#*} | xargs)"
         echo -e "\033[7m\$ $cmd $line\033[0m"
         $cmd $line
     fi
@@ -384,20 +385,14 @@ tap "universal-ctags/universal-ctags"
     #brew "fortune"
     #brew "gdb"                      # gdb needs to be signed
     #brew "neovim"
-    #brew "ripgrep"                  # or the_silver_searcher or ack
     #brew "rsync"                    # newer version
     #brew "screen"                   # newer version
     #brew "ssh-copy-id"              # newer version
-    #brew "starship"
     #brew "stow"
     #brew "tree"
     #brew "valgrind"                 # only compatible with macOS<10.13
     #brew "vim"                      # newer version
-    #brew "zoxide"
     #brew "zsh"                      # newer version
-    #brew "zsh-autosuggestions"
-    #brew "zsh-completions"
-    #brew "zsh-syntax-highlighting"
 
 # Libraries
     brew "bison"
@@ -414,77 +409,30 @@ tap "universal-ctags/universal-ctags"
     brew "trash"
     brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
     #brew "archey"                   # deprecated, or screenfetch or neofetch
-    #brew "asciinema"
-    #brew "bat"
-    #brew "broot"
     #brew "byobu"
     #brew "cgdb"                     # needs gdb to be signed
-    #brew "cloc"
     #brew "ctags"                    # use universal-ctags
-    #brew "dust"
-    #brew "exa"
-    #brew "fd"
     #brew "figlet"
     #brew "fzf"                      # or fzy or peco
-    #brew "ghq"
-    #brew "git-delta"
-    #brew "helix"
-    #brew "httpie"
-    #brew "lazygit"
     #brew "lynx"
-    #brew "mackup"                   # use stow
     #brew "mas"
     #brew "micro"
     #brew "nnn"                      # or ranger or lf
-    #brew "rclone"
     #brew "rename"
-    #brew "restic"
-    #brew "shadowenv"                # install with cargo
     #brew "snappy"
-    #brew "terminal-notifier"
-    #brew "youtube-dl"
 
 # Compilers
     brew "discount"                  # or peg-markdown
     brew "rustup-init"
-    #brew "clojure"
-    #brew "clojurescript"
-    #brew "dart-lang/dart/dart"      # contained in flutter
-    #brew "deno"
-    #brew "fennel"
-    #brew "go"
-    #brew "haskell-stack"
-    #brew "hy"
-    #brew "janet"
-    #brew "lua"
-    #brew "node"
-    #brew "perl"
-    #brew "php"                      # newer one
-    #brew "pypy"
-    #brew "pypy3"
-    #brew "python"
-    #brew "python@2"
-    #brew "ruby"                     # newer one, keg-only
-    #brew "scala"
-    #brew "typescript"               # install with npm
 
 # Package managers and build systems
     #brew "asdf"
     #brew "carthage"                 # alternative to cocoapods
-    #brew "cocoapods"                # install with sudo gem
-    #brew "composer"
     #brew "cpanminus"                # run instmodsh for installs
-    #brew "leiningen"
-    #brew "luarocks"
-    #brew "mage"
     #brew "pnpm"                     # or yarn
-    #brew "rtx"                      # install with cargo
-    #brew "wasm-pack"
 
 # Linters and formatters
     brew "clojure-lsp/brew/clojure-lsp-native"
-    #brew "shellcheck"
-    #brew "texlab"
 
 # Security
     #brew "git-crypt"
@@ -492,8 +440,6 @@ tap "universal-ctags/universal-ctags"
     #brew "nmap"
 
 # Storage
-    #brew "caddy"
-    #brew "git"
     #brew "hub"
     #brew "mariadb"
     #brew "memcached"
@@ -506,22 +452,17 @@ tap "universal-ctags/universal-ctags"
 # DevOps
     #brew "aws-shell"
     #brew "aws/tap/aws-sam-cli"
-    #brew "awscli"
     #brew "docker"
     #brew "docker-machine"
     #brew "docker-swarm"
-    #brew "kind"
-    #brew "kubernetes-cli"
-    #brew "lazydocker"
-    #brew "minikube"
-    #brew "terraform"
+    #brew "podman"
+    #brew "podman-compose"
 
 # Conversion
     brew "ffmpeg"
     brew "graphviz"
     #brew "gifsicle"
     #brew "imagemagick"
-    #brew "markdown"
 
 # Cask Essentials
     cask "iterm2"                    # or kitty or alacritty
@@ -657,21 +598,24 @@ tap "universal-ctags/universal-ctags"
 # --Tools ................................................................{{{1
 
 $ cargo install --locked
-    bat
-    broot
-    evcxr_repl
-    exa
-    git-delta
-    hyperfine
-    macchina
-    ripgrep
-    texlab
-    tokei
-    wasm-pack
-    zoxide
-    --git https://github.com/helix-editor/helix helix-term
-    --git https://github.com/cantino/mcfly
     --git https://github.com/Shopify/shadowenv
+    --git https://github.com/helix-editor/helix helix-term
+    --git https://github.com/latex-lsp/texlab # texlab on crates.io is outdated
+    amber      # --git https://github.com/dalance/amber
+    bat        # --git https://github.com/sharkdp/bat
+    broot      # --git https://github.com/Canop/broot
+    du-dust    # --git https://github.com/bootandy/dust
+    evcxr_repl # --git https://github.com/evcxr/evcxr evcxr_repl
+    exa        # --git https://github.com/ogham/exa
+    git-delta  # --git https://github.com/dandavison/delta
+    hyperfine  # --git https://github.com/sharkdp/hyperfine
+    macchina   # --git https://github.com/Macchina-CLI/macchina
+    mcfly      # --git https://github.com/cantino/mcfly
+    ripgrep    # --git https://github.com/BurntSushi/ripgrep
+    tokei      # --git https://github.com/XAMPPRocky/tokei tokei
+    zoxide     # --git https://github.com/ajeetdsouza/zoxide
+    #fd-find   # --git https://github.com/sharkdp/fd
+    #starship  # --git https://github.com/starship/starship
     #cargo-audit
     #cargo-c
     #cargo-docset
@@ -693,18 +637,17 @@ $ composer global require
     #squizlabs/php_codesniffer
 
 $ cpanm
-    File::Rename
     Perl::Critic
     Perl::Tidy
     PLS
-    #Neovim::Ext                     # broken since nvim 0.8, NVIM_LISTEN_ADDRESS is deprecated
+    --notest Neovim::Ext
     #Perl::LanguageServer
 
 $ dart pub global activate
     webdev
     #dart_ctags
 
-$ gem install
+$ sudo gem install
     asciidoctor
     cocoapods
     iStats
@@ -723,7 +666,6 @@ $ go install
     github.com/hashicorp/terraform-ls@latest
     github.com/jesseduffield/lazydocker@latest
     github.com/jesseduffield/lazygit@latest
-    github.com/junegunn/fzf@latest
     github.com/mattn/efm-langserver@latest
     github.com/mgechev/revive@latest
     github.com/rclone/rclone@latest
@@ -732,40 +674,49 @@ $ go install
     github.com/terraform-linters/tflint@latest
     golang.org/x/tools/gopls@latest
     mvdan.cc/sh/v3/cmd/shfmt@latest
-    #github.com/rsteube/carapace-bin # doesn't work because of replace-directive
+    #github.com/caddyserver/caddy@latest
+    #github.com/junegunn/fzf@latest # install with rtx
+    #github.com/magefile/mage@latest
+    #github.com/rclone/rclone@latest
+    #github.com/restic/restic@latest
+    #github.com/rsteube/carapace-bin@latest # doesn't work because of replace-directive
     #github.com/technosophos/dashing@latest
+    #github.com/x-motemen/ghq@latest
 
 $ luarocks --local install
     fennel
 
 $ npm install --global
-    npm
     bash-language-server
     dot-language-server
     neovim
     vim-language-server
     vscode-langservers-extracted
     yaml-language-server
+    #cloc
     #marked
+    #npm
 
 $ python -m pip install --upgrade
-    pip
     #ipython
+    #pip
     #pygments                        # for ccat
     #six                             # for lldb
     #virtualenv
     #virtualenvwrapper
 
 $ python3 -m pip install --upgrade
-    pip
     asciinema
     cookiecutter
     hy
     pre-commit
     pynvim
+    yamllint
     youtube-dl
+    #httpie
     #markdown
     #neovim-remote
+    #pip
     #virtualenv
     #virtualenvwrapper
 
