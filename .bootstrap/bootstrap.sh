@@ -275,7 +275,7 @@ for repo in \
     github.com/zsh-users/zsh-syntax-highlighting \
 ; do
     test ! -e ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/${repo##*/} && \
-        git clone --depth 1 https://$repo "$_" || \
+        git clone https://$repo "$_" || \
         git -C "$_" pull --rebase
 done
 
@@ -314,10 +314,10 @@ if [[ $(command -v nvim) ]]; then
     test ! -e ~/.vim/swap && mkdir "$_"
     test ! -e ~/.vim/undo && mkdir "$_"
     test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
-        git clone --depth 1 https://github.com/wbthomason/packer.nvim "$_" || \
+        git clone https://github.com/wbthomason/packer.nvim "$_" || \
         git -C "$_" pull --rebase
     test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim && \
-        git clone --depth 1 --branch "v0.8.2" https://github.com/rktjmp/hotpot.nvim "$_" || \
+        git clone --branch "v0.8.2" https://github.com/rktjmp/hotpot.nvim "$_" || \
         git -C "$_" pull --rebase
     nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'TSInstallSync all' +qa
@@ -327,7 +327,7 @@ fi
 # Install tpm and tmux plugins.
 if [[ $(command -v tmux) ]]; then
     test ! -e ~/.tmux/plugins/tpm && \
-        git clone --depth 1 https://github.com/tmux-plugins/tpm "$_" || \
+        git clone https://github.com/tmux-plugins/tpm "$_" || \
         git -C "$_" pull --rebase
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
 fi
