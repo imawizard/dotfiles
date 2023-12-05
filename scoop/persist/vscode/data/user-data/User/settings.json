@@ -10,20 +10,30 @@
     // Theme
     "workbench.colorTheme": "Visual Studio Light",
     "workbench.iconTheme": "vsc-jetbrains-icons-enhanced",
+    "workbench.colorCustomizations": {
+        "editorLineNumber.foreground": "#adadad",
+        "editorLineNumber.activeForeground": "#282828",
+        "editorGutter.background": "#f2f2f2",
+        "sideBar.border": "#cccccc",
+        "editorError.foreground": "#ff0000",
+        "editorWarning.foreground": "#ffa500",
+        "editorInfo.foreground": "#008000",
+        "editorHint.foreground": "#808080",
+        "editorOverviewRuler.infoForeground": "#ffffff",
+        "editorOverviewRuler.warningForeground": "#ffffff",
+        "editorOverviewRuler.errorForeground": "#ff0000",
+        "editorOverviewRuler.addedForeground": "#ffffff",
+        "editorOverviewRuler.deletedForeground": "#ffffff",
+        "editorOverviewRuler.modifiedForeground": "#ffffff",
+        "editorOverviewRuler.selectionHighlightForeground": "#ffffff",
+        "editorOverviewRuler.wordHighlightForeground": "#ffffff",
+        "editorOverviewRuler.bracketMatchForeground": "#ffffff",
+        "editorOverviewRuler.findMatchForeground": "#ffffff",
+    },
 
-    // Syntax scheme
+    // Syntax scheme (Bold IntelliJ Light)
     "editor.tokenColorCustomizations": {
         "textMateRules": [
-            { "scope": ["storage.type"],              "settings": { "foreground": "#002fa6" } },
-            { "scope": ["storage.modifier"],          "settings": { "foreground": "#181818" } },
-            { "scope": ["string"],                    "settings": { "foreground": "#067d17" } },
-            { "scope": ["string.other"],              "settings": { "foreground": "#181818", "fontStyle": "bold" } },
-            { "scope": ["comment"],                   "settings": { "foreground": "#8c8c8c", "fontStyle": "italic" } },
-            { "scope": ["constant"],                  "settings": { "foreground": "#871094" } },
-            { "scope": ["constant.numeric"],          "settings": { "foreground": "#1750eb" } },
-            { "scope": ["constant.character"],        "settings": { "foreground": "#067d17" } },
-            { "scope": ["constant.character.escape"], "settings": { "foreground": "#0037a6" } },
-            { "scope": ["entity.name.function"],      "settings": { "fontStyle": "" } },
             {
                 "scope": [
                     "keyword",
@@ -43,28 +53,31 @@
                 ],
                 "settings": { "fontStyle": "" },
             },
+            { "scope": ["storage.type"],              "settings": { "foreground": "#002fa6" } },
+            { "scope": ["storage.modifier"],          "settings": { "foreground": "#181818" } },
+            { "scope": ["string"],                    "settings": { "foreground": "#067d17" } },
+            { "scope": ["string.other"],              "settings": { "foreground": "#181818", "fontStyle": "bold" } },
+            { "scope": ["comment"],                   "settings": { "foreground": "#8c8c8c", "fontStyle": "italic" } },
+            { "scope": ["constant"],                  "settings": { "foreground": "#871094" } },
+            { "scope": ["constant.numeric"],          "settings": { "foreground": "#1750eb" } },
+            { "scope": ["constant.character"],        "settings": { "foreground": "#067d17" } },
+            { "scope": ["constant.character.escape"], "settings": { "foreground": "#0037a6" } },
+            { "scope": ["entity.name.function"],      "settings": { "fontStyle": "" } },
         ],
     },
     "editor.semanticTokenColorCustomizations": {
         "rules": {
-            "boolean":                   { "bold": false },
-            "method":                    { "underline": false },
-            "*.declaration":             { "underline": true },
-            "property.declaration":      { "underline": false },
-            "typeParameter.declaration": { "underline": false },
-            "variable":                  { "underline": false },
-            "parameter":                 { "underline": false },
-            "builtinType":               { "foreground": "#002fa6" },
-            "operator":                  { "underline": false },
-            "enumMember":                { "foreground": "#871094", "underline": false },
-            "macro":                     { "foreground": "#dd6718" },
-            "attribute":                 { "foreground": "#9e880d" },
-            "selfKeyword":               { "bold": false, "underline": false },
-            "selfTypeKeyword":           { "bold": false },
+            "*":                    { "underline": false },
+            "selfKeyword":          { "bold": false },
+            "selfTypeKeyword":      { "bold": false },
+            "boolean":              { "bold": false },
+            "builtinType":          { "foreground": "#002fa6" },
+            "function.declaration": { "underline": true },
+            "macro":                { "foreground": "#dd6718" },
+            "attribute":            { "foreground": "#9e880d" },
+            "enumMember":           { "foreground": "#871094" },
         },
     },
-    "editor.accessibilitySupport": "off",
-    "editor.bracketPairColorization.enabled": false,
 
     // File Explorer
     "explorer.compactFolders": true, // Collapse empty folders like for Java pkgs
@@ -72,14 +85,13 @@
     "workbench.list.automaticKeyboardNavigation": false,
 
     // Window
-    "window.menuBarVisibility": "compact",
-    "workbench.activityBar.visible": true,
+    "window.menuBarVisibility": "hidden",
+    "workbench.activityBar.location": "top",
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}Code",
+    "window.titleBarStyle": "custom",
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
     "files.simpleDialog.enable": true,
-    "workbench.editor.enablePreview": false,
-    "editor.scrollbar.horizontal": "hidden",
-    "editor.scrollbar.vertical": "visible",
-    "editor.hideCursorInOverviewRuler": false,
 
     // Editor
     "editor.fontFamily": "FiraCode Nerd Font Mono",
@@ -87,9 +99,15 @@
     "editor.fontSize": 11,
     "window.newWindowDimensions": "maximized",
     "editor.rulers": [80],
-    "editor.minimap.enabled": false,
+    "editor.minimap.enabled": true,
+    "editor.minimap.autohide": true,
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorStyle": "underline",
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.scrollbar.vertical": "visible",
+    "editor.hideCursorInOverviewRuler": true,
+    "editor.accessibilitySupport": "off",
+    "editor.bracketPairColorization.enabled": false,
 
     // Gutter
     "editor.lineNumbers": "on",
@@ -107,7 +125,7 @@
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.labelFormat": "short",
     "workbench.editor.tabCloseButton": "right",
-    "workbench.editor.untitled.hint": "hidden",
+    "workbench.editor.empty.hint": "hidden",
     "workbench.editor.untitled.labelFormat": "name",
 
     // Behaviour ...........................................................{{{1
@@ -132,6 +150,7 @@
     "workbench.settings.openDefaultKeybindings": true,
 
     // Editor
+    "workbench.editor.enablePreview": false,
     "editor.scrollBeyondLastLine": false,
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
@@ -150,7 +169,7 @@
     "workbench.editor.limit.enabled": true,
     "workbench.editor.limit.perEditorGroup": true,
     "workbench.editor.limit.value": 2,
-    "workbench.editor.showTabs": false, // Make editor groups look like splits
+    "workbench.editor.showTabs": "single", // Make editor groups look like splits
 
     // Terminal
     "terminal.integrated.fontSize": 11,
@@ -645,6 +664,11 @@
         "editor.wordWrap": "on",
         "editor.wrappingStrategy": "advanced",
         "editor.minimap.enabled": false,
+    },
+
+    // Markdown
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false,
     },
 
     // Rust

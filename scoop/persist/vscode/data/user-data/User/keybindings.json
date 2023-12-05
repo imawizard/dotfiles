@@ -50,30 +50,19 @@
     { "key": "ctrl+y", "command": "noop" },
     { "key": "ctrl+z", "command": "noop" },
 
-    // General
-    { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "!editorTextFocus" },
-    { "key": "ctrl+n", "command": "workbench.action.quickOpenSelectNext",     "when": "!editorTextFocus" },
 
-    { "key": "shift+tab", "command": "workbench.action.quickOpenSelectPrevious", "when": "!editorTextFocus" },
-    { "key": "tab",       "command": "workbench.action.quickOpenSelectNext",     "when": "!editorTextFocus" },
 
-    { "key": "ctrl+p", "command": "selectPrevCodeAction", "when": "codeActionMenuVisible" },
-    { "key": "ctrl+n", "command": "selectNextCodeAction", "when": "codeActionMenuVisible" },
-
-    { "key": "shift+tab", "command": "selectPrevCodeAction", "when": "codeActionMenuVisible" },
-    { "key": "tab",       "command": "selectNextCodeAction", "when": "codeActionMenuVisible" },
-
-    { "key": "escape", "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus || panelFocus" },
 
     // Sidebar
-    { "key": "alt+1",       "command": "workbench.view.explorer"                                                                             },
-    { "key": "alt+1",       "command": "workbench.action.closeSidebar", "when": "sideBarFocus && activeViewlet == 'workbench.view.explorer'" },
-    { "key": "alt+shift+,", "command": "workbench.view.debug"                                                                                },
-    { "key": "alt+shift+,", "command": "workbench.action.closeSidebar", "when": "sideBarFocus && activeViewlet == 'workbench.view.debug'"    },
-    { "key": "alt+shift+.", "command": "workbench.view.scm"                                                                                  },
-    { "key": "alt+shift+.", "command": "workbench.action.closeSidebar", "when": "sideBarFocus && activeViewlet == 'workbench.view.scm'"      },
-    { "key": "alt+=",       "command": "workbench.view.remote"                                                                               },
-    { "key": "alt+=",       "command": "workbench.action.closeSidebar", "when": "sideBarFocus && activeViewlet == 'workbench.view.remote'"   },
+    { "key": "escape",      "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus || panelFocus"                                 },
+    { "key": "alt+1",       "command": "workbench.view.explorer"                                                                                       },
+    { "key": "alt+1",       "command": "workbench.action.closeSidebar",           "when": "sideBarFocus && activeViewlet == 'workbench.view.explorer'" },
+    { "key": "alt+shift+,", "command": "workbench.view.debug"                                                                                          },
+    { "key": "alt+shift+,", "command": "workbench.action.closeSidebar",           "when": "sideBarFocus && activeViewlet == 'workbench.view.debug'"    },
+    { "key": "alt+shift+.", "command": "workbench.view.scm"                                                                                            },
+    { "key": "alt+shift+.", "command": "workbench.action.closeSidebar",           "when": "sideBarFocus && activeViewlet == 'workbench.view.scm'"      },
+    { "key": "alt+=",       "command": "workbench.view.remote"                                                                                         },
+    { "key": "alt+=",       "command": "workbench.action.closeSidebar",           "when": "sideBarFocus && activeViewlet == 'workbench.view.remote'"   },
 
     // Search
     { "key": "enter",  "command": "search.action.focusSearchList", "when": "activeViewlet == 'workbench.view.search' && searchInputBoxFocus"                        },
@@ -265,7 +254,6 @@
         "let cmd = await prompt({ prompt: 'pipe:' })",
         "await vscode.commands.executeCommand('dance.selections.pipe.replace', { expression: '#' + cmd});",
     ] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "ctrl+z", "command": "workbench.action.terminal.toggleTerminal" },
 
     { "key": "ctrl+a", "command": "editor.emmet.action.incrementNumberByOne", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "ctrl+x", "command": "editor.emmet.action.decrementNumberByOne", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
@@ -335,12 +323,7 @@
     // Insert mode
     //
 
-    { "key": "tab",       "command": "selectNextQuickFix",           "when": "editorFocus && quickFixWidgetVisible" },
-    { "key": "tab",       "command": "selectNextSuggestion",         "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
-    { "key": "shift+tab", "command": "selectPrevQuickFix",           "when": "editorFocus && quickFixWidgetVisible" },
-    { "key": "shift+tab", "command": "selectPrevSuggestion",         "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
-    { "key": "ctrl+x",    "command": "editor.action.triggerSuggest", "when": "!suggestWidgetVisible && editorHasCompletionItemProvider && textInputFocus && !editorReadonly" },
-
+    { "key": "ctrl+x", "command": "editor.action.triggerSuggest", "when": "!suggestWidgetVisible && editorHasCompletionItemProvider && textInputFocus && !editorReadonly" },
     { "key": "ctrl+r", "command": "dance.edit.selectRegister-insert", "when": "editorTextFocus && dance.mode == 'insert'" },
 
     { "key": "ctrl+s", "command": "???",             "when": "editorTextFocus && dance.mode == 'insert'" },
@@ -358,4 +341,23 @@
     { "key": "ctrl+a", "command": "cursorLineStart", "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+e", "command": "cursorLineEnd",   "when": "editorTextFocus && dance.mode == 'insert'" },
     */
+
+    //
+    // Other
+    //
+
+    { "key": "tab",       "command": "workbench.action.quickOpenSelectNext",     "when": "inQuickOpen" },
+    { "key": "ctrl+n",    "command": "workbench.action.quickOpenSelectNext",     "when": "inQuickOpen" },
+    { "key": "shift+tab", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+    { "key": "ctrl+p",    "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+
+    { "key": "tab",       "command": "selectNextSuggestion", "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
+    { "key": "ctrl+n",    "command": "selectNextSuggestion", "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
+    { "key": "shift+tab", "command": "selectPrevSuggestion", "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
+    { "key": "ctrl+p",    "command": "selectPrevSuggestion", "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible" },
+
+    { "key": "tab",       "command": "selectNextCodeAction", "when": "codeActionMenuVisible" },
+    { "key": "ctrl+n",    "command": "selectNextCodeAction", "when": "codeActionMenuVisible" },
+    { "key": "shift+tab", "command": "selectPrevCodeAction", "when": "codeActionMenuVisible" },
+    { "key": "ctrl+p",    "command": "selectPrevCodeAction", "when": "codeActionMenuVisible" },
 ]
