@@ -4,3 +4,5 @@ alias la='exa --long --group-directories-first --all'
 alias tree='exa --tree --all --ignore-glob .git'
 
 alias cloc='tokei'
+
+alias glow='glow --style light --pager'

@@ -17,28 +17,30 @@
         { key: "ctrl-h", execution: ":input_del_char_left"  }
         { key: "ctrl-d", execution: ":input_del_char_below" }
 
-        //{ key: "ctrl-b", execution: ":input_go_left"        }
-        //{ key: "ctrl-f", execution: ":input_go_right"       }
-        //{ key: "ctrl-a", execution: ":input_go_to_start"    }
-        //{ key: "ctrl-e", execution: ":input_go_to_end"      }
-        //{ key: "alt-b",  execution: ":input_go_word_left"   }
-        //{ key: "alt-f",  execution: ":input_go_word_right"  }
-        //{ key: "alt-h",  execution: ":input_del_word_left"  }
-        //{ key: "alt-d",  execution: ":input_del_word_right" }
+        { key: "ctrl-b", execution: ":input_go_left"        }
+        { key: "ctrl-f", execution: ":input_go_right"       }
+        { key: "ctrl-a", execution: ":input_go_to_start"    }
+        { key: "ctrl-e", execution: ":input_go_to_end"      }
+        { key: "alt-b",  execution: ":input_go_word_left"   }
+        { key: "alt-f",  execution: ":input_go_word_right"  }
+        { key: "alt-h",  execution: ":input_del_word_left"  }
+        { key: "alt-d",  execution: ":input_del_word_right" }
 
-        //{ key: "ctrl-p", execution: ":line_up_no_cycle"     }
-        //{ key: "ctrl-n", execution: ":line_down_no_cycle"   }
+        { key: "ctrl-p", execution: ":line_up"              }
+        { key: "ctrl-n", execution: ":line_down"            }
 
-        //{ key: "ctrl-k", execution: ":page_up"              }
-        //{ key: "ctrl-j", execution: ":page_down"            }
+        { key: "ctrl-k", execution: ":previous_dir"         }
+        { key: "ctrl-j", execution: ":next_dir"             }
 
-        //{ key: "ctrl-o", execution: ":toggle_preview"       }
-        //{ key: "ctrl-w", execution: ":panel_left"           }
-        //{ key: "ctrl-v", execution: ":panel_right"          }
+        { key: "ctrl-o",  execution: ":toggle_preview"      }
+        { key: "backtab", execution: ":panel_left"          }
+        { key: "tab",     execution: ":panel_right"         }
 
         {
             invocation: edit
             shortcut: e
+            key: ctrl-e
+            //apply_to: text_file
             execution: "$EDITOR {file}"
             leave_broot: false
         }
@@ -68,27 +70,45 @@
             leave_broot: false
         }
 
-        //{
-        //    invocation: "cpo"
-        //    external: "cp -r {file} {other-panel-directory}"
-        //    leave_broot: false
-        //}
-        //{
-        //    invocation: "mvo"
-        //    external: "mv {file} {other-panel-directory}"
-        //    leave_broot: false
-        //}
-        //{
-        //    name: tail_lines
-        //    invocation: tl {lines_count}
-        //    execution: "tail -f -n {lines_count} {file}"
-        //}
-        //{
-        //    name: touch
-        //    invocation: touch {new_file}
-        //    execution: "touch {directory}/{new_file}"
-        //    leave_broot: false
-        //}
+        {
+            invocation: "cpo"
+            external: "cp -r {file} {other-panel-directory}"
+            leave_broot: false
+        }
+        {
+            invocation: "mvo"
+            external: "mv {file} {other-panel-directory}"
+            leave_broot: false
+        }
+        {
+            name: tail_lines
+            invocation: tl {lines_count}
+            execution: "tail -f -n {lines_count} {file}"
+        }
+        {
+            name: touch
+            invocation: touch {new_file}
+            execution: "touch {directory}/{new_file}"
+            leave_broot: false
+        }
+
+        {
+            invocation: ..
+            execution: ":parent"
+        }
+        {
+            invocation: home
+            key: ctrl-home
+            execution: ":focus ~"
+        }
+        {
+            invocation: gtr
+            execution: ":focus {git-root}"
+        }
+        {
+            key: alt-g
+            execution: ":toggle_git_status"
+        }
     ]
 
     imports: [
