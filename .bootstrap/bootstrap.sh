@@ -280,11 +280,12 @@ for repo in \
 done
 
 # Install carapace
-if [[ $(command -v carapace) ]]; then
+if [[ ! $(command -v carapace) ]]; then
     wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_darwin_amd64.tar.gz -O ~/dl.tar.gz && \
         tar -xzf "$_" && \
         rm -f "$_" && \
-        mv carapace ~/.go/bin/
+        mv carapace ~/.go/bin/ && \
+        rm -f README.md LICENSE
 fi
 
 # Install various tools and packages
