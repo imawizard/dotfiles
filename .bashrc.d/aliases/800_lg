@@ -1,5 +1,5 @@
 # lazygit macro
-lg() {
+lgr() {
     export LAZYGIT_NEW_DIR_FILE=$XDG_CONFIG_HOME/lazygit/newdir
 
     lazygit "$@"
@@ -9,3 +9,5 @@ lg() {
         rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
     fi
 }
+
+alias lg='lazygit'
