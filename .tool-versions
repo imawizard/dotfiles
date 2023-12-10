@@ -4,6 +4,7 @@ neovim          0.9
 perl            5.38
 python          pypy3.10
 
+bun             1.0
 go              1.21
 shellcheck      0.9
 zig             master
@@ -16,7 +17,6 @@ zig             master
 #terraform       1.6
 #terragrunt      0.54
 
-#bun             1.0
 #deno            1.38
 #node            21.1
 
