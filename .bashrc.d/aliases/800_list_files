@@ -1,7 +1,7 @@
-alias ll='exa --long --group-directories-first'
-alias la='exa --long --group-directories-first --all'
+alias ll='eza --long --group-directories-first'
+alias la='eza --long --group-directories-first --all'
 
-alias tree='exa --tree --all --ignore-glob .git'
+alias tree='eza --tree --all --ignore-glob .git'
 
 alias cloc='tokei'
 

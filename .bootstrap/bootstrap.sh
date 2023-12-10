@@ -607,7 +607,7 @@ $ cargo install --locked
     broot      # --git https://github.com/Canop/broot
     du-dust    # --git https://github.com/bootandy/dust
     evcxr_repl # --git https://github.com/evcxr/evcxr evcxr_repl
-    exa        # --git https://github.com/ogham/exa
+    eza        # --git https://github.com/eza-community/eza
     git-delta  # --git https://github.com/dandavison/delta
     hyperfine  # --git https://github.com/sharkdp/hyperfine
     macchina   # --git https://github.com/Macchina-CLI/macchina
@@ -615,6 +615,7 @@ $ cargo install --locked
     ripgrep    # --git https://github.com/BurntSushi/ripgrep
     tokei      # --git https://github.com/XAMPPRocky/tokei tokei
     zoxide     # --git https://github.com/ajeetdsouza/zoxide
+    #exa       # --git https://github.com/ogham/exa
     #fd-find   # --git https://github.com/sharkdp/fd
     #starship  # --git https://github.com/starship/starship
     #cargo-audit
