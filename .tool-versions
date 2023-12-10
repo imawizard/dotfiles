@@ -1,35 +1,38 @@
-fzf             0.44.0
-git             2.42.1
-neovim          0.9.4
-perl            5.38.0
-python          3.11.6
+fzf             0.44
+git             2.42
+neovim          0.9
+perl            5.38
+python          pypy3.10
 
-golang          1.21.4
-shellcheck      0.9.0
+go              1.21
+shellcheck      0.9
 zig             master
 
-#awscli          2.13.35
-#azure-cli       2.54.0
+#awscli          2.14
+#azure-cli       2.54
+#kind            0.20
+#kubectl         1.28
+#minikube        1.32
+#terraform       1.6
+#terragrunt      0.54
 
-#kubectl         1.28.3
-#minikube        1.32.0
+#bun             1.0
+#deno            1.38
+#node            21.1
 
-#bun             1.0.11
-#deno            1.38.1
-#node            21.1.0
+#lua             5.1
+#php             8.2
+#ruby            3.2
 
-#lua             5.1.5
-#php             8.2.12
-#ruby            3.2.2
+#powershell-core 7.3
+#flutter         3.16
 
-#powershell-core 7.3.9
-#flutter         3.13.9-stable
+#carp            0.5
+#janet           1.32
 
-#carp            0.5.5
-#janet           1.32.1
-
-#clojure         1.11.1.1413
+#clojure         1.11
 #graalvm         22.3.3-java11
-#leiningen       2.9.9
-#ruby            truffleruby-23.1.1
-#scala           3.3.1
+#java            temurin-21
+#leiningen       2.9
+#ruby            truffleruby-23.1
+#scala           3.3
