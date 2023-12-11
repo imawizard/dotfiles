@@ -10,9 +10,19 @@ git config core.worktree .. && git config status.showUntrackedFiles no
 git reset --mixed && git checkout ..
 ```
 
-## [Windows](https://github.com/imawizard/dotfiles/tree/windows)
+## [Ubuntu](https://github.com/imawizard/dotfiles/tree/ubuntu)
 
 ```sh
+mkdir ~/.dotfiles.git && cd $_
+git clone --no-checkout --branch ubuntu https://github.com/imawizard/dotfiles .
+mv .git/* ./ && rm -rf .git
+git config core.worktree .. && git config status.showUntrackedFiles no
+git reset --mixed && git checkout ..
+```
+
+## [Windows](https://github.com/imawizard/dotfiles/tree/windows)
+
+```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm get.scoop.sh -OutFile install.ps1
 .\install.ps1 -ScoopDir C:\Develop\scoop
@@ -32,16 +42,6 @@ git clone --no-checkout --branch windows https://github.com/imawizard/dotfiles .
 Move-Item .git/* ./; Remove-Item -Force .git
 git config core.worktree ..; git config status.showUntrackedFiles no
 git reset --mixed; git checkout ..
-```
-
-## [Ubuntu](https://github.com/imawizard/dotfiles/tree/ubuntu)
-
-```sh
-mkdir ~/.dotfiles.git && cd $_
-git clone --no-checkout --branch ubuntu https://github.com/imawizard/dotfiles .
-mv .git/* ./ && rm -rf .git
-git config core.worktree .. && git config status.showUntrackedFiles no
-git reset --mixed && git checkout ..
 ```
 
 ## Resources
