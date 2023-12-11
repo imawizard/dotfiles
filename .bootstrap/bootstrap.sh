@@ -230,11 +230,11 @@ IFS=$'\n'
 for line in $(
     perl -nlE "say if (/^# --Hotkeys/.../^# --/) && !/^# --/" "$0"
 ); do
-    if [[ $line =~ ^\s*\- ]]; then
+    if [[ $line =~ ^\-\  ]]; then
         domain="${line##*- }"
         domains+=($domain)
         defaults delete "$domain" NSUserKeyEquivalents 2>/dev/null
-    elif [[ ! $line =~ ^\s*(#|$) ]]; then
+    elif [[ ! $line =~ ^\ *\# ]]; then
         name=$(echo "${line% *}" | xargs)
         key="${line##* }"
         defaults write "$domain" NSUserKeyEquivalents -dict-add "$name" "$key"
@@ -248,6 +248,14 @@ sudo defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
 # .........................................................................}}}
 
 # Install software and tools .............................................{{{1
+
+latest() { echo "${3:-%2}" | sed -e "s|%1|$1|" -e "s|%2|$( \
+    git ls-remote --tags --refs --sort="version:refname" "https://$1" \
+    | cut -f2 \
+    | cut -d/ -f3 \
+    | grep -E "^v?${2:-}" \
+    | tail -n1)|"; }
+cargo_latest() { latest "$1" "${2:-}" '--git https://%1 --tag %2'; }
 
 # Install formulae and casks.
 Brewfile=$(perl -nlE 'say if (/^# --Brewfile/.../^# --/) && !/^# --/' "$0"; secrets brewfile)
@@ -263,7 +271,7 @@ else
 fi
 
 # Install rtx and everything in ~/.tool-versions
-cargo install --locked --git https://github.com/jdxcode/rtx rtx-cli
+cargo install --locked $(cargo_latest github.com/jdxcode/rtx 2023.12) rtx-cli
 command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
 rtx install
 
@@ -292,11 +300,12 @@ fi
 cmd="echo"; can=true
 perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
 | while read -r line; do
-    if [[ $line =~ ^\s*\$ ]]; then
+    if [[ $line =~ ^\$\  ]]; then
         cmd="${line##*$ }"
         can=$(command -v "$(echo "$cmd" | cut -d' ' -f1)" || true)
-    elif [[ ! $line =~ ^\s*(#|$) && $can ]]; then
-        line="$(echo ${line%#*} | xargs)"
+    elif [[ $can ]]; then
+        line=$(eval "echo $line")
+        [[ $line ]] || continue
         echo -e "\033[7m\$ $cmd $line\033[0m"
         $cmd $line
     fi
@@ -599,9 +608,9 @@ tap "universal-ctags/universal-ctags"
 # --Tools ................................................................{{{1
 
 $ cargo install --locked
-    --git https://github.com/Shopify/shadowenv
+    $(cargo_latest github.com/Shopify/shadowenv 2.1)
     --git https://github.com/helix-editor/helix helix-term
-    --git https://github.com/latex-lsp/texlab # texlab on crates.io is outdated
+    $(cargo_latest github.com/latex-lsp/texlab 5.12) # texlab on crates.io is outdated
     amber      # --git https://github.com/dalance/amber
     bat        # --git https://github.com/sharkdp/bat
     broot      # --git https://github.com/Canop/broot
