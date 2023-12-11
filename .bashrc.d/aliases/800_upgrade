@@ -4,6 +4,8 @@ upgrade() {
 
     echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
     upgrade_brew
+    echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m apt\e[0m"
+    upgrade_apt
     echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
     upgrade_rtx
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m oh-my-zsh\e[0m"
@@ -44,6 +46,14 @@ upgrade_brew() {
     brew outdated --cask | perl -alE 'say $F[0] unless /^prog-to-ignore/' | xargs brew upgrade --cask
 
     brew cleanup -s
+}
+
+# Update apt and software.
+upgrade_apt() {
+    [[ $(command -v apt-get) ]] || return 1
+
+    sudo apt-get update
+    sudo apt-get upgrade -y
 }
 
 # Update rtx and asdf-plugins.

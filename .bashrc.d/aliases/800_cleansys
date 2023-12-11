@@ -3,9 +3,11 @@ cleansys() {
     local t=$(date +%s)
 
     echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m trash\e[0m"
-    cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/
+    cleansys_rmdir ~/.Trash/ ~/iCloud\ Drive/.Trash/ ~/.local/share/Trash
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m brew\e[0m"
     cleansys_brew
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m apt\e[0m"
+    cleansys_apt
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
     cleansys_rtx
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
@@ -46,6 +48,13 @@ cleansys_brew() {
     cleansys_rmdir ~/Library/Caches/Homebrew
 }
 
+cleansys_apt() {
+    [[ $(command -v apt-get) ]] || return 1
+
+    sudo apt-get autoremove -y
+    sudo apt-get clean
+}
+
 cleansys_rtx() {
     [[ $(command -v rtx) ]] || return 1
 
@@ -54,8 +63,8 @@ cleansys_rtx() {
 }
 
 cleansys_vim() {
-    test -d ~/.vim/swap && find $_ -type f -mtime +14 -print -delete
-    test -d ~/.vim/undo && find $_ -type f -mtime +14 -print -delete
+    test -d ~/.vim/swap && find $_ -type f -mtime +${VIM_CLEANUP_MAX_AGE_DAYS:-14} -print -delete
+    test -d ~/.vim/undo && find $_ -type f -mtime +${VIM_CLEANUP_MAX_AGE_DAYS:-14} -print -delete
 }
 
 cleansys_cargo() {
@@ -97,17 +106,16 @@ cleansys_gradle() {
 }
 
 cleansys_rmdir() {
-    if [[ $( command -v trash) ]]; then
-        rm=trash
-    else
-        rm=rm -rf
-    fi
-
-    local size=$(du -shc $@ 2>/dev/null | grep total | cut -f1)
+    local size=$(du -shc $@ 2>/dev/null | grep total | cut -f1 | xargs)
     for dir in $*[@]; do
         if [[ $(ls -A "$dir" 2>/dev/null) && $dir == $HOME/* ]]; then
-            $rm "$dir"
+            rm -rf "$dir"
         fi
     done
-    echo "...freed $size"
+    local left=$(du -shc $@ 2>/dev/null | grep total | cut -f1 | xargs)
+    if [[ $left == 0* ]]; then
+        echo "... freed $size"
+    else
+        echo "... couldn't free $size (left: $left)"
+    fi
 }
