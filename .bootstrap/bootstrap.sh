@@ -289,7 +289,9 @@ done
 
 # Install carapace
 if [[ ! $(command -v carapace) ]]; then
-    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_darwin_amd64.tar.gz -O ~/dl.tar.gz && \
+    kern="$(uname -s)"
+    arch="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')"
+    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_$kern_$arch.tar.gz -O ~/dl.tar.gz && \
         tar -xzf "$_" && \
         rm -f "$_" && \
         mv carapace ~/.go/bin/ && \
