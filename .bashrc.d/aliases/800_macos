@@ -74,4 +74,3 @@ listexts() {
 }
 
 test -f "$HOME/iCloud Drive/.config/.bash_aliases" && . "$_"
-

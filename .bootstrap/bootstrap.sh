@@ -345,11 +345,11 @@ if [[ $(command -v tmux) ]]; then
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
 fi
 
-# Link helix' runtime.                                                                                               
-if ! test -e ~/.config/helix/runtime || test -L "$_"; then                                                           
-    test -e "$_" && rm "$_"                                                                                          
-    ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"                  
-fi                                                                                                                   
+# Link helix' runtime.
+if ! test -e ~/.config/helix/runtime || test -L "$_"; then
+    test -e "$_" && rm "$_"
+    ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"
+fi
 
 # Possibly add missing tmux-256color.
 test ! -f ~/.terminfo/*/tmux-256color && \
