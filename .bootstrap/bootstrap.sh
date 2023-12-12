@@ -660,7 +660,7 @@ $ dart pub global activate
     webdev
     #dart_ctags
 
-$ sudo gem install
+$ gem install
     asciidoctor
     cocoapods
     iStats
@@ -700,6 +700,7 @@ $ luarocks --local install
     fennel
 
 $ npm install --global
+    npm
     bash-language-server
     dot-language-server
     neovim
@@ -708,17 +709,17 @@ $ npm install --global
     yaml-language-server
     #cloc
     #marked
-    #npm
 
 $ python -m pip install --upgrade
+    pip
     #ipython
-    #pip
     #pygments                        # for ccat
     #six                             # for lldb
     #virtualenv
     #virtualenvwrapper
 
 $ python3 -m pip install --upgrade
+    pip
     asciinema
     cookiecutter
     hy
@@ -729,7 +730,6 @@ $ python3 -m pip install --upgrade
     #httpie
     #markdown
     #neovim-remote
-    #pip
     #virtualenv
     #virtualenvwrapper
 
