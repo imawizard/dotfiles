@@ -264,10 +264,12 @@ echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
 brew cleanup
 
 # Install rustup and rust toolchain.
-if [[ $(command -v rustup-init) ]]; then
-    rustup-init --default-toolchain stable --no-modify-path -y
-else
-    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain stable --no-modify-path -y
+if [[ ! $(command -v rustup) ]]; then
+    if [[ $(command -v rustup-init) ]]; then
+        rustup-init --default-toolchain stable --no-modify-path -y
+    else
+        curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain stable --no-modify-path -y
+    fi
 fi
 
 # Install rtx and everything in ~/.tool-versions
