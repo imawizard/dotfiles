@@ -19,29 +19,32 @@
 ;; Compile config with hotpot, see :help hotpot-api.
 (let [{: build} (require :hotpot.api.make)
       {: join-path} (require :hotpot.fs)
-      loadfn (fn [root dir path]
-               (require-forcefully (string.gsub
-                                    (.. dir "/" (string.sub path 1 -5))
-                                    "\\" "/"))
-               nil)]
-  (build (join-path (vim.fn.fnamemodify vim.env.MYVIMRC ":h") :fnl)
-         {:verbosity 0}
+      cfg-path (vim.fn.fnamemodify vim.env.MYVIMRC ":h")
+      fnl-path (join-path cfg-path :fnl)
+      loadfn (fn [path]
+               (require-forcefully (-> path
+                                       (string.gsub fnl-path "")
+                                       (string.gsub "\\" "/")
+                                       (string.sub 2 -5)))
+               false)]
+  (build fnl-path
+         {:verbose false}
 
          ;; Load everything in plugins and langs.
-         (join-path "(.+)" "(plugins)" "(.+)")
-         loadfn
-         (join-path "(.+)" "(langs)" "(.+)")
-         loadfn
+         [[:plugins/**/*.fnl loadfn]
+          [:langs/**/*.fnl loadfn]
 
-         ;; Compile ftplugins to external ftplugin-folder.
-         (join-path "(.+)" :ftplugins "(.+)")
-         (fn [root path]
-           (join-path root ".." :ftplugin path))
+          ;; Compile ftplugins to external ftplugin-folder.
+          [:ftplugins/**/*.fnl (fn [path]
+                                 (-> path
+                                     (string.gsub (join-path :fnl :ftplugins) :ftplugin)
+                                     (string.gsub :.fnl$ :.lua)))]
 
-         ;; Compile snippets to external luasnippets-folder.
-         (join-path "(.+)" :snippets "(.+)")
-         (fn [root path]
-           (join-path root ".." :luasnippets path))))
+          ;; Compile snippets to external luasnippets-folder.
+          [:snippets/**/*.fnl (fn [path]
+                                (-> path
+                                    (string.gsub (join-path :fnl :snippets) :luasnippets)
+                                    (string.gsub :.fnl$ :.lua)))]]))
 
 (vim.cmd "colorscheme bold-intellij-light")
 

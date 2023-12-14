@@ -8,5 +8,5 @@ require("hotpot").setup({
     }
 })
 
-package.loaded["init"] = nil
-require("init")
+package.loaded["main"] = nil
+require("main")

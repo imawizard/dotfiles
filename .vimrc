@@ -2204,7 +2204,7 @@ set foldenable
 set foldlevelstart=1                " Automatically open only the first level of folds.
 set foldmethod=marker
 set list                            " Show tabs, spaces, etc.
-set listchars+=tab:\|\ ,space:·     " Use these for hidden characters.
+set listchars=tab:\|\ ,space:·      " Use these for hidden characters.
 set listchars+=trail:\ ,nbsp:␣
 set listchars+=extends:↷,precedes:↶
 set nowrap                          " Don't fit lines to the window's width.
@@ -2274,6 +2274,8 @@ endif
 packadd! matchit
 
 colorscheme greymatters
+
+exe 'hi CursorLine  guibg=NONE guisp=NONE'
 
 " .........................................................................}}}
 

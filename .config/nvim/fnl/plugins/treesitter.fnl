@@ -40,9 +40,6 @@
 
         :playground {}
 
-        :context_commentstring {:enable true
-                                :enable_autocmd false}
-
         :matchup {:enable true
                   :disable_virtual_text true}})))}
  :nvim-treesitter/nvim-treesitter
@@ -54,4 +51,10 @@
  ;; See :help nvim-treesitter-refactor.txt.
  :nvim-treesitter/nvim-treesitter-refactor
 
+ {:config
+  (fn []
+    (let [cs (require :ts_context_commentstring)]
+      (tset vim.g :skip_ts_context_commentstring_module true)
+      (cs.setup
+       {:enable_autocmd false})))}
  :JoosepAlviste/nvim-ts-context-commentstring)

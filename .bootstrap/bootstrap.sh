@@ -332,7 +332,7 @@ if [[ $(command -v nvim) ]]; then
         git clone https://github.com/wbthomason/packer.nvim "$_" || \
         git -C "$_" pull --rebase
     test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim && \
-        git clone --branch "v0.8.2" https://github.com/rktjmp/hotpot.nvim "$_" || \
+        git clone https://github.com/rktjmp/hotpot.nvim "$_" || \
         git -C "$_" pull --rebase
     nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'TSInstallSync all' +qa

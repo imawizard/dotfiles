@@ -5,7 +5,7 @@
   "reload-packer-config"
   ;; Reload plugins and keybindings on changes.
   BufWritePost
-  :pattern "*/nvim/fnl/{plugins/*,langs/*,keybinds}.fnl"
+  :pattern "*/nvim/fnl/{plugins/*,langs/*,main,settings,keybinds,autocmds,commands}.fnl"
   "source $MYVIMRC | edit | PackerCompile")
 
  (:group
