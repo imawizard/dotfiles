@@ -4,7 +4,7 @@ printf "
 \e[30m     |､  ~ヽ    \e[0m
 \e[30m     じしf_,)〳 \e[0m
 " "$(
-printf "There are \e[1m%d\e[0m weeks left this year. %s\n"              \
-    $(( ($(date -v 12m -v 31d -v 23H +%s) - $(date +%s)) / 86400 / 7 )) \
+printf "There are \e[1m%.2g\e[0m weeks left this year. %s\n"                       \
+    $(echo "($(date -v 12m -v 31d -v 23H +%s) - $(date +%s)) / 86400 / 7" | bc -l) \
     "What will you do?"
 )"
