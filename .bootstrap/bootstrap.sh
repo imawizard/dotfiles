@@ -1,4 +1,5 @@
 #!/bin/bash
+#shellcheck disable=SC2091,SC2155,SC2215,SC2288,SC2317
 
 set -euo pipefail
 
@@ -294,7 +295,7 @@ done
 if [[ ! $(command -v carapace) ]]; then
     kern="$(uname -s)"
     arch="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')"
-    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_$kern_$arch.tar.gz -O ~/dl.tar.gz && \
+    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_${kern}_${arch}.tar.gz -O ~/dl.tar.gz && \
         tar -xzf "$_" && \
         rm -f "$_" && \
         mv carapace ~/.go/bin/ && \
