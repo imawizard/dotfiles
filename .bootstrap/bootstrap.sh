@@ -277,7 +277,7 @@ fi
 # Install rtx and everything in ~/.tool-versions
 cargo install --locked $(cargo_latest github.com/jdxcode/rtx 2023.12) rtx-cli
 command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
-rtx install
+rtx install -y
 
 # Install zsh plugins
 for repo in \
@@ -486,6 +486,7 @@ tap "universal-ctags/universal-ctags"
     cask "keka"
     cask "kekaexternalhelper"        # previously kekadefaultapp
     cask "opera"
+    cask "sloth"
     #cask "alfred"                   # or raycast
     #cask "obsidian"
     #cask "onedrive"
@@ -561,7 +562,7 @@ tap "universal-ctags/universal-ctags"
 
 # Writing & Notes
     cask "anki"
-    cask "basictex"
+    #cask "basictex"
     #cask "bibdesk"
     #cask "notion"
     #cask "skim"
@@ -628,10 +629,13 @@ $ cargo install --locked
     macchina   # --git https://github.com/Macchina-CLI/macchina
     mcfly      # --git https://github.com/cantino/mcfly
     ripgrep    # --git https://github.com/BurntSushi/ripgrep
+    stylua     # --git https://github.com/JohnnyMorganz/StyLua
     tokei      # --git https://github.com/XAMPPRocky/tokei tokei
     zoxide     # --git https://github.com/ajeetdsouza/zoxide
     #exa       # --git https://github.com/ogham/exa
     #fd-find   # --git https://github.com/sharkdp/fd
+    #ren-find  # --git https://github.com/robenkleene/ren-find
+    #rep-grep  # --git https://github.com/robenkleene/rep-grep
     #starship  # --git https://github.com/starship/starship
     #cargo-audit
     #cargo-c
@@ -677,7 +681,10 @@ $ gem install
 $ go install
     github.com/antonmedv/fx@latest
     github.com/charmbracelet/glow@latest
+    github.com/cweill/gotests/gotests@latest
     github.com/derailed/k9s@latest
+    github.com/editorconfig-checker/editorconfig-checker/v2/cmd/editorconfig-checker@latest
+    github.com/fatih/gomodifytags@latest
     github.com/go-delve/delve/cmd/dlv@latest
     github.com/golangci/golangci-lint/cmd/golangci-lint@latest
     github.com/hashicorp/terraform-ls@latest
@@ -686,12 +693,18 @@ $ go install
     github.com/mattn/efm-langserver@latest
     github.com/mgechev/revive@latest
     github.com/rclone/rclone@latest
+    github.com/segmentio/golines@latest
+    github.com/sqls-server/sqls@master # latest tag has old go.mod
     github.com/stern/stern@latest
     github.com/terraform-docs/terraform-docs@latest
     github.com/terraform-linters/tflint@latest
     golang.org/x/tools/gopls@latest
+    honnef.co/go/tools/cmd/staticcheck@latest
+    mvdan.cc/gofumpt@latest
     mvdan.cc/sh/v3/cmd/shfmt@latest
     #github.com/caddyserver/caddy@latest
+    #github.com/candid82/joker@latest # needs go generate
+    #github.com/josharian/impl@latest
     #github.com/junegunn/fzf@latest # install with rtx
     #github.com/magefile/mage@latest
     #github.com/rclone/rclone@latest
@@ -702,12 +715,17 @@ $ go install
 
 $ luarocks --local install
     fennel
+    luacheck
 
 $ npm install --global
     npm
     bash-language-server
     dot-language-server
+    fixjson
     neovim
+    perlnavigator-server
+    sql-formatter
+    sql-language-server
     vim-language-server
     vscode-langservers-extracted
     yaml-language-server
@@ -729,6 +747,7 @@ $ python3 -m pip install --upgrade
     hy
     pre-commit
     pynvim
+    vim-vint
     yamllint
     youtube-dl
     #httpie
