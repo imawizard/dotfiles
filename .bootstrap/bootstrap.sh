@@ -52,7 +52,8 @@ command -v brew >/dev/null || exit 1
 
 # Create iCloud shortcut.
 [[ $ICLOUD_DRIVE ]] && \
-    test ! -e ~/iCloud\ Drive && \
+    test ! -L ~/iCloud\ Drive && \
+    test ! -e "$_" && \
     ln -s "$ICLOUD_DRIVE" "$_" && \
     chflags -h hidden "$_"
 
@@ -349,7 +350,7 @@ fi
 
 # Link helix' runtime.
 if ! test -e ~/.config/helix/runtime || test -L "$_"; then
-    test -e "$_" && rm "$_"
+    test -L "$_" && rm "$_"
     ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"
 fi
 
