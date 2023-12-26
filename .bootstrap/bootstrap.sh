@@ -216,12 +216,6 @@ killall Finder
 killall Dock
 killall -q Mail || true
 
-# Reset apps' access rights.
-#tccutil reset CoreLocationAgent # /var/db/locationd/clients.plist
-#tccutil reset AddressBook
-#tccutil reset Reminders
-#tccutil reset Calendar
-
 # .........................................................................}}}
 
 # Set up hotkeys .........................................................{{{1

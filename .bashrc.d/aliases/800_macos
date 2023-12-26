@@ -73,4 +73,13 @@ listexts() {
     fi
 }
 
+# Reset apps' access rights.
+reset_privacy() {
+    tccutil reset CoreLocationAgent # /var/db/locationd/clients.plist
+    tccutil reset AddressBook
+    tccutil reset Reminders
+    tccutil reset Calendar
+}
+
+# Load additional aliases from iCloud.
 test -f "$HOME/iCloud Drive/.config/.bash_aliases" && . "$_"
