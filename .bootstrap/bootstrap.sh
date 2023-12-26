@@ -107,7 +107,7 @@ defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true             
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 2                                              # Enable Tab in system dialogs
 
 # Trackpad
-defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2                                     # Change pointer speed, requires logging out!
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2.5                                   # Change pointer speed, requires logging out!
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true                                  # Enable tapping for clicking
 defaults write com.apple.AppleBluetoothMultitouch.trackpad Clicking -bool true                        # ^
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true                                  # Enable App-Exposé
