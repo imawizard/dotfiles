@@ -80,6 +80,11 @@ osascript -e 'tell application "System Preferences" to quit' >/dev/null 2>&1
 # System
 sudo pmset -b tcpkeepalive 0                                                                          # Disable TCP keep alives when asleep (like from Find My Mac)
 sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticDownload -bool false # Disable automatic update downloads
+if [[ "$MODEL_NAME" == *"MacBook"* ]]; then
+    defaults write com.apple.bird optimize-storage -bool true                                         # Delete unused local files downloaded from the cloud to save space
+elif [[ "$MODEL_NAME" == *"iMac"* ]]; then
+    defaults write com.apple.bird optimize-storage -bool false
+fi
 #sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName                # Display IP address, hostname or OS version when pressing the login's clock (doesn't work)
 #sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true              # Show language in menu at login
 #sudo nvram SystemAudioVolume=" "                                                                     # Disable boot sound
