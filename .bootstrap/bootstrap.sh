@@ -241,6 +241,29 @@ IFS=$old
 sudo defaults write com.apple.universalaccess com.apple.custommenu.apps -array \
     "${domains[@]}"
 
+defaults write pbs NSServicesStatus -dict-add '"(null) - Bearbeite in helix - runWorkflowAsService"'                    '{ "key_equivalent" = "@^$\Uf704"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Neuer iTerm2 Tab - runWorkflowAsService"'                      '{ "key_equivalent" = "@^$\Uf705"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Bearbeite in VSCode - runWorkflowAsService"'                   '{ "key_equivalent" = "@^$\Uf706"; }'
+defaults write pbs NSServicesStatus -dict-add '"com.aone.keka - Keka/Send to Keka - serviceHandle"'                     '{ "key_equivalent" = "@^$\Uf707"; }'
+defaults write pbs NSServicesStatus -dict-add '"com.apple.TextEdit - Open Selected File in TextEdit - openFile"'        '{ "key_equivalent" = "@^$\Uf708"; }'
+defaults write pbs NSServicesStatus -dict-add '"co.gitup.mac - Open in GitUp - openRepository"'                         '{ "key_equivalent" = "@^$\Uf709"; }'
+
+defaults write pbs NSServicesStatus -dict-add '"(null) - Neues Textdokument - runWorkflowAsService"'                    '{ "key_equivalent" = "@~n"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Verstecke alle Fenster - runWorkflowAsService"'                '{}'
+
+defaults write pbs NSServicesStatus -dict-add '"(null) - Unique lines - runWorkflowAsService"'                          '{ "key_equivalent" = "@$\Uf70b"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Sort lines (asc) - runWorkflowAsService"'                      '{ "key_equivalent" = "@$\Uf70c"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Sort lines (desc) - runWorkflowAsService"'                     '{ "key_equivalent" = "@$\Uf70d"; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Shuffle lines - runWorkflowAsService"'                         '{ "key_equivalent" = "@$\Uf70e"; }'
+
+defaults write pbs NSServicesStatus -dict-add '"(null) - Bearbeite in vim (iTerm2 Tab) - runWorkflowAsService"'         '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Bearbeite in Vimr - runWorkflowAsService"'                     '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+
+defaults write pbs NSServicesStatus -dict-add '"com.apple.Terminal - New Terminal Tab at Folder - newTerminalAtFolder"' '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+defaults write pbs NSServicesStatus -dict-add '"com.apple.Terminal - New Terminal at Folder - newTerminalAtFolder"'     '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+defaults write pbs NSServicesStatus -dict-add '"com.googlecode.iterm2 - New iTerm2 Tab Here - openTab"'                 '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+defaults write pbs NSServicesStatus -dict-add '"com.googlecode.iterm2 - New iTerm2 Window Here - openWindow"'           '{ "enabled_context_menu" = 0; "enabled_services_menu" = 0; "presentation_modes" = { ContextMenu = 0; ServicesMenu = 0; }; }'
+
 # .........................................................................}}}
 
 # Install software and tools .............................................{{{1
@@ -357,9 +380,8 @@ tmux-256color|screen with 256 colors and italic,
   use=screen-256color,
 HERE
 
-# Install quicklook and services.
+# Install quicklook extensions (backed up to iCloud).
 find "$ICLOUD_DRIVE/.config/Apps/Quicklook" -name '*.qlgenerator' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Quicklook/" \;
-find "$ICLOUD_DRIVE/.config/Apps/Services" -name '*.workflow' -maxdepth 1 -exec cp -a -n {} "$HOME/Library/Services/" \;
 
 # .........................................................................}}}
 
