@@ -58,6 +58,15 @@ command -v brew >/dev/null || exit 1
     ln -s "$ICLOUD_DRIVE" "$_" && \
     chflags -h hidden "$_"
 
+# Create workspace folder.
+test ! -e ~/Developer && mkdir "$_"
+
+# Create ssh folder.
+test ! -d ~/.ssh && mkdir "$_"; chmod 700 "$_"
+[[ "$(ls -A ~/.ssh)" ]] && chmod -R 600 ~/.ssh/*
+test ! -f ~/.ssh/authorized_keys && touch "$_"; chmod 644 "$_"
+test ! -f ~/.ssh/known_hosts && touch "$_"; chmod 644 "$_"
+
 # Kick off iCloud download for config directory.
 find "$ICLOUD_DRIVE/.config" -name '*.icloud' -exec brctl download {} \;
 secrets() { test -x "$ICLOUD_DRIVE/.config/secrets.sh" && "$_" "$1" || exit 1; }
