@@ -407,10 +407,8 @@ exit
 
 # --Brewfile .............................................................{{{1
 
-tap "homebrew/core"
 tap "homebrew/bundle"
 tap "homebrew/services"
-tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 
