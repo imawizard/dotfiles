@@ -36,10 +36,12 @@ export ICLOUD_DRIVE=$(test -d ~/Library/Mobile\ Documents/com~apple~CloudDocs &&
 test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 
 # Install keyboard layout.
-{ test ! -e $(dirname "$0")/Amalgamation.keylayout && \
-    git clone https://github.com/imawizard/Amalgamation.keylayout "$_" || \
+keylayout=Amalgamation.keylayout
+keylayout_dir=$(dirname "$0")/$keylayout
+{ test ! -e $keylayout_dir && \
+    git clone https://github.com/imawizard/$keylayout "$_" || \
     git -C "$_" pull --rebase
-} && test -f "$_/Amalgamation.keylayout" && \
+} && test -f "$keylayout_dir/$keylayout" && \
     sudo cp "$_" "/Library/Keyboard Layouts/" && \
     echo "Copied keyboard layout"
 
