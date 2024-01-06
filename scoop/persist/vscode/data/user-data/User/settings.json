@@ -29,6 +29,8 @@
         "editorOverviewRuler.wordHighlightForeground": "#ffffff",
         "editorOverviewRuler.bracketMatchForeground": "#ffffff",
         "editorOverviewRuler.findMatchForeground": "#ffffff",
+        // NOTE: Primary-/SecondaryCursor are not customizable
+        // See https://github.com/microsoft/vscode/issues/85630
     },
 
     // Syntax scheme (Bold IntelliJ Light)
@@ -192,26 +194,24 @@
     "debug.toolBarLocation": "floating",
 
     // Suggestions
-    //"editor.wordBasedSuggestions": false,
-    //"editor.suggest.showWords": false,
-    "editor.acceptSuggestionOnEnter": "on",
+    "editor.suggestOnTriggerCharacters": true,
     "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
+        "other": "on",
+        "comments": "off",
+        "strings": "off",
     },
-    "editor.suggest.localityBonus": true,
-    "editor.suggest.preview": true,
-    "editor.suggestOnTriggerCharacters": false,
-    "editor.suggestSelection": "first",
     "editor.tabCompletion": "off",
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.suggest.localityBonus": true,
+    "editor.suggestSelection": "first",
+    "editor.suggest.preview": true,
 
     // Search editor
     "search.mode": "reuseEditor",
 
     // Disable nags
     "update.mode": "manual",
-    "extensions.ignoreRecommendations": false,
+    "extensions.ignoreRecommendations": true,
     "git.openRepositoryInParentFolders": "never",
     "powershell.promptToUpdatePowerShell": false,
     "telemetry.telemetryLevel": "off",
@@ -219,6 +219,12 @@
 
     // Dance ...............................................................{{{1
 
+    // NOTE: Setting the selectionBehavior to `character` renders selections
+    // being off for some commands. There are keybindings that try to mitigate
+    // that and thus probably won't work with `caret`, examples are:
+    // - w, b, e in select-mode with a reversed selection
+    // - l in normal-mode with a reversed selection
+    // - m m/s/r/d
     "dance.modes": {
         "normal": {
             "lineNumbers": "inherit",
@@ -260,22 +266,25 @@
         "goto-hx": {
             "title": "Goto",
             "items": {
-                "g": { "text": "line number <n> else file start", "command": "dance.select.lineStart", "args": [{ "count": 1          }]     },
-                "e": { "text": "last line",                       "command": "dance.select.lineStart", "args": [{ "count": 2147483647 }]     },
-                "f": { "text": "files in selection",              "command": "editor.action.openLink"                                        },
-                "h": { "text": "line start",                      "command": "dance.select.lineStart"                                        },
-                "l": { "text": "line end",                        "command": "dance.select.lineEnd"                                          },
-                "s": { "text": "first non-blank in line",         "command": "dance.select.lineStart", "args": [{ "skipBlank": true }]       },
-                "d": { "text": "definition",                      "command": "editor.action.revealDefinition"                                },
-                "y": { "text": "type definition",                 "command": "editor.action.goToTypeDefinition"                              },
-                "r": { "text": "references",                      "command": "editor.action.goToReferences"                                  },
-                "i": { "text": "implementation",                  "command": "editor.action.goToImplementation"                              },
-                "t": { "text": "window top",                      "command": "dance.select.firstVisibleLine"                                 },
-                "c": { "text": "window center",                   "command": "dance.select.middleVisibleLine"                                },
-                "b": { "text": "window bottom",                   "command": "dance.select.lastVisibleLine"                                  },
-                "a": { "text": "last accessed file",              "command": "workbench.action.previousEditorInGroup"                        },
-                "m": { "text": "last modified file",              "command": "???"                                                           },
-                "p": { "text": "previous buffer",                 "command": "workbench.action.previousEditor"                               },
+                "g": { "text": "line number <n> else file start", "command": "dance.run", "args": [{ "code": [
+                    "let shift = Context.current.mode.name !== 'select' ? 'jump' : 'extend'",
+                    "await vscode.commands.executeCommand('dance.select.lineStart', { count: Math.max(count, 1), shift })",
+                ] }] },
+                "e": { "text": "last line",               "command": "dance.select.lineStart", "args": [{ "count": 2147483647 }] },
+                "f": { "text": "files in selection",      "command": "editor.action.openLink"                                    },
+                "h": { "text": "line start",              "command": "dance.select.lineStart"                                    },
+                "l": { "text": "line end",                "command": "dance.select.lineEnd"                                      },
+                "s": { "text": "first non-blank in line", "command": "dance.select.lineStart", "args": [{ "skipBlank": true }]   },
+                "d": { "text": "definition",              "command": "editor.action.revealDefinition"                            },
+                "y": { "text": "type definition",         "command": "editor.action.goToTypeDefinition"                          },
+                "r": { "text": "references",              "command": "editor.action.goToReferences"                              },
+                "i": { "text": "implementation",          "command": "editor.action.goToImplementation"                          },
+                "t": { "text": "window top",              "command": "dance.select.firstVisibleLine"                             },
+                "c": { "text": "window center",           "command": "dance.select.middleVisibleLine"                            },
+                "b": { "text": "window bottom",           "command": "dance.select.lastVisibleLine"                              },
+                "a": { "text": "last accessed file",      "command": "workbench.action.previousEditorInGroup"                    },
+                "m": { "text": "last modified file",      "command": "???"                                                       },
+                "p": { "text": "previous buffer",         "command": "workbench.action.previousEditor"                           },
             }
         },
 
@@ -285,8 +294,13 @@
                 "m": { "text": "Goto matching bracket", "command": "dance.run", "args": [{ "code": [
                     "let shift = Context.current.mode.name !== 'select' ? 'jump' : 'extend';",
                     "await vscode.commands.executeCommand('dance.seek.enclosing.backward', { shift });",
-                    "if (Context.current.mode.name !== 'select') {",
+                    "if (shift === 'jump') {",
                         "await vscode.commands.executeCommand('dance.selections.reduce');",
+                    "} else {",
+                        "Selections.updateWithFallbackByIndex((i, sel) => new vscode.Selection(",
+                            "Positions.at(sel.anchor.line, sel.anchor.character + sel.isReversed),",
+                            "sel.active,",
+                        "));",
                     "}",
                 ] }] },
                 "s": { "text": "Surround add", "command": "dance.run", "args": [{ "code": [
@@ -363,11 +377,16 @@
                 "w":  { "text": "Word",                               "command": "dance.seek.object", "args": [{ "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"     }] },
                 "W":  { "text": "WORD",                               "command": "dance.seek.object", "args": [{ "input": "[\\S]+(?<after>[^\\S\\n]+)"            }] },
                 "p":  { "text": "Paragraph",                          "command": "dance.seek.object", "args": [{ "input": "(?#predefined=paragraph)"              }] },
-                "t":  { "text": "Type definition",                    "command": "dance.seek.object", "args": [{ "input": "???"                                   }] },
-                "f":  { "text": "Function",                           "command": "dance.seek.object", "args": [{ "input": "???"                                   }] },
-                "a":  { "text": "Argument/parameter",                 "command": "dance.seek.object", "args": [{ "input": "(?#predefined=argument)"               }] },
-                "c":  { "text": "Comment",                            "command": "dance.seek.object", "args": [{ "input": "???"                                   }] },
-                "T":  { "text": "Test",                               "command": "dance.seek.object", "args": [{ "input": "???"                                   }] },
+                "t":  { "text": "Type definition",                    "command": "dance.seek.object", "args": [{ "input": "(?#textobject=class)"                  }] },
+                "f":  { "text": "Function",                           "command": "dance.seek.object", "args": [{ "input": "(?#textobject=function)"               }] },
+                "a":  { "text": "Argument/parameter",                 "command": "dance.run", "args": [{ "code": [
+                    "let x = vscode.commands.executeCommand;",
+                    "let _ = Context.current;",
+                    "let ts = _.extension.treeSitter;",
+                    "await x('dance.seek.object', { input: ts?.determineLanguage(_.document) ? '(?#textobject=parameter)' : '(?#predefined=argument)' });",
+                ] }] },
+                "c":  { "text": "Comment",                            "command": "dance.seek.object", "args": [{ "input": "(?#textobject=comment)"                }] },
+                "T":  { "text": "Test",                               "command": "dance.seek.object", "args": [{ "input": "(?#textobject=test)"                   }] },
                 "m":  { "text": "Closest surrounding pair to cursor", "command": "dance.seek.enclosing"                                                              },
                 "()": { "text": "Parentheses",                        "command": "dance.seek.object", "args": [{ "input": "\\((?#inner)\\)"                       }] },
                 "{}": { "text": "Braces",                             "command": "dance.seek.object", "args": [{ "input": "\\{(?#inner)\\}"                       }] },
@@ -488,7 +507,7 @@
                 "P": { "text": "Paste clipboard before selections",             "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "start" }] },
                 "R": { "text": "Replace selections by clipboard content",       "command": "dance.edit.insert", "args": [{ "register": "dquote" }]                    },
                 "/": { "text": "Global search in workspace folder",             "command": "search.action.openEditor"                                                 },
-                "k": { "text": "Show docs for item under cursor",               "command": "editor.action.showHover"                                                  },
+                "k": { "text": "Show docs for item under cursor",               "command": "editor.action.showHover", "args": [{ "focus": true }]                     },
                 "r": { "text": "Rename symbol",                                 "command": "editor.action.rename"                                                     },
                 "h": { "text": "Select symbol references",                      "command": "dance.run", "args": [{ "commands": ["editor.action.selectHighlights", ".select.left.extend"] }] },
                 "?": { "text": "Open command palette",                          "command": "workbench.action.showCommands"                                            },
@@ -499,6 +518,7 @@
             "title": "Debug",
             "items": {
                 "l": { "text": "Launch debug target",        "command": "workbench.action.debug.start"         },
+                "r": { "text": "Restart debug session",      "command": "workbench.action.debug.restart"       },
                 "b": { "text": "Toggle breakpoint",          "command": "editor.debug.action.toggleBreakpoint" },
                 "c": { "text": "Continue program execution", "command": "workbench.action.debug.continue"      },
                 "h": { "text": "Pause program execution",    "command": "workbench.action.debug.pause"         },
@@ -556,6 +576,59 @@
             "items": {
                 "f": { "text": "File path",          "command": "copyFilePath"         },
                 "r": { "text": "Relative file path", "command": "copyRelativeFilePath" },
+            },
+        },
+
+        "command-hx": {
+            "title": "Command mode",
+            "items": {
+                ":": { "text": "Open command palette",  "command": "workbench.action.showCommands"                                       },
+                "f": { "text": ":fmt",                  "command": "dance.openMenu",                "args": [{ "menu": "command-f-hx" }] },
+                "w": { "text": ":w :wa :wq",            "command": "dance.openMenu",                "args": [{ "menu": "command-w-hx" }] },
+            },
+        },
+
+        "command-w-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Write changes to disk","command": "workbench.action.files.save"                                        },
+                "a":    { "text": ":wa",                  "command": "dance.openMenu",              "args": [{ "menu": "command-wa-hx" }] },
+                "q":    { "text": ":wq",                  "command": "dance.openMenu",              "args": [{ "menu": "command-wq-hx" }] },
+            },
+        },
+
+        "command-wa-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Write changes from all buffers to disk", "command": "workbench.action.files.save" },
+            },
+        },
+
+        "command-wq-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Write changes to disk and close the current view", "command": "dance.run", "args": [{ "commands": ["workbench.action.files.save", "workbench.action.closeEditorsAndGroup"] }] },
+            },
+        },
+
+        "command-f-hx": {
+            "title": "Command mode",
+            "items": {
+                "m": { "text": ":fmt", "command": "dance.openMenu", "args": [{ "menu": "command-fm-hx" }] },
+            },
+        },
+
+        "command-fm-hx": {
+            "title": "Command mode",
+            "items": {
+                "t": { "text": ":fmt", "command": "dance.openMenu", "args": [{ "menu": "command-fmt-hx" }] },
+            },
+        },
+
+        "command-fmt-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Format the file", "command": "editor.action.formatDocument" },
             },
         },
     },
