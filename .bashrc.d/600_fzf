@@ -15,7 +15,7 @@ export FZF_CTRL_R_OPTS="
 "
 
 location=$(
-    { command -v rtx >/dev/null && $_ where fzf 2>/dev/null && echo "/shell" \
+    { command -v mise >/dev/null && $_ where fzf 2>/dev/null && echo "/shell" \
     || { test -d /usr/share/doc/fzf/examples && echo "$_"; } } \
     | tr -d '\n'
 )

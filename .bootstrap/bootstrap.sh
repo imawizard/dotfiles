@@ -307,10 +307,11 @@ if [[ ! $(command -v rustup) ]]; then
     fi
 fi
 
-# Install rtx and everything in ~/.tool-versions
-cargo install --locked $(cargo_latest github.com/jdxcode/rtx 2023.12) rtx-cli
-command -v rtx >/dev/null || { echo "rtx wasn't found in PATH"; exit 1; }
-rtx install -y
+# Install mise and everything in ~/.tool-versions
+cargo install --locked mise
+command -v mise >/dev/null || { echo "mise wasn't found in PATH"; exit 1; }
+mise install -y
+eval "$(mise env)"
 
 # Install zsh plugins
 for repo in \
@@ -735,7 +736,7 @@ $ go install
     #github.com/caddyserver/caddy@latest
     #github.com/candid82/joker@latest # needs go generate
     #github.com/josharian/impl@latest
-    #github.com/junegunn/fzf@latest # install with rtx
+    #github.com/junegunn/fzf@latest # install with mise
     #github.com/magefile/mage@latest
     #github.com/rclone/rclone@latest
     #github.com/restic/restic@latest

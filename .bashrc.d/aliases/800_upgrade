@@ -6,8 +6,8 @@ upgrade() {
     upgrade_brew
     echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m apt\e[0m"
     upgrade_apt
-    echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
-    upgrade_rtx
+    echo " \e[30;1m[\e[35;1m•\e[30;1m]\e[32m mise\e[0m"
+    upgrade_mise
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m oh-my-zsh\e[0m"
     upgrade_oh_my_zsh
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m tmux plugins\e[0m"
@@ -56,11 +56,11 @@ upgrade_apt() {
     sudo apt-get upgrade -y
 }
 
-# Update rtx and asdf-plugins.
-upgrade_rtx() {
-    [[ $(command -v rtx) ]] || return 1
+# Update mise and asdf-plugins.
+upgrade_mise() {
+    [[ $(command -v mise) ]] || return 1
 
-    rtx self-update
+    mise self-update
 }
 
 # Update oh my zsh.

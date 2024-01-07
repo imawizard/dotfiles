@@ -8,8 +8,8 @@ cleansys() {
     cleansys_brew
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m apt\e[0m"
     cleansys_apt
-    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m rtx\e[0m"
-    cleansys_rtx
+    echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m mise\e[0m"
+    cleansys_mise
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m vim\e[0m"
     cleansys_vim
     echo "\n \e[30;1m[\e[35;1m•\e[30;1m]\e[32m cargo\e[0m"
@@ -55,11 +55,11 @@ cleansys_apt() {
     sudo apt-get clean
 }
 
-cleansys_rtx() {
-    [[ $(command -v rtx) ]] || return 1
+cleansys_mise() {
+    [[ $(command -v mise) ]] || return 1
 
-    rtx prune -y
-    rtx cache clear
+    mise prune -y
+    mise cache clear
 }
 
 cleansys_vim() {
