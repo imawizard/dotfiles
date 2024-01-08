@@ -422,7 +422,6 @@ tap "homebrew/cask-versions"
 tap "aws/tap"
 tap "clojure-lsp/brew"
 tap "koekeishiya/formulae"
-tap "universal-ctags/universal-ctags"
 
 # Core
     brew "telnet"
@@ -458,7 +457,7 @@ tap "universal-ctags/universal-ctags"
     brew "jq"                        # or fx
     brew "ncdu"
     brew "trash"
-    brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
+    brew "universal-ctags"
     #brew "archey"                   # deprecated, or screenfetch or neofetch
     #brew "byobu"
     #brew "cgdb"                     # needs gdb to be signed
