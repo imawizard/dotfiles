@@ -196,6 +196,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true    
 sudo chflags nohidden /Volumes                                                                        # Show the /Volumes folder
 
 # Mail
+defaults domains | grep -qi com.apple.mail || defaults write $_ '{}'
 defaults write com.apple.mail AutoFetch -bool true
 defaults write com.apple.mail polltime -string "-1"                                                   # Automatically fetch new mails
 defaults write com.apple.mail CalendarInviteRuleEnabled -bool true                                    # Automatically add invites to calender
@@ -211,6 +212,7 @@ defaults write com.apple.mail BccSelf -bool true                                
 
 # iBooks
 if [[ "v$MACOS_VERSION" < "v10.15" ]]; then
+    defaults domains | grep -qi com.apple.iBooksX || defaults write $_ '{}'
     defaults write com.apple.iBooksX BKPreventScreenDimmingPreferenceKey -bool true                   # Delay dimming while reading
     defaults write com.apple.iBooksX BKJustificationPreferenceKey -int 0                              # Naturally justify lines
     defaults write com.apple.iBooksX BKBookshelfViewControllerShowLabels -bool true                   # Show title and author
@@ -249,10 +251,12 @@ for line in $(
     if [[ $line =~ ^\-\  ]]; then
         domain="${line##*- }"
         domains+=($domain)
-        defaults delete "$domain" NSUserKeyEquivalents 2>/dev/null
+        [[ $(defaults read "$domain" 2>/dev/null | grep 'NSUserKeyEquivalents') ]] && \
+            defaults delete "$domain" NSUserKeyEquivalents
     elif [[ ! $line =~ ^\ *\# ]]; then
         name=$(echo "${line% *}" | xargs)
         key="${line##* }"
+        defaults domains | grep -qi "$domain" || defaults write "$_" '{}'
         defaults write "$domain" NSUserKeyEquivalents -dict-add "$name" "$key"
     fi
 done
