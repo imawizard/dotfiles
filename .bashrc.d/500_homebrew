@@ -1,4 +1,8 @@
-command -v brew >/dev/null && . <($_ shellenv)
+for brew in brew /opt/homebrew/bin/brew; do
+    command -v $brew >/dev/null && \
+        . <($_ shellenv) && \
+        break
+done
 
 export HOMEBREW_AUTOREMOVE=1
 export HOMEBREW_CLEANUP_MAX_AGE_DAYS=90

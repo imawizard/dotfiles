@@ -59,7 +59,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>vimr=/usr/local/bin/vimr
+					<string>test -x /usr/local/bin/vimr &amp;&amp; vimr=$_
+test -x /opt/homebrew/bin/vimr &amp;&amp; vimr=$_
 
 if [[ -d "$1" ]]; then
 	$vimr --cwd "$1" "$1"

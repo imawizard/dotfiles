@@ -59,7 +59,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>tmux=/usr/local/bin/tmux
+					<string>test -x /usr/local/bin/tmux &amp;&amp; tmux=$_
+test -x /opt/homebrew/bin/tmux &amp;&amp; tmux=$_
 editor=~/.cargo/bin/hx
 
 if [[ -d $1 ]]; then

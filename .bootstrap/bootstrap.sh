@@ -3,10 +3,13 @@
 
 set -euo pipefail
 
+# On Silicon add brew to PATH first.
+test -x /opt/homebrew/bin/brew && . <($_ shellenv)
+
 # Check for Homebrew, install if we don't have it.
 if [[ ! $(command -v brew) ]]; then
     echo "Installing Homebrew..."
-    CI=true /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Turn off analytics.
     brew analytics off
@@ -29,6 +32,7 @@ while true; do sudo -n true; sleep 60; kill -0 $$ || exit; done 2>/dev/null &
 
 # Set up vars.
 export MODEL_NAME=$(system_profiler SPHardwareDataType -detailLevel mini | grep "Model Name:" | sed -E 's/^.*:[[:space:]]+//')
+export SILICON_CHIP=$(system_profiler SPHardwareDataType -detailLevel mini | grep "Chip:" | grep -oE 'M\d+')
 export MACOS_VERSION=$(sw_vers -productVersion)
 export ICLOUD_DRIVE=$(test -d ~/Library/Mobile\ Documents/com~apple~CloudDocs && echo "$_")
 
