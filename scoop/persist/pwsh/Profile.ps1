@@ -130,6 +130,32 @@ function br {
     }
 }
 
+# Update scoop and wsl.
+function upgrade {
+    wsl --update
+    scoop update
+
+    if (scoop status | Select-String -Pattern "pwsh") {
+        Write-Host "Close pwsh and update scoop apps? (y/N)"
+        if ([console]::ReadKey().Key -eq "Y") {
+            start powershell {
+                scoop update *
+                Write-Host Done.
+                Read-Host
+            }
+            Stop-Process -Name "pwsh"
+        }
+    } else {
+        scoop update *
+    }
+}
+
+# Remove all in scoop that is not needed anymore.
+function cleansys {
+    scoop cleanup *
+    scoop cache rm *
+}
+
 # Aliases
 New-Alias -Name ll -Value Get-ChildItem
 
