@@ -1,0 +1,13 @@
+# See https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig
+
+[experimental]
+
+# Automatically release cached memory when idling.
+autoMemoryReclaim=gradual
+
+# Newly created VHD will be sparse. For existing one, use
+# wsl --manage <distro> --set-sparse <true/false>
+sparseVhd=true
+
+# Enforce WSL to use Windows’ HTTP proxy information.
+autoProxy=true
