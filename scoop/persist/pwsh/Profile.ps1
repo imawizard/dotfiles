@@ -162,7 +162,5 @@ New-Alias -Name ll -Value Get-ChildItem
 # Env-vars
 $env:EDITOR = "hx"
 $env:SHELL  = "pwsh"
-$env:POWERSHELL_TELEMETRY_OPTOUT = 1
-$env:POWERSHELL_UPDATECHECK      = "Off"
 
 $env:DOCKER_HOST = "tcp://127.0.0.1:2375"

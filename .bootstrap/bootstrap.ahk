@@ -290,6 +290,11 @@ if FileExist(path) {
     try RegWrite("`"" path "\launcher.exe`"",                                    "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\shell\open\command")
 }
 
+; Setup PowerShell env-variables.
+RegWrite("1", "REG_SZ", "HKCU\Environment", "DOTNET_CLI_TELEMETRY_OPTOUT")
+RegWrite("1", "REG_SZ", "HKCU\Environment", "POWERSHELL_TELEMETRY_OPTOUT")
+RegWrite("Off", "REG_SZ", "HKCU\Environment", "POWERSHELL_UPDATECHECK")
+
 ; Setup rust toolchain.
 if IsExecutable("rustup") {
     RunWait("rustup toolchain install nightly")
