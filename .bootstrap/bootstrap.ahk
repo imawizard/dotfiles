@@ -275,6 +275,7 @@ for name, pkg in Map(
     }
 }
 
+; Try to set Opera as the default browser.
 path := Exec("scoop.cmd prefix opera")[2]
 if FileExist(path) {
     ; FIXME: Apparently must be written to HKLM to be listed under Settings > Standard-Apps > Webbrowser.
@@ -289,6 +290,9 @@ if FileExist(path) {
     try RegWrite("ScoopedOpera",                                                 "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\Capabilities\URLAssociations", "https")
     try RegWrite("`"" path "\launcher.exe`"",                                    "REG_SZ", "HKCU\SOFTWARE\Clients\StartMenuInternet\ScoopedOpera\shell\open\command")
 }
+
+; Copy initial PowerToys config.
+; FileCopy(blabla)
 
 ; Setup PowerShell env-variables.
 RegWrite("1", "REG_SZ", "HKCU\Environment", "DOTNET_CLI_TELEMETRY_OPTOUT")
