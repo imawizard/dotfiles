@@ -114,6 +114,11 @@ defaults write com.apple.dock autohide -bool true                               
 #defaults write com.apple.dock autohide-time-modifier -float 0                                        # Adjust autohide delay
 defaults write NSGlobalDomain AppleWindowTabbingMode -string "always"                                 # Always open documents in tabs
 
+# Desktop
+if [[ ! "v$MACOS_VERSION" < "v10.14" ]]; then
+    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+fi
+
 # Mission Control
 defaults write com.apple.dock mru-spaces -bool false                                                  # Don't automatically rearrange spaces based on most recent use
 #defaults write NSGlobalDomain AppleSpacesSwitchOnActivate -bool false                                # Don't switch to a space with open windows for the application when switching to an application
@@ -129,7 +134,7 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 2                        
 # Trackpad
 defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2.5                                   # Change pointer speed, requires logging out!
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true                                  # Enable tapping for clicking
-defaults write com.apple.AppleBluetoothMultitouch.trackpad Clicking -bool true                        # ^
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true                 # ^
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true                                  # Enable App-Exposé
 
 # Mouse
@@ -144,8 +149,11 @@ defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string "TwoButton
 if [[ "v$MACOS_VERSION" < "v10.15" ]]; then
     defaults write com.apple.menuextra.battery ShowPercent -string "YES"                              # Show battery percentage
     defaults write com.apple.menuextra.textinput ModeNameVisible -bool false                          # Don't show input-layout
-else
+elif [[ "v$MACOS_VERSION" < "v14" ]]; then
     defaults write com.apple.TextInputMenu visible -bool false                                        # Don't show input-layout
+else
+    defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true                # Show bluetooth in menu bar
+    defaults write com.apple.controlcenter "NSStatusItem Visible Item-0" -bool false                  # Don't show spotlight in menu bar
 fi
 
 # Finder
