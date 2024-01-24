@@ -584,7 +584,39 @@
             "items": {
                 ":": { "text": "Open command palette",  "command": "workbench.action.showCommands"                                       },
                 "f": { "text": ":fmt",                  "command": "dance.openMenu",                "args": [{ "menu": "command-f-hx" }] },
+                "q": { "text": ":q :qa",                "command": "dance.openMenu",                "args": [{ "menu": "command-q-hx" }] },
+                "x": { "text": ":x :xa",                "command": "dance.openMenu",                "args": [{ "menu": "command-x-hx" }] },
                 "w": { "text": ":w :wa :wq",            "command": "dance.openMenu",                "args": [{ "menu": "command-w-hx" }] },
+            },
+        },
+
+        "command-q-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Close the current view", "command": "workbench.action.closeEditorsAndGroup"                            },
+                "a":    { "text": ":qa",                    "command": "dance.openMenu",              "args": [{ "menu": "command-qa-hx" }] },
+            },
+        },
+
+        "command-qa-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Close all views","command": "workbench.action.closeWindow" },
+            },
+        },
+
+        "command-x-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Write changes to disk and close the current view", "command": "dance.run",      "args": [{ "commands": ["workbench.action.files.save", "workbench.action.closeEditorsAndGroup"] }] },
+                "a":    { "text": ":xa",                                              "command": "dance.openMenu", "args": [{ "menu": "command-xa-hx" }]                                                              },
+            },
+        },
+
+        "command-xa-hx": {
+            "title": "Command mode",
+            "items": {
+                "<CR>": { "text": "Write changes to disk and close all views", "command": "dance.run", "args": [{ "commands": ["workbench.action.files.save", "workbench.action.closeWindow"] }] },
             },
         },
 
