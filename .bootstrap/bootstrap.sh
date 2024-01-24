@@ -36,6 +36,10 @@ export SILICON_CHIP=$(system_profiler SPHardwareDataType -detailLevel mini | gre
 export MACOS_VERSION=$(sw_vers -productVersion)
 export ICLOUD_DRIVE=$(test -d ~/Library/Mobile\ Documents/com~apple~CloudDocs && echo "$_")
 
+MACOS_MOJAVE="10.14"
+MACOS_CATALINA="10.15"
+MACOS_SONOMA="14"
+
 # Disable macOS update notifications.
 test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 
@@ -114,11 +118,16 @@ defaults write com.apple.dock autohide -bool true                               
 #defaults write com.apple.dock autohide-time-modifier -float 0                                        # Adjust autohide delay
 defaults write NSGlobalDomain AppleWindowTabbingMode -string "always"                                 # Always open documents in tabs
 
+# Desktop
+if [[ ! "v$MACOS_VERSION" < "v$MACOS_SONOMA" ]]; then
+    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+fi
+
 # Mission Control
 defaults write com.apple.dock mru-spaces -bool false                                                  # Don't automatically rearrange spaces based on most recent use
 #defaults write NSGlobalDomain AppleSpacesSwitchOnActivate -bool false                                # Don't switch to a space with open windows for the application when switching to an application
 defaults write com.apple.dock expose-group-apps -bool true                                            # Group windows by app
-if [[ "v$MACOS_VERSION" < "v10.15" ]]; then
+if [[ "v$MACOS_VERSION" < "v$MACOS_CATALINA" ]]; then
     defaults write com.apple.dashboard mcx-disabled -bool true                                        # Disable dashboard completely
 fi
 
@@ -129,7 +138,7 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 2                        
 # Trackpad
 defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2.5                                   # Change pointer speed, requires logging out!
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true                                  # Enable tapping for clicking
-defaults write com.apple.AppleBluetoothMultitouch.trackpad Clicking -bool true                        # ^
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true                 # ^
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true                                  # Enable App-Exposé
 
 # Mouse
@@ -141,11 +150,14 @@ defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string "TwoButton
 #defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool false                            # Disable system sounds
 
 # Menu
-if [[ "v$MACOS_VERSION" < "v10.15" ]]; then
+if [[ "v$MACOS_VERSION" < "v$MACOS_CATALINA" ]]; then
     defaults write com.apple.menuextra.battery ShowPercent -string "YES"                              # Show battery percentage
     defaults write com.apple.menuextra.textinput ModeNameVisible -bool false                          # Don't show input-layout
-else
+elif [[ "v$MACOS_VERSION" < "v$MACOS_SONOMA" ]]; then
     defaults write com.apple.TextInputMenu visible -bool false                                        # Don't show input-layout
+else
+    defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true                # Show bluetooth in menu bar
+    defaults write com.apple.controlcenter "NSStatusItem Visible Item-0" -bool false                  # Don't show spotlight in menu bar
 fi
 
 # Finder
@@ -166,7 +178,7 @@ defaults write com.apple.finder ShowPathbar -bool true                          
 defaults write com.apple.finder ShowStatusBar -bool true                                              # Show status at bottom by default
 #defaults write com.apple.finder AppleShowAllFiles -bool true                                         # Show hidden files by default (Cmd-Shift-period)
 
-if [[ "v$MACOS_VERSION" < "v10.14" ]]; then
+if [[ "v$MACOS_VERSION" < "v$MACOS_MOJAVE" ]]; then
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true                                # Display full POSIX path as window title
 fi
 defaults write com.apple.finder QLEnableTextSelection -bool true                                      # Allow text selection in Quick Look/Preview by default (doesn't work anymore)
@@ -211,7 +223,7 @@ defaults write com.apple.mail ShowReplyToHeader -bool true                      
 defaults write com.apple.mail BccSelf -bool true                                                      # Send copy to oneself
 
 # iBooks
-if [[ "v$MACOS_VERSION" < "v10.15" ]]; then
+if [[ "v$MACOS_VERSION" < "v$MACOS_CATALINA" ]]; then
     defaults domains | grep -qi com.apple.iBooksX || defaults write $_ '{}'
     defaults write com.apple.iBooksX BKPreventScreenDimmingPreferenceKey -bool true                   # Delay dimming while reading
     defaults write com.apple.iBooksX BKJustificationPreferenceKey -int 0                              # Naturally justify lines
