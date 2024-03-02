@@ -88,6 +88,8 @@
     { "key": "shift+f8", "command": "noop" },
     { "key": "shift+f9", "command": "noop" },
 
+    { "key": "cmd+shift+b", "command": "workbench.action.newWindow" },
+
     // Sidebar
     { "key": "escape", "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus || panelFocus"                                 },
     { "key": "cmd+1",  "command": "workbench.view.explorer"                                                                                       },
