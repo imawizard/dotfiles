@@ -681,15 +681,20 @@
 	},
     "dart.allowAnalytics": false,
     "dart.autoImportCompletions": true,
-    "dart.closingLabels": false,
     "dart.debugExternalPackageLibraries": false,
     "dart.debugSdkLibraries": false,
     "dart.enableCompletionCommitCharacters": false,
     "dart.flutterHotReloadOnSave": "allIfDirty",
-    "dart.previewFlutterUiGuides": true,
-    "dart.previewFlutterUiGuidesCustomTracking": true,
-    "dart.triggerSignatureHelpAutomatically": true,
     "dart.warnWhenEditingFilesOutsideWorkspace": false,
+
+    "dart.previewFlutterUiGuides": false,
+    "dart.previewFlutterUiGuidesCustomTracking": false,
+
+    "dart.triggerSignatureHelpAutomatically": true,
+
+    "dart.closingLabels": false,
+    "dart.flutterGutterIcons": false,
+    "dart.flutterOutline": false,
 
     // C/C++
     "[c]": {
