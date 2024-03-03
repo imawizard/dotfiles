@@ -62,6 +62,8 @@
     { "key": "shift+f8", "command": "noop" },
     { "key": "shift+f9", "command": "noop" },
 
+    { "key": "alt+shift+b", "command": "workbench.action.newWindow" },
+
     // Sidebar
     { "key": "escape",      "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus || panelFocus"                                 },
     { "key": "alt+1",       "command": "workbench.view.explorer"                                                                                       },
@@ -288,16 +290,16 @@
     { "key": "shift+v", "command": "dance.ignore", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "shift+m", "command": "dance.ignore", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "0", "command": "dance.updateCount", "args": { "addDigits": 0 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "1", "command": "dance.updateCount", "args": { "addDigits": 1 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "2", "command": "dance.updateCount", "args": { "addDigits": 2 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "3", "command": "dance.updateCount", "args": { "addDigits": 3 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "4", "command": "dance.updateCount", "args": { "addDigits": 4 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "5", "command": "dance.updateCount", "args": { "addDigits": 5 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "6", "command": "dance.updateCount", "args": { "addDigits": 6 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "7", "command": "dance.updateCount", "args": { "addDigits": 7 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "8", "command": "dance.updateCount", "args": { "addDigits": 8 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "9", "command": "dance.updateCount", "args": { "addDigits": 9 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad0", "command": "dance.updateCount", "args": { "addDigits": 0 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad1", "command": "dance.updateCount", "args": { "addDigits": 1 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad2", "command": "dance.updateCount", "args": { "addDigits": 2 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad3", "command": "dance.updateCount", "args": { "addDigits": 3 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad4", "command": "dance.updateCount", "args": { "addDigits": 4 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad5", "command": "dance.updateCount", "args": { "addDigits": 5 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad6", "command": "dance.updateCount", "args": { "addDigits": 6 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad7", "command": "dance.updateCount", "args": { "addDigits": 7 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad8", "command": "dance.updateCount", "args": { "addDigits": 8 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "numpad9", "command": "dance.updateCount", "args": { "addDigits": 9 }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     //
     // Select mode
@@ -360,14 +362,15 @@
 
     { "key": "ctrl+s", "command": "???",             "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+w", "command": "deleteWordLeft",  "when": "editorTextFocus && dance.mode == 'insert'" },
+    { "key": "alt+h",  "command": "deleteWordLeft",  "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "alt+d",  "command": "deleteWordRight", "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+u", "command": "deleteAllLeft",   "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+k", "command": "deleteAllRight",  "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+h", "command": "deleteLeft",      "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+d", "command": "deleteRight",     "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+j", "command": "dance.edit.newLine.below.insert", "when": "editorTextFocus && dance.mode == 'insert'" },
-    /*
     { "key": "ctrl+m", "command": "dance.edit.newLine.below.insert", "when": "editorTextFocus && dance.mode == 'insert'" },
+    /*
     { "key": "ctrl+b", "command": "cursorLeft",      "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+f", "command": "cursorRight",     "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+a", "command": "cursorLineStart", "when": "editorTextFocus && dance.mode == 'insert'" },

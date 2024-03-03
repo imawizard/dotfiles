@@ -6,7 +6,6 @@
         "ms-vscode.hexeditor",
         "ybaumes.highlight-trailing-white-spaces",
         "wayou.vscode-todo-highlight",
-        "jakearl.search-editor-apply-changes",
 
         // WSL, SSH & Github/Azure repos
         "ms-vscode-remote.vscode-remote-extensionpack",
