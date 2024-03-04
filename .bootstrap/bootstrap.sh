@@ -315,13 +315,11 @@ if [[ ! $(command -v rustup) ]]; then
     fi
 fi
 
-# Install mise and everything in ~/.tool-versions
+# Install mise.
 cargo install --locked mise
 command -v mise >/dev/null || { echo "mise wasn't found in PATH"; exit 1; }
-mise install -y
-eval "$(mise env)"
 
-# Install zsh plugins
+# Install zsh plugins.
 for repo in \
     github.com/Aloxaf/fzf-tab \
     github.com/zdharma-continuum/fast-syntax-highlighting \
@@ -333,7 +331,7 @@ for repo in \
         git -C "$_" pull --rebase
 done
 
-# Install carapace
+# Install carapace.
 if [[ ! $(command -v carapace) ]]; then
     kern="$(uname -s)"
     arch="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')"
@@ -344,7 +342,7 @@ if [[ ! $(command -v carapace) ]]; then
         rm -f README.md LICENSE
 fi
 
-# Install various tools and packages
+# Install various tools and packages and everything in ~/.tool-versions.
 cmd="echo"; can=true
 perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
 | while read -r line; do
@@ -651,6 +649,12 @@ tap "koekeishiya/formulae"
 # .........................................................................}}}
 
 # --Tools ................................................................{{{1
+
+$ mise
+    install -y
+
+$ eval
+    $(mise env)
 
 $ cargo install --locked
     $(cargo_latest github.com/Shopify/shadowenv 2.1)
