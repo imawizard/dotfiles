@@ -4,13 +4,20 @@ export FZF_DEFAULT_OPTS="
     --color 'hl+:bold:-1,hl:bold:-1,gutter:-1,pointer:bright-green,bg+:black'
 "
 
+export FZF_CTRL_T_OPTS="
+    --select-1
+    --exit-0
+"
+
 export FZF_ALT_C_OPTS="
-    --preview 'tree -C {}'
+    --select-1
+    --exit-0
+    --preview 'tree -C {} | head -200'
 "
 
 export FZF_CTRL_R_OPTS="
     --bind 'ctrl-o:toggle-preview'
-    --preview 'echo {}' --preview-window up:3:hidden:wrap
+    --preview 'echo {}' --preview-window down:3:hidden:wrap
     --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
 "
 

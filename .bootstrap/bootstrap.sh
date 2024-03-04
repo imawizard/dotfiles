@@ -669,13 +669,13 @@ $ cargo install --locked
     git-delta  # --git https://github.com/dandavison/delta
     hyperfine  # --git https://github.com/sharkdp/hyperfine
     macchina   # --git https://github.com/Macchina-CLI/macchina
-    mcfly      # --git https://github.com/cantino/mcfly
     ripgrep    # --git https://github.com/BurntSushi/ripgrep
     stylua     # --git https://github.com/JohnnyMorganz/StyLua
     tokei      # --git https://github.com/XAMPPRocky/tokei tokei
     zoxide     # --git https://github.com/ajeetdsouza/zoxide
     #exa       # --git https://github.com/ogham/exa
     #fd-find   # --git https://github.com/sharkdp/fd
+    #mcfly     # --git https://github.com/cantino/mcfly
     #ren-find  # --git https://github.com/robenkleene/ren-find
     #rep-grep  # --git https://github.com/robenkleene/rep-grep
     #starship  # --git https://github.com/starship/starship
