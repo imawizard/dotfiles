@@ -40,6 +40,7 @@ wezterm.on(
 return {
   default_prog = wezterm.target_triple:find("win") and { "pwsh.exe" },
   skip_close_confirmation_for_processes_named = {},
+  check_for_updates = false,
 
   window_decorations = "RESIZE",
   show_update_window = true,
