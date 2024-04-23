@@ -1,7 +1,7 @@
 # General
 ignore-menu-bar: false
 new-windows-to-main: false
-follow-space-thrown-windows: false
+follow-space-thrown-windows: true
 
 window-minimum-width: 0
 window-minimum-height: 0
@@ -139,6 +139,11 @@ select-twopane-layout:
   mod: mod1
   key: "6"
 
+relaunch-amethyst:
+  mod: mod1
+  key: ";" # qwerty's q
+
+# Don't map the following, warning: setting these bugs rebinding via gui
 cycle-layout:
   mod: ""
 cycle-layout-backward:
@@ -170,14 +175,11 @@ toggle-focus-follows-mouse:
 reevaluate-windows:
   mod: ""
 
-relaunch-amethyst:
-  mod: mod1
-  key: ";" # qwerty's q
-
 # Mouse
 mouse-follows-focus: true
 focus-follows-mouse: false
-mouse-swaps-windows: false
+mouse-swaps-windows: true
+mouse-resizes-windows: true
 
 # Floating
 float-small-windows: true
