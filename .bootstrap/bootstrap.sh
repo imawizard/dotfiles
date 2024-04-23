@@ -19,6 +19,8 @@ fi
 if [[ ! -d ~/.oh-my-zsh ]]; then
     echo "Installing oh-my-zsh..."
     RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+elif [[ $(command -v omz) ]]; then
+    omz update --unattended
 fi
 
 # Ask for super user permissions.
@@ -313,6 +315,7 @@ latest() { echo "${3:-%2}" | sed -e "s|%1|$1|" -e "s|%2|$( \
 cargo_latest() { latest "$1" "${2:-}" '--git https://%1 --tag %2'; }
 
 # Install formulae and casks.
+brew update
 Brewfile=$(perl -nlE 'say if (/^# --Brewfile/.../^# --/) && !/^# --/' "$0"; secrets brewfile)
 echo "$Brewfile" | brew bundle install --file=-
 echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
@@ -325,11 +328,18 @@ if [[ ! $(command -v rustup) ]]; then
     else
         curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain stable --no-modify-path -y
     fi
+else
+    rustup update
 fi
 
 # Install mise.
-cargo install --locked mise
-command -v mise >/dev/null || { echo "mise wasn't found in PATH"; exit 1; }
+if [[ ! $(command -v mise) ]]; then
+    cargo install --locked mise
+    command -v mise >/dev/null || { echo "mise wasn't found in PATH"; exit 1; }
+else
+    mise self-update -y
+    mise upgrade
+fi
 
 # Install zsh plugins.
 for repo in \
@@ -376,6 +386,7 @@ if [[ $(command -v vim) ]]; then
     test ! -e ~/.vim/autoload/plug.vim && \
         curl -fLo "$_" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     vim +PlugInstall +qa
+    vim -c 'PlugUpgrade | PlugUpdate' +qa
 fi
 
 # Install packer, hotpot and neovim plugins.
@@ -399,6 +410,7 @@ if [[ $(command -v tmux) ]]; then
         git clone https://github.com/tmux-plugins/tpm "$_" || \
         git -C "$_" pull --rebase
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
+    test -x ~/.tmux/plugins/tpm/bin/update_plugins && "$_" all
 fi
 
 # Link helix' runtime.
@@ -406,6 +418,44 @@ if ! test -e ~/.config/helix/runtime || test -L "$_"; then
     test -L "$_" && rm "$_"
     ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"
 fi
+
+if [[ $(command -v dart) ]]; then
+    dart --disable-analytics
+fi
+if [[ $(command -v flutter) ]]; then
+    flutter upgrade --force
+    flutter config --no-analytics
+
+    download=false
+    docset=$(curl -fsSL https://master-api.flutter.dev/offline/flutter.xml)
+    if [[ $? != 0 ]]; then
+        echo "Couldn't download flutter.docset!"
+        return 1
+    fi
+    version=$(echo "$docset" | sed -n 's/\s*<version>\(.*\)<\/version>/\1/p' | xargs)
+    url=$(echo "$docset" | sed -n 's/\s*<url>\(.*\)<\/url>/\1/p' | xargs)
+    if [[ ! -e ~/flutter/flutter.docset ]]; then
+        echo "Downloading flutter.docset..."
+        download=true
+    fi
+    if [[ ! $(cat ~/flutter/flutter.docset-version) == "$version" ]]; then
+        echo "Updating flutter.docset to $version..."
+        download=true
+    fi
+    if $download; then
+        wget -q -O ~/flutter/dl.tar.gz "$url"
+        echo "Unpacking flutter.docset..."
+        tar -xzf ~/flutter/dl.tar.gz -C ~/flutter/
+        rm -f ~/flutter/dl.tar.gz
+        printf %s "$version" >~/flutter/flutter.docset-version
+    fi
+
+    # remove icons and localizations to save some space
+    rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/cupertino/CupertinoIcons
+    rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/material/Icons
+    rm -rf ~/flutter/flutter.docset/Contents/Resources/Documents/doc/flutter/flutter_localizations
+fi
+
 
 # Possibly add missing tmux-256color.
 test ! -f ~/.terminfo/*/tmux-256color && \

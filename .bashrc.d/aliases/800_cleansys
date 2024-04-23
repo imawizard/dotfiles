@@ -44,6 +44,7 @@ cleansys() {
 cleansys_brew() {
     [[ $(command -v brew) ]] || return 1
 
+    brew cleanup -s
     brew autoremove -v
     cleansys_rmdir ~/Library/Caches/Homebrew
 }
