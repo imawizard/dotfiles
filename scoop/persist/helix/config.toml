@@ -2,10 +2,11 @@ theme = "bold-intellij-light"
 
 [editor]
 true-color = true
-cursorline = false
+undercurl = true
 auto-save = true
 rulers = [80]
 color-modes = true
+default-line-ending = "lf"
 
 [editor.lsp]
 display-inlay-hints = true
@@ -41,9 +42,7 @@ insert = "INSERT"
 select = "SELECT"
 
 [editor.cursor-shape]
-normal = "block"
 insert = "underline"
-select = "block"
 
 [editor.file-picker]
 hidden = false
@@ -58,3 +57,14 @@ newline = "none"
 render = true
 character = "▏"
 skip-levels = 1
+
+[keys.normal]
+F9 = ["dap_launch", "dap_continue"]
+S-F9 = "dap_pause"
+A-F9 = "dap_restart"
+A-F2 = "dap_terminate"
+F7 = "dap_step_in"
+F8 = "dap_next"
+A-F8 = "dap_step_out"
+F2 = "dap_toggle_breakpoint"
+S-F2 = "dap_edit_condition"
