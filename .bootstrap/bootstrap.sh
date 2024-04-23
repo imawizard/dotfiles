@@ -640,11 +640,11 @@ tap "koekeishiya/formulae"
     cask "font-inconsolata"
     cask "font-metropolis"
     cask "font-monoid"
+    cask "font-roboto"
+    cask "font-roboto-condensed"
+    cask "font-source-code-pro"
+    cask "font-ubuntu"
     cask "font-work-sans"
-    #cask "font-roboto"              # needs svn
-    #cask "font-roboto-condensed"    # needs svn
-    #cask "font-source-code-pro"     # needs svn
-    #cask "font-ubuntu"              # needs svn
 
 # .........................................................................}}}
 
