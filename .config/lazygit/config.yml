@@ -1,11 +1,11 @@
 gui:
   language: en
-  showBottomLine: true
   showBranchCommitHash: true
+  showPanelJumps: false
+  showListFooter: false
   nerdFontsVersion: "3"
   skipRewordInEditorWarning: true
   skipStashWarning: true
-  border: rounded
   scrollHeight: 3
   theme:
     selectedLineBgColor:
@@ -15,8 +15,5 @@ git:
   paging:
     colorArg: always
     pager: delta --light --paging=never
-
-os:
-  editPreset: helix
 
 promptToReturnFromSubprocess: false
