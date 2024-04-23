@@ -152,26 +152,26 @@
 
 (set vim.lsp.protocol.CompletionItemKind [" text"         ;  text
                                           " method"       ; method
-                                          " function"     ; function
-                                          " constructor"  ;  constructor
-                                          " field"        ; ﰠ field
+                                          "󰊕 function"     ; function
+                                          "󰊕 constructor"  ;  constructor
+                                          " field"        ; 󰜢 field
                                           " variable"     ;  variable
                                           " class"        ; class
-                                          "ﰮ interface"    ; interface
-                                          " module"       ;  module
+                                          "󰜰 interface"    ; interface
+                                          "󰏗 module"       ;  module
                                           " property"     ; property
                                           " unit"         ; unit
-                                          " value"        ; value
+                                          "󰎠 value"        ; value
                                           " enum"         ; 了enum
-                                          " keyword"      ; keyword
-                                          "﬌ snippet"      ;  snippet
-                                          " color"        ;  color
+                                          "󰌋 keyword"      ; keyword
+                                          "󰘍 snippet"      ;  snippet
+                                          "󰌁 color"        ;  color
                                           " file"         ;  file
-                                          " reference"    ;  reference
+                                          "󰌹 reference"    ; 󰆑 reference
                                           " folder"       ;  folder
                                           " enum member"  ; enum member
                                           " const"        ; constant
                                           " struct"       ; struct
                                           " event"        ; ⌘ event
-                                          "ﬦ operator"     ;  operator
-                                          " type param"]) ;  type parameter
+                                          "󰘧 operator"     ;  operator
+                                          " type param"]) ; 󰊄 type parameter
