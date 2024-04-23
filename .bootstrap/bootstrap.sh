@@ -733,6 +733,7 @@ $ cargo install --locked
     macchina   # --git https://github.com/Macchina-CLI/macchina
     ripgrep    # --git https://github.com/BurntSushi/ripgrep
     stylua     # --git https://github.com/JohnnyMorganz/StyLua
+    usage-cli  # --git https://github.com/jdx/usage
     tokei      # --git https://github.com/XAMPPRocky/tokei tokei
     zoxide     # --git https://github.com/ajeetdsouza/zoxide
     #exa       # --git https://github.com/ogham/exa
