@@ -1,10 +1,11 @@
 gui:
   language: en
-  showBottomLine: true
-  showIcons: true
+  showBranchCommitHash: true
+  showPanelJumps: false
+  showListFooter: false
+  nerdFontsVersion: "3"
   skipRewordInEditorWarning: true
   skipStashWarning: true
-  border: rounded
   scrollHeight: 3
   theme:
     selectedLineBgColor:
