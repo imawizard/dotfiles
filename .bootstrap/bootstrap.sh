@@ -531,6 +531,7 @@ tap "koekeishiya/formulae"
 
 # Utilities
     brew "entr"                      # or fswatch
+    brew "exercism"
     brew "fdupes"
     brew "jq"                        # or fx
     brew "ncdu"
@@ -578,12 +579,12 @@ tap "koekeishiya/formulae"
     #brew "sqlite"                   # newer version, keg-only
 
 # DevOps
+    brew "podman"
     #brew "aws-shell"
     #brew "aws/tap/aws-sam-cli"
     #brew "docker"
     #brew "docker-machine"
     #brew "docker-swarm"
-    #brew "podman"
     #brew "podman-compose"
 
 # Conversion
@@ -641,6 +642,7 @@ tap "koekeishiya/formulae"
     cask "boop"
     cask "hex-fiend"
     cask "meld"
+    cask "podman-desktop"
     cask "visual-studio-code"
     #cask "clion"
     #cask "cocoapods"                # bundled app with editor
@@ -870,6 +872,7 @@ $ python3 -m pip install --upgrade
     azure-cli
     cookiecutter
     hy
+    podman-compose
     pre-commit
     pynvim
     vim-vint
