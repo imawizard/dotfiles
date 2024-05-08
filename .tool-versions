@@ -9,14 +9,6 @@ node                21
 shellcheck          0.9
 zig                 master
 
-#awscli              2.14
-#azure-cli           2.54
-#kind                0.20
-#kubectl             1.28
-#minikube            1.32
-#terraform           1.6
-#terragrunt          0.54
-
 #bun                 1.0
 #deno                1.38
 

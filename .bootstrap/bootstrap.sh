@@ -864,17 +864,10 @@ $ npm install --global
     #cloc
     #marked
 
-$ python -m pip install --upgrade
-    pip
-    #ipython
-    #pygments                        # for ccat
-    #six                             # for lldb
-    #virtualenv
-    #virtualenvwrapper
-
 $ python3 -m pip install --upgrade
     pip
     asciinema
+    azure-cli
     cookiecutter
     hy
     pre-commit
@@ -882,6 +875,7 @@ $ python3 -m pip install --upgrade
     vim-vint
     yamllint
     youtube-dl
+    git+https://github.com/aws/aws-cli.git@v2 pyopenssl
     #httpie
     #markdown
     #neovim-remote
