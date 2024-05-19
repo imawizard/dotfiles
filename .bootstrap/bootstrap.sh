@@ -1,5 +1,5 @@
 #!/bin/bash
-#shellcheck disable=SC2091,SC2155,SC2215,SC2288,SC2317
+#shellcheck disable=SC2155,SC2317,SC1090,SC2015
 
 set -euo pipefail
 
@@ -48,26 +48,26 @@ test -d /Library/Bundles/OSXNotification.bundle && mv "$_" "$_.ignored"
 # Install keyboard layout.
 keylayout=Amalgamation.keylayout
 keylayout_dir=$(dirname "$0")/$keylayout
-{ test ! -e $keylayout_dir && \
-    git clone https://github.com/imawizard/$keylayout "$_" || \
+{ test ! -e "$keylayout_dir" &&
+    git clone https://github.com/imawizard/$keylayout "$_" ||
     git -C "$_" pull --rebase
-} && test -f "$keylayout_dir/$keylayout" && \
-    sudo cp "$_" "/Library/Keyboard Layouts/" && \
+} && test -f "$keylayout_dir/$keylayout" &&
+    sudo cp "$_" "/Library/Keyboard Layouts/" &&
     echo "Copied keyboard layout"
 
 # Pull Chrome extensions.
-test ! -e $(dirname "$0")/chrome-extensions && \
-    git clone https://github.com/imawizard/chrome-extensions "$_" || \
+test ! -e "$(dirname "$0")/chrome-extensions" &&
+    git clone https://github.com/imawizard/chrome-extensions "$_" ||
     git -C "$_" pull --rebase
 
 # Abort if brew isn't installed.
 command -v brew >/dev/null || exit 1
 
 # Create iCloud shortcut.
-[[ $ICLOUD_DRIVE ]] && \
-    test ! -L ~/iCloud\ Drive && \
-    test ! -e "$_" && \
-    ln -s "$ICLOUD_DRIVE" "$_" && \
+[[ $ICLOUD_DRIVE ]] &&
+    test ! -L ~/iCloud\ Drive &&
+    test ! -e "$_" &&
+    ln -s "$ICLOUD_DRIVE" "$_" &&
     chflags -h hidden "$_"
 
 # Create workspace folder.
@@ -210,7 +210,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true    
 sudo chflags nohidden /Volumes                                                                        # Show the /Volumes folder
 
 # Mail
-defaults domains | grep -qi com.apple.mail || defaults write $_ '{}'
+defaults domains | grep -qi com.apple.mail || defaults write "$_" '{}'
 defaults write com.apple.mail AutoFetch -bool true
 defaults write com.apple.mail polltime -string "-1"                                                   # Automatically fetch new mails
 defaults write com.apple.mail CalendarInviteRuleEnabled -bool true                                    # Automatically add invites to calender
@@ -226,7 +226,7 @@ defaults write com.apple.mail BccSelf -bool true                                
 
 # iBooks
 if [[ "v$MACOS_VERSION" < "v$MACOS_CATALINA" ]]; then
-    defaults domains | grep -qi com.apple.iBooksX || defaults write $_ '{}'
+    defaults domains | grep -qi com.apple.iBooksX || defaults write "$_" '{}'
     defaults write com.apple.iBooksX BKPreventScreenDimmingPreferenceKey -bool true                   # Delay dimming while reading
     defaults write com.apple.iBooksX BKJustificationPreferenceKey -int 0                              # Naturally justify lines
     defaults write com.apple.iBooksX BKBookshelfViewControllerShowLabels -bool true                   # Show title and author
@@ -264,10 +264,10 @@ for line in $(
 ); do
     if [[ $line =~ ^\-\  ]]; then
         domain="${line##*- }"
-        domains+=($domain)
-        [[ $(defaults read "$domain" 2>/dev/null | grep 'NSUserKeyEquivalents') ]] && \
+        domains+=("$domain")
+        defaults read "$domain" 2>/dev/null | grep -q 'NSUserKeyEquivalents' &&
             defaults delete "$domain" NSUserKeyEquivalents
-    elif [[ ! $line =~ ^\ *\# ]]; then
+    elif [[ ! $line =~ ^\ *\# ]] && [[ $line =~ " " ]]; then
         name=$(echo "${line% *}" | xargs)
         key="${line##* }"
         defaults domains | grep -qi "$domain" || defaults write "$_" '{}'
@@ -348,8 +348,8 @@ for repo in \
     github.com/zsh-users/zsh-autosuggestions \
     github.com/zsh-users/zsh-syntax-highlighting \
 ; do
-    test ! -e ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/${repo##*/} && \
-        git clone https://$repo "$_" || \
+    test ! -e "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/${repo##*/}" &&
+        git clone "https://$repo" "$_" ||
         git -C "$_" pull --rebase
 done
 
@@ -357,10 +357,10 @@ done
 if [[ ! $(command -v carapace) ]]; then
     kern="$(uname -s)"
     arch="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')"
-    wget https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_${kern}_${arch}.tar.gz -O ~/dl.tar.gz && \
-        tar -xzf "$_" && \
-        rm -f "$_" && \
-        mv carapace ~/.go/bin/ && \
+    wget "https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_${kern}_${arch}.tar.gz" -O ~/dl.tar.gz &&
+        tar -xzf "$_" &&
+        rm -f "$_" &&
+        mv carapace ~/.go/bin/ &&
         rm -f README.md LICENSE
 fi
 
@@ -375,6 +375,7 @@ perl -nlE 'say if (/^# --Tools/.../^# --/) && !/^# --/' "$0" \
         line=$(eval "echo $line")
         [[ $line ]] || continue
         echo -e "\033[7m\$ $cmd $line\033[0m"
+        #shellcheck disable=SC2086
         $cmd $line
     fi
 done
@@ -383,7 +384,7 @@ done
 if [[ $(command -v vim) ]]; then
     test ! -e ~/.vim/swap && mkdir "$_"
     test ! -e ~/.vim/undo && mkdir "$_"
-    test ! -e ~/.vim/autoload/plug.vim && \
+    test ! -e ~/.vim/autoload/plug.vim &&
         curl -fLo "$_" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     vim +PlugInstall +qa
     vim -c 'PlugUpgrade | PlugUpdate' +qa
@@ -393,11 +394,11 @@ fi
 if [[ $(command -v nvim) ]]; then
     test ! -e ~/.vim/swap && mkdir "$_"
     test ! -e ~/.vim/undo && mkdir "$_"
-    test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
-        git clone https://github.com/wbthomason/packer.nvim "$_" || \
+    test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim &&
+        git clone https://github.com/wbthomason/packer.nvim "$_" ||
         git -C "$_" pull --rebase
-    test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim && \
-        git clone https://github.com/rktjmp/hotpot.nvim "$_" || \
+    test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim &&
+        git clone https://github.com/rktjmp/hotpot.nvim "$_" ||
         git -C "$_" pull --rebase
     nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'TSInstallSync all' +qa
@@ -406,8 +407,8 @@ fi
 
 # Install tpm and tmux plugins.
 if [[ $(command -v tmux) ]]; then
-    test ! -e ~/.tmux/plugins/tpm && \
-        git clone https://github.com/tmux-plugins/tpm "$_" || \
+    test ! -e ~/.tmux/plugins/tpm &&
+        git clone https://github.com/tmux-plugins/tpm "$_" ||
         git -C "$_" pull --rebase
     test -x ~/.tmux/plugins/tpm/bin/install_plugins && "$_"
     test -x ~/.tmux/plugins/tpm/bin/update_plugins && "$_" all
@@ -416,6 +417,7 @@ fi
 # Link helix' runtime.
 if ! test -e ~/.config/helix/runtime || test -L "$_"; then
     test -L "$_" && rm "$_"
+    #shellcheck disable=SC2012
     ln -s "$(ls -d -1 -t ~/.cargo/git/checkouts/helix-????????????????/* | head -n 1)/runtime" "$_"
 fi
 
@@ -458,8 +460,8 @@ fi
 
 
 # Possibly add missing tmux-256color.
-test ! -f ~/.terminfo/*/tmux-256color && \
-    tee <<HERE $(basename "$_").terminfo >/dev/null && tic "$_" && rm -f "$_"
+test ! -f ~/.terminfo/*/tmux-256color &&
+    tee <<HERE "$(basename "$_").terminfo" >/dev/null && tic "$_" && rm -f "$_"
 tmux-256color|screen with 256 colors and italic,
   sitm=\E[3m, ritm=\E[23m,
   use=screen-256color,
@@ -475,6 +477,9 @@ secrets post
 echo
 echo "Done"
 exit
+
+#shellcheck disable=all
+{
 
 # --Brewfile .............................................................{{{1
 
@@ -952,3 +957,5 @@ $ rustup component add
     Prozesse mit Fenstern           @2
 
 # .........................................................................}}}
+
+}
