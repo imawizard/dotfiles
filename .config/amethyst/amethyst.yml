@@ -126,16 +126,22 @@ select-floating-layout:
 select-wide-layout:
   mod: mod1
   key: "2"
+select-row-layout:
+  mod: mod2
+  key: "2"
 select-tall-layout:
   mod: mod1
+  key: "3"
+select-column-layout:
+  mod: mod2
   key: "3"
 select-fullscreen-layout:
   mod: mod1
   key: "4"
-select-threecolumn-layout:
+select-middle-wide-layout:
   mod: mod1
   key: "5"
-select-twopane-layout:
+select-two-pane-layout:
   mod: mod1
   key: "6"
 
@@ -147,8 +153,6 @@ relaunch-amethyst:
 cycle-layout:
   mod: ""
 cycle-layout-backward:
-  mod: ""
-select-column-layout:
   mod: ""
 toggle-tiling:
   mod: ""
