@@ -314,6 +314,24 @@ latest() { echo "${3:-%2}" | sed -e "s|%1|$1|" -e "s|%2|$( \
     | grep -E "^v?${2:-}" \
     | tail -n1)|"; }
 cargo_latest() { latest "$1" "${2:-}" '--git https://%1 --tag %2'; }
+go_clone_install() {
+    local pkg="$1"
+    local bin="${2:-.}"
+
+    local name=${pkg%%@*}
+    local version=$(latest "$name")
+    local dir="$GOPATH/git/$name"
+
+    test -e "$dir" || git clone "https://$name" "$_"
+    cd "$dir" || return 1
+
+    git fetch
+    git checkout "refs/tags/$version"
+    if ! go install "$bin" 2>/dev/null; then
+        go generate ./...
+        go install "$bin"
+    fi
+}
 
 # Install formulae and casks.
 brew update
@@ -353,17 +371,6 @@ for repo in \
         git clone "https://$repo" "$_" ||
         git -C "$_" pull --rebase
 done
-
-# Install carapace.
-if [[ ! $(command -v carapace) ]]; then
-    kern="$(uname -s)"
-    arch="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')"
-    wget "https://github.com/rsteube/carapace-bin/releases/download/v0.28.3/carapace-bin_${kern}_${arch}.tar.gz" -O ~/dl.tar.gz &&
-        tar -xzf "$_" &&
-        rm -f "$_" &&
-        mv carapace ~/.go/bin/ &&
-        rm -f README.md LICENSE
-fi
 
 # Install various tools and packages and everything in ~/.tool-versions.
 cmd="echo"; can=true
@@ -801,10 +808,12 @@ $ go install
     github.com/go-delve/delve/cmd/dlv@latest
     github.com/golangci/golangci-lint/cmd/golangci-lint@latest
     github.com/hashicorp/terraform-ls@latest
+    github.com/int128/kubelogin@latest
     github.com/jesseduffield/lazydocker@latest
     github.com/jesseduffield/lazygit@latest
     github.com/mattn/efm-langserver@latest
     github.com/mgechev/revive@latest
+    github.com/mikefarah/yq/v4@latest
     github.com/rclone/rclone@latest
     github.com/segmentio/golines@latest
     github.com/sqls-server/sqls@master # latest tag has old go.mod
@@ -812,19 +821,30 @@ $ go install
     github.com/terraform-docs/terraform-docs@latest
     github.com/terraform-linters/tflint@latest
     golang.org/x/tools/gopls@latest
+    helm.sh/helm/v3/cmd/helm@latest
     honnef.co/go/tools/cmd/staticcheck@latest
     mvdan.cc/gofumpt@latest
     mvdan.cc/sh/v3/cmd/shfmt@latest
+    sigs.k8s.io/kind@latest
     #github.com/caddyserver/caddy@latest
-    #github.com/candid82/joker@latest # needs go generate
     #github.com/josharian/impl@latest
-    #github.com/junegunn/fzf@latest # install with mise
     #github.com/magefile/mage@latest
     #github.com/rclone/rclone@latest
     #github.com/restic/restic@latest
-    #github.com/rsteube/carapace-bin@latest # doesn't work because of replace-directive
     #github.com/technosophos/dashing@latest
     #github.com/x-motemen/ghq@latest
+
+$ go_clone_install
+    github.com/candid82/joker@latest
+    github.com/carapace-sh/carapace-bin@latest ./cmd/carapace
+    github.com/eksctl-io/eksctl@latest ./cmd/eksctl
+    github.com/gruntwork-io/terragrunt@latest
+    github.com/hashicorp/terraform@latest
+    github.com/junegunn/fzf@latest
+    github.com/kubernetes/kubernetes@latest ./cmd/kubectl
+    github.com/kubernetes/minikube@latest ./cmd/minikube
+    github.com/opentofu/opentofu@latest ./cmd/tofu
+    #github.com/k3s-io/k3s@latest ./cmd/k3s
 
 $ luarocks --local install
     fennel
