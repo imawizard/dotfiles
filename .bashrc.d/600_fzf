@@ -23,6 +23,7 @@ export FZF_CTRL_R_OPTS="
 
 location=$(
     { command -v mise >/dev/null && $_ where fzf 2>/dev/null && echo "/shell" \
+    || { test -d "$GOPATH/git/github.com/junegunn/fzf/shell" && echo "$_"; } \
     || { test -d /usr/share/doc/fzf/examples && echo "$_"; } } \
     | tr -d '\n'
 )
