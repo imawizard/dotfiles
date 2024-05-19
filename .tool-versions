@@ -22,6 +22,10 @@ zig                 master
 #carp                0.5
 #janet               1.32
 
+#erlang              26.2
+#rebar               3.22
+#gleam               1.1
+
 #clojure             1.11
 #java                temurin-21
 #leiningen           2.9
