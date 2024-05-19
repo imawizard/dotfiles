@@ -257,6 +257,7 @@ killall -q Mail || true
 # Set up hotkeys .........................................................{{{1
 
 domains=()
+existing=$(defaults domains)
 old=$IFS
 IFS=$'\n'
 for line in $(
@@ -270,7 +271,7 @@ for line in $(
     elif [[ ! $line =~ ^\ *\# ]] && [[ $line =~ " " ]]; then
         name=$(echo "${line% *}" | xargs)
         key="${line##* }"
-        defaults domains | grep -qi "$domain" || defaults write "$_" '{}'
+        echo "$existing" | grep -qi "$domain" || defaults write "$domain" '{}'
         defaults write "$domain" NSUserKeyEquivalents -dict-add "$name" "$key"
     fi
 done
