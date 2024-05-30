@@ -1,26 +1,15 @@
-{
-    BasedOnStyle: LLVM,
-    ColumnLimit: 80,
-    IndentWidth: 4,
-    TabWidth: 4,
-    UseTab: Never,
-    MaxEmptyLinesToKeep: 1,
-    BreakBeforeBraces: Attach,
-    BreakBeforeBinaryOperators: NonAssignment,
-    BinPackParameters: true,
-    BinPackArguments: false,
-    SpaceBeforeParens: ControlStatements,
-    AllowShortBlocksOnASingleLine: Empty,
-    AllowShortFunctionsOnASingleLine: Empty,
-    AllowShortIfStatementsOnASingleLine: false,
-    AllowShortLoopsOnASingleLine: false,
-    AlignAfterOpenBracket: Align,
-    AlignConsecutiveAssignments: true,
-    AlignEscapedNewlines: Left,
-    AlignTrailingComments: true,
-    IndentCaseLabels: false,
-    Cpp11BracedListStyle: true,
-    Standard: Latest,
-    AccessModifierOffset: -4,
-    FixNamespaceComments: true,
-}
+# See https://clang.llvm.org/docs/ClangFormat.html
+# Print presets with `clang-format -style=llvm -dump-config`
+
+BasedOnStyle: LLVM
+IndentWidth: 4
+TabWidth: 4
+
+AccessModifierOffset: -4
+
+BreakBeforeBraces: WebKit
+BreakBeforeBinaryOperators: NonAssignment
+
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
