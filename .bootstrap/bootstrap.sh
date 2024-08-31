@@ -865,14 +865,6 @@ $ npm install --global
     #cloc
     #marked
 
-$ python -m pip install --upgrade
-    pip
-    #ipython
-    #pygments                        # for ccat
-    #six                             # for lldb
-    #virtualenv
-    #virtualenvwrapper
-
 $ python3 -m pip install --upgrade
     pip
     asciinema
