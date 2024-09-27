@@ -348,7 +348,11 @@ if [[ ! $(command -v rustup) ]]; then
         curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain stable --no-modify-path -y
     fi
 else
-    rustup update
+    if [[ ! $(command -v cargo) ]]; then
+        rustup default stable
+    else
+        rustup update
+    fi
 fi
 
 # Install mise.
