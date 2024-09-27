@@ -551,7 +551,7 @@ tap "koekeishiya/formulae"
 
 # Compilers
     brew "discount"                  # or peg-markdown
-    brew "rustup-init"
+    brew "rustup"
 
 # Package managers and build systems
     #brew "asdf"
