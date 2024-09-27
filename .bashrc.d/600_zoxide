@@ -1,3 +1,5 @@
+# See https://github.com/ajeetdsouza/zoxide#environment-variables
+
 case $CURRENT_SHELL in
 bash)
     command -v zoxide >/dev/null && . <($_ init bash)

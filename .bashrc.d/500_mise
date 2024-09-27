@@ -1,3 +1,5 @@
+# See https://mise.jdx.dev/configuration.html
+
 # `mise local` should use .tool-versions
 export MISE_USE_TOML=0
 

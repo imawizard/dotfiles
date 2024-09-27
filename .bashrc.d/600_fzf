@@ -1,3 +1,5 @@
+# See https://junegunn.github.io/fzf/reference
+
 export FZF_DEFAULT_OPTS="
     --info=inline-right
     --layout=reverse
