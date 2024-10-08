@@ -497,8 +497,6 @@ exit
 
 tap "homebrew/bundle"
 tap "homebrew/services"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
 
 tap "aws/tap"
 tap "clojure-lsp/brew"
