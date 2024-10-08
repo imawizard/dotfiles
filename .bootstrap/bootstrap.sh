@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # On Silicon add brew to PATH first.
-test -x /opt/homebrew/bin/brew && . <($_ shellenv)
+test -x /opt/homebrew/bin/brew && eval $($_ shellenv)
 
 # Check for Homebrew, install if we don't have it.
 if [[ ! $(command -v brew) ]]; then
