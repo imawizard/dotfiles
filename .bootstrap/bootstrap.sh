@@ -6,6 +6,12 @@ set -euo pipefail
 # On Silicon add brew to PATH first.
 test -x /opt/homebrew/bin/brew && eval $($_ shellenv)
 
+# Ask for super user permissions.
+sudo -v
+
+# Keep the sudo session alive for the duration of this script.
+while true; do sudo -n true; sleep 60; kill -0 $$ || exit; done 2>/dev/null &
+
 # Check for Homebrew, install if we don't have it.
 if [[ ! $(command -v brew) ]]; then
     echo "Installing Homebrew..."
@@ -22,12 +28,6 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
 elif [[ $(command -v omz) ]]; then
     omz update --unattended
 fi
-
-# Ask for super user permissions.
-sudo -v
-
-# Keep the sudo session alive for the duration of this script.
-while true; do sudo -n true; sleep 60; kill -0 $$ || exit; done 2>/dev/null &
 
 # Keep the computer awake for the duration of this script.
 [[ $(command -v caffeinate) ]] && caffeinate -dusw $$ &
