@@ -11,6 +11,8 @@
   autoStash = true
 [diff]
   colorMoved = zebra
+[advice]
+  detachedHead = false
 
 [alias]
   aa = add --all
