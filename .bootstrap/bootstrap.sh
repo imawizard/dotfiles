@@ -184,7 +184,6 @@ defaults write com.apple.finder ShowStatusBar -bool true                        
 if [[ "v$MACOS_VERSION" < "v$MACOS_MOJAVE" ]]; then
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true                                # Display full POSIX path as window title
 fi
-defaults write com.apple.finder QLEnableTextSelection -bool true                                      # Allow text selection in Quick Look/Preview by default (doesn't work anymore)
 
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true                                       # Show all filename extensions by default
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false                            # Disable the warning when changing a file extension
