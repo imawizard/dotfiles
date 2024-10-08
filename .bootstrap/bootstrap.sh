@@ -106,6 +106,7 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false              
 defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"                             # Hide thicker column lines and show scrollbars only when scrolling
 defaults write NSGlobalDomain NSCloseAlwaysConfirmsChanges -bool true                                 # Ask whether changes should be kept
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool true                                     # Restore a program's opened tabs on its next launch
+defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
 
 # Dock
 defaults write com.apple.dock magnification -bool true                                                # Magnify dock on hover
