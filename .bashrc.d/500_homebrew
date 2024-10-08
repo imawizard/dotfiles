@@ -6,7 +6,7 @@ export HOMEBREW_DISPLAY_INSTALL_TIMES=1
 export HOMEBREW_NO_ANALYTICS=1
 
 for brew in brew /opt/homebrew/bin/brew; do
-    command -v $brew >/dev/null && \
-        . <($_ shellenv) && \
+    command -v $brew >/dev/null &&
+        . <($_ shellenv) &&
         break
 done
