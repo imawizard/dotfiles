@@ -130,6 +130,7 @@ fi
 defaults write com.apple.dock mru-spaces -bool false                                                  # Don't automatically rearrange spaces based on most recent use
 #defaults write NSGlobalDomain AppleSpacesSwitchOnActivate -bool false                                # Don't switch to a space with open windows for the application when switching to an application
 defaults write com.apple.dock expose-group-apps -bool true                                            # Group windows by app
+defaults write com.apple.spaces spans-displays -bool false
 if [[ "v$MACOS_VERSION" < "v$MACOS_CATALINA" ]]; then
     defaults write com.apple.dashboard mcx-disabled -bool true                                        # Disable dashboard completely
 fi
