@@ -129,6 +129,7 @@
     "workbench.editor.tabCloseButton": "right",
     "workbench.editor.empty.hint": "hidden",
     "workbench.editor.untitled.labelFormat": "name",
+    "workbench.editor.tabActionLocation": "right",
 
     // Behaviour ...........................................................{{{1
 
@@ -844,5 +845,4 @@
     "zig.zls.completionsWithReplace": false,
     "zig.zls.enableArgumentPlaceholders": true,
     "zig.zls.inlayHintsShowParameterName": false,
-    "workbench.editor.tabActionLocation": "right",
 }

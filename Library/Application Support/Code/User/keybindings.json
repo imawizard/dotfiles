@@ -187,7 +187,7 @@
     { "key": "shift+g", "command": "dance.select.lineStart", "args": { "shift": "jump" },                                  "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "g",       "command": "dance.run",              "args": { "code": ["await vscode.commands.executeCommand('dance.openMenu', { menu: 'goto-hx', pass: [{ shift: 'jump', count }] })"] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "shift+;", "command": "dance.openMenu",         "args": { "menu": "command-hx" },                             "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "shift+;", "command": "dance.openMenu", "args": { "menu": "command-hx" },                             "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     { "key": "i",       "command": "dance.modes.insert.before",                                                                                                  "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "a",       "command": "dance.run", "args": { "commands": [".modes.insert.after", ".select.right.jump"] },                                           "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
@@ -439,5 +439,5 @@
     { "key": "ctrl+p",    "command": "selectPrevCodeAction", "when": "codeActionMenuVisible" },
 
     // Accept suggestion if there's only one
-    { "key": "tab",       "command": "acceptSelectedSuggestion", "when": "editorTextFocus && suggestWidgetVisible && !suggestWidgetMultipleSuggestions" },
+    { "key": "tab", "command": "acceptSelectedSuggestion", "when": "editorTextFocus && suggestWidgetVisible && !suggestWidgetMultipleSuggestions" },
 ]
