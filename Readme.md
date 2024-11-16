@@ -29,11 +29,11 @@ irm get.scoop.sh -OutFile install.ps1
 Remove-Item install.ps1
 if ($(scoop config root_path)) {
     New-Item -Force -Type Directory "$env:USERPROFILE\scoop"
-    Move-Item -Force "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop"
-    cmd /c mklink /j "$(scoop config root_path)\persist" "$env:USERPROFILE\scoop\persist"
+    Move-Item -Force "$env:USERPROFILE\scoop\persist" "$(scoop config root_path)" 2>$null
+    cmd /c mklink /j "$env:USERPROFILE\scoop\persist" "$(scoop config root_path)\persist"
     cmd /c mklink /j "$env:USERPROFILE\scoop\shims" "$(scoop config root_path)\shims"
 }
-scoop install git
+scoop install 7zip git
 git config --global http.sslBackend schannel
 git config --global http.proxy http://cproxy.intern:8080
 
