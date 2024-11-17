@@ -329,7 +329,7 @@ CloneRepo(id, dir) {
     dest := dir "\" name
 
     if !FileExist(dest) {
-        RunWait("git clone https://github.com/" id " `"" dir "`"")
+        RunWait("git clone https://github.com/" id " `"" dest "`"")
     } else {
         RunWait("git pull", dest)
     }
