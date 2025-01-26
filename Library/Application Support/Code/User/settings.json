@@ -370,8 +370,6 @@
                 ] }] },
                 "a": { "text": "Select around object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match around"                                             }] },
                 "i": { "text": "Select inside object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match inside", "pass": [{ "inner": true, "open": false }] }] },
-                // Not in helix yet: https://github.com/helix-editor/helix/issues/1810
-                " ": { "text": "Select by indentation", "command": "dance.seek.object", "args": [{ "input": "(?#predefined=indent)" }] },
             },
         },
 
@@ -380,6 +378,7 @@
                 "w":  { "text": "Word",                               "command": "dance.seek.object", "args": [{ "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"     }] },
                 "W":  { "text": "WORD",                               "command": "dance.seek.object", "args": [{ "input": "[\\S]+(?<after>[^\\S\\n]+)"            }] },
                 "p":  { "text": "Paragraph",                          "command": "dance.seek.object", "args": [{ "input": "(?#predefined=paragraph)"              }] },
+                "i":  { "text": "Indentation",                        "command": "dance.seek.object", "args": [{ "input": "(?#predefined=indent)"                 }] },
                 "t":  { "text": "Type definition",                    "command": "dance.seek.object", "args": [{ "input": "(?#textobject=class)"                  }] },
                 "f":  { "text": "Function",                           "command": "dance.seek.object", "args": [{ "input": "(?#textobject=function)"               }] },
                 "a":  { "text": "Argument/parameter",                 "command": "dance.run", "args": [{ "code": [
@@ -398,6 +397,11 @@
                 "\"": { "text": "Double quotes",                      "command": "dance.seek.object", "args": [{ "input": "(?#noescape)\"(?#inner)(?#noescape)\"" }] },
                 "'":  { "text": "Single quotes",                      "command": "dance.seek.object", "args": [{ "input": "(?#noescape)'(?#inner)(?#noescape)'"   }] },
                 "`":  { "text": "Grave quotes",                       "command": "dance.seek.object", "args": [{ "input": "(?#noescape)`(?#inner)(?#noescape)`"   }] },
+                ".":  { "text": "Period",                             "command": "dance.seek.object", "args": [{ "input": "\\.(?#inner)\\."                       }] },
+                ",":  { "text": "Comma",                              "command": "dance.seek.object", "args": [{ "input": ",(?#inner),"                           }] },
+                ":":  { "text": "Colon",                              "command": "dance.seek.object", "args": [{ "input": ":(?#inner):"                           }] },
+                ";":  { "text": "Semicolon",                          "command": "dance.seek.object", "args": [{ "input": ";(?#inner);"                           }] },
+                "|":  { "text": "Pipe",                               "command": "dance.seek.object", "args": [{ "input": "\\|(?#inner)\\|"                       }] },
                 " ":  { "text": "Whitespace",                         "command": "dance.seek.object", "args": [{ "input": "[ \t](?#inner)[ \t]"                   }] },
             },
         },
