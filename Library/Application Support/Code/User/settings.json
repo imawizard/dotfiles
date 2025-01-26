@@ -315,6 +315,7 @@
                     "));",
                     "await x('editor.action.insertSnippet', { snippet: (p?.at(0) || c) + '${TM_SELECTED_TEXT}' + (p?.at(1) || c) });",
                     "await x('dance.selections.restore');",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "r": { "text": "Surround replace", "command": "dance.run", "args": [{ "code": [
                     "let pairs = ['()', '{}', '[]', '<>'];",
@@ -341,6 +342,7 @@
                     "await x('editor.action.insertSnippet', { snippet: (p?.at(0) || c) + '${TM_SELECTED_TEXT}' + (p?.at(1) || c) });",
                     "await x('dance.selections.restore');",
                     "Selections.updateWithFallbackByIndex((i, sel) => o[i]);",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "d": { "text": "Surround delete", "command": "dance.run", "args": [{ "code": [
                     "let pairs = ['()', '{}', '[]', '<>'];",
@@ -364,6 +366,7 @@
                         "Positions.at(o[i].anchor.line, o[i].anchor.character - 1 + o[i].anchor.isEqual(s[i].anchor) * (sel.isReversed ? -1 : 1)),",
                         "Positions.at(o[i].active.line, o[i].active.character - 1 - o[i].active.isEqual(s[i].active) * (sel.isReversed ? -1 : 1)),",
                     "));",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "a": { "text": "Select around object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match around"                                             }] },
                 "i": { "text": "Select inside object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match inside", "pass": [{ "inner": true, "open": false }] }] },
@@ -505,7 +508,7 @@
                 "Y": { "text": "Yank main selection to clipboard",              "command": "dance.run", "args": [{ "commands": [["dance.selections.saveText", { "register": "dquote" }], ".modes.set.normal"] }] },
                 "p": { "text": "Paste clipboard after selections",              "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "end"   }] },
                 "P": { "text": "Paste clipboard before selections",             "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "start" }] },
-                "R": { "text": "Replace selections by clipboard content",       "command": "dance.edit.insert", "args": [{ "register": "dquote" }]                    },
+                "R": { "text": "Replace selections by clipboard content",       "command": "dance.run", "args": [{ "commands": [[".selections.saveText", { "register": "tmp" }], [".edit.insert", { "register": "dquote" }], [".updateRegister", { "copyFrom": "tmp" }], ".modes.set.normal"] }] },
                 "/": { "text": "Global search in workspace folder",             "command": "search.action.openEditor"                                                 },
                 "k": { "text": "Show docs for item under cursor",               "command": "editor.action.showHover", "args": [{ "focus": true }]                     },
                 "r": { "text": "Rename symbol",                                 "command": "editor.action.rename"                                                     },
