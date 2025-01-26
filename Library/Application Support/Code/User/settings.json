@@ -29,8 +29,7 @@
         "editorOverviewRuler.wordHighlightForeground": "#ffffff",
         "editorOverviewRuler.bracketMatchForeground": "#ffffff",
         "editorOverviewRuler.findMatchForeground": "#ffffff",
-        // NOTE: Primary-/SecondaryCursor are not customizable
-        // See https://github.com/microsoft/vscode/issues/85630
+        "editorMultiCursor.secondary.foreground": "#909090",
     },
 
     // Syntax scheme (Bold IntelliJ Light)
