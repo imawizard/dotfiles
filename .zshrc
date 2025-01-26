@@ -146,5 +146,8 @@ zstyle ':fzf-tab:*' fzf-flags --color='hl+:bold:-1,hl:bold:-1,gutter:-1,pointer:
 # set fzf bindings
 zstyle ':fzf-tab:*' fzf-bindings 'ctrl-o:toggle-preview'
 
-# preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# Remove `input` because for `nvim ./` it populates the query string with "./"
+zstyle ':fzf-tab:*' query-string prefix first
