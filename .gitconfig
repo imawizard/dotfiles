@@ -23,6 +23,9 @@
   fp = push --force-with-lease
   st = status
 
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+
 [include]
   path = ~/.gitconfig.local
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
