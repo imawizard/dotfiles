@@ -3,17 +3,7 @@
 # `mise local` should use .tool-versions
 export MISE_USE_TOML=0
 
-# Make --pin the default, instead of --fuzzy
-export MISE_ASDF_COMPAT=1
-
-# Show env vars if directory has .mise.toml
-export MISE_STATUS_SHOW_ENV=1
-
-# Show active tools if directory has .mise.toml
-export MISE_STATUS_SHOW_TOOLS=1
-
-# Leave $GOBIN
-export MISE_GO_SET_GOBIN=0
+export MISE_GLOBAL_CONFIG_FILE=$HOME/.config/mise/config.toml
 
 case $CURRENT_SHELL in
 bash)

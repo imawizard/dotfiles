@@ -1,0 +1,13 @@
+[settings]
+
+# Make --pin the default, instead of --fuzzy
+asdf_compat = true
+
+# Show env vars if directory has .mise.toml
+status.show_env = true
+
+# Show active tools if directory has .mise.toml
+status.show_tools = true
+
+# Leave $GOBIN
+go_set_gobin = false
