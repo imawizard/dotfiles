@@ -4,8 +4,8 @@ perl                5.38
 python              3.11
 ruby                3.2
 
-go                  1.21
-node                21
+go                  1.24
+node                22
 shellcheck          0.9
 zig                 master
 
