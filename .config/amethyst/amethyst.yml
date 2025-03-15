@@ -52,43 +52,43 @@ mod2:
 
 focus-cw:
   mod: mod1
-  key: j
+  key: j # qwerty's c
 focus-ccw:
   mod: mod1
-  key: k
+  key: k # qwerty's v
 focus-main:
   mod: mod1
-  key: m
+  key: m # qwerty's m
 
 swap-cw:
   mod: mod2
-  key: j
+  key: j # qwerty's c
 swap-ccw:
   mod: mod2
-  key: k
+  key: k # qwerty's v
 swap-main:
   mod: mod1
   key: enter
 
 focus-screen-1:
   mod: mod1
-  key: "," # qwerty's w
+  key: "." # qwerty's e
 focus-screen-2:
   mod: mod1
-  key: "." # qwerty's e
+  key: p # qwerty's r
 focus-screen-3:
   mod: mod1
-  key: p # qwerty's r
+  key: "," # qwerty's w
 
 throw-screen-1:
   mod: mod2
-  key: "," # qwerty's w
+  key: "." # qwerty's e
 throw-screen-2:
   mod: mod2
-  key: "." # qwerty's e
+  key: p # qwerty's r
 throw-screen-3:
   mod: mod2
-  key: p # qwerty's r
+  key: "," # qwerty's w
 
 throw-space-1:
   mod: mod2
@@ -108,10 +108,17 @@ throw-space-5:
 
 expand-main:
   mod: mod1
-  key: l
+  key: l # qwerty's p
 shrink-main:
   mod: mod1
-  key: h
+  key: h # qwerty's j
+
+toggle-float:
+  mod: mod1
+  key: "t" # qwerty's k
+reevaluate-windows:
+  mod: mod1
+  key: "n" # qwerty's l
 
 increase-main:
   mod: mod1
@@ -120,64 +127,51 @@ decrease-main:
   mod: mod1
   key: v # qwerty's period
 
-select-floating-layout:
-  mod: mod1
-  key: "1"
-select-wide-layout:
-  mod: mod1
-  key: "2"
-select-row-layout:
-  mod: mod2
-  key: "2"
-select-tall-layout:
-  mod: mod1
-  key: "3"
-select-column-layout:
-  mod: mod2
-  key: "3"
-select-fullscreen-layout:
-  mod: mod1
-  key: "4"
-select-middle-wide-layout:
-  mod: mod1
-  key: "5"
-select-two-pane-layout:
-  mod: mod1
-  key: "6"
+# BUG: Won't get mapped to numpad and can only be set within the UI.
+#      See https://github.com/ianyh/Amethyst/issues/1640
+# select-floating-layout:
+#   mod: mod1
+#   key: "1"
+# select-wide-layout:
+#   mod: mod1
+#   key: "2"
+# select-row-layout:
+#   mod: mod2
+#   key: "2"
+# select-tall-layout:
+#   mod: mod1
+#   key: "3"
+# select-column-layout:
+#   mod: mod2
+#   key: "3"
+# select-fullscreen-layout:
+#   mod: mod1
+#   key: "4"
+# select-middle-wide-layout:
+#   mod: mod1
+#   key: "5"
+# select-two-pane-layout:
+#   mod: mod1
+#   key: "6"
 
 relaunch-amethyst:
   mod: mod1
   key: ";" # qwerty's q
 
-# Don't map the following, warning: setting these bugs rebinding via gui
-cycle-layout:
-  mod: ""
-cycle-layout-backward:
-  mod: ""
-toggle-tiling:
-  mod: ""
-focus-screen-4:
-  mod: ""
-throw-screen-4:
-  mod: ""
-focus-screen-cw:
-  mod: ""
-focus-screen-ccw:
-  mod: ""
-swap-screen-cw:
-  mod: ""
-swap-screen-ccw:
-  mod: ""
-throw-space-left:
-  mod: ""
-throw-space-right:
-  mod: ""
-display-current-layout:
-  mod: ""
-toggle-focus-follows-mouse:
-  mod: ""
-reevaluate-windows:
-  mod: ""
+# Don't map the following
+cycle-layout: false
+cycle-layout-backward: false
+toggle-tiling: false
+focus-screen-4: false
+throw-screen-4: false
+focus-screen-cw: false
+focus-screen-ccw: false
+swap-screen-cw: false
+swap-screen-ccw: false
+throw-space-left: false
+throw-space-right: false
+display-current-layout: false
+toggle-focus-follows-mouse: false
 
 # Mouse
 mouse-follows-focus: true
@@ -193,6 +187,9 @@ floating:
 - com.apple.systempreferences
 - org.pqrs.Karabiner-EventViewer
 - org.pqrs.Karabiner-Elements.Settings
+- com.kapeli.dashdoc
+- org.gnome.meld
+- com.okatbest.boop
 
 # Debug
 debug-layout-info: false
