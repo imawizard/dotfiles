@@ -17,3 +17,15 @@ git:
     pager: delta --light --paging=never
 
 promptToReturnFromSubprocess: false
+
+customCommands:
+  - key: "<c-g>"
+    context: "files"
+    command: 'hub browse -- "commit/{{.SelectedLocalCommit.Hash}}"'
+  - key: "<c-k>"
+    context: "files"
+    command: 'echo git rm {{.SelectedFile.Name | quote}}'
+    prompts:
+    - type: "confirm"
+      title: "git rm"
+      body: "Do you want to delete the selected file?"
