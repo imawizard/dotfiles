@@ -90,16 +90,7 @@ secrets pre
 osascript -e 'tell application "System Preferences" to quit' >/dev/null 2>&1
 
 # System
-sudo pmset -b tcpkeepalive 0                                                                          # Disable TCP keep alives when asleep (like from Find My Mac)
-sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticDownload -bool false # Disable automatic update downloads
-if [[ "$MODEL_NAME" == *"MacBook"* ]]; then
-    defaults write com.apple.bird optimize-storage -bool true                                         # Delete unused local files downloaded from the cloud to save space
-elif [[ "$MODEL_NAME" == *"iMac"* ]]; then
-    defaults write com.apple.bird optimize-storage -bool false
-fi
-#sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName                # Display IP address, hostname or OS version when pressing the login's clock (doesn't work)
-#sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true              # Show language in menu at login
-#sudo nvram SystemAudioVolume=" "                                                                     # Disable boot sound
+defaults write com.apple.bird optimize-storage -bool true                                             # Delete unused local files downloaded from the cloud to save space
 
 # General
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false                                    # Enable repeating when holding a key down.
@@ -149,6 +140,7 @@ defaults write com.apple.dock showAppExposeGestureEnabled -bool true            
 sudo defaults write com.apple.universalaccess mouseDriverCursorSize -float 1.25                       # Change cursor size, requires logging out!
 defaults write NSGlobalDomain com.apple.mouse.scaling -float 1.6                                      # Change pointer speed
 defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string "TwoButton"                     # Enable right-click
+defaults write com.apple.HIToolbox AppleFnUsageType -int 0                                            # Do nothing on 🌐-key
 
 # Sound
 #defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -bool false                            # Disable system sounds
