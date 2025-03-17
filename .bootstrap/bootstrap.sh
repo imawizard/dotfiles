@@ -497,6 +497,8 @@ tap "clojure-lsp/brew"
 tap "koekeishiya/formulae"
 
 # Core
+    brew "git"
+    brew "neovim"
     brew "telnet"
     brew "tmux"
     brew "watch"
@@ -507,7 +509,6 @@ tap "koekeishiya/formulae"
     #brew "diffutils"                # newer version
     #brew "fortune"
     #brew "gdb"                      # gdb needs to be signed
-    #brew "neovim"
     #brew "rsync"                    # newer version
     #brew "screen"                   # newer version
     #brew "ssh-copy-id"              # newer version
