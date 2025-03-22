@@ -739,6 +739,7 @@ $ eval
     $(mise env)
 
 $ cargo install --locked
+    $(cargo_latest github.com/astral-sh/ruff) ruff
     $(cargo_latest github.com/Shopify/shadowenv 2.1)
     --git https://github.com/helix-editor/helix helix-term
     $(cargo_latest github.com/latex-lsp/texlab 5.12) # texlab on crates.io is outdated
