@@ -17,7 +17,6 @@
          :show_end false}
         :exclude
         {:filetypes ["lspinfo"
-                     "packer"
                      "checkhealth"
                      "help"
                      "man"

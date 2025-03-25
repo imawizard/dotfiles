@@ -291,14 +291,6 @@
    :desc "What's under cursor" "c" n ":TSHighlightCapturesUnderCursor<CR>"
    :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
   (:prefix
-   "p" "packer"
-   :desc "Compile"         "c" n! ":PackerCompile<CR>"
-   :desc "Clean"           "C" n! ":PackerClean<CR>"
-   :desc "Install"         "i" n! ":PackerInstall<CR>"
-   :desc "List packages"   "l" n! ":PackerStatus<CR>"
-   :desc "Browse packages" "p" n #((. (require :telescope) :extensions :packer :packer))
-   :desc "Sync"            "s" n! ":PackerSync<CR>")
-  (:prefix
    "r" "reload"
    :desc "Edit config"   "e" n  ":Editrc<CR>"
    :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
@@ -361,7 +353,6 @@
                  :<C-h>      {:name "help"}
                  :<C-h>b     {:name "bindings"}
                  :<C-h>h     {:name "highlights"}
-                 :<C-h>p     {:name "packer"}
                  :<C-h>r     {:name "reload"}
                  :<C-x>      {:name "completion"}})))
   :keys ["<leader>"

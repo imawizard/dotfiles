@@ -2,11 +2,11 @@
 
 (aucmd!
  (:group
-  "reload-packer-config"
+  "reload-config"
   ;; Reload plugins and keybindings on changes.
   BufWritePost
   :pattern "*/nvim/fnl/{plugins/*,langs/*,main,settings,keybinds,autocmds,commands}.fnl"
-  "source $MYVIMRC | edit | PackerCompile")
+  "source $MYVIMRC | edit")
 
  (:group
   "highlight-on-yank"

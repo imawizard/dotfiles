@@ -75,13 +75,6 @@
   :config
   (fn []
     (let [telescope (require :telescope)]
-      (telescope.load_extension "packer")))}
- :nvim-telescope/telescope-packer.nvim
-
- {:after [:telescope.nvim]
-  :config
-  (fn []
-    (let [telescope (require :telescope)]
       (telescope.load_extension "dap")))}
  :nvim-telescope/telescope-dap.nvim
 

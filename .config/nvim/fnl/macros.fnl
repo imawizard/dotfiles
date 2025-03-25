@@ -1,36 +1,6 @@
 (local M {})
 
-(fn M.use! [...]
-  "Shorthand for packer.use
-
-  Example:
-  (use!
-   {:run ...} :nvim-treesitter/nvim-treesitter
-   :nvim-treesitter/nvim-treesitter-textobjects)
-
-  Results in:
-  (let [packer (require ...) use (. packer :use)]
-    (use {1 :nvim-treesitter/nvim-treesitter :run ...})
-    (use :nvim-treesitter/nvim-treesitter-textobjects))
-  "
-  (let [rest [...]
-        packer (gensym :packer)
-        use (gensym :use)
-        out []]
-    (while (> (# rest) 0)
-      (let [arg (table.remove rest 1)]
-        (if (not (table? arg))
-            (table.insert out `(,use ,arg))
-            (let [opts arg
-                  pkg (table.remove rest 1)]
-              (table.insert
-               out
-               `(,use ,(collect [k v (pairs opts)
-                                 &into {1 pkg}] k v)))))))
-    (table.insert out `nil)
-    `(let [,packer (require :packer)
-           ,use (. ,packer :use)]
-       ,(unpack out))))
+(fn M.use! [...])
 
 (fn M.gset! [...]
   "Shorthand for `let g:x = y`
