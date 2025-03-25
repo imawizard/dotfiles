@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 vim.opt.runtimepath:prepend({
     vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
     vim.fn.stdpath("data") .. "/lazy/hotpot.nvim",
@@ -5,12 +7,11 @@ vim.opt.runtimepath:prepend({
 
 -- See :help hotpot
 require("hotpot").setup({
-    provide_require_fennel = true,
     compiler = {
         modules = {
             correlate = true
         },
-    }
+    },
 })
 
 -- See :help lazy

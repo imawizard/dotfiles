@@ -415,7 +415,7 @@ if [[ $(command -v nvim) ]]; then
         git clone --filter=blob:none --branch stable https://github.com/folke/lazy.nvim "$_" ||
         git -C "$_" pull --rebase
     test ! -e ~/.local/share/nvim/lazy/hotpot.nvim &&
-        git clone --filter=blob:none https://github.com/rktjmp/hotpot.nvim "$_" ||
+        git clone --filter=blob:none --branch v0.14.8 https://github.com/rktjmp/hotpot.nvim "$_" ||
         git -C "$_" pull --rebase
     nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'TSInstallSync all' +qa
