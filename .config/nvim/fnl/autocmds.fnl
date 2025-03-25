@@ -3,10 +3,12 @@
 (aucmd!
  (:group
   "reload-config"
-  ;; Reload plugins and keybindings on changes.
+  ;; Reload config on changes.
   BufWritePost
-  :pattern "*/nvim/fnl/{plugins/*,langs/*,main,settings,keybinds,autocmds,commands}.fnl"
-  "source $MYVIMRC | edit")
+  :pattern "*/nvim/fnl/*.fnl"
+  #(_G.require_forcefully
+    (_G.get_module_if_part_of_main_config
+     (vim.fn.expand "<afile>:p"))))
 
  (:group
   "highlight-on-yank"
