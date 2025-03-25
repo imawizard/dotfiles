@@ -15,3 +15,5 @@
   Filetype
   :pattern "tagbar"
   #(bind! "<ESC>" nb ":wincmd p<CR>")))
+
+{}

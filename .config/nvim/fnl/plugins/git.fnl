@@ -14,3 +14,5 @@
 
 (gset!
  git_messenger_no_default_mappings true)
+
+{}

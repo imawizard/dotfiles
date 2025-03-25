@@ -26,3 +26,5 @@
   Filetype
   :pattern "Outline"
   #(bind! "<ESC>" nb ":wincmd p<CR>")))
+
+{}

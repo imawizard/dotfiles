@@ -407,19 +407,18 @@ if [[ $(command -v vim) ]]; then
     vim -c 'PlugUpgrade | PlugUpdate' +qa
 fi
 
-# Install packer, hotpot and neovim plugins.
+# Install lazy.nvim, hotpot.nvim and neovim plugins.
 if [[ $(command -v nvim) ]]; then
     test ! -e ~/.vim/swap && mkdir "$_"
     test ! -e ~/.vim/undo && mkdir "$_"
-    test ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim &&
-        git clone https://github.com/wbthomason/packer.nvim "$_" ||
+    test ! -e ~/.local/share/nvim/lazy/lazy.nvim &&
+        git clone --filter=blob:none --branch stable https://github.com/folke/lazy.nvim "$_" ||
         git -C "$_" pull --rebase
-    test ! -e ~/.local/share/nvim/site/pack/packer/start/hotpot.nvim &&
-        git clone https://github.com/rktjmp/hotpot.nvim "$_" ||
+    test ! -e ~/.local/share/nvim/lazy/hotpot.nvim &&
+        git clone --filter=blob:none https://github.com/rktjmp/hotpot.nvim "$_" ||
         git -C "$_" pull --rebase
     nvim --headless -c 'TSUpdateSync' +qa
     nvim --headless -c 'TSInstallSync all' +qa
-    nvim --headless -c 'autocmd User PackerComplete qa' +PackerSync
 fi
 
 # Install tpm and tmux plugins.

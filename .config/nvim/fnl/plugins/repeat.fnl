@@ -3,3 +3,5 @@
 (use!
  ;; Make plugin-cmds repeatable.
  :tpope/vim-repeat)
+
+{}

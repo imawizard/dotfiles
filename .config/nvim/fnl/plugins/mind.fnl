@@ -14,3 +14,5 @@
         :MindReloadState
         :MindClose]}
  :phaazon/mind.nvim)
+
+{}

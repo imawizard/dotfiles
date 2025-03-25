@@ -80,3 +80,5 @@
       :tcl            ["tcl"]
       :tex            ["latex"]
       :yaml           ["chef" "ansible"]})
+
+{}

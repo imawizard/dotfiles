@@ -3,3 +3,5 @@
 (use!
  ;; Better %, see :help matchup.txt.
  :andymass/vim-matchup)
+
+{}

@@ -5,3 +5,5 @@
  {:run "cargo build --release"
   :after :vim-sexp}
  :eraserhd/parinfer-rust)
+
+{}

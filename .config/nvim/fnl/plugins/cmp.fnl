@@ -175,3 +175,5 @@
                                           " event"        ; ⌘ event
                                           "󰘧 operator"     ;  operator
                                           " type param"]) ; 󰊄 type parameter
+
+{}

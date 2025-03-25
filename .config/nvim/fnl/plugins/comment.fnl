@@ -11,3 +11,5 @@
         :pre_hook (if (not= ts nil) (ts.create_pre_hook))})))
   :keys [[:n "gcc"] [:v "gc"]]}
  :numToStr/Comment.nvim)
+
+{}

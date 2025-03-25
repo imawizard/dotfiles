@@ -22,3 +22,5 @@
     (bind! "q" nb ":wincmd p<Bar>TroubleClose<CR>")
     ;; Disable wrap guides.
     (set vim.opt_local.colorcolumn []))))
+
+{}

@@ -20,3 +20,5 @@
 (gset!
  ;; Stay in the same column.
  asterisk#keeppos true)
+
+{}

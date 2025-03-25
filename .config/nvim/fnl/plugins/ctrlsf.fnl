@@ -15,3 +15,5 @@
 
  ctrlsf_auto_focus {:at "done"
                     :duration_less_than 1000})
+
+{}

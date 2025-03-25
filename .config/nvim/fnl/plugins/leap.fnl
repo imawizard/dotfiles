@@ -23,3 +23,5 @@
          [:n "F"] [:v "F"]
          [:n "T"] [:v "T"]]}
  :ggandor/flit.nvim)
+
+{}

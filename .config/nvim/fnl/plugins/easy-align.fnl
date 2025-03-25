@@ -17,3 +17,5 @@
 (bind!
  "gl" nx "<Plug>(EasyAlign)"
  "."   x "<Plug>(EasyAlignRepeat)")
+
+{}

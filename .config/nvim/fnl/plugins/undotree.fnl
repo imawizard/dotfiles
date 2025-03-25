@@ -16,3 +16,5 @@
   Filetype
   :pattern "undotree"
   #(bind! "<ESC>" nbr "<TAB>")))
+
+{}

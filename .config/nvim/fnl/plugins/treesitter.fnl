@@ -58,3 +58,5 @@
       (cs.setup
        {:enable_autocmd false})))}
  :JoosepAlviste/nvim-ts-context-commentstring)
+
+{}

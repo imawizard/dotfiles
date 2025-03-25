@@ -7,3 +7,5 @@
     (let [surround (require :nvim-surround)]
       (surround.setup)))}
  :kylechui/nvim-surround)
+
+{}

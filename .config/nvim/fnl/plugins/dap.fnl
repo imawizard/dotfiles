@@ -33,3 +33,5 @@
     (let [dapvt (require :nvim-dap-virtual-text)]
       (dapvt.setup {:commented true})))}
  :theHamsta/nvim-dap-virtual-text)
+
+{}

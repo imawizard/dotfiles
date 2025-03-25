@@ -3,3 +3,5 @@
 (use!
  ;; See :help targets.txt.
  :wellle/targets.vim)
+
+{}

@@ -57,3 +57,5 @@
                                "[/\\\\]node_modules$"
                                "[/\\\\]target$"]}})))}
  :nvim-tree/nvim-tree.lua)
+
+{}

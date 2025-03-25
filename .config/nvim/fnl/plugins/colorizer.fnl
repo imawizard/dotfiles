@@ -13,3 +13,5 @@
                              :css  {:css true}}})))
   :event :VimEnter}
  :NvChad/nvim-colorizer.lua)
+
+{}

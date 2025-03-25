@@ -30,3 +30,5 @@
        hooks.builtin.hide_first_space_indent_level)))
   :event :VimEnter}
  :lukas-reineke/indent-blankline.nvim)
+
+{}

@@ -29,3 +29,5 @@
      return 0
  endfun
  ")
+
+{}

@@ -33,3 +33,5 @@
                 :sexp_convolute               "\\?"}
 
  sexp_enable_insert_mode_mappings false)
+
+{}

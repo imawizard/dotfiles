@@ -19,3 +19,5 @@
                            (string.gsub (string.gsub path "%.lua$" ".fnl")
                                         "([/\\])luasnippets%1"
                                         "%1fnl%1snippets%1"))))})))
+
+{}

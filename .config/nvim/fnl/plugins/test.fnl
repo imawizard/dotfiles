@@ -13,3 +13,5 @@
 (gset!
  test#preserve_screen 0
  test#strategy        "toggleterm")
+
+{}
