@@ -1,4 +1,4 @@
-(import-macros {: gset! : bind! : use! : feedkeys! : mode? : has?} :macros)
+(import-macros {: gset! : bind! : use! : mode? : has?} :macros)
 
 (gset!
  mapleader " "
@@ -42,21 +42,11 @@
    "<" x "<gv"
    ">" x ">gv"
 
-   ;; Yank till the end of the line.
-   "Y" n "y$"
-
-   ;; Clear matches and redraw diff and syntax highlighting.
-   "<C-l>" n ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>"
-
    ;; Same C-m (Return) as in insert mode.
    "<CR>" n "o<ESC>"
 
    ;; Same C-j as in Emacs.
    "<C-j>" n "i<CR><ESC>"
-
-   ;; Start new change before Ctrl-U and Ctrl-W for undo.
-   "<C-u>" i "<C-g>u<C-u>"
-   "<C-w>" i "<C-g>u<C-w>"
 
    ;; Respect an already typed prefix when iterating through history.
    "<C-p>" ce! #(if (> (vim.fn.wildmenumode) 0) "<C-p>" "<Up>")
@@ -78,16 +68,6 @@
    ;; Remap to backspace for autoclose-bindings.
    "<C-h>" icr! "<BS>"
 
-   :desc "Lookup keyword"      "<C-k>"    nx #(if (_G.lsp? :hoverProvider)
-                                                  (vim.lsp.buf.hover)
-                                                  (feedkeys! "K" "m"))
-   :desc "Show signature help" "<C-k>"    i  #(if (_G.lsp? :signatureHelpProvider)
-                                                  (vim.lsp.buf.signature_help)
-                                                  (vim.notify "No support within current buffer"))
-
-   :desc "Show error"          "K"        n  (. vim.diagnostic :open_float)
-   :desc "Previous error"      "[e"       n  (. vim.diagnostic :goto_prev)
-   :desc "Next error"          "]e"       n  (. vim.diagnostic :goto_next)
    :desc "Previous change"     "[c"       ne "&diff ? '[c' : ':Gitsigns prev_hunk<CR>'"
    :desc "Next change"         "]c"       ne "&diff ? ']c' : ':Gitsigns next_hunk<CR>'"
 
@@ -121,34 +101,18 @@
 
   (:prefix
    "c" "code"
-   :desc "Execute code action"        "a" n! #(if (_G.lsp? :codeActionProvider)
-                                                  (vim.lsp.buf.code_action)
-                                                  (vim.notify "No support within current buffer"))
    :desc "Compile"                    "c" n! ":make<CR>"
-   :desc "Jump to definition"         "d" n! #(if (_G.lsp? :definitionProvider) (vim.cmd ":TroubleToggle lsp_definitions")
-                                                  (feedkeys! "gd" "m"))
-   :desc "Jump to declaration"        "D" n! #(if (_G.lsp? :declarationProvider)
-                                                  (vim.lsp.buf.declaration)
-                                                  (feedkeys! "gD" "m"))
    :desc "Format buffer"              "f" n! #(if (_G.lsp? :documentFormattingProvider)
                                                   (vim.lsp.buf.format)
                                                   (vim.notify "No support within current buffer"))
    :desc "Format region"              "f" x! #(if (_G.lsp? :documentRangeFormattingProvider)
                                                   (vim.lsp.buf.format)
                                                   (vim.notify "No support within current buffer"))
-   :desc "Find implementations"       "i" n! #(if (_G.lsp? :implementationProvider)
-                                                  (vim.cmd ":TroubleToggle lsp_implementations")
-                                                  (vim.notify "No support within current buffer"))
    :desc "Organize imports"           "o" n! #(if (_G.lsp-organize-imports?)
                                                   (_G.lsp-organize-imports!)
                                                   (vim.notify "No support within current buffer"))
-   :desc "Rename"                     "r" n! #(if (_G.lsp? :renameProvider) (vim.lsp.buf.rename)
-                                                  (vim.notify "No support within current buffer"))
    :desc "Find type definition"       "t" n! #(if (_G.lsp? :typeDefinitionProvider)
                                                   (vim.cmd ":TroubleToggle lsp_type_definitions")
-                                                  (vim.notify "No support within current buffer"))
-   :desc "Find usages"                "u" n! #(if (_G.lsp? :referencesProvider)
-                                                  (vim.cmd ":TroubleToggle lsp_references")
                                                   (vim.notify "No support within current buffer"))
    :desc "Delete trailing whitespace" "w" n  ":StripTrailingWS<CR>"
    :desc "List errors"                "x" n  ":Trouble<CR>"
@@ -248,9 +212,6 @@
    :desc "Docset"             "k" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ")})
    :desc "All docsets"        "K" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ") :docsets "all"})
    :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
-   :desc "Buffer symbols"     "s" n  #(if (_G.lsp? :documentSymbolProvider)
-                                          (vim.lsp.buf.document_symbol)
-                                          (vim.notify "No support within current buffer"))
    :desc "Tags"               "t" n  #((. (require :telescope.builtin) :tags))
    :desc "Buffer tags"        "T" n  #((. (require :telescope.builtin) :current_buffer_tags))
    :desc "Zoxide"             "z" n  #((. (require :telescope) :extensions :zoxide :list)))

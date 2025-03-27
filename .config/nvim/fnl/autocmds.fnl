@@ -42,15 +42,6 @@
   #(when (not vim.bo.modifiable) (bind! "<CR>" nb "<CR>")))
 
  (:group
-  :terminal-cmds
-  ;; Start terminals in insert mode.
-  TermOpen
-  "startinsert"
-  ;; Hide any gutter in terminal panes.
-  TermOpen
-  "set nonumber norelativenumber signcolumn=no")
-
- (:group
   :add-cwd-to-zoxide
   ;; Analogous to cd-hook in terminal.
   DirChanged
