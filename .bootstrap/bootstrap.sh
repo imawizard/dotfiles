@@ -595,6 +595,7 @@ tap "koekeishiya/formulae"
     cask "karabiner-elements"
     cask "keka"
     cask "kekaexternalhelper"        # previously kekadefaultapp
+    cask "keymapp"
     cask "opera"
     cask "sloth"
     #cask "alfred"                   # or raycast
