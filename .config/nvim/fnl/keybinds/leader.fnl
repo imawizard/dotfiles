@@ -2,7 +2,7 @@
 
 (gset!
  mapleader " "
- maplocalleader " ")
+ maplocalleader "\\")
 
 (bind!
  (:prefix
@@ -179,9 +179,7 @@
    :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
   (:prefix
    "r" "reload"
-   :desc "Edit config"   "e" n  ":Editrc<CR>"
    :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
-   :desc "Config"        "r" n! ":Reload<CR>:lua vim.notify('Reloaded!')<CR>"
    :desc "Edit Snippets" "s" n  #(_G.luasnip_edit_snippets)))
 
  (:prefix

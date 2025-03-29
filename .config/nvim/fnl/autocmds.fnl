@@ -29,12 +29,6 @@
   [WinLeave FocusLost]
   "silent! wall")
 
- ;;(:group
- ;; "revert-to-normal-mode"
- ;; ;; Always normal mode when coming back to a pane.
- ;; FocusLost
- ;; #(feedkeys! "<C-\\><C-n>l"))
-
  (:group
   :restore-C-m-if-readonly
   ;; CR is remapped to insert a line, restore it conditionally.

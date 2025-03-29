@@ -90,6 +90,8 @@
  cursorline     true                         ; Highlight current line.
  matchtime      2                            ; Duration for showing matching pairs after typing.
  pumheight      12                           ; Maximum number of items in popup menu.
+ number         true                         ; Show absolute line numbers in the current line.
+ relativenumber true                         ; And relative numbers everywhere else.
  shortmess      (:append "c")                ; Don't show completion messages.
  shortmess      (:remove "l")                ; Use ;lines, bytes; instead of ;L, B;.
  showmatch      true                         ; Highlight matching [{()}].
@@ -97,7 +99,6 @@
  signcolumn     "yes"                        ; Show sign-column.
  splitbelow     true                         ; HSplit to the bottom.
  splitright     true                         ; VSplit to the right.
- laststatus     3                            ; Only show one statusline.
 
  foldlevelstart 1                            ; Automatically open only the first level of folds.
  foldmethod     "marker"
@@ -125,6 +126,7 @@
  shiftwidth     4                            ; Use indents of 4 spaces.
  softtabstop    4                            ; Let backspace delete indent.
  tabstop        4                            ; A tab counts for so many spaces.
+ shiftround     true                         ; Make > adhere to shiftwidth.
 
  wildignore     (:append                     ; Ignore these for auto completion.
                          "*.DS_Store"
