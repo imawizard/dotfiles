@@ -42,6 +42,7 @@ function _G.get_module_if_part_of_main_config(path)
     for _, exclude in ipairs({
         "^plugins/",
         "^langs/",
+        "^lsp/",
         "^snippets/",
         "macros$",
     }) do
@@ -74,3 +75,32 @@ vim.fn.sign_define("DiagnosticSignError", {text = "E", texthl = "DiagnosticSignE
 vim.fn.sign_define("DiagnosticSignWarn",  {text = "W", texthl = "DiagnosticSignWarn",  numhl = "DiagnosticSignWarn"})
 vim.fn.sign_define("DiagnosticSignInfo",  {text = "I", texthl = "DiagnosticSignInfo",  numhl = "DiagnosticSignInfo"})
 vim.fn.sign_define("DiagnosticSignHint",  {text = "H", texthl = "DiagnosticSignHint",  numhl = "DiagnosticSignHint"})
+
+vim.lsp.enable("tsgo")
+vim.lsp.enable("bashls")
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("buf_ls")
+vim.lsp.enable("docker_language_server")
+vim.lsp.enable("docker_compose_language_service")
+vim.lsp.enable("gopls")
+vim.lsp.enable("fennel_ls")
+
+
+-- npm i -g bash-language-server
+--
+-- luacheck
+--
+-- vim-vint
+-- yamllint
+--
+--    bash-language-server
+--    dot-language-server
+--    fixjson
+--    perlnavigator-server
+--    sql-formatter
+--    sql-language-server
+--    typescript
+--    typescript-language-server
+--    vim-language-server
+--    vscode-langservers-extracted
+--    yaml-language-server

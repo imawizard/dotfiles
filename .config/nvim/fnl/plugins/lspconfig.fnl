@@ -1,8 +1,4 @@
-(import-macros {: use! : aucmd!} :macros)
-
-(use!
- ;; See :help lspconfig.txt and :help lspconfig-all.
- :neovim/nvim-lspconfig)
+(import-macros {: aucmd!} :macros)
 
 (let [hilite-augrp "lsp-doc-highlight"]
   (aucmd!
@@ -70,4 +66,5 @@
             (set found true)))))
   found)
 
-{}
+;; See :help lspconfig.txt and :help lspconfig-all.
+{1 :neovim/nvim-lspconfig}

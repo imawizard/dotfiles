@@ -9,6 +9,7 @@ return {
         {"fnl/langs/**/*.fnl", function(path)
             return path:gsub("/fnl/langs/", "/lua/plugins/langs/"):gsub("fnl$", "lua")
         end},
+        {"fnl/lsp/**/*.fnl", true},
     },
     clean = true,
     compiler = {
