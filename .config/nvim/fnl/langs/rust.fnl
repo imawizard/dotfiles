@@ -49,6 +49,7 @@
   :ft "rust"}
  :simrat39/rust-tools.nvim)
 
+(comment
 (aucmd!
  (:group
   "rust-bindings"
@@ -106,3 +107,6 @@
 
          :desc "Evaluate selection" :bufnr args.buf
          "<leader>E" x #(repl:exec (trim-and-join (_G.selected-text)))))))))
+)
+
+{}

@@ -6,6 +6,9 @@ end
 return {
     build = {
         {"fnl/plugins/**/*.fnl", true},
+        {"fnl/langs/**/*.fnl", function(path)
+            return path:gsub("/fnl/langs/", "/lua/plugins/langs/"):gsub("fnl$", "lua")
+        end},
     },
     clean = true,
     compiler = {

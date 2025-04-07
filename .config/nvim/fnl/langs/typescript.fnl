@@ -1,5 +1,6 @@
 (import-macros {: aucmd! : executable?} :macros)
 
+(comment
 (aucmd!
  Filetype
  :pattern [:javascript :javascriptreact
@@ -20,3 +21,6 @@
          {:root_dir (util.root_pattern "package.json" "tsconfig.json" "jsconfig.json")}))
 
     (vim.cmd "LspStart")))
+)
+
+{}

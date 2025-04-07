@@ -1,5 +1,6 @@
 (import-macros {: aucmd! : executable?} :macros)
 
+(comment
 (aucmd!
  Filetype
  :pattern "php"
@@ -43,3 +44,6 @@
                 "psalm-language-server"]}))
 
     (vim.cmd "LspStart")))
+)
+
+{}

@@ -2,3 +2,5 @@
 
 (use!
  :janet-lang/janet.vim)
+
+{}

@@ -1,5 +1,6 @@
 (import-macros {: aucmd! : executable?} :macros)
 
+(comment
 (aucmd!
  Filetype
  :pattern [:javascript :javascriptreact
@@ -19,3 +20,6 @@
                          :unstable true}}))
 
     (vim.cmd "LspStart")))
+)
+
+{}

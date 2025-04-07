@@ -16,6 +16,7 @@
  fennel_align_multiline_strings false ; buggy
  fennel_align_subforms          true)
 
+(comment
 (aucmd!
  (:group
   "fennel-bindings"
@@ -121,3 +122,6 @@
 
               :desc "Re-eval with hotpot.nvim" :bufnr args.buf
               "<leader>eh" n #(update-hotpot-reflect args.buf)))))))))
+)
+
+{}

@@ -2,3 +2,5 @@
 
 (use!
  :hylang/vim-hy)
+
+{}

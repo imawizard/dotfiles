@@ -7,3 +7,5 @@
                             "ts=typescript"
                             "viml=vim"]
  vim_markdown_fenced_languages vim.g.markdown_fenced_languages)
+
+{}

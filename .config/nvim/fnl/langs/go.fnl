@@ -16,6 +16,7 @@
  go_fmt_autosave            false
  go_def_mapping_enabled     false)
 
+(comment
 (aucmd!
  Filetype
  :pattern "go"
@@ -56,3 +57,6 @@
      :desc "Run go run"      "<leader>rr" nb ":GoRun<CR>"
      :desc "Debug last test" "<leader>dt" nb #(let [dg (require :dap-go)]
                                                 (dg.debug_test "debug_last_test"))))))
+)
+
+{}

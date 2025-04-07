@@ -1,5 +1,6 @@
 (import-macros {: aucmd! : executable?} :macros)
 
+(comment
 (aucmd!
  Filetype
  :pattern "lua"
@@ -17,3 +18,6 @@
             :telemetry {:enable false}}}}))
 
     (vim.cmd "LspStart")))
+)
+
+{}

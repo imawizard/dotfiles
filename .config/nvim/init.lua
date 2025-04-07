@@ -30,6 +30,7 @@ require("lazy").setup({
     spec = {
         {"rktjmp/hotpot.nvim"},
         {import = "plugins"},
+        {import = "plugins/langs"},
     },
 })
 
@@ -40,6 +41,7 @@ function _G.get_module_if_part_of_main_config(path)
     local m = vim.fn.fnamemodify(path:sub(prefix:len() + 2), ":r")
     for _, exclude in ipairs({
         "^plugins/",
+        "^langs/",
         "^snippets/",
         "macros$",
     }) do

@@ -1,5 +1,6 @@
 (import-macros {: aucmd! : executable?} :macros)
 
+(comment
 (aucmd!
  Filetype
  :pattern "dot"
@@ -13,3 +14,6 @@
          {:capabilities (cmp_lsp.default_capabilities)}))
 
     (vim.cmd "LspStart")))
+)
+
+{}
