@@ -34,4 +34,7 @@
       (dapvt.setup {:commented true})))}
  :theHamsta/nvim-dap-virtual-text)
 
+;;{1 :rcarriga/nvim-dap-ui
+ ;;:dependencies  [:mfussenegger/nvim-dap
+                  ;;:nvim-neotest/nvim-nio)
 {}
