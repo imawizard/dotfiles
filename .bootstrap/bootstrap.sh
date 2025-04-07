@@ -881,7 +881,10 @@ $ python3 -m pip install --upgrade
     pip
     asciinema
     azure-cli
+    black
     cookiecutter
+    frida-tools
+    isort
     hy
     podman-compose
     pre-commit
