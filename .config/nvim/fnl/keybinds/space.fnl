@@ -197,50 +197,6 @@
   :desc "User defined completion"      "<C-u>" i "<C-x><C-u>"
   :desc "Complete vim command"         "<C-v>" i "<C-x><C-v>"))
 
-(use!
- ;; See :help which-key.txt.
- {:config
-  (fn []
-    (let [{: setup : register} (require :which-key)]
-      (setup {:show_help false
-              :key_labels {:<space> "SPC"
-                           :<cr> "RET"
-                           :<tab> "TAB"}
-              :icons {:breadcrumb "›"
-                      :separator "➜"
-                      :group ""}
-              :spelling {:enabled true}
-              :layout {:spacing 6}})
-
-      (register {:<Space>   {:name "SPC"}
-                 :<Space>b  {:name "buffer"}
-                 :<Space>c  {:name "code"}
-                 :<Space>cl {:name "lsp"}
-                 :<Space>e  {:name "eval"}
-                 :<Space>f  {:name "file"}
-                 :<Space>g  {:name "git"}
-                 :<Space>gc {:name "create"}
-                 :<Space>gf {:name "find"}
-                 :<Space>i  {:name "insert"}
-                 :<Space>n  {:name "number"}
-                 :<Space>o  {:name "open"}
-                 :<Space>p  {:name "project"}
-                 :<Space>q  {:name "quit"}
-                 :<Space>r  {:name "run"}
-                 :<Space>s  {:name "search"}
-                 :<Space>t  {:name "toggle"}
-                 :<Space>ti {:name "indentation"}
-                 :<Space>w  {:name "workspace"}
-                 :<C-h>      {:name "help"}
-                 :<C-h>b     {:name "bindings"}
-                 :<C-h>h     {:name "highlights"}
-                 :<C-h>r     {:name "reload"}
-                 :<C-x>      {:name "completion"}})))
-  :keys ["<Space>"
-         "<C-h>"
-         "<C-x>"]}
- :folke/which-key.nvim)
-
 (fn _G.selected-text []
   (let [mode (vim.fn.mode)
         vmode (if (= mode "n")

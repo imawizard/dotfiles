@@ -2,5 +2,6 @@
   "fennel.vim": { "branch": "master", "commit": "30b9beabad2c4f09b9b284caf5cd5666b6b4dc89" },
   "hotpot.nvim": { "branch": "main", "commit": "443fe563423c0fc2fdb1c4fa92c3ab3ad5de8ae1" },
   "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
-  "parinfer-rust": { "branch": "master", "commit": "f519995ce802941007684e2d79e4fcba97853446" }
+  "parinfer-rust": { "branch": "master", "commit": "f519995ce802941007684e2d79e4fcba97853446" },
+  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }
