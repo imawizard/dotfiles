@@ -302,11 +302,16 @@ defaults write pbs NSServicesStatus -dict-add '"com.googlecode.iterm2 - New iTer
 # Install software and tools .............................................{{{1
 
 latest() { echo "${3:-%2}" | sed -e "s|%1|$1|" -e "s|%2|$( \
-    git ls-remote --tags --refs --sort="version:refname" "https://$1" \
-    | cut -f2 \
-    | cut -d/ -f3 \
-    | grep -E "^v?${2:-}" \
-    | tail -n1)|"; }
+    `# --sort="version:refname" doesn't ignore leading v` \
+    `# so versions with and without are not interleaved`  \
+    git ls-remote --tags --refs "https://$1" \
+    | cut -f2                      `# cut off commit hash` \
+    | cut -d/ -f3                  `# cut off 'refs/tags/'` \
+    | grep -E "^v?${2:-\d}"        `# filter by specific version if wanted` \
+    | sed -E 's|^(v?(.*))|\2\t\1|' `# prepend cleaned version` \
+    | sort -V                      `# sort by version` \
+    | cut -f2                      `# restore original` \
+    | tail -n1)|"; }                # get highest version
 cargo_latest() { latest "$1" "${2:-}" '--git https://%1 --tag %2'; }
 go_clone_install() {
     local pkg="$1"
