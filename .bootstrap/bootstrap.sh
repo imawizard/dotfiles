@@ -313,14 +313,20 @@ go_clone_install() {
     local bin="${2:-.}"
 
     local name=${pkg%%@*}
-    local version=$(latest "$name")
+    local version=${pkg//*@}
+    local tag=$(latest "$name" ${version/latest/})
     local dir="$GOPATH/git/$name"
 
+    if [[ ! $tag ]]; then
+        echo "Failed to retrieve git tag for version '$version'"
+        return 1
+    fi
     test -e "$dir" || git clone "https://$name" "$_"
     cd "$dir" || return 1
 
     git fetch
-    git checkout "refs/tags/$version"
+    echo "Checking out $tag"
+    git checkout "refs/tags/$tag"
     if ! go install "$bin" 2>/dev/null; then
         go generate ./...
         go install "$bin"
