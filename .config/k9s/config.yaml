@@ -1,19 +1,20 @@
 k9s:
   liveViewAutoRefresh: false
   screenDumpDir: /Users/timu/Library/Application Support/k9s/screen-dumps
-  refreshRate: 2
+  refreshRate: 1.5
   maxConnRetry: 5
   readOnly: false
   noExitOnCtrlC: false
   ui:
-    enableMouse: false
+    splashless: true
+    enableMouse: true
     headless: false
-    logoless: false
-    crumbsless: false
+    logoless: true
+    crumbsless: true
     reactive: false
     noIcons: false
     defaultsToFullScreen: false
-    skin: red
+    skin: solarized-light
   skipLatestRevCheck: false
   disablePodCounting: false
   shellPod:
@@ -28,7 +29,7 @@ k9s:
       namespaces: []
       labels: {}
   logger:
-    tail: 100
+    tail: 1000
     buffer: 5000
     sinceSeconds: -1
     textWrap: false
@@ -40,3 +41,10 @@ k9s:
     memory:
       critical: 90
       warn: 70
+hotKeys:
+  # Hitting Shift-0 navigates to your pod view
+  blabli:
+    shortCut:    "."
+    description: Viewing pods
+    command:     pods
+
