@@ -741,9 +741,9 @@ $ eval
 
 $ cargo install --locked
     $(cargo_latest github.com/astral-sh/ruff) ruff
-    $(cargo_latest github.com/Shopify/shadowenv 2.1)
+    $(cargo_latest github.com/latex-lsp/texlab) # texlab on crates.io is outdated
+    $(cargo_latest github.com/Shopify/shadowenv)
     --git https://github.com/helix-editor/helix helix-term
-    $(cargo_latest github.com/latex-lsp/texlab 5.12) # texlab on crates.io is outdated
     amber      # --git https://github.com/dalance/amber
     bat        # --git https://github.com/sharkdp/bat
     broot      # --git https://github.com/Canop/broot
