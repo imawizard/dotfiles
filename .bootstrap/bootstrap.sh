@@ -87,7 +87,7 @@ secrets pre
 # Configuring macOS ......................................................{{{1
 
 # Close System Preferences so nothing gets overwritten again.
-osascript -e 'tell application "System Preferences" to quit' >/dev/null 2>&1
+osascript -e 'tell application "System Preferences" to quit' >/dev/null
 
 # System
 defaults write com.apple.bird optimize-storage -bool true                                             # Delete unused local files downloaded from the cloud to save space
