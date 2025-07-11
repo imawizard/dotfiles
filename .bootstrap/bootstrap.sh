@@ -115,6 +115,7 @@ defaults write NSGlobalDomain AppleWindowTabbingMode -string "always"           
 # Desktop
 if [[ ! "v$MACOS_VERSION" < "v$MACOS_SONOMA" ]]; then
     defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+    defaults write com.apple.dock wvous-br-corner -int 1                                              # Disable hot corners
 fi
 
 # Mission Control
