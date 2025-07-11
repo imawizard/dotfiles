@@ -560,8 +560,8 @@ tap "koekeishiya/formulae"
 
 # Security
     #brew "git-crypt"
-    #brew "radare2"
     #brew "nmap"
+    #brew "radare2"
 
 # Storage
     #brew "hub"
@@ -574,10 +574,10 @@ tap "koekeishiya/formulae"
     #brew "sqlite"                   # newer version, keg-only
 
 # DevOps
+    brew "docker"
     brew "podman"
     #brew "aws-shell"
     #brew "aws/tap/aws-sam-cli"
-    #brew "docker"
     #brew "docker-machine"
     #brew "docker-swarm"
     #brew "podman-compose"
@@ -589,6 +589,7 @@ tap "koekeishiya/formulae"
     #brew "imagemagick"
 
 # Cask Essentials
+    cask "ghostty"
     cask "iterm2"                    # or kitty or alacritty
     cask "karabiner-elements"
     cask "keka"
@@ -597,12 +598,14 @@ tap "koekeishiya/formulae"
     cask "sloth"
     #cask "alfred"                   # or raycast
     #cask "obsidian"
+    #cask "omnissa-horizon-client"
     #cask "onedrive"
     #cask "onyx"
     #cask "ukelele"
     #cask "vanilla"                  # or dozer
-    #cask "virtualbox"
     #cask "virtualbox-extension-pack"
+    #cask "virtualbox"
+    #cask "vmware-fusion"
 
 # Window Tools
     cask "amethyst"                  # or yabai
@@ -635,10 +638,13 @@ tap "koekeishiya/formulae"
 # Development
     cask "android-studio"
     cask "boop"
+    cask "cursor"
     cask "hex-fiend"
     cask "meld"
     cask "podman-desktop"
+    cask "postman"
     cask "visual-studio-code"
+    cask "zed"
     #cask "clion"
     #cask "cocoapods"                # bundled app with editor
     #cask "dash"
@@ -654,11 +660,11 @@ tap "koekeishiya/formulae"
 
 # Storage
     cask "db-browser-for-sqlite"
+    cask "dbeaver-community"
     cask "gitup"                     # or sourcetree or gitx or fork
     cask "robo-3t"                   # or mongotron or nosqlclient
     cask "sequel-ace"
     #cask "another-redis-desktop-manager"
-    #cask "handbrake-nightly"
     #cask "postico"                  # paid
     #cask "redis"
     #cask "sequel-pro-nightly"       # outdated, use sequel-ace
@@ -683,7 +689,9 @@ tap "koekeishiya/formulae"
     cask "sf-symbols"
     #cask "caption"
     #cask "cfxr"                     # 32bit only
+    #cask "displaylink"
     #cask "freac"
+    #cask "handbrake-nightly"
     #cask "inkscape"
     #cask "macsvg"
     #cask "moonlight"
@@ -741,11 +749,12 @@ $ cargo install --locked
     eza        # --git https://github.com/eza-community/eza
     git-delta  # --git https://github.com/dandavison/delta
     hyperfine  # --git https://github.com/sharkdp/hyperfine
+    just       # --git https://github.com/casey/just
     macchina   # --git https://github.com/Macchina-CLI/macchina
     ripgrep    # --git https://github.com/BurntSushi/ripgrep
     stylua     # --git https://github.com/JohnnyMorganz/StyLua
-    usage-cli  # --git https://github.com/jdx/usage
     tokei      # --git https://github.com/XAMPPRocky/tokei tokei
+    usage-cli  # --git https://github.com/jdx/usage
     zoxide     # --git https://github.com/ajeetdsouza/zoxide
     #exa       # --git https://github.com/ogham/exa
     #fd-find   # --git https://github.com/sharkdp/fd
@@ -753,6 +762,7 @@ $ cargo install --locked
     #ren-find  # --git https://github.com/robenkleene/ren-find
     #rep-grep  # --git https://github.com/robenkleene/rep-grep
     #starship  # --git https://github.com/starship/starship
+    #--git https://github.com/metalbear-co/mirrord # not working
     #cargo-audit
     #cargo-c
     #cargo-docset
@@ -796,6 +806,7 @@ $ gem install
 
 $ go install
     github.com/antonmedv/fx@latest
+    github.com/Azure/kubelogin@latest
     github.com/charmbracelet/glow@latest
     github.com/cweill/gotests/gotests@latest
     github.com/derailed/k9s@latest
@@ -804,12 +815,12 @@ $ go install
     github.com/go-delve/delve/cmd/dlv@latest
     github.com/golangci/golangci-lint/cmd/golangci-lint@latest
     github.com/hashicorp/terraform-ls@latest
-    github.com/int128/kubelogin@latest
     github.com/jesseduffield/lazydocker@latest
     github.com/jesseduffield/lazygit@latest
     github.com/mattn/efm-langserver@latest
     github.com/mgechev/revive@latest
     github.com/mikefarah/yq/v4@latest
+    github.com/mislav/hub@latest
     github.com/rclone/rclone@latest
     github.com/segmentio/golines@latest
     github.com/sqls-server/sqls@master # latest tag has old go.mod
@@ -855,6 +866,8 @@ $ npm install --global
     perlnavigator-server
     sql-formatter
     sql-language-server
+    typescript
+    typescript-language-server
     vim-language-server
     vscode-langservers-extracted
     yaml-language-server
