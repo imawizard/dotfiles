@@ -331,7 +331,7 @@ go_clone_install() {
 brew update
 Brewfile=$(perl -nlE 'say if (/^# --Brewfile/.../^# --/) && !/^# --/' "$0"; secrets brewfile)
 echo "$Brewfile" | brew bundle install --file=-
-echo "$Brewfile" | brew bundle cleanup --file=- --force --zap
+echo "$Brewfile" | brew bundle cleanup --file=- || true # --force --zap
 brew cleanup
 
 # Install rustup and rust toolchain.
