@@ -4,6 +4,7 @@
   rebase = true
 [push]
   autoSetupRemote = true
+  useForceIfIncludes = true
 [fetch]
   prune = true
 [rebase]
