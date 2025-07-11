@@ -1,0 +1,21 @@
+# Remove trailing whitespace and add final newline.
+stripspace() {
+    if [[ $1 == "--help" ]]; then
+        echo "usage: stripspace [path]"
+        return 1
+    fi
+    local wd="$(pwd)"
+    if [[ $1 ]]; then
+        wd="$1"
+    fi
+	find "$wd" -type f \
+		-not -path '*/.git/*' \
+		-not -path '*/node_modules/*' \
+		-not -path '*/gen/*' \
+		-exec sh -c '
+			[[ ! $(file -I "$1") =~ "binary" ]] &&
+			echo "$1" &&
+			git stripspace < "$1" > "$1.strip" &&
+			mv "$1.strip" "$1"
+		' _ {} \;
+}
