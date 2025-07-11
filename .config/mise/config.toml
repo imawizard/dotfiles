@@ -11,3 +11,7 @@ status.show_tools = true
 
 # Leave $GOBIN
 go_set_gobin = false
+
+idiomatic_version_file_enable_tools = [
+  "node",
+]
