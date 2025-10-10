@@ -285,6 +285,8 @@
                 "a": { "text": "last accessed file",      "command": "workbench.action.previousEditorInGroup"                    },
                 "m": { "text": "last modified file",      "command": "???"                                                       },
                 "p": { "text": "previous buffer",         "command": "workbench.action.previousEditor"                           },
+                "w": { "text": "Leap forward",            "command": "dance.seek.leap"                                           },
+                "W": { "text": "Leap backward",           "command": "dance.seek.leap.backward"                                  },
             }
         },
 
