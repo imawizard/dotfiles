@@ -442,4 +442,9 @@
 
     // Accept suggestion if there's only one
     { "key": "tab", "command": "acceptSelectedSuggestion", "when": "editorTextFocus && suggestWidgetVisible && !suggestWidgetMultipleSuggestions" },
+
+    { "key": "tab",       "command": "focusNextRenameSuggestion",     "when": "renameInputVisible" },
+    { "key": "ctrl+n",    "command": "focusNextRenameSuggestion",     "when": "renameInputVisible" },
+    { "key": "shift+tab", "command": "focusPreviousRenameSuggestion", "when": "renameInputVisible" },
+    { "key": "ctrl+p",    "command": "focusPreviousRenameSuggestion", "when": "renameInputVisible" },
 ]
