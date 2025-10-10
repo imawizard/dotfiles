@@ -279,7 +279,7 @@
 
     { "key": "ctrl+w", "command": "dance.openMenu", "args": { "menu": "window-hx", "pass": [{ "shift": "jump" }] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "ctrl+c", "command": "editor.action.commentLine", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "ctrl+c", "command": "editor.action.commentLine", "when": "editorTextFocus && dance.mode == 'normal'" },
 
     { "key": "ctrl+i", "command": "workbench.action.navigateForward", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "tab",    "command": "workbench.action.navigateForward", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
@@ -362,6 +362,8 @@
     { "key": "ctrl+f",   "command": "dance.select.vertically", "args": { "shift": "extend", "direction":  1, "by": "page"     }, "when": "editorTextFocus && dance.mode == 'select'" },
     { "key": "ctrl+u",   "command": "dance.select.vertically", "args": { "shift": "extend", "direction": -1, "by": "halfPage" }, "when": "editorTextFocus && dance.mode == 'select'" },
     { "key": "ctrl+d",   "command": "dance.select.vertically", "args": { "shift": "extend", "direction":  1, "by": "halfPage" }, "when": "editorTextFocus && dance.mode == 'select'" },
+
+    { "key": "ctrl+c", "command": "dance.run", "args": { "commands": ["editor.action.commentLine", ".modes.set.normal"] }, "when": "editorTextFocus && dance.mode == 'select'" },
 
     { "key": "g",       "command": "dance.run",      "args": { "code": ["await vscode.commands.executeCommand('dance.openMenu', { menu: 'goto-hx', pass: [{ shift: 'extend', count }] })"] }, "when": "editorTextFocus && dance.mode == 'select'" },
     { "key": "m",       "command": "dance.openMenu", "args": { "menu": "match-hx"                                                          }, "when": "editorTextFocus && dance.mode == 'select'" },
