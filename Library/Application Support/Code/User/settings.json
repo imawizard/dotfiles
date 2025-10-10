@@ -146,7 +146,7 @@
     "workbench.list.defaultFindMode": "filter",
     "workbench.list.typeNavigationMode": "trigger",
     "explorer.confirmDelete": true,
-    "explorer.confirmDragAndDrop": true,
+    "explorer.confirmDragAndDrop": false,
 
     // Window
     "workbench.commandPalette.preserveInput": true,
