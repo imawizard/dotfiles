@@ -740,7 +740,7 @@
         "completionDocumentation": true,
     },
     "go.toolsManagement.autoUpdate": true,
-    "go.lintTool": "revive",
+    "go.lintTool": "staticcheck",
     "go.lintOnSave": "workspace",
     "go.useLanguageServer": true,
 
