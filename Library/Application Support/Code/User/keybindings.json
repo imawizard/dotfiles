@@ -399,12 +399,11 @@
     { "key": "ctrl+d", "command": "deleteRight",     "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+j", "command": "dance.edit.newLine.below.insert", "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+m", "command": "dance.edit.newLine.below.insert", "when": "editorTextFocus && dance.mode == 'insert'" },
-    /*
+
     { "key": "ctrl+b", "command": "cursorLeft",      "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+f", "command": "cursorRight",     "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+a", "command": "cursorLineStart", "when": "editorTextFocus && dance.mode == 'insert'" },
     { "key": "ctrl+e", "command": "cursorLineEnd",   "when": "editorTextFocus && dance.mode == 'insert'" },
-    */
 
     { "key": "tab", "command": "dance.run", "args": { "code": [
         "let x = vscode.commands.executeCommand;",
