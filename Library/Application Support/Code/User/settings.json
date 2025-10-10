@@ -103,7 +103,7 @@
     "window.newWindowDimensions": "maximized",
     "editor.rulers": [80],
     "editor.minimap.enabled": true,
-    "editor.minimap.autohide": true,
+    "editor.minimap.autohide": "scroll",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorStyle": "underline",
     "editor.scrollbar.horizontal": "hidden",
