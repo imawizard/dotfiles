@@ -7,6 +7,8 @@
 
     // UI ..................................................................{{{1
 
+    "window.zoomLevel": 0.4,
+
     // Theme
     "workbench.colorTheme": "Visual Studio Light",
     "workbench.iconTheme": "vsc-jetbrains-icons-enhanced",
