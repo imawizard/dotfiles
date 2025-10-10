@@ -7,6 +7,8 @@
 
     // UI ..................................................................{{{1
 
+    "window.zoomLevel": 0.4,
+
     // Theme
     "workbench.colorTheme": "Visual Studio Light",
     "workbench.iconTheme": "vsc-jetbrains-icons-enhanced",
@@ -29,8 +31,7 @@
         "editorOverviewRuler.wordHighlightForeground": "#ffffff",
         "editorOverviewRuler.bracketMatchForeground": "#ffffff",
         "editorOverviewRuler.findMatchForeground": "#ffffff",
-        // NOTE: Primary-/SecondaryCursor are not customizable
-        // See https://github.com/microsoft/vscode/issues/85630
+        "editorMultiCursor.secondary.foreground": "#909090",
     },
 
     // Syntax scheme (Bold IntelliJ Light)
@@ -102,7 +103,7 @@
     "window.newWindowDimensions": "maximized",
     "editor.rulers": [80],
     "editor.minimap.enabled": true,
-    "editor.minimap.autohide": true,
+    "editor.minimap.autohide": "scroll",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorStyle": "underline",
     "editor.scrollbar.horizontal": "hidden",
@@ -129,6 +130,7 @@
     "workbench.editor.tabCloseButton": "right",
     "workbench.editor.empty.hint": "hidden",
     "workbench.editor.untitled.labelFormat": "name",
+    "workbench.editor.tabActionLocation": "right",
 
     // Behaviour ...........................................................{{{1
 
@@ -144,7 +146,7 @@
     "workbench.list.defaultFindMode": "filter",
     "workbench.list.typeNavigationMode": "trigger",
     "explorer.confirmDelete": true,
-    "explorer.confirmDragAndDrop": true,
+    "explorer.confirmDragAndDrop": false,
 
     // Window
     "workbench.commandPalette.preserveInput": true,
@@ -285,6 +287,8 @@
                 "a": { "text": "last accessed file",      "command": "workbench.action.previousEditorInGroup"                    },
                 "m": { "text": "last modified file",      "command": "???"                                                       },
                 "p": { "text": "previous buffer",         "command": "workbench.action.previousEditor"                           },
+                "w": { "text": "Leap forward",            "command": "dance.seek.leap"                                           },
+                "W": { "text": "Leap backward",           "command": "dance.seek.leap.backward"                                  },
             }
         },
 
@@ -315,6 +319,7 @@
                     "));",
                     "await x('editor.action.insertSnippet', { snippet: (p?.at(0) || c) + '${TM_SELECTED_TEXT}' + (p?.at(1) || c) });",
                     "await x('dance.selections.restore');",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "r": { "text": "Surround replace", "command": "dance.run", "args": [{ "code": [
                     "let pairs = ['()', '{}', '[]', '<>'];",
@@ -341,6 +346,7 @@
                     "await x('editor.action.insertSnippet', { snippet: (p?.at(0) || c) + '${TM_SELECTED_TEXT}' + (p?.at(1) || c) });",
                     "await x('dance.selections.restore');",
                     "Selections.updateWithFallbackByIndex((i, sel) => o[i]);",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "d": { "text": "Surround delete", "command": "dance.run", "args": [{ "code": [
                     "let pairs = ['()', '{}', '[]', '<>'];",
@@ -364,11 +370,10 @@
                         "Positions.at(o[i].anchor.line, o[i].anchor.character - 1 + o[i].anchor.isEqual(s[i].anchor) * (sel.isReversed ? -1 : 1)),",
                         "Positions.at(o[i].active.line, o[i].active.character - 1 - o[i].active.isEqual(s[i].active) * (sel.isReversed ? -1 : 1)),",
                     "));",
+                    "await x('dance.modes.set.normal');",
                 ] }] },
                 "a": { "text": "Select around object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match around"                                             }] },
                 "i": { "text": "Select inside object", "command": "dance.openMenu", "args": [{ "menu": "object-hx", "title": "Match inside", "pass": [{ "inner": true, "open": false }] }] },
-                // Not in helix yet: https://github.com/helix-editor/helix/issues/1810
-                " ": { "text": "Select by indentation", "command": "dance.seek.object", "args": [{ "input": "(?#predefined=indent)" }] },
             },
         },
 
@@ -377,6 +382,7 @@
                 "w":  { "text": "Word",                               "command": "dance.seek.object", "args": [{ "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"     }] },
                 "W":  { "text": "WORD",                               "command": "dance.seek.object", "args": [{ "input": "[\\S]+(?<after>[^\\S\\n]+)"            }] },
                 "p":  { "text": "Paragraph",                          "command": "dance.seek.object", "args": [{ "input": "(?#predefined=paragraph)"              }] },
+                "i":  { "text": "Indentation",                        "command": "dance.seek.object", "args": [{ "input": "(?#predefined=indent)"                 }] },
                 "t":  { "text": "Type definition",                    "command": "dance.seek.object", "args": [{ "input": "(?#textobject=class)"                  }] },
                 "f":  { "text": "Function",                           "command": "dance.seek.object", "args": [{ "input": "(?#textobject=function)"               }] },
                 "a":  { "text": "Argument/parameter",                 "command": "dance.run", "args": [{ "code": [
@@ -395,6 +401,11 @@
                 "\"": { "text": "Double quotes",                      "command": "dance.seek.object", "args": [{ "input": "(?#noescape)\"(?#inner)(?#noescape)\"" }] },
                 "'":  { "text": "Single quotes",                      "command": "dance.seek.object", "args": [{ "input": "(?#noescape)'(?#inner)(?#noescape)'"   }] },
                 "`":  { "text": "Grave quotes",                       "command": "dance.seek.object", "args": [{ "input": "(?#noescape)`(?#inner)(?#noescape)`"   }] },
+                ".":  { "text": "Period",                             "command": "dance.seek.object", "args": [{ "input": "\\.(?#inner)\\."                       }] },
+                ",":  { "text": "Comma",                              "command": "dance.seek.object", "args": [{ "input": ",(?#inner),"                           }] },
+                ":":  { "text": "Colon",                              "command": "dance.seek.object", "args": [{ "input": ":(?#inner):"                           }] },
+                ";":  { "text": "Semicolon",                          "command": "dance.seek.object", "args": [{ "input": ";(?#inner);"                           }] },
+                "|":  { "text": "Pipe",                               "command": "dance.seek.object", "args": [{ "input": "\\|(?#inner)\\|"                       }] },
                 " ":  { "text": "Whitespace",                         "command": "dance.seek.object", "args": [{ "input": "[ \t](?#inner)[ \t]"                   }] },
             },
         },
@@ -505,7 +516,7 @@
                 "Y": { "text": "Yank main selection to clipboard",              "command": "dance.run", "args": [{ "commands": [["dance.selections.saveText", { "register": "dquote" }], ".modes.set.normal"] }] },
                 "p": { "text": "Paste clipboard after selections",              "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "end"   }] },
                 "P": { "text": "Paste clipboard before selections",             "command": "dance.edit.insert", "args": [{ "handleNewLine": true, "where": "start" }] },
-                "R": { "text": "Replace selections by clipboard content",       "command": "dance.edit.insert", "args": [{ "register": "dquote" }]                    },
+                "R": { "text": "Replace selections by clipboard content",       "command": "dance.run", "args": [{ "commands": [[".selections.saveText", { "register": "tmp" }], [".edit.insert", { "register": "dquote" }], [".updateRegister", { "copyFrom": "tmp" }], ".modes.set.normal"] }] },
                 "/": { "text": "Global search in workspace folder",             "command": "search.action.openEditor"                                                 },
                 "k": { "text": "Show docs for item under cursor",               "command": "editor.action.showHover", "args": [{ "focus": true }]                     },
                 "r": { "text": "Rename symbol",                                 "command": "editor.action.rename"                                                     },
@@ -708,6 +719,29 @@
     },
     "calva.paredit.defaultKeyMap": "strict",
 
+    // Docker
+    "docker.extension.enableComposeLanguageServer": true,
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+
+    // Git
+    "betterGitLineBlame.showInlineAnnotations": true,
+    "betterGitLineBlame.showStatusBarItem": false,
+
+    // Github Actions
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+
     // Go
     "[go]": {
         "editor.formatOnSave": true,
@@ -725,22 +759,22 @@
         "completionDocumentation": true,
     },
     "go.toolsManagement.autoUpdate": true,
-    "go.lintTool": "revive",
+    "go.lintTool": "staticcheck",
     "go.lintOnSave": "workspace",
     "go.useLanguageServer": true,
 
     // JavaScript/TypeScript
     "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "biomejs.biome",
     },
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "biomejs.biome",
     },
     "[javascriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "biomejs.biome",
     },
     "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "biomejs.biome",
     },
     "javascript.suggest.names": false,
     "javascript.updateImportsOnFileMove.enabled": "always",
@@ -844,5 +878,4 @@
     "zig.zls.completionsWithReplace": false,
     "zig.zls.enableArgumentPlaceholders": true,
     "zig.zls.inlayHintsShowParameterName": false,
-    "workbench.editor.tabActionLocation": "right",
 }

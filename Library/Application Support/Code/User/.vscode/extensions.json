@@ -6,6 +6,8 @@
         "ms-vscode.hexeditor",
         "ybaumes.highlight-trailing-white-spaces",
         "wayou.vscode-todo-highlight",
+        "GitHub.copilot",
+        "mk12.better-git-line-blame",
 
         // WSL, SSH & Github/Azure repos
         "ms-vscode-remote.vscode-remote-extensionpack",
@@ -41,6 +43,7 @@
         //"vscjava.vscode-java-pack",
 
         // JavaScript
+        //"biomejs.biome",
         //"dbaeumer.vscode-eslint",
         //"esbenp.prettier-vscode",
 
