@@ -216,10 +216,11 @@
     { "key": "cmd+p",       "command": "dance.seek.syntax.previous.experimental", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "cmd+n",       "command": "dance.seek.syntax.next.experimental",     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "x",       "command": "dance.select.line.below.extend", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "[KeyZ]",  "command": "dance.select.buffer",            "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" }, // %
     { "key": "shift+x", "command": "dance.selections.expandToLines", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "cmd+x",   "command": "dance.selections.trimLines",     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+
+    { "key": "x", "command": "dance.run", "args": { "commands": [[".selections.changeDirection", { "direction": 1 }], ".select.line.below.extend", ".selections.expandToLines"] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     { "key": "m", "command": "dance.openMenu", "args": { "menu": "match-hx"                                        }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "[", "command": "dance.openMenu", "args": { "menu": "left-bracket-hx",  "pass": [{ "shift": "jump" }] }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
@@ -378,7 +379,6 @@
     { "key": "shift+r", "command": "dance.run", "args": { "commands": [[".selections.saveText", { "register": "tmp" }], [".edit.insert", { "register": "*" }], [".updateRegister", { "copyFrom": "tmp" }], ".modes.set.normal"] }, "when": "editorTextFocus && dance.mode == 'select'" },
     { "key": "y",       "command": "dance.run", "args": { "commands": [[".selections.saveText", { "register": "*" }], ".modes.set.normal"] },                                                                                      "when": "editorTextFocus && dance.mode == 'select'" },
     { "key": "d",       "command": "dance.run", "args": { "commands": [[".edit.yank-delete", { "register": "*" }], ".modes.set.normal"] },                                                                                         "when": "editorTextFocus && dance.mode == 'select'" },
-    { "key": "x",       "command": "dance.run", "args": { "commands": [[".selections.changeDirection", { "direction": 1 }], ".select.line.below.extend", ".selections.expandToLines"] },                                           "when": "editorTextFocus && dance.mode == 'select'" },
 
     //
     // Insert mode
