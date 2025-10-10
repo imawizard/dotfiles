@@ -420,7 +420,7 @@
         "} else {",
             "await x('cursorLineEnd');",
         "}",
-    ] }, "when": "editorTextFocus && dance.mode == 'insert'" },
+    ] }, "when": "editorTextFocus && dance.mode == 'insert' && !inlineSuggestionVisible" },
     { "key": "shift+tab", "command": "tab", "when": "editorTextFocus && dance.mode == 'insert'" },
 
     // Accept suggestion if there's only one
