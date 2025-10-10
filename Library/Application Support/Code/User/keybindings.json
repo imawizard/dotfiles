@@ -216,8 +216,8 @@
     { "key": "cmd+p",       "command": "dance.seek.syntax.previous.experimental", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "cmd+n",       "command": "dance.seek.syntax.next.experimental",     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "[KeyZ]",  "command": "dance.select.buffer",            "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "x",       "command": "dance.select.line.below.extend", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "[KeyZ]",  "command": "dance.select.buffer",            "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" }, // %
     { "key": "shift+x", "command": "dance.selections.expandToLines", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "cmd+x",   "command": "dance.selections.trimLines",     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
@@ -259,8 +259,8 @@
     { "key": "shift+0", "command": "dance.edit.align",                "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "shift+-", "command": "dance.selections.trimWhitespace", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
-    { "key": "0",     "command": "dance.selections.rotate.selections",         "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "9",     "command": "dance.selections.rotate.selections.reverse", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "0",     "command": "dance.selections.rotate.selections",         "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" }, // )
+    { "key": "9",     "command": "dance.selections.rotate.selections.reverse", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" }, // (
     { "key": "cmd+0", "command": "dance.selections.rotate.both",               "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "cmd+9", "command": "dance.selections.rotate.both.reverse",       "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
@@ -291,7 +291,7 @@
     { "key": "shift+z", "command": "dance.openMenu", "args": { "menu": "view-hx",   "pass": [{ "shift": "jump" }], "locked": true }, "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
     { "key": "shift+'",     "command": "dance.selectRegister",          "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
-    { "key": "shift+,",     "command": "dance.selections.pipe.prepend", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
+    { "key": "cmd+\\",      "command": "dance.selections.pipe.prepend", "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" }, // shift+1 aka !
     { "key": "cmd+shift+,", "command": "dance.selections.pipe.append",  "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
     { "key": "shift+4",     "command": "dance.selections.filter",       "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'" },
 
