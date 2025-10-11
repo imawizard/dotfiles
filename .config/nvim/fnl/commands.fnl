@@ -13,6 +13,10 @@
  \" Open or focus nuake.
  command! FocusNuake call FocusNuake()
 
+ \" xxxxx
+ command! CycleDiffAlgo call CycleDiffAlgo()
+ command! CycleFolding call CycleFolding()
+
  \" Save file with sudo.
  command! W w !sudo tee % >/dev/null
 
