@@ -109,4 +109,5 @@
          "<leader>E" x #(repl:exec (trim-and-join (_G.selected-text)))))))))
 )
 
-{}
+[{1 :rust-lang/rust.vim}
+ {1 :simrat39/rust-tools.nvim}]
