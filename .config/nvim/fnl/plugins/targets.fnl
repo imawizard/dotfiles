@@ -1,7 +1,2 @@
-(import-macros {: use!} :macros)
-
-(use!
- ;; See :help targets.txt.
- :wellle/targets.vim)
-
-{}
+;; See :help targets.txt.
+{1 :wellle/targets.vim}
