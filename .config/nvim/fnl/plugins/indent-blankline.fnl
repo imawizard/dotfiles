@@ -1,13 +1,8 @@
-(import-macros {: use! : gset!} :macros)
-
-(use!
- ;; See :help indent_blankline.txt.
- {:config
-  (fn []
-    (let [ibl (require :ibl)
-          hooks (require :ibl.hooks)]
-      (ibl.setup
-       {:indent
+;; See :help indent_blankline.txt.
+{1 :lukas-reineke/indent-blankline.nvim
+ :event :VimEnter
+ :main :ibl
+ :opts {:indent
         {:char "│"
          :highlight [:IndentBlanklineChar]}
         :scope
@@ -24,11 +19,9 @@
          :buftypes ["terminal"
                     "nofile"
                     "quickfix"
-                    "prompt"]}})
-      (hooks.register
-       hooks.type.WHITESPACE
-       hooks.builtin.hide_first_space_indent_level)))
-  :event :VimEnter}
- :lukas-reineke/indent-blankline.nvim)
+                    "prompt"]}}
+ :init #(let [hooks (require :ibl.hooks)]
+          (hooks.register
+           hooks.type.WHITESPACE
+           hooks.builtin.hide_first_space_indent_level))}
 
-{}
