@@ -1,7 +1,3 @@
-(import-macros {: use!} :macros)
-
-(use!
- ;; Restore last position in file, see :help vim-lastplace.
- :farmergreg/vim-lastplace)
-
-{}
+;; Restore last position in file, see :help vim-lastplace.
+{1 :farmergreg/vim-lastplace
+ :event :VimEnter}
