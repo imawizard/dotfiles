@@ -1,7 +1,3 @@
-(import-macros {: use!} :macros)
-
-(use!
- ;; Better %, see :help matchup.txt.
- :andymass/vim-matchup)
-
-{}
+;; Better %, see :help matchup.txt.
+{1 :andymass/vim-matchup
+ :keys [{1 "%" :mode [:n :v]}]}
