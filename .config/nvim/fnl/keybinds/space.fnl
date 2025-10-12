@@ -60,13 +60,16 @@
 
   (:prefix
    "g" "Git"
-   :desc "Branches"             "b" n #(FzfLua.git_branches)
-   :desc "File-related commits" "c" n #(FzfLua.git_bcommits)
-   :desc "Commits"              "C" n #(FzfLua.git_commits)
-   :desc "Files"                "f" n #(FzfLua.git_files)
-   :desc "Status"               "g" n #(FzfLua.git_status)
-   :desc "Blame"                "m" n ":GitMessenger<CR>"
-   :desc "Stash"                "s" n #(FzfLua.git_stash))
+   :desc "Blame"                 "b" n ":GitMessenger<CR>"
+   :desc "Commits"               "c" n ":DiffviewFileHistory<CR>"
+   :desc "Files"                 "f" n #(FzfLua.git_files)
+   :desc "Changes for this file" "h" n ":DiffviewFileHistory %<CR>"
+   :desc "Open blamed commit"    "o" n ":GitBlameOpenCommitURL<CR>"
+
+   (:prefix
+    "y" "Yank"
+    :desc "Blamed commit's SHA"    "y" n ":GitBlameCopySHA<CR>"
+    :desc "Blamed commit's URL"    "u" n ":GitBlameCopyCommitURL<CR>"))
 
   (:prefix
    "i" "Insert"
@@ -121,6 +124,7 @@
 
   (:prefix
    "t" "Toggle"
+   :desc "Git blame"             "b" n! ":GitBlameToggle<CR>"
    :desc "Cursor column"         "c" n! ":set <C-r>=&cuc ? 'nocursorcolumn' : 'cursorcolumn'<CR><CR>"
    :desc "Colored column"        "C" n! ":set <C-r>=&cc ? 'colorcolumn=' : 'colorcolumn=80'<CR><CR>"
    :desc "Diff buffer"           "d" n  ":<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>"
