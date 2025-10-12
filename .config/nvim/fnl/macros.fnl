@@ -132,9 +132,11 @@
     false))
 
 (fn M.trim-lines! [lines]
-  `(icollect [_# line# (ipairs ,lines)]
+  `(let [lines# ,lines
+         lines# (if (= (type lines#) "table") lines# [lines#])]
+     (icollect [_# line# (ipairs lines#)]
        (let [s# (vim.trim line#)]
-         (if (not= s# "") s#))))
+         (if (not= s# "") s#)))))
 
 (fn M.aucmd! [...]
   (fn parse-cmd [group rest]

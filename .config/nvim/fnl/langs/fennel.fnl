@@ -1,7 +1,4 @@
-(import-macros {: use! : gset! : aucmd! : has? : bind! : feedkeys! : trim-lines!} :macros)
-
-(use!
- :bakpakin/fennel.vim)
+(import-macros {: gset! : aucmd! : has? : bind! : feedkeys! : trim-lines!} :macros)
 
 (gset!
  fennel_maxlines                300
@@ -16,7 +13,6 @@
  fennel_align_multiline_strings false ; buggy
  fennel_align_subforms          true)
 
-(comment
 (aucmd!
  (:group
   "fennel-bindings"
@@ -27,49 +23,36 @@
                              "hotpot-reflect-session"))
         (do
 
-         ;; REPL via fennel.bat
-         (let [[ok repl] [(pcall _G.inject-repl args.buf (if (has? "win32")
-                                                             "fennel.bat"
-                                                             "fennel"))]
-               ts vim.treesitter
-               utils (require :nvim-treesitter.ts_utils)]
+         ;; (repl:exec (trim-lines! (vim.treesitter.query.get_node_text (get-form) 0 {:concat false})))
+         (fn get-form [node]
+           (let [node (or node (vim.treesitter.get_node))
+                 parent (node:parent)]
+             (if parent
+                 (let [child (node:child 0)]
+                   (if (or (not child)
+                           (not= (child:type) "("))
+                       (get-form parent)
+                       node))
+                 node)))
 
-           (fn get-form [node]
-             (let [node (or node (utils.get_node_at_cursor 0))
-                   parent (node:parent)]
-               (if parent
-                   (let [child (node:child 0)]
-                     (if (or (not child)
-                             (not= (child:type) "("))
-                         (get-form parent)
-                         node))
-                   node)))
+         ;; (repl:exec (trim-lines! (vim.treesitter.query.get_node_text (get-root) 0 {:concat false})))
+         (fn get-root [node]
+           (let [node (or node (vim.treesitter.get_node))
+                 parent (node:parent)]
+             (if (and parent
+                      (parent:parent))
+                 (get-root parent)
+                 node)))
 
-           (fn get-root [node]
-             (let [parent (node:parent)]
-               (if (and parent
-                        (parent:parent))
-                   (get-root parent)
-                   node)))
-
-           (when ok
-             (bind!
-              :desc "Current form" :bufnr args.buf
-              "<leader>ee" n #(repl:exec
-                               (trim-lines!
-                                (ts.query.get_node_text
-                                 (get-form (utils.get_node_at_cursor 0))
-                                 0 {:concat false})))
-
-              :desc "Root form" :bufnr args.buf
-              "<leader>er" n #(repl:exec
-                               (trim-lines!
-                                (ts.query.get_node_text
-                                 (get-root (utils.get_node_at_cursor 0))
-                                 0 {:concat false}))))))
+         ;; (select-node (get-form) 0)
+         (fn select-node [node]
+           (let [(start_row start_col end_row end_col) (node:range)]
+             (vim.api.nvim_win_set_cursor 0 [(+ start_row 1) start_col])
+             (vim.cmd "normal! v")
+             (vim.api.nvim_win_set_cursor 0 [(+ end_row 1) (- end_col 1)])))
 
          ;; REPL via hotpot.nvim
-         ;; see https://github.com/rktjmp/hotpot.nvim/blob/master/COOKBOOK.md#using-hotpot-reflect
+         ;; see https://github.com/rktjmp/hotpot.nvim/blob/main/COOKBOOK.md#using-hotpot-reflect
          (let [reflect (require :hotpot.api.reflect)
                prop :hotpot-reflect-vars
                initial-mode :eval]
@@ -79,34 +62,42 @@
                (if id (do
                        (reflect.attach-input id bufnr)
                        (feedkeys! "<ESC>"))
-                   (let [new-buf (vim.api.nvim_create_buf true true)
-                         new-id (reflect.attach-output new-buf)]
-                     (tset (. vim.b bufnr) prop {:id new-id
+                   (let [session-bufnr (vim.api.nvim_create_buf true true)
+                         session-id (reflect.attach-output session-bufnr)]
+                     ;; save session id and bufnr in current buffer
+                     (tset (. vim.b bufnr) prop {:id session-id
+                                                 :bufnr session-bufnr
                                                  :mode initial-mode})
-                     (tset (. vim.b new-buf) prop {:mode initial-mode})
-                     (reflect.set-mode new-id initial-mode)
-                     (reflect.attach-input new-id bufnr)
+                     (reflect.set-mode session-id initial-mode)
+                     (reflect.attach-input session-id bufnr)
+                     ;; create window, swap buffer, and move back to previous window
                      (vim.schedule
-                      #(do
+                      (fn []
                         (vim.api.nvim_command "botright vnew")
                         (vim.api.nvim_win_set_buf
                          (vim.api.nvim_get_current_win)
-                         new-buf)
+                         session-bufnr)
                         (vim.cmd "wincmd p")
+                        ;; bind <CR> to toggle reflect-mode
                         (bind!
-                         :bufnr new-buf
-                         "<CR>" n #(let [new-mode (if (= (. vim.b new-buf prop :mode)
-                                                         :eval) :compile :eval)]
-                                     (reflect.set-mode new-id new-mode)
-                                     (tset (. vim.b new-buf) prop {:mode new-mode}))
+                         :bufnr session-bufnr
+                         "<CR>" n (fn []
+                                    (let [vars (. vim.b bufnr prop)
+                                          session-mode (if (= (. vim.b bufnr prop :mode)
+                                                              :eval) :compile :eval)]
+                                      (tset vars :mode (if (= vars.mode :eval) :compile :eval))
+                                      (tset (. vim.b bufnr) prop vars)
+                                      (reflect.set-mode vars.id vars.mode)))
                          "q" n ":wincmd c|wincmd p<CR>")
+                        ;; delete reflect buffer if current buffer got closed
                         (aucmd!
                          BufWipeout
                          :bufnr bufnr
                          :once true
-                         (.. ":" new-buf "bdelete")
+                         (.. ":" session-bufnr "bdelete")
+                         ;; remove saved values if reflect buffer got closed
                          BufWipeout
-                         :bufnr new-buf
+                         :bufnr session-bufnr
                          :once true
                          #(tset (. vim.b bufnr) prop nil))))))))
 
@@ -118,10 +109,20 @@
            (when reflect
              (bind!
               :desc "Eval with hotpot.nvim" :bufnr args.buf
-              "<leader>eh" v #(open-hotpot-reflect args.buf)
+              "<Space>ll" v #(open-hotpot-reflect args.buf)
 
               :desc "Re-eval with hotpot.nvim" :bufnr args.buf
-              "<leader>eh" n #(update-hotpot-reflect args.buf)))))))))
-)
+              "<Space>ll" n #(update-hotpot-reflect args.buf)
 
-{}
+              :desc "Current form" :bufnr args.buf
+              "<Space>el" n (fn []
+                              (select-node (get-form) 0)
+                              (open-hotpot-reflect args.buf))
+
+              :desc "Root form" :bufnr args.buf
+              "<Space>er" n (fn []
+                              (select-node (get-root) 0)
+                              (open-hotpot-reflect args.buf))))))))))
+
+{1 :bakpakin/fennel.vim
+ :ft "fennel"}
