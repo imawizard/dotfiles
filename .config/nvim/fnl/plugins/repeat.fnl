@@ -1,7 +1,2 @@
-(import-macros {: use!} :macros)
-
-(use!
- ;; Make plugin-cmds repeatable.
- :tpope/vim-repeat)
-
-{}
+;; Make plugin-cmds repeatable.
+{1 :tpope/vim-repeat}
