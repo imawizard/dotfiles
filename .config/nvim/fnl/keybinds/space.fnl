@@ -1,13 +1,9 @@
-(import-macros {: gset! : bind! : use! : mode? : has?} :macros)
-
-(gset!
- mapleader " "
- maplocalleader "\\")
+(import-macros {: bind! : use! : mode? : has?} :macros)
 
 (bind!
  (:prefix
-  "<leader>" "SPC"
-  :desc "Find file in project" "<leader>" n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})
+  "<Space>" "SPC"
+  :desc "Find file in project" "<Space>"  n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})
   :desc "Find relative file"   "."        n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak) :cwd (vim.fn.expand "%:p:h")})
   :desc "Grep project"         "/"        n  #((. (require :telescope.builtin) :live_grep))
   :desc "Grep project"         "/"        x  #((. (require :telescope.builtin) :grep_string) {:search (table.concat (_G.selected-text) " ")})
@@ -216,31 +212,31 @@
               :spelling {:enabled true}
               :layout {:spacing 6}})
 
-      (register {:<leader>   {:name "SPC"}
-                 :<leader>b  {:name "buffer"}
-                 :<leader>c  {:name "code"}
-                 :<leader>cl {:name "lsp"}
-                 :<leader>e  {:name "eval"}
-                 :<leader>f  {:name "file"}
-                 :<leader>g  {:name "git"}
-                 :<leader>gc {:name "create"}
-                 :<leader>gf {:name "find"}
-                 :<leader>i  {:name "insert"}
-                 :<leader>n  {:name "number"}
-                 :<leader>o  {:name "open"}
-                 :<leader>p  {:name "project"}
-                 :<leader>q  {:name "quit"}
-                 :<leader>r  {:name "run"}
-                 :<leader>s  {:name "search"}
-                 :<leader>t  {:name "toggle"}
-                 :<leader>ti {:name "indentation"}
-                 :<leader>w  {:name "workspace"}
+      (register {:<Space>   {:name "SPC"}
+                 :<Space>b  {:name "buffer"}
+                 :<Space>c  {:name "code"}
+                 :<Space>cl {:name "lsp"}
+                 :<Space>e  {:name "eval"}
+                 :<Space>f  {:name "file"}
+                 :<Space>g  {:name "git"}
+                 :<Space>gc {:name "create"}
+                 :<Space>gf {:name "find"}
+                 :<Space>i  {:name "insert"}
+                 :<Space>n  {:name "number"}
+                 :<Space>o  {:name "open"}
+                 :<Space>p  {:name "project"}
+                 :<Space>q  {:name "quit"}
+                 :<Space>r  {:name "run"}
+                 :<Space>s  {:name "search"}
+                 :<Space>t  {:name "toggle"}
+                 :<Space>ti {:name "indentation"}
+                 :<Space>w  {:name "workspace"}
                  :<C-h>      {:name "help"}
                  :<C-h>b     {:name "bindings"}
                  :<C-h>h     {:name "highlights"}
                  :<C-h>r     {:name "reload"}
                  :<C-x>      {:name "completion"}})))
-  :keys ["<leader>"
+  :keys ["<Space>"
          "<C-h>"
          "<C-x>"]}
  :folke/which-key.nvim)
