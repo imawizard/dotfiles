@@ -57,6 +57,6 @@ clipboard-read = "allow"
 window-decoration = "none"
 # initial-command
 # theme = "farmhouse-light"
-theme = "GitLab-Light"
+theme = "GitLab Light"
 font-feature = "-calt"
 # blueprint, chalkboard, microchip, glass, holographic, paper, retro, xray

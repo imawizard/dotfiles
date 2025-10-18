@@ -7,17 +7,73 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
+    "context": "ProjectSearchBar",
     "bindings": {
-      "shift shift": "file_finder::Toggle"
+      "escape": null
+    }
+  },
+  {
+    "context": "ProjectSearchView",
+    "bindings": {
+      "escape": null
+    }
+  },
+  {
+    "context": "ProjectSearchBar || ProjectSearchView",
+    "bindings": {
+      "escape": "pane::CloseActiveItem",
+      "ctrl-g": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "!ProjectSearchBar && !ProjectSearchView",
+    "bindings": {
+      "ctrl-g": "pane::DeploySearch"
+    }
+  },
+  // {
+  //   "context": "vim_mode == insert",
+  //   "bindings": {
+  //     "tab": "vim::SelectNextSyntaxNode"
+  //   }
+  // },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space space": "file_finder::Toggle",
+      "space /": "pane::DeploySearch",
+      "space g": "file_finder::Toggle",
+      "space f": "file_finder::Toggle",
+      "g o": "vim::PushSneak"
     }
   },
   {
     "context": "Editor",
     "bindings": {
-      //"g l": "vim::EndOfLine"
-      //"e": ["workspace::SendKeystrokes", "v e escape"]
-      //"j k": ["workspace::SendKeystrokes", "escape"]
+      "f2": "editor::ToggleBreakpoint"
+    }
+  },
+  {
+    "bindings": {
+      "f9": "debugger::Start"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": { "shift-x": "vim::Exchange" }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": { "shift-s": "vim::PushAddSurrounds" }
+  },
+  {
+    "bindings": {
+      "f7": "debugger::StepInto"
+    }
+  },
+  {
+    "bindings": {
+      "f8": "debugger::StepOver"
     }
   }
 ]
