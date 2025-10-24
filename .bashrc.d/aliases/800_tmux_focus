@@ -1,14 +1,28 @@
 # Focus a pane running a specified command.
 tmux_focus() {
-    if [[ ! $TMUX ]]; then
-        return
-    fi
     if [[ $1 == "--help" || $# -lt 1 ]]; then
-        echo "usage: tmux_focus prog-name"
+        echo "usage: $0 prog-name"
         return 1
     fi
-    local id="$(tmux list-panes -a -F '#{pane_current_command} #{window_id} #{pane_id}' | awk '/^'$1' / {print $2" "$3; exit}')"
-    local window_id="$id[(w)1]"
-    local pane_id="$id[(w)2]"
-    [[ $pane_id ]] && tmux select-window -t "$window_id" && tmux select-pane -t "$pane_id"
+
+    local session=$(
+        [[ $TMUX ]] &&
+            tmux display-message -p '#{session_name}' ||
+            echo '[^ ]+'
+    )
+    local panes=$(tmux list-panes -a -F '#{pane_current_command} #{session_name} #{window_id} #{pane_id}')
+    local match=$(echo $panes | awk '/^'$1' '$session' / {print $3" "$4; exit}')
+
+    # Try again without filtering for the current session.
+    [[ ! $match ]] && match=$(echo $panes | awk '/^'$1' / {print $3" "$4; exit}')
+
+    local window_id="${match%% *}"
+    local pane_id="${match##* }"
+
+    if [[ $window_id && $pane_id ]]; then 
+        tmux select-window -t "$window_id" &&
+            tmux select-pane -t "$pane_id"
+    else
+        echo "pane not found" >&2
+    fi
 }

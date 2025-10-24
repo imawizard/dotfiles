@@ -1,0 +1,60 @@
+# Start a pomodoro-like timer.
+pomodoro() {
+    local focus=25
+    local rest=5
+    local longbreak=20
+    local n=1
+
+    [[ "$1" =~ ^[0-9]+$ ]] && focus=$1
+    [[ "$2" =~ ^[0-9]+$ ]] && rest=$2
+    [[ "$3" =~ ^[0-9]+$ ]] && longbreak=$3
+    [[ "$4" =~ ^[0-9]+$ ]] && n=$4
+
+    if [[ "$1" == "--help" ]]; then
+        echo "usage: $0 [focus=$focus [rest=$rest [longbreak=$longbreak [round=1]]]"
+        return 1
+    fi
+
+    while true; do
+        local i=1
+        while [[ $i -le 4 ]]; do
+            echo "\r$n. Round         "
+            pomodoro_msg "Pomodoro [FOCUS]" "Focus from now on for ${focus}mins."
+            pomodoro_timer "FOCUS" $focus
+            if [[ $i -ne 4 ]]; then
+                pomodoro_msg "Pomodoro [REST]" "Take a rest for ${rest}mins."
+                pomodoro_timer "REST" $rest
+                pomodoro_msg "Pomodoro" "Press a key to start the next round!"
+                printf "\rWaiting...       "
+                read -n 1
+            fi
+            i=$(( $i + 1 ))
+            n=$(( $n + 1 ))
+        done
+
+        echo "\r--              "
+        pomodoro_msg "Pomodoro [LONG BREAK]" "Take a long break for ${longbreak}mins."
+        pomodoro_timer "BREAK" $longbreak
+        pomodoro_msg "Pomodoro" "Press a key to start the next round!"
+        printf "\rWaiting...       "
+        read -n 1
+    done
+}
+
+pomodoro_timer() {
+    local mins
+    local secs
+    local tm=$(( $2 * 60 ))
+
+    while [[ $tm -ge 0 ]]; do
+        mins=$(( $tm / 60 ))
+        secs=$(( $tm % 60 ))
+        printf "\r  \033[35;1m$1\033[0m ⟶  %02d:%02d " mins secs
+        tm=$(( $tm - 1 ))
+        sleep 1
+    done
+}
+
+pomodoro_msg() {
+    terminal-notifier -title "$1" -message "$2" -sound default -ignoroDnD
+}

@@ -1,5 +1,18 @@
 [[ $OSTYPE != darwin* ]] && return 1
 
+# Move everything to the trash instead.
+[[ $(alias rm) ]] && unalias rm
+rm() {
+    args=()
+
+    # filter all flags
+    for arg in "$@"; do
+        [[ ! $arg =~ ^- ]] && args+=($arg)
+    done
+
+    trash --verbose "${args[@]}"
+}
+
 # Compare system preferences.
 diffprefs() {
     test -e prefs-new.txt && mv -f "$_" prefs-old.txt

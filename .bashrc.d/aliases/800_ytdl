@@ -1,5 +1,10 @@
 # Download videos from youtube.
 ytdl() {
+    if [[ $1 == "--help" || $# -lt 1 ]]; then
+        echo "usage: $0 video-id..."
+        return 1
+    fi
+
     local id
     for id in $*[@]; do
         youtube-dl -x --audio-quality 0 --audio-format mp3 --embed-thumbnail --metadata-from-title "(?P<artist>.+?) - (?P<title>[^\(]+)" "$id"

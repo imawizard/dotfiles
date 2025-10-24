@@ -1,4 +1,4 @@
-# lazygit macro
+# Change to git root folder after exiting lazygit.
 lgr() {
     export LAZYGIT_NEW_DIR_FILE=$XDG_CONFIG_HOME/lazygit/newdir
 
@@ -9,5 +9,3 @@ lgr() {
         rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
     fi
 }
-
-alias lg='lazygit'

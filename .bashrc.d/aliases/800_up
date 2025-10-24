@@ -1,12 +1,15 @@
 # Disable standby.
 up() {
+    local mins=$(( 8 * 60 ))
     if [[ $1 == "--help" ]]; then
-        echo "usage: up [minutes]"
+        echo "usage: $0 [minutes=$mins]"
         return 1
-    fi
-    local mins=$(( 4 * 60 ))
-    if [[ $1 ]]; then
+    elif [[ $1 ]]; then
         mins=$(( $1 ))
+    fi
+    if [[ $mins -le 0 ]]; then
+        echo "minutes should be >0"
+        return 1
     fi
     local secs=$(( mins * 60 ))
     if ! pgrep -x "caffeinate" >/dev/null; then

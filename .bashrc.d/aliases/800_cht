@@ -1,7 +1,7 @@
 # Read cht.sh.
 cht() {
     if [[ $1 == "--help" || $# -lt 1 ]]; then
-        echo "usage: cht topic [query]"
+        echo "usage: $0 topic [query]"
         return 1
     fi
 

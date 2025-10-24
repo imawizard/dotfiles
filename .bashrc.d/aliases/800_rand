@@ -17,7 +17,7 @@ rand() {
         showusage=true
     fi
     if $showusage; then
-        echo "usage: rand [hex|base64] num"
+        echo "usage: $0 [hex|base64] num"
         return 1
     fi
     openssl rand $mode $1
