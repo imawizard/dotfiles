@@ -22,6 +22,9 @@ customCommands:
   - key: "<c-g>"
     context: "files"
     command: 'hub browse -- "commit/{{.SelectedLocalCommit.Hash}}"'
+  # - key: "<m-d>"
+  #   context: "files"
+  #   command: 'hub browse -- "commit/{{.SelectedLocalCommit.Hash}}"'
   - key: "<c-k>"
     context: "files"
     command: 'echo git rm {{.SelectedFile.Name | quote}}'
