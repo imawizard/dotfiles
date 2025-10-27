@@ -32,7 +32,6 @@
  grepformat "%f:%l:%c:%m,%f:%l:%m"
  lispwords  (:remove "if" "do")
 
- background "light"
  guicursor  ["a:block-blinkwait1000-blinkon500-blinkoff500"
              "i-ci:hor15"]
 

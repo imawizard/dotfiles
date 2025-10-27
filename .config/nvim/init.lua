@@ -5,6 +5,10 @@ vim.opt.runtimepath:prepend({
     vim.fn.stdpath("data") .. "/lazy/hotpot.nvim",
 })
 
+-- Set colorscheme
+vim.o.background = "light"
+vim.cmd("colorscheme bold-intellij-light")
+
 -- See :help hotpot
 local hotpot = require("hotpot")
 hotpot.setup({
@@ -61,7 +65,6 @@ for _, v in ipairs(
     _G.require_forcefully(_G.get_module_if_part_of_main_config(v))
 end
 
-vim.cmd("colorscheme bold-intellij-light")
 
 vim.diagnostic.config({severity_sort = true})
 
