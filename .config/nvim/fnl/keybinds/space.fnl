@@ -3,20 +3,20 @@
 (bind!
  (:prefix
   "<Space>" "SPC"
-  :desc "Find file in project" "<Space>"  n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak)})
-  :desc "Find relative file"   "."        n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak) :cwd (vim.fn.expand "%:p:h")})
-  :desc "Grep project"         "/"        n  #((. (require :telescope.builtin) :live_grep))
-  :desc "Grep project"         "/"        x  #((. (require :telescope.builtin) :grep_string) {:search (table.concat (_G.selected-text) " ")})
-  :desc "Grep relative files"  "\\"       n  #((. (require :telescope.builtin) :live_grep) {:cwd (vim.fn.expand "%:p:h")})
-  :desc "Resume last search"   "\""       n  #((. (require :telescope.builtin) :resume))
-  :desc "Show commands"        ":"        n  #((. (require :telescope.builtin) :commands))
-  :desc "Show command history" "@:"       n  #((. (require :telescope.builtin) :command_history))
-  :desc "Show search history"  "@/"       n  #((. (require :telescope.builtin) :search_history))
+  :desc "Find file in project" "<Space>"  n  #(FzfLua.files)
+  :desc "Find relative file"   "."        n  #(FzfLua.files {:cwd (vim.fn.expand "%:p:h")})
+  :desc "Grep project"         "/"        n  #(FzfLua.live_grep)
+  :desc "Grep project"         "/"        x  #(FzfLua.live_grep {:search (table.concat (_G.selected-text) " ")})
+  :desc "Grep relative files"  "\\"       n  #(FzfLua.live_grep {:cwd (vim.fn.expand "%:p:h")})
+  :desc "Resume last search"   "\""       n  #(FzfLua.resume)
+  :desc "Show commands"        ":"        n  #(FzfLua.commands)
+  :desc "Show command history" "@:"       n  #(FzfLua.command_history)
+  :desc "Show search history"  "@/"       n  #(FzfLua.search_history)
 
   (:prefix
    "b" "Buffer"
-   :desc "Switch buffer"   "b" n #((. (require :telescope.builtin) :buffers))
-   :desc "Set filetype"    "f" n #((. (require :telescope.builtin) :filetypes))
+   :desc "Switch buffer"   "b" n #(FzfLua.buffers)
+   :desc "Set filetype"    "f" n #(FzfLua.filetypes)
    :desc "Next buffer"     "n" n ":bnext<CR>"
    :desc "Previous buffer" "p" n ":bprevious<CR>"
    :desc "Save buffer"     "s" n ":update<CR>")
@@ -54,7 +54,7 @@
 
   (:prefix
    "f" "File"
-   :desc "Recent files"              "r" n #((. (require :telescope.builtin) :oldfiles))
+   :desc "Recent files"              "r" n #(FzfLua.oldfiles)
    :desc "Run file's tests"          "t" n ":TestFile<CR>"
    :desc "Run nearest test"          "T" n ":TestNearest<CR>"
    :desc "Yank file's path"          "y" n ":let @+='<C-r>=fnameescape(expand('%:p:~'))<CR>'<CR>"
@@ -62,23 +62,18 @@
 
   (:prefix
    "g" "Git"
-   :desc "Branches"             "b" n #((. (require :telescope.builtin) :git_branches))
-   :desc "File-related commits" "c" n #((. (require :telescope.builtin) :git_bcommits))
-   :desc "Commits"              "C" n #((. (require :telescope.builtin) :git_commits))
-   :desc "Files"                "f" n #((. (require :telescope.builtin) :git_files))
-   :desc "Status"               "g" n #((. (require :telescope.builtin) :git_status))
+   :desc "Branches"             "b" n #(FzfLua.git_branches)
+   :desc "File-related commits" "c" n #(FzfLua.git_bcommits)
+   :desc "Commits"              "C" n #(FzfLua.git_commits)
+   :desc "Files"                "f" n #(FzfLua.git_files)
+   :desc "Status"               "g" n #(FzfLua.git_status)
    :desc "Blame"                "m" n ":GitMessenger<CR>"
-   :desc "Stash"                "s" n #((. (require :telescope.builtin) :git_stash)))
+   :desc "Stash"                "s" n #(FzfLua.git_stash))
 
   (:prefix
    "i" "Insert"
-   :desc "Emoji"        "e" n #((. (require :telescope.builtin) :symbols) {:sources ["emoji"]})
    :desc "Filename"     "f" n "i<C-r>=expand('%:t')<CR><ESC>l"
-   :desc "Gitmoji"      "g" n #((. (require :telescope.builtin) :symbols) {:sources ["gitmoji"]})
-   :desc "Symbol"       "i" n #((. (require :telescope.builtin) :symbols) {:sources ["julia"]})
-   :desc "LaTeX symbol" "l" n #((. (require :telescope.builtin) :symbols) {:sources ["latex"]})
-   :desc "Filepath"     "p" n "i<C-r>=fnameescape(expand('%:p:~'))<CR><ESC>l"
-   :desc "Snippet"      "s" n #((. (require :telescope) :extensions :luasnip :luasnip)))
+   :desc "Filepath"     "p" n "i<C-r>=fnameescape(expand('%:p:~'))<CR><ESC>l")
 
   (:prefix
    "n" "Number"
@@ -104,8 +99,7 @@
   (:prefix
    "p" "Project"
    :desc "Add new project"      "a" n! ":!zoxide add <C-r>=fnameescape(getcwd())<CR>"
-   :desc "Remove known project" "d" n! ":!zoxide remove <C-r>=fnameescape(getcwd())<CR>"
-   :desc "Switch project"       "p" n  #((. (require :telescope) :extensions :project :project)))
+   :desc "Remove known project" "d" n! ":!zoxide remove <C-r>=fnameescape(getcwd())<CR>")
 
   (:prefix
    "q" "Quit"
@@ -123,20 +117,20 @@
   (:prefix
    "s" "Search"
    :desc "Search and replace" "/" n! ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF "
-   :desc "Buffer"             "b" n  #((. (require :telescope.builtin) :current_buffer_fuzzy_find))
-   :desc "All open buffers"   "B" n  #((. (require :telescope.builtin) :live_grep {:grep_open_files true}))
+   :desc "Buffer"             "b" n  #(FzfLua.blines)
+   :desc "All open buffers"   "B" n  #(FzfLua.lines)
    :desc "Workspace symbols"  "i" n  #(if (_G.lsp? :workspaceSymbolProvider)
                                           (vim.lsp.buf.workspace_symbol)
                                           (vim.notify "No support within current buffer"))
-   :desc "Jump list"          "j" n  #((. (require :telescope.builtin) :jumplist))
+   :desc "Jump list"          "j" n  #(FzfLua.jumps)
    :desc "Docset"             "k" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>")})
    :desc "All docsets"        "K" n  #(_G.DashSearch {:query (vim.fn.expand "<cword>") :docsets "all"})
    :desc "Docset"             "k" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ")})
    :desc "All docsets"        "K" x  #(_G.DashSearch {:query (table.concat (_G.selected-text) " ") :docsets "all"})
-   :desc "Marks"              "r" n  #((. (require :telescope.builtin) :marks))
-   :desc "Tags"               "t" n  #((. (require :telescope.builtin) :tags))
-   :desc "Buffer tags"        "T" n  #((. (require :telescope.builtin) :current_buffer_tags))
-   :desc "Zoxide"             "z" n  #((. (require :telescope) :extensions :zoxide :list)))
+   :desc "Marks"              "r" n  #(FzfLua.marks)
+   :desc "Tags"               "t" n  #(FzfLua.tags)
+   :desc "Buffer tags"        "T" n  #(FzfLua.btags)
+   :desc "Zoxide"             "z" n  #(FzfLua.zoxide))
 
   (:prefix
    "t" "Toggle"
@@ -168,14 +162,13 @@
   "<C-h>" "Help"
   (:prefix
    "b" "Bindings"
-   :desc "List all" "b" n #((. (require :telescope.builtin) :keymaps)))
+   :desc "List all" "b" n #(FzfLua.keymaps))
   (:prefix
    "h" "Highlights"
    :desc "What's under cursor" "c" n ":TSHighlightCapturesUnderCursor<CR>"
-   :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
+   :desc "List all"            "l" n #(FzfLua.highlights))
   (:prefix
    "r" "Reload"
-   :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
    :desc "Edit Snippets" "s" n  #(_G.luasnip_edit_snippets)))
 
  (:prefix
