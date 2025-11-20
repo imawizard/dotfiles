@@ -124,8 +124,10 @@ call s:hi('ExtraWhitespace',            'NONE',    'Pink')
 
 augroup hlmatch-extra-ws
     autocmd!
+    autocmd BufReadPost * match ExtraWhitespace /\s\+$/
     autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
     autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+    autocmd BufWinLeave * call clearmatches()
 augroup end
 
 hi! def link ExtraTodo Todo
