@@ -3,15 +3,21 @@
 (bind!
  (:prefix
   "<Space>" "SPC"
-  :desc "Find file in project" "<Space>"  n  #(FzfLua.files)
-  :desc "Find relative file"   "."        n  #(FzfLua.files {:cwd (vim.fn.expand "%:p:h")})
-  :desc "Grep project"         "/"        n  #(FzfLua.live_grep)
-  :desc "Grep project"         "/"        x  #(FzfLua.live_grep {:search (table.concat (_G.selected-text) " ")})
-  :desc "Grep relative files"  "\\"       n  #(FzfLua.live_grep {:cwd (vim.fn.expand "%:p:h")})
-  :desc "Resume last search"   "\""       n  #(FzfLua.resume)
-  :desc "Show commands"        ":"        n  #(FzfLua.commands)
-  :desc "Show command history" "@:"       n  #(FzfLua.command_history)
-  :desc "Show search history"  "@/"       n  #(FzfLua.search_history)
+  :desc "Find file in project" "f"  n  #(FzfLua.files)
+  ;;;;;;;;;;;; :desc "Find relative file"   "."  n  #((. (require :telescope.builtin) :find_files) {:tiebreak (_G.oldfiles_tiebreak) :cwd (vim.fn.expand "%:p:h")})
+  :desc "Grep project"         "/"  n  #(FzfLua.live_grep_native)
+  :desc "Grep project"         "/"  x  #(FzfLua.live_grep_native {:search (table.concat (_G.selected-text) "\n")})
+  ;;;;;;;;;;;; :desc "Grep relative files"  "\\" n  #((. (require :telescope.builtin) :live_grep) {:cwd (vim.fn.expand "%:p:h")})
+  :desc "Resume last search"   "\"" n  #(FzfLua.resume)
+  :desc "Show commands"        ":"  n  #(FzfLua.commands)
+
+  ;;;;;;;;;;; :desc "Run file's tests"          "t" n ":TestFile<CR>"
+  ;;;;;;;;;;; :desc "Run nearest test"          "T" n ":TestNearest<CR>"
+  ;;;;;;;;;;; :desc "File's tests" "f" n  ":TestFile<CR>"
+  ;;;;;;;;;;; :desc "Nearest test" "n" n  ":TestNearest<CR>"
+  ;;;;;;;;;;; :desc "Last test"    "t" n  ":TestLast<CR>"
+  ;;;;;;;;;;; :desc "Program"      "r" n! #(vim.notify "No support within current buffer")
+  ;;;;;;;;;;; :desc "Test project" "p" n  ":TestSuite<CR>")
 
   (:prefix
    "b" "Buffer"
@@ -53,14 +59,6 @@
    :desc "Evaluate selection" "ee" n #(vim.notify "No support within current buffer"))
 
   (:prefix
-   "f" "File"
-   :desc "Recent files"              "r" n #(FzfLua.oldfiles)
-   :desc "Run file's tests"          "t" n ":TestFile<CR>"
-   :desc "Run nearest test"          "T" n ":TestNearest<CR>"
-   :desc "Yank file's path"          "y" n ":let @+='<C-r>=fnameescape(expand('%:p:~'))<CR>'<CR>"
-   :desc "Yank file's relative path" "Y" n ":let @+='<C-r>=fnameescape(expand('%:~'))<CR>'<CR>")
-
-  (:prefix
    "g" "Git"
    :desc "Branches"             "b" n #(FzfLua.git_branches)
    :desc "File-related commits" "c" n #(FzfLua.git_bcommits)
@@ -97,22 +95,11 @@
    :desc "Vinegar"                      "v" n  #((. (require :nvim-tree) :open_replacing_current_buffer)))
 
   (:prefix
-   "p" "Project"
-   :desc "Add new project"      "a" n! ":!zoxide add <C-r>=fnameescape(getcwd())<CR>"
-   :desc "Remove known project" "d" n! ":!zoxide remove <C-r>=fnameescape(getcwd())<CR>")
-
-  (:prefix
-   "q" "Quit"
-   :desc "Quit"                "q" n ":qa<CR>"
-   :desc "Quit without saving" "Q" n ":qa!<CR>")
-
-  (:prefix
-   "r" "Run"
-   :desc "File's tests" "f" n  ":TestFile<CR>"
-   :desc "Nearest test" "n" n  ":TestNearest<CR>"
-   :desc "Last test"    "t" n  ":TestLast<CR>"
-   :desc "Program"      "r" n! #(vim.notify "No support within current buffer")
-   :desc "Test project" "p" n  ":TestSuite<CR>")
+   "r" "Recent"
+   :desc "Files"              "f" n #(FzfLua.oldfiles)
+   :desc "Commands" ":" n  #(FzfLua.command_history)
+   :desc "Search"  "/" n  #(FzfLua.search_history)
+   :desc "Directories"  "r" n  #(FzfLua.zoxide))
 
   (:prefix
    "s" "Search"
@@ -156,7 +143,12 @@
    "w" "Workspace"
    :desc "Add folder"    "a" n #(vim.lsp.buf.add_workspace_folder)
    :desc "Remove folder" "d" n #(vim.lsp.buf.remove_workspace_folder)
-   :desc "List folders"  "l" n ":lua =vim.lsp.buf.list_workspace_folders()<CR>"))
+   :desc "List folders"  "l" n ":lua =vim.lsp.buf.list_workspace_folders()<CR>")
+
+  (:prefix
+   "y" "Yank"
+   :desc "Yank file's path"          "y" n ":let @+='<C-r>=fnameescape(expand('%:p:~'))<CR>'<CR>"
+   :desc "Yank file's relative path" "Y" n ":let @+='<C-r>=fnameescape(expand('%:~'))<CR>'<CR>"))
 
  (:prefix
   "<C-h>" "Help"
