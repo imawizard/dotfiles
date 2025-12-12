@@ -12,6 +12,7 @@
     "selections_menu": true
     // "quick_actions": false
   },
+  "wrap_guides": [80],
   "title_bar": {
     "show_project_items": true,
     "show_onboarding_banner": true,
@@ -45,6 +46,9 @@
   "vim_mode": true,
   "autosave": "on_focus_change",
   "languages": {
+    "GraphQL": {
+      "format_on_save": "off"
+    },
     "TypeScript": {
       "format_on_save": "off",
       "formatter": {
