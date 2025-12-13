@@ -14,7 +14,7 @@
   :desc "Show search history"  "@/"       n  #((. (require :telescope.builtin) :search_history))
 
   (:prefix
-   "b" "buffer"
+   "b" "Buffer"
    :desc "Switch buffer"   "b" n #((. (require :telescope.builtin) :buffers))
    :desc "Set filetype"    "f" n #((. (require :telescope.builtin) :filetypes))
    :desc "Next buffer"     "n" n ":bnext<CR>"
@@ -22,7 +22,7 @@
    :desc "Save buffer"     "s" n ":update<CR>")
 
   (:prefix
-   "c" "code"
+   "c" "Code"
    :desc "Compile"                    "c" n! ":make<CR>"
    :desc "Format buffer"              "f" n! #(if (_G.lsp? :documentFormattingProvider)
                                                   (vim.lsp.buf.format)
@@ -43,17 +43,17 @@
    :desc "List outgoing calls"        "Y" n  ":Trouble lsp_outgoing_calls<CR>"
 
    (:prefix
-    "l" "lsp"
+    "l" "Lsp"
     :desc "Show capabilities" "c" n! ":lua =vim.lsp.get_active_clients()[1].server_capabilities<CR>"
     :desc "Show DAP configs"  "d" n! ":lua =require('dap').configurations<CR>"
     :desc "Reload server"     "r" n! #(do (vim.lsp.stop_client (vim.lsp.get_active_clients)) (vim.cmd "edit"))))
 
   (:prefix
-   "e" "eval"
+   "e" "Eval"
    :desc "Evaluate selection" "ee" n #(vim.notify "No support within current buffer"))
 
   (:prefix
-   "f" "file"
+   "f" "File"
    :desc "Recent files"              "r" n #((. (require :telescope.builtin) :oldfiles))
    :desc "Run file's tests"          "t" n ":TestFile<CR>"
    :desc "Run nearest test"          "T" n ":TestNearest<CR>"
@@ -61,7 +61,7 @@
    :desc "Yank file's relative path" "Y" n ":let @+='<C-r>=fnameescape(expand('%:~'))<CR>'<CR>")
 
   (:prefix
-   "g" "git"
+   "g" "Git"
    :desc "Branches"             "b" n #((. (require :telescope.builtin) :git_branches))
    :desc "File-related commits" "c" n #((. (require :telescope.builtin) :git_bcommits))
    :desc "Commits"              "C" n #((. (require :telescope.builtin) :git_commits))
@@ -71,7 +71,7 @@
    :desc "Stash"                "s" n #((. (require :telescope.builtin) :git_stash)))
 
   (:prefix
-   "i" "insert"
+   "i" "Insert"
    :desc "Emoji"        "e" n #((. (require :telescope.builtin) :symbols) {:sources ["emoji"]})
    :desc "Filename"     "f" n "i<C-r>=expand('%:t')<CR><ESC>l"
    :desc "Gitmoji"      "g" n #((. (require :telescope.builtin) :symbols) {:sources ["gitmoji"]})
@@ -81,7 +81,7 @@
    :desc "Snippet"      "s" n #((. (require :telescope) :extensions :luasnip :luasnip)))
 
   (:prefix
-   "n" "number"
+   "n" "Number"
    :desc "Convert to binary"  "b" n "ciw<C-r>=printf('0b%b', <C-r>\")<CR><ESC>b"
    :desc "Convert to decimal" "d" n "ciw<C-r>=printf('%d', <C-r>\")<CR><ESC>b"
    :desc "Convert to hex"     "h" n "ciw<C-r>=printf('0x%x', <C-r>\")<CR><ESC>b"
@@ -89,7 +89,7 @@
    :desc "Print radix"        "p" n ":echo printf('<%s> %d 0x%x 0o%o 0b%b', '<C-r><C-w>', <C-r><C-w>, <C-r><C-w>, <C-r><C-w>, <C-r><C-w>)<CR>")
 
   (:prefix
-   "o" "open"
+   "o" "Open"
    :desc "Reveal file in Finder"        "o" ne #(if (has? "mac") ":exe 'silent !open -R <C-r>=fnameescape(expand('%:p'))<CR>'<CR>"
                                                     (has? "win32") ":exe 'silent !explorer /select,\"<C-r>=fnameescape(expand('%:p'))<CR>\"'<CR>")
    :desc "Reveal project in Finder"     "O" ne #(if (has? "mac") ":exe 'silent !open <C-r>=fnameescape(getcwd())<CR>'<CR>"
@@ -102,18 +102,18 @@
    :desc "Vinegar"                      "v" n  #((. (require :nvim-tree) :open_replacing_current_buffer)))
 
   (:prefix
-   "p" "project"
+   "p" "Project"
    :desc "Add new project"      "a" n! ":!zoxide add <C-r>=fnameescape(getcwd())<CR>"
    :desc "Remove known project" "d" n! ":!zoxide remove <C-r>=fnameescape(getcwd())<CR>"
    :desc "Switch project"       "p" n  #((. (require :telescope) :extensions :project :project)))
 
   (:prefix
-   "q" "quit"
+   "q" "Quit"
    :desc "Quit"                "q" n ":qa<CR>"
    :desc "Quit without saving" "Q" n ":qa!<CR>")
 
   (:prefix
-   "r" "run"
+   "r" "Run"
    :desc "File's tests" "f" n  ":TestFile<CR>"
    :desc "Nearest test" "n" n  ":TestNearest<CR>"
    :desc "Last test"    "t" n  ":TestLast<CR>"
@@ -121,7 +121,7 @@
    :desc "Test project" "p" n  ":TestSuite<CR>")
 
   (:prefix
-   "s" "search"
+   "s" "Search"
    :desc "Search and replace" "/" n! ": '<C-r>=fnameescape(fnamemodify(getcwd(), ':~:.'))<CR>'<Home>CtrlSF "
    :desc "Buffer"             "b" n  #((. (require :telescope.builtin) :current_buffer_fuzzy_find))
    :desc "All open buffers"   "B" n  #((. (require :telescope.builtin) :live_grep {:grep_open_files true}))
@@ -139,7 +139,7 @@
    :desc "Zoxide"             "z" n  #((. (require :telescope) :extensions :zoxide :list)))
 
   (:prefix
-   "t" "toggle"
+   "t" "Toggle"
    :desc "Cursor column"         "c" n! ":set <C-r>=&cuc ? 'nocursorcolumn' : 'cursorcolumn'<CR><CR>"
    :desc "Colored column"        "C" n! ":set <C-r>=&cc ? 'colorcolumn=' : 'colorcolumn=80'<CR><CR>"
    :desc "Diff buffer"           "d" n  ":<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>"
@@ -150,7 +150,7 @@
    :desc "Virtual editing"       "v" n! ":set <C-r>=&ve =~# 'all' ? 'virtualedit-=all' : 'virtualedit+=all'<CR><CR>"
    :desc "Soft line wrapping"    "w" n! ":set <C-r>=&wrap ? 'nowrap' : 'wrap'<CR><CR>"
    (:prefix
-    "i" "indentation"
+    "i" "Indentation"
     :desc "Toggle expandtab"                "i" n! ":set <C-r>=&et ? 'noexpandtab' : 'expandtab'<CR><CR>"
     :desc "Increase indent"                 ">" n! ":set ts=<C-r>=&ts+2<CR>|set sw=<C-r>=&sw+2<CR><CR>"
     :desc "Decrease indent"                 "<" n! ":set ts=<C-r>=&ts-2<CR>|set sw=<C-r>=&sw-2<CR><CR>"
@@ -159,27 +159,27 @@
     :desc "Replace with tabs"               "t" nx ":Sp2Tb<CR>"))
 
   (:prefix
-   "w" "workspace"
+   "w" "Workspace"
    :desc "Add folder"    "a" n #(vim.lsp.buf.add_workspace_folder)
    :desc "Remove folder" "d" n #(vim.lsp.buf.remove_workspace_folder)
    :desc "List folders"  "l" n ":lua =vim.lsp.buf.list_workspace_folders()<CR>"))
 
  (:prefix
-  "<C-h>" "help"
+  "<C-h>" "Help"
   (:prefix
-   "b" "bindings"
+   "b" "Bindings"
    :desc "List all" "b" n #((. (require :telescope.builtin) :keymaps)))
   (:prefix
-   "h" "highlights"
+   "h" "Highlights"
    :desc "What's under cursor" "c" n ":TSHighlightCapturesUnderCursor<CR>"
    :desc "List all"            "l" n #((. (require :telescope.builtin) :highlights)))
   (:prefix
-   "r" "reload"
+   "r" "Reload"
    :desc "Lua package"   "p" n  #((. (require :telescope.builtin) :reloader))
    :desc "Edit Snippets" "s" n  #(_G.luasnip_edit_snippets)))
 
  (:prefix
-  "<C-x>" "completion"
+  "<C-x>" "Completion"
   :desc "Scroll window one line up"    "<C-e>" i "<C-x><C-e>"
   :desc "Scroll window one line down"  "<C-y>" i "<C-x><C-y>"
   :desc "Complete definition"          "<C-d>" i "<C-x><C-d>"

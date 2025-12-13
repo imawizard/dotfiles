@@ -72,7 +72,43 @@
     `(do ,(unpack out))))
 
 (fn M.bind! [...]
-  "Wrapper for VimL's map"
+  "Wrapper for vim.keymap.set
+  Invocation looks like this:
+  (bind!
+   mapping1
+   mapping2
+   ...)
+
+  A mapping consists of:
+  [:desc foo] [:bufnr bar] key-from modes key-to
+
+  With key-to being a string or a function, and modes being:
+  nivxcto see :h map-listing
+  b       buffer-local mapping using :bufnr or current one
+  e       flags.expr = true
+  r       flags.remap = true
+  !       flags.silent = true
+
+  Mappings can be grouped like this:
+  (bind!
+   (:prefix
+    '<Space>' 'SPC'
+    (:prefix
+     'f' 'File'
+     mapping1
+     mapping2
+     ...)
+    (:prefix
+     'l' 'Lsp'
+     mapping1
+     mapping2
+     ...)))
+
+  This will also set _G.keybinds_groups to:
+  {:<Space> 'SPC'
+   :<Space>f 'File'
+   :<Space>l 'Lsp'}
+  "
   (fn bind [prefix ...]
     (let [rest [...]
           out []]
@@ -87,7 +123,9 @@
                  :prefix (let [key (.. prefix (. arg 2))
                                name (. arg 3)
                                body [(select 4 (unpack arg))]]
-                           (bind key (unpack body)))
+                           `(do
+                              (tset _G.keybinds_groups ,key ,name)
+                              ,(bind key (unpack body))))
                  :when (let [cond (. arg 2)
                              body [(select 3 (unpack arg))]]
                          `(when ,cond ,(bind prefix (unpack body))))
@@ -110,7 +148,9 @@
                        `(vim.keymap.set ,modes ,key ,to ,flags)))
                     (set desc nil))))))
       `(do ,(unpack out))))
-  (bind "" ...))
+  `(do
+     (tset _G :keybinds_groups {})
+     ,(bind "" ...)))
 
 (fn M.has? [value]
   "Shorthand for vim.fn.has returning boolean"
@@ -139,6 +179,18 @@
          (if (not= s# "") s#)))))
 
 (fn M.aucmd! [...]
+  "Wrapper for vim.api.nvim_create_autocmd
+
+  Example:
+  (aucmd!
+   (:group
+    'name'
+     Event
+     :pattern '*.fnl'
+     :once true
+     (fn []
+       (print 'hello'))))
+  "
   (fn parse-cmd [group rest]
     (var out nil)
     (var events nil)
