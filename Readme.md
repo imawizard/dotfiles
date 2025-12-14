@@ -79,13 +79,6 @@ git reset --mixed; git checkout ..
 - [numToStr](https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim)
 - [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
 
-### Neovim fennel
-
-- [aniseed](https://github.com/Olical/aniseed)
-- [hibiscus.nvim](https://github.com/udayvir-singh/hibiscus.nvim)
-- [hotpot.nvim](https://github.com/rktjmp/hotpot.nvim)
-- [tangerine.nvim](https://github.com/udayvir-singh/tangerine.nvim)
-
 ### Emacs config
 
 - [Will Crichton](https://github.com/willcrichton/dotfiles)
