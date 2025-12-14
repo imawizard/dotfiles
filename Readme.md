@@ -70,11 +70,14 @@ git reset --mixed; git checkout ..
 
 ### Neovim config
 
+- [Chris Grieser](https://github.com/chrisgrieser/.config/tree/main/nvim)
 - [fannheyward / Heyward Fann](https://github.com/fannheyward/init.vim)
 - [FooSoft / Alexei Yatskov](https://github.com/FooSoft/dotvim)
 - [glepnir / Raphael](https://github.com/glepnir/nvim)
+- [hadronized / Dimitri Sabadie](https://github.com/hadronized/config/tree/master/nvim)
 - [Joel Palmer](https://gist.github.com/joelpalmer/9db3f1cdfd463daa6d7c614ae1618fa6)
 - [kyazdani42 / Kiyan](https://github.com/kyazdani42/nvim-config)
+- [Kyle Chui](https://github.com/kylechui/config.nvim)
 - [lervag / Karl Yngve Lervåg](https://github.com/lervag/dotvim)
 - [numToStr](https://github.com/numToStr/dotfiles/tree/master/neovim/.config/nvim)
 - [Tim Untersberger](https://github.com/TimUntersberger/neovim.config)
