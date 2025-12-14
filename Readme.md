@@ -104,6 +104,7 @@ git reset --mixed; git checkout ..
 
 ### Hammerspoon config
 
+- [Chris Grieser](https://github.com/chrisgrieser/.config/tree/main/hammerspoon)
 - [Oatmeal / Keenan Villani-Holland](https://github.com/oatmeaI/dotfiles)
 - [rtauziac / Rémy Tauziac](https://github.com/rtauziac/Hammerspoon-Yabai)
 
