@@ -819,6 +819,8 @@ $ gem install
     #xcpretty
 
 $ go install
+github.com/yannh/kubeconform/cmd/kubeconform@latest
+sigs.k8s.io/kustomize/kustomize/v5@latest
     github.com/antonmedv/fx@latest
     github.com/Azure/kubelogin@latest
     github.com/charmbracelet/glow@latest
@@ -847,6 +849,7 @@ $ go install
     mvdan.cc/gofumpt@latest
     mvdan.cc/sh/v3/cmd/shfmt@latest
     sigs.k8s.io/kind@latest
+    github.com/ankitpokhrel/jira-cli/cmd/jira@latest
     #github.com/caddyserver/caddy@latest
     #github.com/josharian/impl@latest
     #github.com/magefile/mage@latest
@@ -856,6 +859,7 @@ $ go install
     #github.com/x-motemen/ghq@latest
 
 $ go_clone_install
+    github.com/cli/cli/cmd/gh@latest
     github.com/candid82/joker@latest
     github.com/carapace-sh/carapace-bin@latest ./cmd/carapace
     github.com/eksctl-io/eksctl@latest ./cmd/eksctl
@@ -885,6 +889,8 @@ $ npm install --global
     vim-language-server
     vscode-langservers-extracted
     yaml-language-server
+    @anthropic-ai/claude-code
+    opencode-ai
     #cloc
     #marked
 

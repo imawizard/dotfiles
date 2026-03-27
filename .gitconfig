@@ -41,3 +41,5 @@
   path = ~/.gitconfig-gh.local
 [includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
   path = ~/.gitconfig-gh.local
+[commit]
+	verbose = true
