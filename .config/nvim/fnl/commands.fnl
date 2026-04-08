@@ -13,31 +13,12 @@
  \" Open or focus nuake.
  command! FocusNuake call FocusNuake()
 
- \" xxxxx
- command! CycleDiffAlgo call CycleDiffAlgo()
- command! CycleFolding call CycleFolding()
-
  \" Save file with sudo.
  command! W w !sudo tee % >/dev/null
 
- \" Reload and open vim config.
- command! Reload exe 'source ' . $MYVIMRC
- command! Editrc exe 'tabedit ' . $MYVIMRC
-
- fun! AppendModeline() abort
-     \" Other examples:  vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
-     \"                  vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
-     \"                  vim:tw=78:sw=4:noet:ts=8:ft=help:norl:
-     let opts = printf(\" vim: set tw=%d%s ts=%d sw=%d %set: \",
-         \\ &textwidth,
-         \\ &wrap ? ' wrap' : '',
-         \\ &tabstop,
-         \\ &shiftwidth,
-         \\ &expandtab ? '' : 'no'
-         \\ )
-     let modeline = substitute(&commentstring, '%s', opts, 'g')
-     call append(line(\"$\"), modeline)
- endfun
+ \" xxxxx
+ command! CycleDiffAlgo call CycleDiffAlgo()
+ command! CycleFolding call CycleFolding()
 
  fun! StripTrailingWhitespaces() abort
      let l = line('.')
@@ -58,6 +39,21 @@
      endif
 
      call cursor(l, c)
+ endfun
+
+ fun! AppendModeline() abort
+     \" Other examples:  vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:
+     \"                  vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
+     \"                  vim:tw=78:sw=4:noet:ts=8:ft=help:norl:
+     let opts = printf(\" vim: set tw=%d%s ts=%d sw=%d %set: \",
+         \\ &textwidth,
+         \\ &wrap ? ' wrap' : '',
+         \\ &tabstop,
+         \\ &shiftwidth,
+         \\ &expandtab ? '' : 'no'
+         \\ )
+     let modeline = substitute(&commentstring, '%s', opts, 'g')
+     call append(line(\"$\"), modeline)
  endfun
 
  fun! FocusNuake() abort
