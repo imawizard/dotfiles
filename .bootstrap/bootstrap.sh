@@ -873,6 +873,7 @@ $ go_clone_install
 
 $ luarocks --local install
     fennel
+    fennel-ls
     luacheck
 
 $ npm install --global

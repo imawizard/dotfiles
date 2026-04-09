@@ -33,6 +33,8 @@ input=$(cat)
 # fi
 #
 # echo "$status"
+#
+# see https://code.claude.com/docs/en/statusline
 
 model=$(echo "$input" | jq -r '.model.display_name // "unknown model"')
 duration_ms=$(echo "$input" | jq -r '.cost.total_duration_ms // empty')
@@ -73,13 +75,13 @@ time_label() {
 # Render a labeled bar
 # Usage: make_bar <label> <percentage> <color_code>
 make_bar() {
-  local label=$1 pct=${2:-0} color=$3 width=10
+  local label=$1 pct=${2:-0} color=$3 width=8
   local filled=$(echo "$pct $width" | awk '{printf "%.0f", $1/100*$2}')
   local empty=$((width - filled))
   local bar=""
   for ((i=0; i<filled; i++)); do bar+="━"; done
   for ((i=0; i<empty; i++)); do bar+="─"; done
-  printf "${dim}%s ${reset}\033[%sm%s${dim}%s %3.0f%%${reset}" "$label" "$color" "${bar:0:$filled}" "${bar:$filled}" "$pct"
+  printf "${dim}%s ${reset}\033[%sm%s${dim}%s %.0f%%${reset}" "$label" "$color" "${bar:0:$filled}" "${bar:$filled}" "$pct"
 }
 
 # Line 1: Model, stats (branch shown here only when not in a worktree)
@@ -96,18 +98,18 @@ if [ -n "$duration_ms" ]; then
   else
     duration_fmt="${duration_s}s"
   fi
-  stats=$(printf "⏱ %s${reset}" "$duration_fmt")
+  #stats=$(printf "⏱ %s${reset}" "$duration_fmt")
 fi
 if [ -n "$cost_usd" ]; then
-  [ -n "$stats" ] && stats="$stats $(printf "${dim}·${reset}") "
+  [ -n "$stats" ] && stats="$stats $(printf " ${dim}·${reset} ") "
   stats="$stats$(printf "💰 \033[32m\$%.2f${reset}" "$cost_usd")"
 fi
 if [ -n "$lines_added" ] || [ -n "$lines_removed" ]; then
-  [ -n "$stats" ] && stats="$stats $(printf "${dim}·${reset}") "
+  [ -n "$stats" ] && stats="$stats $(printf " ${dim}·${reset} ") "
   stats="$stats$(printf "✏️  \033[32m+%s${reset} \033[31m-%s${reset}" "${lines_added:-0}" "${lines_removed:-0}")"
 fi
 if [ -n "$stats" ]; then
-  printf "  ${dim}│${reset}  %s" "$stats"
+  printf "  ${dim}·${reset}  %s" "$stats"
 fi
 printf "\n"
 
@@ -132,7 +134,8 @@ fi
 
 # Line 3: Worktree branch or CWD
 if [ -n "$wt_name" ]; then
-  printf "🌿 \033[35m%s${reset}" "$branch"
+  #printf "🌿 \033[35m%s${reset}" "$branch"
+  printf "🌿 \033[35m%s${reset}" "$wt_name"
   if [ -n "$wt_orig_branch" ]; then
     printf "  ${dim}←${reset}  %s" "$wt_orig_branch"
   fi
