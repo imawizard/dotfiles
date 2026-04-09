@@ -83,7 +83,7 @@
   [:desc foo] [:bufnr bar] key-from modes key-to
 
   With key-to being a string or a function, and modes being:
-  nivxcto see :h map-listing
+  nivxcto see :help map-listing
   b       buffer-local mapping using :bufnr or current one
   e       flags.expr = true
   r       flags.remap = true

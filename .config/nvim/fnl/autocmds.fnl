@@ -2,7 +2,7 @@
 
 (aucmd!
  (:group
-  "reload-config"
+  :reload-config
   ;; Reload config on changes.
   BufWritePost
   :pattern "*/nvim/fnl/*.fnl"
@@ -11,20 +11,21 @@
      (vim.fn.expand "<afile>:p"))))
 
  (:group
-  "highlight-on-yank"
+  :highlight-on-yank
   ;; Highlight yanks.
   TextYankPost
-  #(pcall vim.highlight.on_yank {:higroup "HighlightedyankRegion"
-                                 :timeout 400}))
+  #(vim.hl.on_yank {:higroup "HighlightedyankRegion"
+                    :timeout 400}))
 
  (:group
-  "close-preview-after-completion"
+  :close-preview-after-completion
   ;; Close any popup windows if no popup menu is open.
   [InsertLeave CompleteDone]
-  #(when (= (vim.fn.pumvisible) 0) (vim.cmd "silent! pclose")))
+  #(when (= (vim.fn.pumvisible) 0)
+     (vim.cmd "silent! pclose")))
 
  (:group
-  "autosave-like-intellij"
+  :autosave-like-intellij
   ;; Save automatically.
   [WinLeave FocusLost]
   "silent! wall")
@@ -33,10 +34,20 @@
   :restore-C-m-if-readonly
   ;; CR is remapped to insert a line, restore it conditionally.
   BufReadPost
-  #(when (not vim.bo.modifiable) (bind! "<CR>" nb "<CR>")))
+  #(when (not vim.bo.modifiable)
+     (bind! "<CR>" nb "<CR>")))
 
  (:group
   :add-cwd-to-zoxide
   ;; Analogous to cd-hook in terminal.
   DirChanged
-  #(vim.fn.system ["zoxide" "add" (vim.fn.expand "<afile>")])))
+  #(vim.fn.system ["zoxide" "add" (vim.fn.expand "<afile>")]))
+
+ (:group
+  :default-filetype
+  ;; Start new buffers as text.
+  [BufNew VimEnter]
+  (fn [args]
+   (when (and (= "" (. vim.bo args.buf :filetype))
+              (= "" (vim.api.nvim_buf_get_name args.buf)))
+     (tset (. vim.bo args.buf) :filetype "text")))))

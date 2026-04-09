@@ -12,6 +12,7 @@
 ; vim.g.neovide_scroll_animation_length = 0.3
 ; vim.g.neovide_position_animation_length = 0.15
 
+
 (gset!
  (:when (has? "mac")
    perl_host_prog    "/usr/local/bin/perl"
@@ -78,8 +79,7 @@
                        "iwhite"              ; Ignore amount of whitespace.
                        "hiddenoff")          ; Turn off diffing when hidden.
 
- (:when (has? "nvim-0.3.2")                  ; See https://github.com/agude/dotfiles/issues/2#issuecomment-843639956
-   diffopt (:append "indent-heuristic"))
+ maxsearchcount 9999                         ; Cap for [N/M] search counter.
  ignorecase     true                         ; Ignore case when searching...
  smartcase      true                         ; ...unless we type a capital.
  wildignorecase true                         ; Ignore case when completing filenames.
@@ -120,6 +120,7 @@
                              ",fold: ,vert:│"
                              ",stl: ,stlnc: ,diff:⣿"))
  smartindent    true                         ; Indent C-like languages.
+ formatoptions  (:append "r")                ; Continue comments on Enter.
 
  expandtab      true                         ; Use spaces instead of tab.
  smarttab       false                        ; Don't mix tabs with spaces.

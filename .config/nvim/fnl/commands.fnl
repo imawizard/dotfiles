@@ -4,9 +4,6 @@
  command! -range=% -nargs=0 Tb2Sp exe '<line1>,<line2>s#^\\t\\+#\\=repeat(\" \", len(submatch(0))*' . &ts . ')'
  command! -range=% -nargs=0 Sp2Tb exe '<line1>,<line2>s#^\\( \\{' . &ts . '\\}\\)\\+#\\=repeat(\"\\t\", len(submatch(0))/' . &ts . ')'
 
- \" Diff current buffer and file it was loaded from.
- command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
-
  \" Trim trailing whitespaces.
  command! StripTrailingWS call StripTrailingWhitespaces()
 
@@ -96,7 +93,7 @@
          \\   ],
          \\   'treesitter': [
          \\     'setlocal foldmethod=expr',
-         \\     'setlocal foldexpr=nvim_treesitter#foldexpr()',
+         \\     'setlocal foldexpr=v:lua.vim.treesitter.foldexpr()',
          \\   ],
          \\   'syntax': [
          \\     'setlocal foldmethod=syntax',
