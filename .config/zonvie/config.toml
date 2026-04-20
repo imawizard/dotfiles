@@ -1,0 +1,98 @@
+[neovim]
+path = "nvim"
+wsl = false
+wsl_distro = "Ubuntu"
+ssh = false
+ssh_host = "user@example.com"
+ssh_port = 22
+ssh_identity = "~/.ssh/id_rsa"
+
+[font]
+family = "JetBrains Mono"
+size = 14
+linespace = 2
+
+[window]
+blur = true
+opacity = 0.85
+blur_radius = 20
+
+[scrollbar]
+enabled = true
+show_mode = "scroll"  # "always", "hover", "scroll", or combinations like "hover,scroll"
+opacity = 0.7
+delay = 1.0
+
+[cmdline]
+external = true
+
+[popup]
+external = true
+
+[messages]
+external = true
+msg_pos = { ext-float = "window", mini = "grid" }  # display, window, or grid
+
+# Message routing rules (processed in order, first match wins)
+[[messages.routes]]
+event = "msg_show"
+kind = ["emsg", "echoerr", "lua_error", "rpc_error"]
+view = "ext-float"
+timeout = 0  # 0 = no auto-hide
+
+[[messages.routes]]
+event = "msg_show"
+kind = ["wmsg"]
+view = "ext-float"
+timeout = 4.0
+
+[[messages.routes]]
+event = "msg_show"
+kind = ["search_count"]
+view = "mini"
+timeout = 2.0
+
+[[messages.routes]]
+event = "msg_show"
+view = "ext-float"  # fallback for other msg_show
+
+[[messages.routes]]
+event = "msg_showmode"
+view = "mini"
+
+[[messages.routes]]
+event = "msg_showcmd"
+view = "mini"
+
+[[messages.routes]]
+event = "msg_ruler"
+view = "mini"
+
+[[messages.routes]]
+event = "msg_history_show"
+view = "split"
+
+[tabline]
+external = true
+style = "titlebar"  # "titlebar", "menu", or "sidebar"
+sidebar_position = "left"  # "left" or "right" (for sidebar style)
+sidebar_width = 200  # 100-500 (for sidebar style)
+
+[windows]
+external = false  # Each Neovim window as a separate OS window
+
+[log]
+enabled = false
+path = "/tmp/zonvie.log"
+
+[performance]
+glyph_cache_ascii_size = 512
+glyph_cache_non_ascii_size = 256
+hl_cache_size = 2048
+shape_cache_size = 4096
+atlas_size = 2048
+
+[ime]
+disable_on_activate = false
+disable_on_modechange = false
+option_as_meta = "both"  # "both", "none", "only_left", "only_right"
