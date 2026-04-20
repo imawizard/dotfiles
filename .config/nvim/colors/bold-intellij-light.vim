@@ -269,30 +269,9 @@ call s:hi('@spell', 'None', 'None') " for defining regions to be spellchecked
 " Treesitter non-standard
 hi!  def link @variable.global       Identifier
 
-" LSP semantic tokens (0.9+). More accurate than treesitter for typed languages.
-" Mirror the treesitter groups above — LSP tokens win when available.
-hi!  def link @lsp.type.class         Type
-hi!  def link @lsp.type.decorator     PreProc
-hi!  def link @lsp.type.enum          Type
-hi!  def link @lsp.type.enumMember    @constant
-hi!  def link @lsp.type.function      @function
-hi!  def link @lsp.type.interface     Type
-hi!  def link @lsp.type.keyword       Keyword
-hi!  def link @lsp.type.macro         Macro
-hi!  def link @lsp.type.method        @function.method
-hi!  def link @lsp.type.namespace     Identifier
-hi!  def link @lsp.type.number        Number
-hi!  def link @lsp.type.operator      Operator
-hi!  def link @lsp.type.parameter     Identifier
-hi!  def link @lsp.type.property      @property
-hi!  def link @lsp.type.regexp        String
-hi!  def link @lsp.type.string        String
-hi!  def link @lsp.type.struct        Structure
-hi!  def link @lsp.type.type          Type
-hi!  def link @lsp.type.typeParameter @lsp.type.type
-hi!  def link @lsp.type.variable      Identifier
-hi!  def link @lsp.mod.deprecated     DiagnosticDeprecated
-hi!  def link @lsp.mod.readonly       @constant
+" LSP semantic token modifiers that have no Neovim default link.
+" (Type links come from Neovim core: @lsp.type.* → @<treesitter group>.)
+call s:hi('@lsp.mod.readonly',        '#871094', 'NONE', 'italic')
 hi!  def link @lsp.mod.defaultLibrary Special
 
 " Treesitter locals
