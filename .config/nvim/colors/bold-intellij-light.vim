@@ -76,8 +76,8 @@ call s:hi('Visual',                     'NONE',    '#a6d2ff')
 call s:hi('VisualNOS',                  'NONE',    'Pink')
 hi! def link HighlightedyankRegion Visual
 
-call s:hi('CursorLine',                 'NONE',    '#dddddd')
-call s:hi('CursorColumn',               'NONE',    '#dddddd')
+call s:hi('CursorLine',                 'NONE',    '#fcfaed')
+call s:hi('CursorColumn',               'NONE',    '#fcfaed')
 
 call s:hi('ColorColumn',                'NONE',    '#eeeeee')
 call s:hi('IndentBlanklineChar',        '#e6e6e6', 'NONE', 'nocombine')
@@ -145,7 +145,7 @@ call s:hi('Constant',                   'NONE',    'NONE')
 call s:hi(  'String',                   '#067d17', 'NONE')
 hi!  def link Character String
 call s:hi(  'Number',                   '#1750eb', 'NONE')
-call s:hi(  'Boolean',                  '#002fa6', 'NONE')
+call s:hi(  'Boolean',                  '#0033b3', 'NONE')
 hi!  def link Float Number
 
 call s:hi('Identifier',                 '#000000', 'NONE')
@@ -213,13 +213,16 @@ hi!  def link @number                Number         " numeric literals
 hi!  def link @float                 Float          " floating-point number literals
 
 " Treesitter functions
-hi!  def link @function              Function       " function definitions
+" IntelliJ's 'Function declaration' — dark teal. @function covers both
+" declarations and calls; treesitter can't always split them per language.
+call s:hi('@function',               '#00627a', 'NONE')
 hi!  def link @function.builtin      Special        " built-in functions
 "hi! def link @function.call         Function       " function calls
 hi!  def link @function.macro        Macro          " preprocessor macros
 
-hi!  def link @method                Function       " method definitions
-"hi! def link @method.call           Function       " method calls
+" IntelliJ's 'Static method' — dark teal italic. Closest treesitter match.
+call s:hi('@function.method',        '#00627a', 'NONE', 'italic')
+hi!  def link @method                @function      " method definitions (fallback)
 
 hi!  def link @constructor           Special        " constructor calls and definitions
 hi!  def link @parameter             Identifier     " parameters of a function
@@ -245,16 +248,20 @@ hi!  def link @type                  Type           " type or class definitions 
 
 hi!  def link @storageclass          StorageClass   " visibility/life-time/etc. modifiers (e.g. `static`)
 hi!  def link @attribute             PreProc        " attribute annotations (e.g. Python decorators)
-hi!  def link @field                 Identifier     " object and struct fields
-hi!  def link @property              Identifier     " similar to `@field`
+" IntelliJ's 'Instance field' / 'Static field' — purple. Treesitter can't
+" distinguish static vs instance, so all fields/properties get the same color.
+call s:hi('@field',                  '#871094', 'NONE')
+call s:hi('@property',               '#871094', 'NONE')
+call s:hi('@variable.member',        '#871094', 'NONE')
 hi!  def link @structure             Structure
 
 " Treesitter identifiers
 hi!  def link @variable              Identifier     " various variable names
 hi!  def link @variable.builtin      Special        " built-in variable names (e.g. `this`)
 
-hi!  def link @constant              Constant       " constant identifiers
-hi!  def link @constant.builtin      Special        " built-in constant values
+" IntelliJ's 'Constant' — purple italic.
+call s:hi('@constant',               '#871094', 'NONE', 'italic')
+call s:hi('@constant.builtin',       '#871094', 'NONE', 'italic')
 hi!  def link @constant.macro        Macro          " constants defined by the preprocessor
 hi!  def link @macro                 Macro
 
@@ -359,6 +366,8 @@ call s:hi('DiagnosticUnderlineError',    'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineWarn',     'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineInfo',     'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineHint',     'NONE',      'NONE', 'undercurl')
+call s:hi('DiagnosticDeprecated',        'NONE',      'NONE', 'strikethrough')
+call s:hi('DiagnosticUnnecessary',       '#8c8c8c',   'NONE')
 "call s:hi('DiagnosticFloatingError',    'NONE',      'NONE')
 "call s:hi('DiagnosticFloatingWarn',     'NONE',      'NONE')
 "call s:hi('DiagnosticFloatingInfo',     'NONE',      'NONE')
