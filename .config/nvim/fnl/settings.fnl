@@ -1,5 +1,17 @@
 (import-macros {: gset! : oset! : has?} :macros)
 
+; (set vim.g.neovide_cursor_smooth_blink true)
+(set vim.g.neovide_cursor_animation_length 0.0)
+; (set vim.g.neovide_highlight_matching_pair true)
+ 
+(set vim.g.neovide_hide_mouse_when_typing true)
+(set vim.g.neovide_show_border false)
+; if vim.g.neovide then
+;     -- Put anything you want to happen only in Neovide here
+; end
+; vim.g.neovide_scroll_animation_length = 0.3
+; vim.g.neovide_position_animation_length = 0.15
+
 (gset!
  (:when (has? "mac")
    perl_host_prog    "/usr/local/bin/perl"
