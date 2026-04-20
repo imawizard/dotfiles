@@ -21,17 +21,16 @@ endfun
 
 " Interface
 
-call s:hi('Normal',                     '#080808', '#ffffff', 'NONE', '#080808')
-call s:hi('Whitespace',                 '#ffffff', 'NONE')
+call s:hi('Normal',                     '#080808', '#ffffff')
+call s:hi('Whitespace',                 '#ffffff', 'NONE')  " IntelliJ guide: ~#bfbfbf
 call s:hi('SpecialKey',                 'NONE',    '#f9fbfd')
 call s:hi('NonText',                    '#000000', 'NONE')
 
 call s:hi('Visual',                     'NONE',    '#a6d2ff')
-hi! def link VisualNOS Visual
 hi! def link HighlightedyankRegion Visual
 
-call s:hi('CursorLine',                 'NONE',    '#fcfaed')
-call s:hi('CursorColumn',               'NONE',    '#fcfaed')
+call s:hi('CursorLine',                 'NONE',    '#dddddd')  " IntelliJ CARET_ROW_COLOR: #fcfaed
+call s:hi('CursorColumn',               'NONE',    '#dddddd')  " IntelliJ CARET_ROW_COLOR: #fcfaed
 
 call s:hi('ColorColumn',                'NONE',    '#eeeeee')
 call s:hi('IndentBlanklineChar',        '#e6e6e6', 'NONE', 'nocombine')
@@ -44,10 +43,9 @@ call s:hi('CursorLineSign',             '#080808', '#f2f2f2')
 call s:hi('CursorLineFold',             '#080808', '#f2f2f2')
 call s:hi('CursorLineNr',               '#080808', '#f2f2f2')
 call s:hi('Folded',                     'NONE',    '#f2f2f2')
-call s:hi('VertSplit',                  '#000000', '#f2f2f2')
+call s:hi('WinSeparator',               '#000000', '#f2f2f2')
 
 call s:hi('Search',                     '#000000', '#ffe959')
-hi! def link Substitute Search
 call s:hi('IncSearch',                  '#f9fbfd', '#3f567b', 'bold')
 call s:hi('MatchParen',                 'NONE',    'NONE', 'bold,underline')
 call s:hi('MatchWord',                  'NONE',    'NONE', 'underline', '#c8c8c8')
@@ -56,6 +54,19 @@ call s:hi('DiffAdd',                    'NONE',    '#bee6be')
 call s:hi('DiffDelete',                 'NONE',    '#d6d6d6')
 call s:hi('DiffChange',                 'NONE',    '#c2d8f2')
 call s:hi('DiffText',                   'NONE',    'NONE')
+" 0.10+ semantic diff groups (used by @diff.* — defaults link Added → DiffAdd etc. only when defined)
+hi! def link Added   DiffAdd
+hi! def link Removed DiffDelete
+hi! def link Changed DiffChange
+
+" Gitsigns — foreground sign-column marks. Matches Helix theme:
+" add=Green, modify=Gray, delete=Red.
+call s:hi('GitSignsAdd',             '#008000', 'NONE')
+call s:hi('GitSignsChange',          '#808080', 'NONE')
+call s:hi('GitSignsDelete',          '#ff0000', 'NONE')
+call s:hi('GitSignsChangedelete',    '#ff0000', 'NONE')
+call s:hi('GitSignsTopdelete',       '#ff0000', 'NONE')
+call s:hi('GitSignsUntracked',       '#808080', 'NONE')
 
 call s:hi('Pmenu',                      'Black',   '#fff8dc')
 call s:hi('PmenuSel',                   'NONE',    '#adadad')
@@ -79,15 +90,7 @@ call s:hi('FloatFooter',                '#8c8c8c', '#f2f2f2')
 call s:hi('Directory',                  'NONE',    'NONE')
 call s:hi('Title',                      'NONE',    'NONE', 'bold')
 
-"call s:hi('WinBar',                    'NONE',    'NONE')
-"call s:hi('WinBarNC',                  'NONE',    'NONE')
-"call s:hi('Menu',                      'NONE',    'NONE')
-"call s:hi('Tooltip',                   'NONE',    'NONE')
-"call s:hi('Scrollbar',                 'NONE',    'NONE')
-"call s:hi('StatusLine',                'NONE',    'NONE')
-"call s:hi('StatusLineNC',              'NONE',    'NONE')
-
-call s:hi('ExtraWhitespace',            'NONE',    'Pink')
+call s:hi('ExtraWhitespace',            'NONE',    '#ffc0cb')
 
 augroup hlmatch-extra-ws
     autocmd!
@@ -113,10 +116,9 @@ call s:hi(  'String',                   '#067d17', 'NONE')
 hi!  def link Character String
 call s:hi(  'Number',                   '#1750eb', 'NONE')
 call s:hi(  'Boolean',                  '#0033b3', 'NONE')
-hi!  def link Float Number
 
 call s:hi('Identifier',                 '#000000', 'NONE')
-hi!  def link Function Identifier
+hi!  def link Function Identifier       " override Neovim default (NvimLightCyan)
 
 call s:hi('Statement',                  'NONE',    'NONE')
 hi!  def link Conditional Keyword
@@ -127,10 +129,7 @@ call s:hi(  'Keyword',                  '#181818', 'NONE', 'bold')
 hi!  def link Exception Keyword
 
 call s:hi('PreProc',                    '#9e880d', 'NONE', 'NONE')
-hi!  def link Include PreProc
-hi!  def link Define PreProc
 call s:hi('Macro',                      '#dd6718', 'NONE', 'nocombine')
-hi!  def link PreCondit PreProc
 
 call s:hi('Type',                       'NONE',    'NONE', 'NONE')
 call s:hi(  'StorageClass',             'NONE',    'NONE', 'NONE')
@@ -224,24 +223,12 @@ call s:hi('LspCodeLens',          '#ffcccc', 'NONE', 'underdouble', '#595959')
 call s:hi('LspCodeLensSeparator', 'NONE',    'NONE')
 
 " For diagnostics
-"call s:hi('DiagnosticError',            'NONE',      'NONE')
-"call s:hi('DiagnosticWarn',             'NONE',      'NONE')
-"call s:hi('DiagnosticInfo',             'NONE',      'NONE')
-"call s:hi('DiagnosticHint',             'NONE',      'NONE')
-"call s:hi('DiagnosticVirtualTextError', 'NONE',      'NONE')
-"call s:hi('DiagnosticVirtualTextWarn',  'NONE',      'NONE')
-"call s:hi('DiagnosticVirtualTextInfo',  'NONE',      'NONE')
-"call s:hi('DiagnosticVirtualTextHint',  'NONE',      'NONE')
 call s:hi('DiagnosticUnderlineError',    'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineWarn',     'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineInfo',     'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticUnderlineHint',     'NONE',      'NONE', 'undercurl')
 call s:hi('DiagnosticDeprecated',        'NONE',      'NONE', 'strikethrough')
 call s:hi('DiagnosticUnnecessary',       '#8c8c8c',   'NONE')
-"call s:hi('DiagnosticFloatingError',    'NONE',      'NONE')
-"call s:hi('DiagnosticFloatingWarn',     'NONE',      'NONE')
-"call s:hi('DiagnosticFloatingInfo',     'NONE',      'NONE')
-"call s:hi('DiagnosticFloatingHint',     'NONE',      'NONE')
 call s:hi('DiagnosticSignError',         'Red',       '#f2f2f2')
 call s:hi('DiagnosticSignWarn',          'Orange',    '#f2f2f2')
 call s:hi('DiagnosticSignInfo',          'LightBlue', '#f2f2f2')
@@ -259,14 +246,6 @@ hi!  def link TroubleLocation Comment
 " Leap
 hi!  def link LeapBackdrop Comment
 call s:hi('LeapMatch',           'Black', 'NONE', 'bold,nocombine')
-"call s:hi('LeapLabelPrimary',   'Black', '#afff5f', 'underline,nocombine')
-"call s:hi('LeapLabelSecondary', 'Black', '#5fffff', 'underline,nocombine')
-"call s:hi('LeapLabelSelected',  'Black', 'NONE', 'underline,nocombine')
 
 " nvim-surround
 hi!  def link NvimSurroundHighlight Visual
-
-" Markdown
-call s:hi('markdownError', 'NONE', 'NONE')
-call s:hi('mkdLt',         'NONE', 'NONE')
-call s:hi('mkdGt',         'NONE', 'NONE')
