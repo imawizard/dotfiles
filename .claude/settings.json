@@ -28,6 +28,8 @@
       "Bash(git tag:*)",
       "Bash(grep:*)",
       "Bash(head:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl logs:*)",
       "Bash(ls:*)",
       "Bash(mkdir:*)",
       "Bash(pwd:*)",
@@ -36,6 +38,7 @@
       "Bash(tail:*)",
       "Bash(touch:*)",
       "Bash(tr:*)",
+      "Bash(pnpm jest:*)",
       "Bash(pnpm why:*)",
       "Bash(wc:*)",
       "Bash(which:*)",
@@ -117,8 +120,9 @@
     },
     "autoAllow": true
   },
-  "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
   "plansDirectory": ".claude/plans",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "model": "claude-opus-4-6[1M]",
+  "effortLevel": "high"
 }
