@@ -90,6 +90,8 @@ call s:hi('FloatFooter',                '#8c8c8c', '#f7f7f7')
 " Match Helix ui.statusline / ui.statusline.inactive
 call s:hi('StatusLine',                 '#080808', '#d0d0d0')
 call s:hi('StatusLineNC',               '#8c8c8c', '#f2f2f2')
+"call s:hi('StatusLine',                 '#494b53', '#d0d0d0')
+"call s:hi('StatusLineNC',               '#494b53', '#f0f0f0')
 
 call s:hi('Directory',                  'NONE',    'NONE')
 call s:hi('Title',                      'NONE',    'NONE', 'bold')
