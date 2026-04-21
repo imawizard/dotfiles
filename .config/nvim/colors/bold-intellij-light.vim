@@ -39,9 +39,9 @@ call s:hi('IndentBlanklineContextChar', '#c8c8c8', 'NONE', 'nocombine')
 call s:hi('SignColumn',                 '#adadad', '#f2f2f2')
 call s:hi('FoldColumn',                 '#adadad', '#f2f2f2')
 call s:hi('LineNr',                     '#adadad', '#f2f2f2')
-call s:hi('CursorLineSign',             '#080808', '#f2f2f2')
-call s:hi('CursorLineFold',             '#080808', '#f2f2f2')
-call s:hi('CursorLineNr',               '#080808', '#f2f2f2')
+call s:hi('CursorLineSign',             '#282828', '#f2f2f2')  " Helix: ui.gutter.selected
+call s:hi('CursorLineFold',             '#282828', '#f2f2f2')  " Helix: ui.gutter.selected
+call s:hi('CursorLineNr',               '#282828', '#f2f2f2')  " Helix: ui.gutter.selected
 call s:hi('Folded',                     'NONE',    '#f2f2f2')
 call s:hi('WinSeparator',               '#000000', '#f2f2f2')
 
@@ -82,10 +82,14 @@ call s:hi('PmenuBorder',                '#adadad', '#fff8dc')
 call s:hi('PmenuShadow',                'NONE',    '#d0d0d0')
 call s:hi('PmenuShadowThrough',         'NONE',    'NONE')
 
-call s:hi('NormalFloat',                'NONE',    '#f2f2f2')
-call s:hi('FloatBorder',                '#adadad', '#f2f2f2')
-call s:hi('FloatTitle',                 '#080808', '#f2f2f2', 'bold')
-call s:hi('FloatFooter',                '#8c8c8c', '#f2f2f2')
+call s:hi('NormalFloat',                'NONE',    '#f7f7f7')  " Helix: ui.popup
+call s:hi('FloatBorder',                '#adadad', '#f7f7f7')
+call s:hi('FloatTitle',                 '#080808', '#f7f7f7', 'bold')
+call s:hi('FloatFooter',                '#8c8c8c', '#f7f7f7')
+
+" Match Helix ui.statusline / ui.statusline.inactive
+call s:hi('StatusLine',                 '#080808', '#d0d0d0')
+call s:hi('StatusLineNC',               '#8c8c8c', '#f2f2f2')
 
 call s:hi('Directory',                  'NONE',    'NONE')
 call s:hi('Title',                      'NONE',    'NONE', 'bold')
@@ -123,7 +127,7 @@ hi!  def link Function Identifier       " override Neovim default (NvimLightCyan
 call s:hi('Statement',                  'NONE',    'NONE')
 hi!  def link Conditional Keyword
 hi!  def link Repeat Keyword
-hi!  def link Label Keyword
+call s:hi('Label',                      'NONE',    'NONE', 'underline', '#808080')  " Helix: underlined gray
 call s:hi(  'Operator',                 'NONE',    'NONE')
 call s:hi(  'Keyword',                  '#181818', 'NONE', 'bold')
 hi!  def link Exception Keyword
@@ -154,21 +158,31 @@ call s:hi('Todo',                       'NONE',    'NONE', 'inverse,bold')
 
 " Variables
 hi!  def link @variable              Identifier
+call s:hi('@variable.builtin',       '#181818', 'NONE', 'bold')       " Helix: variable.builtin — dark bold
 call s:hi('@variable.member',        '#871094', 'NONE')               " IntelliJ instance/static field purple
 
-" Constants — IntelliJ purple italic
+" Constants — IntelliJ purple italic; builtin navy (matches Helix — keyword-like)
 call s:hi('@constant',               '#871094', 'NONE', 'italic')
-call s:hi('@constant.builtin',       '#871094', 'NONE', 'italic')
+call s:hi('@constant.builtin',       '#002fa6', 'NONE')               " Helix: constant.builtin navy
 
 " Modules (was @namespace)
 hi!  def link @module                Identifier
 
 " Strings
-hi!  def link @string.special.symbol Identifier                       " was @symbol
+call s:hi('@string.special.symbol',  '#181818', 'NONE', 'bold')       " Helix: bold dark
+
+" Types
+call s:hi('@type.builtin',           '#002fa6', 'NONE')               " Helix: type.builtin navy
 
 " Attributes / properties
 hi!  def link @attribute             PreProc                          " override default (@attribute → Macro)
 call s:hi('@property',               '#871094', 'NONE')               " IntelliJ instance field purple
+
+" Constructor
+call s:hi('@constructor',            '#871094', 'NONE')               " Helix: constructor purple
+
+" Keywords
+call s:hi('@keyword.directive',      '#9e880d', 'NONE')               " Helix: olive (like PreProc / attributes)
 
 " Functions — IntelliJ teal; definitions underlined, calls default
 call s:hi('@function',               '#00627a', 'NONE', 'underline')
@@ -188,7 +202,7 @@ hi!  def link @comment.error         ErrorMsg
 " Markup (was @text.*)
 hi!  def link @markup.raw            Comment                          " was @text.literal
 hi!  def link @markup.math           Special                          " was @text.math
-hi!  def link @markup.link           Identifier                       " override default (→ Underlined)
+call s:hi('@markup.link',            '#3d3d3d', 'NONE', 'italic')     " Helix: #3d3d3d italic
 hi!  def link @markup.link.url       Underlined
 
 " Diff — override defaults (@diff.plus → Added, @diff.minus → Removed)
@@ -222,17 +236,21 @@ call s:hi('LspSignatureActiveParameter', 'NONE', 'NONE', 'bold')
 call s:hi('LspCodeLens',          '#ffcccc', 'NONE', 'underdouble', '#595959')
 call s:hi('LspCodeLensSeparator', 'NONE',    'NONE')
 
-" For diagnostics
-call s:hi('DiagnosticUnderlineError',    'NONE',      'NONE', 'undercurl')
-call s:hi('DiagnosticUnderlineWarn',     'NONE',      'NONE', 'undercurl')
-call s:hi('DiagnosticUnderlineInfo',     'NONE',      'NONE', 'undercurl')
-call s:hi('DiagnosticUnderlineHint',     'NONE',      'NONE', 'undercurl')
+" For inlay hints (Helix ui.virtual.inlay-hint)
+call s:hi('LspInlayHint',                '#7a7a7a',   '#ededed')
+
+" For diagnostics — Helix colors: error=Red, warning=Orange, info=Green, hint=Gray.
+" Signs bold; undercurls carry the matching severity color.
+call s:hi('DiagnosticUnderlineError',    'NONE',      'NONE', 'undercurl', '#ff0000')
+call s:hi('DiagnosticUnderlineWarn',     'NONE',      'NONE', 'undercurl', '#ffa500')
+call s:hi('DiagnosticUnderlineInfo',     'NONE',      'NONE', 'undercurl', '#008000')
+call s:hi('DiagnosticUnderlineHint',     'NONE',      'NONE', 'undercurl', '#808080')
 call s:hi('DiagnosticDeprecated',        'NONE',      'NONE', 'strikethrough')
 call s:hi('DiagnosticUnnecessary',       '#8c8c8c',   'NONE')
-call s:hi('DiagnosticSignError',         'Red',       '#f2f2f2')
-call s:hi('DiagnosticSignWarn',          'Orange',    '#f2f2f2')
-call s:hi('DiagnosticSignInfo',          'LightBlue', '#f2f2f2')
-call s:hi('DiagnosticSignHint',          'LightGrey', '#f2f2f2')
+call s:hi('DiagnosticSignError',         '#ff0000',   '#f2f2f2', 'bold')
+call s:hi('DiagnosticSignWarn',          '#ffa500',   '#f2f2f2', 'bold')
+call s:hi('DiagnosticSignInfo',          '#008000',   '#f2f2f2', 'bold')
+call s:hi('DiagnosticSignHint',          '#808080',   '#f2f2f2', 'bold')
 
 " Trouble
 call s:hi('TroubleIndent',          '#adadad',   'NONE')
