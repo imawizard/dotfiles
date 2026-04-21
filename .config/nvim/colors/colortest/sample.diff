@@ -1,0 +1,30 @@
+# Diff format test file — exercises @diff.plus / @diff.minus / @diff.delta.
+# Base syntax groups Added / Removed / Changed also cascade from the TS captures.
+
+diff --git a/example.py b/example.py
+index 1234567..89abcde 100644
+--- a/example.py
++++ b/example.py
+@@ -1,10 +1,12 @@
+ # File header (context line — no highlight)
+ import os
+-import sys                                    # @diff.minus / Removed
+-import json                                   # @diff.minus / Removed
++import sys  # reorganized imports              # @diff.plus / Added
++import json
++import logging                                # @diff.plus / Added
+
+-def old_name(x):                              # @diff.minus / Removed
+-    return x + 1                              # @diff.minus / Removed
++def new_name(x: int) -> int:                  # @diff.plus / Added
++    """Now with types."""                      # @diff.plus / Added
++    return x + 1                              # @diff.plus / Added
+
+@@ -15,5 +17,5 @@ class MyClass:
+     def method(self):
+         pass
+-    old_attr = 0                               # @diff.minus
++    new_attr = 100                             # @diff.plus
+
+ # The hunk headers themselves (@@ -1,10 +1,12 @@) → @diff.delta / Changed
+ # Diff metadata lines (diff --git, index, ---, +++) → @diff.delta / Changed

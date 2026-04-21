@@ -1,0 +1,77 @@
+<!--
+HTML test file — exercises @tag.* treesitter captures.
+See README.md in this directory.
+-->
+
+<!DOCTYPE html>                                    <!-- @tag.delimiter + @tag -->
+<html lang="en">                                   <!-- @tag / @tag.attribute / @string -->
+<head>                                             <!-- @tag.builtin -->
+    <meta charset="UTF-8">                         <!-- @tag.builtin / @tag.attribute / @string -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Colorscheme test</title>                <!-- @tag.builtin -->
+
+    <!-- Inline style -->                          <!-- @comment -->
+    <style>
+        body { font-family: sans-serif; }          <!-- CSS — has its own captures -->
+        .highlight { background: yellow; }
+    </style>
+
+    <!-- Script -->
+    <script>
+        console.log("loaded");                      // JS — injected grammar
+    </script>
+</head>
+
+<body class="container" id="main">                 <!-- @tag.attribute / @string -->
+
+    <!-- Headings and content -->
+    <h1>Colorscheme test</h1>                       <!-- @tag.builtin -->
+    <p>Paragraph with <strong>bold</strong> and     <!-- @tag -->
+       <em>italic</em> text.</p>
+
+    <!-- Links -->
+    <a href="https://example.com"
+       target="_blank"
+       rel="noopener">Example link</a>              <!-- href → @string.special.url -->
+
+    <!-- Image with attributes -->
+    <img src="/pic.png"
+         alt="picture"
+         width="300"
+         height="200">
+
+    <!-- Form -->
+    <form action="/submit" method="POST">
+        <label for="name">Name:</label>             <!-- @tag / @tag.attribute -->
+        <input type="text"
+               id="name"
+               name="name"
+               required>                            <!-- boolean attribute -->
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Lists -->
+    <ul>
+        <li>First</li>
+        <li>Second</li>
+    </ul>
+
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr><th>Col A</th><th>Col B</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>a1</td><td>b1</td></tr>
+            <tr><td>a2</td><td>b2</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Custom element (not a @tag.builtin) -->
+    <my-widget color="red" size="large">            <!-- @tag (not .builtin) -->
+        content
+    </my-widget>
+
+</body>
+</html>                                            <!-- @tag.delimiter on </ and > -->
