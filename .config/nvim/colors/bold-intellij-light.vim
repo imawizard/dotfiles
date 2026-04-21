@@ -253,6 +253,10 @@ call s:hi('DiagnosticSignError',         '#ff0000',   '#f2f2f2', 'bold')
 call s:hi('DiagnosticSignWarn',          '#ffa500',   '#f2f2f2', 'bold')
 call s:hi('DiagnosticSignInfo',          '#008000',   '#f2f2f2', 'bold')
 call s:hi('DiagnosticSignHint',          '#808080',   '#f2f2f2', 'bold')
+"call s:hi('DiagnosticSignError',         'Red',       'NONE')
+"call s:hi('DiagnosticSignWarn',          'Orange',    'NONE')
+"call s:hi('DiagnosticSignInfo',          'LightBlue', 'NONE')
+"call s:hi('DiagnosticSignHint',          'LightGrey', 'NONE')
 
 " Trouble
 call s:hi('TroubleIndent',          '#adadad',   'NONE')
