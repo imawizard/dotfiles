@@ -1,36 +1,57 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 180,
   "env": {
     "CLAUDE_CODE_NEW_INIT": "1",
     "CLAUDE_CODE_NO_FLICKER": "0",
     "BASH_DEFAULT_TIMEOUT_MS": "240000",
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1"
   },
+  "attribution": {
+    "pr": ""
+  },
   "permissions": {
     "allow": [
+      "Read(/tmp/**)",
+      "Write(/tmp/claude/**)",
       "Bash(basename:*)",
       "Bash(cat:*)",
       "Bash(cp:*)",
       "Bash(date:*)",
       "Bash(diff:*)",
+      "Bash(rtk diff:*)",
       "Bash(dirname:*)",
       "Bash(echo:*)",
       "Bash(file:*)",
       "Bash(find:*)",
+      "Bash(rtk find:*)",
       "Bash(git add:*)",
+      "Bash(rtk git add:*)",
       "Bash(git blame:*)",
+      "Bash(rtk git blame:*)",
       "Bash(git commit:*)",
+      "Bash(rtk git commit:*)",
       "Bash(git diff:*)",
+      "Bash(rtk git diff:*)",
       "Bash(git log:*)",
+      "Bash(rtk git log:*)",
       "Bash(git rev-parse:*)",
+      "Bash(rtk git rev-parse:*)",
       "Bash(git show:*)",
+      "Bash(rtk git show:*)",
       "Bash(git status:*)",
+      "Bash(rtk git status:*)",
       "Bash(git tag:*)",
+      "Bash(rtk git tag:*)",
       "Bash(grep:*)",
+      "Bash(rtk grep:*)",
       "Bash(head:*)",
       "Bash(kubectl get:*)",
+      "Bash(rtk kubectl get:*)",
       "Bash(kubectl logs:*)",
+      "Bash(rtk kubectl logs:*)",
       "Bash(ls:*)",
+      "Bash(rtk ls:*)",
       "Bash(mkdir:*)",
       "Bash(pwd:*)",
       "Bash(realpath:*)",
@@ -39,8 +60,11 @@
       "Bash(touch:*)",
       "Bash(tr:*)",
       "Bash(pnpm jest:*)",
+      "Bash(rtk pnpm jest:*)",
       "Bash(pnpm why:*)",
+      "Bash(rtk pnpm why:*)",
       "Bash(wc:*)",
+      "Bash(rtk wc:*)",
       "Bash(which:*)",
       "mcp__claude_ai_Atlassian_Rovo__getJiraIssue",
       "mcp__claude_ai_Notion__notion-fetch"
@@ -68,6 +92,16 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/timu/.claude/hooks/tmux-window-title.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
@@ -85,7 +119,8 @@
     "typescript-lsp@claude-plugins-official": true,
     "ce@claude-essentials": true,
     "skill-creator@claude-plugins-official": true,
-    "coderabbit@claude-plugins-official": true
+    "coderabbit@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-essentials": {
@@ -104,12 +139,14 @@
     }
   },
   "sandbox": {
-    "enabled": true,
+    "enabled": false,
     "network": {
       "allowedDomains": [
         "api.github.com",
-        "registry.npmjs.org",
-        "raw.githubusercontent.com"
+        "npm.pkg.github.com",
+        "raw.githubusercontent.com",
+        "pkg-npm.githubusercontent.com",
+        "registry.npmjs.org"
       ]
     },
     "filesystem": {
@@ -120,9 +157,14 @@
     },
     "autoAllow": true
   },
+  "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "plansDirectory": ".claude/plans",
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "light",
+  "verbose": true,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "model": "claude-opus-4-6[1M]",
-  "effortLevel": "high"
+  "tui": "fullscreen"
 }

@@ -151,3 +151,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # Remove `input` because for `nvim ./` it populates the query string with "./"
 zstyle ':fzf-tab:*' query-string prefix first
+
+# Added by CodeRabbit CLI installer
+export PATH="/Users/timu/.local/bin:$PATH"

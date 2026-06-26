@@ -129,30 +129,30 @@ decrease-main:
 
 # BUG: Won't get mapped to numpad and can only be set within the UI.
 #      See https://github.com/ianyh/Amethyst/issues/1640
-# select-floating-layout:
-#   mod: mod1
-#   key: "1"
-# select-wide-layout:
-#   mod: mod1
-#   key: "2"
-# select-row-layout:
-#   mod: mod2
-#   key: "2"
-# select-tall-layout:
-#   mod: mod1
-#   key: "3"
-# select-column-layout:
-#   mod: mod2
-#   key: "3"
-# select-fullscreen-layout:
-#   mod: mod1
-#   key: "4"
-# select-middle-wide-layout:
-#   mod: mod1
-#   key: "5"
-# select-two-pane-layout:
-#   mod: mod1
-#   key: "6"
+select-floating-layout:
+  mod: mod1
+  key: "f1"
+select-wide-layout:
+  mod: mod1
+  key: "f2"
+select-row-layout:
+  mod: mod2
+  key: "f2"
+select-tall-layout:
+  mod: mod1
+  key: "f3"
+select-column-layout:
+  mod: mod2
+  key: "f3"
+select-fullscreen-layout:
+  mod: mod1
+  key: "f4"
+select-middle-wide-layout:
+  mod: mod1
+  key: "f5"
+select-two-pane-layout:
+  mod: mod1
+  key: "f6"
 
 relaunch-amethyst:
   mod: mod1

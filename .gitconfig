@@ -43,3 +43,5 @@
   path = ~/.gitconfig-gh.local
 [commit]
 	verbose = true
+[coderabbit]
+	machineId = cli/d136670f18024254a54ef7ea83a41a8a
